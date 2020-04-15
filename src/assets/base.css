@@ -1,0 +1,208 @@
+:root {
+  --var-blue_dark: #1110AD;
+  --var-blue: #1715E6;
+  --var-blue_light: #2069E0;
+  --var-blue_variant: #4AC2CE;
+  --var-yellow: #FFA71A;
+  --var-orange: #FF5500;
+  --var-orange_dark: #EA4006;
+  }
+  
+  @font-face {
+    font-family: 'antrovectra';
+    src: url('fonts/Antro_Vectra.otf') format('opentype')
+  }
+  
+  @font-face {
+    font-family: 'Lato';
+    src: url('fonts/Lato-Light.ttf') format('truetype'),
+    url('fonts/Lato-Bold.ttf') format('truetype'),
+    url('fonts/Lato-Hairline.ttf') format('truetype'),
+    url('fonts/Lato-Black.ttf') format('truetype'),
+    url('fonts/Lato-Regular.ttf') format('truetype')  
+  }
+  
+  @font-face {
+    font-family: 'Satisfy-Regular';
+    src: url('fonts/Satisfy-Regular.ttf') format('truetype')
+  }
+  
+  @font-face {
+    font-family: 'Poppins';
+    src: url('fonts/poppins/Poppins-Regular.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Black.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-BlackItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Bold.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-BoldItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-ExtraBold.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-ExtraBoldItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-ExtraLight.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-ExtraLightItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Italic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Light.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-LightItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Medium.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-MediumItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-SemiBold.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-SemiBoldItalic.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-Thin.ttf') format('truetype'),
+    url('fonts/poppins/Poppins-ThinItalic.ttf') format('truetype')
+  }
+  .application {
+    font-family: Poppins, Roboto, sans-serif !important;
+  }
+  .antroVectraFont {
+    font-family: 'antrovectra';
+  }
+  
+  .satisfyFont {
+    font-family: 'Satisfy-Regular';
+  }
+  
+  /*#app {
+    font-family: 'Lato', sans-serif;
+  }*/
+  
+  .relativePos {
+    position: relative;
+  }
+  
+  .width100 {
+    width: 100%;
+    min-height: 50px;
+    min-width: 200px;
+  }
+  
+  .width90 {
+    width: 90%;
+  }
+  
+  .width80 {
+    width: 80%;
+  }
+  
+  .width70 {
+    width: 70%;
+  }
+  
+  .justifyText {
+    text-align: justify;
+  }
+  
+  .rem1 {
+    font-size: 1rem;
+  }
+  
+  .rem2 {
+    font-size: 2rem;
+  }
+  
+  .rem3 {
+    font-size: 3rem;
+  }
+  
+  .rem4 {
+    font-size: 4rem;
+  }
+  
+  .uppercase {
+    text-transform: uppercase;
+  }
+  
+  .capitalize {
+    text-transform: capitalize;
+  }
+  
+  .primary-color {
+    color: var(--var-dark-blue);
+  }
+  
+  .primary-light-color {
+    color: var(--var-light-blue);
+  }
+  
+  .opacityElement{
+    opacity: 0.6;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+    pointer-events:none;
+  }
+  
+  .displayBlock {
+    display: block;
+  }
+  
+  .displayNone {
+    display: none !important;
+  }
+  
+  @media (max-width: 960px) {
+    .displayNoneSm {
+      display: none !important;
+    }
+  }
+  
+  @media (min-width: 960px) {
+    .displayNoneMd {
+      display: none !important;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .displayNoneTiny {
+      display: none !important;
+    }
+  }
+  
+  div.transparentCard.card{
+    background-color: transparent;
+  }
+  
+  
+  .rounded-search {
+    border-radius: 5px !important; 
+  }
+  
+  .search-font {
+    font-family: Poppins !important;
+    font-size: 18px !important;
+  }
+  
+  .bus-font {
+    font-family: Poppins !important;
+  }
+  /* Animatons */
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeOut {
+    
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .fadeIn {
+    animation: fadeIn 0.3s linear;
+    opacity: 1;
+  }
+  
+  .fadeOut {
+    animation: fadeOut 0.3s linear;
+    opacity: 0;
+  }

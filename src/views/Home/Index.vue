@@ -1,0 +1,28 @@
+<template>
+  <div class="home">
+    <SearchPanel />
+    <DestiniesTypes />
+    <PopularDestinies />
+    <Promotions />
+    <RecentArticles />
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import SearchPanel from '@/views/Home/SearchPanel'
+import DestiniesTypes from '@/views/Home/DestiniesTypes'
+import PopularDestinies from '@/views/Home/PopularDestinies'
+import RecentArticles from '@/views/Home/RecentArticles'
+import Promotions from '@/views/Home/Promotions'
+export default {
+  name: 'Home',
+  components: {
+    SearchPanel,
+    DestiniesTypes,
+    PopularDestinies,
+    RecentArticles,
+    Promotions
+  }
+}
+</script>

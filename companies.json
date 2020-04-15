@@ -1,0 +1,42 @@
+[
+  {
+    "id": "01",
+    "name": "Pullman Bus"
+  },
+  {
+    "id": "03",
+    "name": "Pullman Bus Costa"
+  },
+  {
+    "id": "201",
+    "name": "Los Libertadores"
+  },
+  {
+    "id": "204",
+    "name": "Pullman Los Angeles"
+  },
+  {
+    "id": "210",
+    "name": "MT Bus"
+  },
+  {
+    "id": "26",
+    "name": "Los Corsarios"
+  },
+  {
+    "id": "300",
+    "name": "Buses Nilahue"
+  },
+  {
+    "id": "98",
+    "name": "Nuevo Fitchtur VIP"
+  },
+  {
+    "id": "99",
+    "name": "Atacama VIP"
+  },
+  {
+    "id": "Todos",
+    "name": "Todos"
+  }
+]
