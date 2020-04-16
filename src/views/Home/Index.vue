@@ -3,7 +3,7 @@
     <SearchPanel />
     <DestiniesTypes />
     <PopularDestinies />
-    <Promotions />
+    <Promotions class="mb-12" />
     <RecentArticles />
   </div>
 </template>

@@ -9,14 +9,33 @@
     <v-container>
       <v-row>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
-          <v-card max-width="344" class="mx-auto">
+          <v-card class="mx-auto">
             <v-img
               class="white--text align-end"
-              gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+              :class="{ 'align-center': index === 1 }"
+              gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.6)"
               :src="require(`../../static/images/${item}`)"
-              height="200px"
+              height="350px"
             >
-              <v-card-title>{{ itemTitles[index] }}</v-card-title>
+              <v-card-title class="justify-center">
+                <template v-if="index !== 1">
+                  {{ itemTitles[index] }}
+                </template>
+                <template v-else>
+                  <div class="d-block text-center">
+                    <span>
+                      {{ itemTitles[index] }}
+                    </span>
+                    <p class="body-2 ma-12">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Repudiandae dolor maiores perferendis ad voluptates
+                    </p>
+                    <v-btn dark color="blue_dark">
+                      Más info.
+                    </v-btn>
+                  </div>
+                </template>
+              </v-card-title>
             </v-img>
           </v-card>
         </v-col>
