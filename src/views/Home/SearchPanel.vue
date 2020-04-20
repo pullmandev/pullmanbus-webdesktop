@@ -7,7 +7,11 @@
           <v-col cols="6">
             <v-radio-group dark v-model="row" row class="search-panel-radios">
               <v-radio color="blue_dark" label="Ida" value="ida"></v-radio>
-              <v-radio color="blue_dark" label="Vuelta" value="vuelta"></v-radio>
+              <v-radio
+                color="blue_dark"
+                label="Vuelta"
+                value="vuelta"
+              ></v-radio>
             </v-radio-group>
           </v-col>
         </v-row>
@@ -18,11 +22,11 @@
           <v-col md="2" sm="12">
             <cities-list direction="to" />
           </v-col>
-          <v-col md="2" sm="12" class="pt-0">
-            <calendar direction="from" />
+          <v-col md="2" sm="12" class="pt-2">
+            <calendar :fromHome="true" direction="from" />
           </v-col>
-          <v-col md="2" sm="12" class="pt-0">
-            <calendar direction="to"/>
+          <v-col md="2" sm="12" class="pt-2">
+            <calendar :fromHome="true" direction="to" />
           </v-col>
           <v-col md="2" sm="12">
             <v-btn
@@ -35,7 +39,7 @@
               <span v-lang.search></span>
             </v-btn>
           </v-col>
-          <v-col md="1"/>
+          <v-col md="1" />
         </v-row>
       </v-card>
     </v-container>

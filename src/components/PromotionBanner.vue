@@ -6,17 +6,19 @@
           class="text-center d-flex justify-center align-center flex-column"
           style="width: 100%"
         >
-          <p class="headline d-block">Aprovecha las promociones</p>
-          <p class="display-2">Hasta 40% de descuento</p>
-          <v-btn dark color="orange_dark ma-3">
-            Más info.
-          </v-btn>
-          <p class="body-2">Aplican terminos y condiciones</p>
+          <slot name="promotion">
+            <p class="headline d-block">Aprovecha las promociones</p>
+            <p class="display-2">Hasta 40% de descuento</p>
+            <v-btn dark color="orange_dark ma-3">
+              Más info.
+            </v-btn>
+            <p class="body-2">Aplican terminos y condiciones</p>
+          </slot>
         </div>
         <div style="width: 500px">
           <v-img
-            src="../../../static/images/Imagen-descuento.png"
-            height="400"
+            src="../../static/images/Imagen-descuento.png"
+            :height="height"
           ></v-img>
         </div>
       </div>
@@ -25,6 +27,12 @@
 </template>
 <script>
 export default {
+  props: {
+    height: {
+      type: [Number, String],
+      default: 400
+    }
+  },
   data: () => ({
     src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
     title: 'Supermodel',

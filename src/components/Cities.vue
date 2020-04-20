@@ -3,6 +3,7 @@
     <v-select
       class="body-1"
       dark
+      :outlined="outlined"
       :label="languageChange"
       :items="cities"
       color="grey lighten-4"
@@ -10,7 +11,6 @@
       item-value="codigo"
       bottom
       return-object
-      persistent-hint
       clearable
       v-model="userCity"
       autocomplete
@@ -32,7 +32,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['direction', 'fromHome'],
+  props: ['direction', 'outlined', 'fromHome'],
   name: 'CitiesList',
   data() {
     return {}

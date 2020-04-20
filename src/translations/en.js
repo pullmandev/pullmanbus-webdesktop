@@ -50,6 +50,7 @@ let en = () => {
     to_city2: 'Destiny',
     from_date2: 'Departure date',
     to_date2: 'Return (optional)',
+    to_date3: 'Return',
     locale: 'en-EN',
     language_msg: 'The language was changed to English',
     services: 'Services',

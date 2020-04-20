@@ -1,29 +1,28 @@
 <template v-if="direction">
   <div>
-    <v-row row wrap>
+    <v-row dense>
       <v-col xs12 style="position: relative">
         <v-menu
-          lazy
           :close-on-content-click="true"
           transition="scale-transition"
-          offset-y
           full-width
           color="blue-dark"
           max-width="290px"
           min-width="290px"
         >
-        <template v-slot:activator="{ on }">
-          <v-text-field
-            v-on="on"
-            dark
-            color="grey lighten-4"
-            slot="activator"
-            :label="languageChange"
-            v-model="formatedDate"
-            readonly
-          >
-          </v-text-field>
-        </template>
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-on="on"
+              dark
+              color="grey lighten-4"
+              slot="activator"
+              :outlined="outlined"
+              :label="languageChange"
+              v-model="formatedDate"
+              readonly
+            >
+            </v-text-field>
+          </template>
           <v-date-picker
             min="2017-01-24"
             @change="setDate"
@@ -57,7 +56,7 @@ import { mapGetters } from 'vuex'
 const moment = require('moment')
 
 export default {
-  props: ['direction', 'fromHome'],
+  props: ['direction', 'outlined', 'fromHome'],
   name: 'Calendar',
   data() {
     return {
@@ -118,7 +117,7 @@ export default {
             this.formattedDateFrom = null
             return null
           }
-          const format = this.fromHome ? 'dddd LL' : 'LL'
+          const format = this.fromHome ? 'LL' : 'DD/MM'
           this.formattedDateFrom = moment(
             this.$store.state.searching.from_date
           ).format(format)
@@ -128,7 +127,7 @@ export default {
             this.formattedDateTo = null
             return null
           }
-          const format = this.fromHome ? 'dddd LL' : 'LL'
+          const format = this.fromHome ? 'LL' : 'DD/MM'
           this.formattedDateTo = moment(
             this.$store.state.searching.to_date
           ).format(format)
@@ -144,13 +143,14 @@ export default {
     },
     formatedDate: {
       get() {
-        return this.direction === 'from' ? this.formattedDateFrom : this.formattedDateTo
+        return this.direction === 'from'
+          ? this.formattedDateFrom
+          : this.formattedDateTo
       },
-      set (value) {
+      set(value) {
         if (this.direction === 'from') {
           this.formattedDateFrom = value
-        }
-        else {
+        } else {
           this.formattedDateTo = value
         }
       }
@@ -158,7 +158,7 @@ export default {
     localeChange() {
       this.firstDayOfweek = this.language === 'en' ? 0 : 1
       moment.locale(this.language)
-      const format = this.fromHome ? 'dddd LL' : 'LL'
+      const format = this.fromHome ? 'LL' : 'DD/MM'
       if (this.$store.state.searching.from_date)
         this.formattedDateFrom = moment(
           this.$store.state.searching.from_date
@@ -170,9 +170,19 @@ export default {
       return this.translate('locale')
     },
     languageChange() {
-      return this.direction === 'from'
+      let result = ''
+      if (this.fromHome) {
+        result =
+          this.direction === 'from'
             ? this.translate('from_date2')
             : this.translate('to_date2')
+      } else {
+        result =
+          this.direction === 'from'
+            ? this.translate('from_date2')
+            : this.translate('to_date3')
+      }
+      return result
     }
   }
 }

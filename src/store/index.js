@@ -7,7 +7,6 @@ import APICities from '@/services/api/cities'
 import router from '../router'
 import moment from 'moment'
 import companiesList from '../../companies.json'
-// import testServices from '../../service-response.json'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -367,11 +366,6 @@ const store = new Vuex.Store({
         const minutes = parseInt(timeSplited[1])
         const timeToCompare = hours + minutes
         filter = (timeToCompare >= serviceFilters.hours.min && timeToCompare <= serviceFilters.hours.max) && filter
-        const {searching} = state
-        // if (searching.to_date != null) {
-        //   const date = moment(service.fechaLlegada, 'DD-MM-YYYY').format().split(':')[0].split('T')[0]
-        //   filter = (searching.to_date === date) && filter
-        // }
         return filter
       })
       const servicesByPrice = servicesByCompany.map((service) => {
@@ -454,23 +448,24 @@ const store = new Vuex.Store({
       // Obteniendo keys
       servicesTemp.forEach(item => {
         if (services.length < 1) {
-          services.push({id: item.empresa, data: []})
+          services.push({id: item.horaSalida + item.horaLlegada + item.terminaLlegada, data: []})
         } else {
-          const elements = services.filter(service => service.id === item.empresa)
+          const elements = services.filter(service => service.id === item.horaSalida + item.horaLlegada + item.terminaLlegada)
           if (elements.length < 1) {
-            services.push({id: item.empresa, data: []})
+            services.push({id: item.horaSalida + item.horaLlegada + item.terminaLlegada, data: []})
           }
         }
       })
       // Obteniendo data
       services.map(item => {
         for (let service of servicesTemp) {
-          if (service.empresa === item.id) {
+          if (item.id === service.horaSalida + service.horaLlegada + service.terminaLlegada) {
             item.data.push({id: service.idServicio + service.idTerminalOrigen, ...service})
           }
         }
         return item
       })
+      console.log('services result', services)
       return services
     },
     getSelectedService: state => {
