@@ -28,13 +28,15 @@
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
             <v-icon>mdi-earth</v-icon>
-            Español
+            {{ languageSelected }}
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(item, index) in startMenu" :key="index">
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item v-for="(item, index) in languageMenu" :key="index">
+            <v-list-item-title @click="languageSelected = item.title">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -66,11 +68,13 @@
 <script>
 export default {
   data: () => ({
+    languageMenu: [{ title: 'Español' }, { title: 'Ingles' }],
+    languageSelected: 'Español',
     startMenu: [
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me' },
-      { title: 'Click Me 2' }
+      { title: 'Inicio' },
+      { title: 'Agencias' },
+      { title: 'Pullman Pass' },
+      { title: 'Contacto' }
     ]
   })
 }

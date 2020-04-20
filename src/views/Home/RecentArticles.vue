@@ -7,7 +7,7 @@
       '¿Cuándo viajar?',
       'Los buses más seguros'
     ]"
-    :images="['Copiapó.jpg', 'Angol.jpg', 'Valparaiso.jpg']"
+    :images="['Copiapó2.jpg', 'Cuando viajar.jpg', 'Los buses más seguros.jpg']"
   />
 </template>
 <script>
