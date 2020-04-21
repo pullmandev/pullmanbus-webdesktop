@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <Dialog :open="dialog" :type="messageType" @close="closeDialog" /> -->
+    <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
     <v-card flat class="hideAsientos ml-4 mr-4 mt-3">
       <!-- Grilla de asientos -->
       <div v-if="loadingSeats" style="text-align: center">
@@ -15,7 +15,7 @@
         v-else-if="bus.grilla.length > 0"
         :class="{ 'pa-0': isXs }"
       >
-        <v-row dense :justify="floorArray.length === 1 ? 'center' : ''">
+        <v-row dense :justify="floorArray.length === 1 ? 'center' : undefined">
           <v-col
             cols="4"
             md="4"
@@ -147,8 +147,7 @@
               </v-row>
               <v-btn
                 @click="showModal"
-                dark
-                class="seatContinueButton mr-3"
+                class="seatContinueButton white--text mr-3"
                 color="orange"
                 :disabled="!selectedSeats.length > 0"
                 v-lang.continue
@@ -162,7 +161,7 @@
   </div>
 </template>
 <script>
-// import Dialog from '@/views/Services/stepper/List/ContinueDialog'
+import Dialog from '@/views/Services/stepper/List/ContinueDialog'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
@@ -193,8 +192,8 @@ export default {
     }
   },
   components: {
-    seat
-    // Dialog
+    seat,
+    Dialog
   },
   mounted() {
     console.log('fromMounted', this.item, this.expanded)
@@ -280,6 +279,7 @@ export default {
           this.$emit('confirm')
         }
       } else {
+        alert('Confirme')
         this.$emit('confirm')
       }
     },

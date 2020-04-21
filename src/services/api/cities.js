@@ -4,10 +4,10 @@ import endPoints from '@/endPoints'
 const cities = endPoints.cities
 
 export default {
-  getCities () {
+  getCities() {
     return axios.post(cities)
   },
-  getCityByCode (code) {
+  getCityByCode(code) {
     return axios.post(cities, code)
   }
 }

@@ -132,16 +132,16 @@
     <v-card v-else class="elevation-0">
       <span v-lang.no_elements></span>
     </v-card>
-    <!-- <Dialog
+    <Dialog
       :dialog="dialog"
       @finish="dialog = false"
       @confirm="goToPaymentFromModal"
-    /> -->
+    />
   </div>
 </template>
 <script>
 import Floor from '@/views/Services/stepper/List/Floor'
-// import Dialog from '@/views/Services/stepper/List/UserInfo'
+import Dialog from '@/views/Services/stepper/List/UserInfo'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
 import _ from 'lodash'
@@ -157,8 +157,8 @@ export default {
     }
   },
   components: {
-    Floor
-    // Dialog
+    Floor,
+    Dialog
   },
   mounted() {
     this.$nextTick(() => {

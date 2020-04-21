@@ -139,7 +139,15 @@
   .displayNone {
     display: none !important;
   }
-  
+
+  .v-application .app-textfield.error--text,
+  .v-application .app-textfield .error--text,
+  .v-application .v-label.error--text,
+  .v-application .v-text-field__details.error--text {
+    color: rgb(0, 0, 0) !important;
+    caret-color: rgb(2, 0, 0) !important;
+  }
+
   @media (max-width: 960px) {
     .displayNoneSm {
       display: none !important;
@@ -159,7 +167,7 @@
   }
   
   div.transparentCard.card{
-    background-color: transparent;
+    background-color: transparent !important;
   }
   
   

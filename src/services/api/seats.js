@@ -13,35 +13,35 @@ const freeSeat = endPoints.freeSeat
  * Export
  */
 export default {
-  getMap (params) {
+  getMap(params) {
     if (params) {
       return axios.post(map, params)
     } else {
       return axios.post(map)
     }
   },
-  getAvailability (params) {
+  getAvailability(params) {
     if (params) {
       return axios.post(availability, params)
     } else {
       return axios.post(availability)
     }
   },
-  validateSeat (params) {
+  validateSeat(params) {
     if (params) {
       return axios.post(validateSeat, params)
     } else {
       return axios.post(validateSeat)
     }
   },
-  takeSeat (params) {
+  takeSeat(params) {
     if (params) {
       return axios.post(takeSeat, params)
     } else {
       return axios.post(takeSeat)
     }
   },
-  freeSeat (params) {
+  freeSeat(params) {
     if (params) {
       return axios.post(freeSeat, params)
     } else {

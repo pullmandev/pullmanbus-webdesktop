@@ -4,29 +4,29 @@
       <!-- Card date passenger -->
       <v-card class="elevation-1">
         <v-card-text>
-          <v-flex xs12 class="pt-3 pl-4">
+          <v-col xs12 class="pt-3 pl-4">
             <v-card-text
               ><h3 class="capitalize" v-lang.passenger_data></h3
             ></v-card-text>
-          </v-flex>
-          <v-layout row wrap class="pl-4 pt-3">
-            <v-flex pa-1 xs12 sm3>
+          </v-col>
+          <v-row row wrap class="pl-4 pt-3">
+            <v-col pa-1 xs12 sm3>
               <v-card class="elevation-0">
                 <v-card-text>
                   {{ translate('name') }}
                   <h3 class="py-3">{{ payment_info.completeName }}</h3>
                 </v-card-text>
               </v-card>
-            </v-flex>
-            <v-flex pa-1 xs12 sm3>
+            </v-col>
+            <v-col pa-1 xs12 sm3>
               <v-card class="elevation-0">
                 <v-card-text>
                   {{ translate('email') }}
                   <h3 class="py-3">{{ payment_info.email }}</h3>
                 </v-card-text>
               </v-card>
-            </v-flex>
-            <v-flex pa-1 xs12 sm3>
+            </v-col>
+            <v-col pa-1 xs12 sm3>
               <v-card class="elevation-0">
                 <v-card-text>
                   {{ translate('mobile') }}
@@ -39,26 +39,26 @@
                   </h3>
                 </v-card-text>
               </v-card>
-            </v-flex>
-            <v-flex pa-1 xs12 sm3>
+            </v-col>
+            <v-col pa-1 xs12 sm3>
               <v-card class="elevation-0">
                 <v-card-text>
                   Rut
                   <h3 class="py-3">{{ payment_info.rut }}</h3>
                 </v-card-text>
               </v-card>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
       <!-- Card date Ticket -->
       <v-card class="elevation-1 mt-5">
         <v-card-text>
-          <v-flex xs12 class="pt-3 pl-4">
+          <v-col xs12 class="pt-3 pl-4">
             <v-card-text
               ><h3 class="capitalize" v-lang.one_reservation></h3
             ></v-card-text>
-          </v-flex>
+          </v-col>
         </v-card-text>
         <v-data-table
           :headers="headers"

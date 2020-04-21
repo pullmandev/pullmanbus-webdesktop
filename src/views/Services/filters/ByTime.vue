@@ -4,19 +4,18 @@
       <v-card-title>
         <h3 class="title blue--text" v-lang.closing_hour></h3>
       </v-card-title>
-
       <v-card-text>
-        <v-container>
-          <div class="label-price-slider">
-            <div class="capitalize">
-              {{ translate('from') }}: {{ formatter(min) }}
-            </div>
-            <div class="capitalize">
-              {{ translate('hasta') }}: {{ formatter(max) }}
-            </div>
+        <div class="label-price-slider">
+          <div class="capitalize">
+            <span class="d-block">{{ translate('from') }}</span>
+            {{ formatter(min) }}
           </div>
-          <vue-slider ref="slider" v-model="value" v-bind="optionsTime" />
-        </v-container>
+          <div class="capitalize">
+            <span class="d-block">{{ translate('hasta') }}</span>
+            {{ formatter(max) }}
+          </div>
+        </div>
+        <vue-slider ref="slider" v-model="value" v-bind="optionsTime" />
       </v-card-text>
     </v-card>
   </div>
@@ -41,7 +40,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => this.formatter(val),
         tooltip: 'hover',
-        width: '200px',
+        width: '190px',
         height: 8,
         dotSize: 20,
         min: 0,

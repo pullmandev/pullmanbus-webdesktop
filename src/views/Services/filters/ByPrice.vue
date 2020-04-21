@@ -5,17 +5,17 @@
         <h3 class="title blue--text" v-lang.price_range></h3>
       </v-card-title>
       <v-card-text>
-        <v-container>
-          <div class="label-price-slider">
-            <div class="capitalize">
-              {{ translate('from') }}: {{ min | currency }}
-            </div>
-            <div class="capitalize">
-              {{ translate('hasta') }}: {{ max | currency }}
-            </div>
+        <div class="label-price-slider">
+          <div class="capitalize">
+            <span class="d-block">{{ translate('from') }}</span>
+            {{ min | currency }}
           </div>
-          <vue-slider ref="slider" v-model="value" v-bind="options" />
-        </v-container>
+          <div class="capitalize">
+            <span class="d-block">{{ translate('hasta') }}</span>
+            {{ max | currency }}
+          </div>
+        </div>
+        <vue-slider ref="slider" v-model="value" v-bind="options" />
       </v-card-text>
     </v-card>
   </div>
@@ -39,7 +39,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => '$' + val,
         tooltip: 'hover',
-        width: '200px',
+        width: '190px',
         height: 8,
         dotSize: 20,
         min: 500,

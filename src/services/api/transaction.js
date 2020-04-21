@@ -6,13 +6,13 @@ const searchHeader = endPoints.searchHeader
 const generateVoucher = endPoints.generateVoucher
 
 export default {
-  post (params) {
+  post(params) {
     return axios.post(transaction, params)
   },
-  postHeader (params) {
+  postHeader(params) {
     return axios.post(searchHeader, params)
   },
-  postVoucher (params) {
+  postVoucher(params) {
     return axios.post(generateVoucher, params, {
       headers: {
         'Content-Type': 'application/json'
