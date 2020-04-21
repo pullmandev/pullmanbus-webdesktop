@@ -1,6 +1,7 @@
 <template>
-  <div class="search_container">
-    <v-container>
+  <div style="position: relative;">
+    <Carousel />
+    <v-container class="search_container">
       <div class="margin-search" />
       <v-card color="orange" class="elevation-24 rounded-search-box mt-5">
         <v-row justify="center">
@@ -47,12 +48,14 @@
 </template>
 
 <script>
+import Carousel from '@/components/Carousel'
 import CitiesList from '@/components/Cities'
 import Calendar from '@/components/Calendar'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
+    Carousel,
     CitiesList,
     Calendar
   },
@@ -112,9 +115,10 @@ div.card.search_card {
 }
 
 .search_container {
-  width: 100vw;
-  height: 100vh;
-  background: url('../../../static/images/Angol.jpg');
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .search-panel-radios .v-input--radio-group__input {
