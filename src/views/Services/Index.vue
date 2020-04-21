@@ -10,17 +10,15 @@
         </template>
       </Promotions>
     </v-content>
-    <v-container>
-      <v-row>
-        <v-col class="pl-9" cols="12" sm="12" md="3">
-          <search-panel class="displayNoneSm"></search-panel>
-          <filters class="displayNoneSm" />
-        </v-col>
-        <v-col cols="12" sm="12" md="9">
-          <stepper step="1" ref="stepper" />
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-row>
+      <v-col cols="2" class="pl-9 pr-0">
+        <search-panel class="displayNoneSm"></search-panel>
+        <filters class="displayNoneSm" />
+      </v-col>
+      <v-col cols="10">
+        <stepper step="1" ref="stepper" />
+      </v-col>
+    </v-row>
     <v-btn
       fab
       dark

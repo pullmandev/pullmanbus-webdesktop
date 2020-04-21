@@ -4,7 +4,7 @@
       <v-progress-circular
         indeterminate
         :size="100"
-        color="primary"
+        color="blue"
       ></v-progress-circular>
     </div>
     <div v-else-if="services.length > 0">
@@ -17,8 +17,6 @@
             class="arrow elevation-0"
           >
             <v-expansion-panel-header>
-              <!-- <v-row>
-                  <v-col xs4 md6> -->
               <v-row>
                 <v-col cols="3">
                   <span class="headline d-block">
@@ -60,15 +58,13 @@
                   style="width: 100%;"
                   show-expand
                 >
-                  <!-- expand  -->
-                  <!-- <template v-slot:items='props' slot='items' slot-scope='props'> -->
                   <template slot="item" slot-scope="props">
                     <tr
                       @click="props.expanded = !props.expanded"
                       class="result"
                     >
                       <td></td>
-                      <td class="text-xs-left hidden-sm-and-down">
+                      <td>
                         <h3 v-if="props.item.pisos[0]">
                           {{ props.item.pisos[0].servicio }}
                         </h3>
@@ -79,13 +75,10 @@
                           {{ props.item.pisos[1].servicio }}
                         </small>
                       </td>
-                      <td
-                        class="text-xs-left"
-                        :class="{ 'px-0': windowSize.x <= 600 }"
-                      >
+                      <td :class="{ 'px-0': windowSize.x <= 600 }">
                         <h2>{{ props.item.pisosNumber }}</h2>
                       </td>
-                      <td class="text-xs-left hidden-sm-and-down">
+                      <td>
                         <h2 v-if="props.item.pisos[0]">
                           $ {{ props.item.pisos[0].tarifaInternet }}
                         </h2>
@@ -96,26 +89,28 @@
                           $ {{ props.item.pisos[1].tarifaInternet }}
                         </small>
                       </td>
+                      <td>
+                        <v-btn
+                          dark
+                          color="blue"
+                          @click="props.expand(!props.isExpanded)"
+                          >Comprar</v-btn
+                        >
+                      </td>
                     </tr>
                   </template>
-                  <!-- <template slot="data-table-expand" slot-scope="props">
-                    <v-btn
-                      dark
-                      color="blue"
-                      @click="props.expand(props.isExpanded)"
-                      >Comprar</v-btn
-                    >
-                  </template> -->
                   <!-- template of passenger -->
                   <template slot="expanded-item" slot-scope="props">
-                    <floor
-                      ref="floor"
-                      :back="back"
-                      :item="props.item"
-                      :expanded="props.expanded"
-                      :isXs="windowSize.x <= 600"
-                      @confirm="showModal"
-                    />
+                    <td :colspan="props.headers.length" class="px-0">
+                      <floor
+                        ref="floor"
+                        :back="back"
+                        :item="props.item"
+                        :expanded="props.expanded"
+                        :isXs="windowSize.x <= 600"
+                        @confirm="showModal"
+                      />
+                    </td>
                   </template>
                 </v-data-table>
                 <v-alert
@@ -188,8 +183,8 @@ export default {
           text: this.translate('service'),
           sortable: false,
           value: 'servicioPrimerPiso',
-          align: 'left',
-          class: 'hidden-sm-and-down'
+          class: 'hidden-sm-and-down',
+          align: 'start'
         },
         {
           text: this.translate('floors'),
@@ -204,14 +199,14 @@ export default {
           value: 'tarifaPrimerPiso',
           align: 'left',
           class: 'hidden-sm-and-down'
+        },
+        {
+          text: ' ',
+          sortable: false,
+          value: '',
+          align: 'center',
+          class: 'hidden-sm-and-down'
         }
-        // {
-        //   text: ' ',
-        //   sortable: false,
-        //   value: 'data-table-expand',
-        //   align: 'center',
-        //   class: 'hidden-sm-and-down'
-        // }
       ]
     },
     langSearch() {

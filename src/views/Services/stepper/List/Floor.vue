@@ -1,172 +1,168 @@
 <template>
   <div>
-    <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
-    <v-card flat class="ml-4 mr-4">
-      <v-card class="hideAsientos">
-        <v-card flat class="mt-3">
-          <!-- Grilla de asientos -->
-          <v-card-text>
-            <div v-if="loadingSeats" style="text-align: center">
-              <v-progress-circular
-                indeterminate
-                :size="50"
-                color="primary"
-              ></v-progress-circular>
-            </div>
-            <v-container
-              v-else-if="bus.grilla.length > 0"
-              :class="{ 'pa-0': isXs }"
-            >
-              <v-layout row wrap :justify-center="floorArray.length === 1">
-                <v-flex
-                  xs4
-                  md4
-                  v-for="(selectedFloor, index) in floorArray"
-                  :key="index"
+    <!-- <Dialog :open="dialog" :type="messageType" @close="closeDialog" /> -->
+    <v-card flat class="hideAsientos ml-4 mr-4 mt-3">
+      <!-- Grilla de asientos -->
+      <div v-if="loadingSeats" style="text-align: center">
+        <v-progress-circular
+          indeterminate
+          :size="50"
+          color="blue"
+        ></v-progress-circular>
+      </div>
+      <v-container
+        fluid
+        v-else-if="bus.grilla.length > 0"
+        :class="{ 'pa-0': isXs }"
+      >
+        <v-row dense :justify="floorArray.length === 1 ? 'center' : ''">
+          <v-col
+            cols="4"
+            md="4"
+            v-for="(selectedFloor, index) in floorArray"
+            :key="index"
+          >
+            <div>
+              <h2 class="text-center mb-1">
+                {{ translate('floor') }} {{ selectedFloor + 1 }}
+              </h2>
+              <h4 class="text-center mb-3 subheading">
+                {{ data.pisos[selectedFloor].servicio }}
+              </h4>
+              <v-row justify="center" dense>
+                <v-col
+                  cols="12"
+                  sm="12"
+                  md="12"
+                  lg="10"
+                  class="text-xs-center mb-4 border-bus"
+                  :class="{ 'left-border': selectedFloor > 0 }"
                 >
-                  <div>
-                    <h2 class="text-xs-center mb-1">
-                      {{ translate('floor') }} {{ selectedFloor + 1 }}
-                    </h2>
-                    <h4 class="text-xs-center mb-3 subheading">
-                      {{ data.pisos[selectedFloor].servicio }}
-                    </h4>
-                    <v-layout row wrap justify-center>
-                      <v-flex
-                        xs12
-                        sm12
-                        md12
-                        lg10
-                        class="text-xs-center mb-4 border-bus"
-                        :class="{ 'left-border': selectedFloor > 0 }"
-                      >
-                        <v-layout
-                          column
-                          class="d-inline-block"
-                          v-for="(col, i) in bus.grilla[selectedFloor].grid"
-                          :key="i"
+                  <div
+                    v-for="(col, i) in bus.grilla[selectedFloor].grid"
+                    :key="i"
+                    class="d-inline-block"
+                  >
+                    <!-- acá tengo las columnas del bus (son 5)-->
+                    <div
+                      style="margin-right: 1rem"
+                      v-for="(seat, j) in col"
+                      :key="j"
+                    >
+                      <!-- Acà voy a ir obteniendo los asientos de atras hacia adelante de una de las 5 columnas-->
+                      <!-- <template > -->
+                      <template v-if="seat !== null">
+                        <!-- baño -->
+                        <template v-if="seat.includes('B')">
+                          <div class="my-1">
+                            <img
+                              src="static/imgs/grid/wc.svg"
+                              alt=""
+                              class="wcSize"
+                            />
+                          </div>
+                        </template>
+                        <div
+                          v-else-if="seat === 'X' || seat === '%'"
+                          style="height: 33px; width: 33px;"
+                        />
+                        <v-btn
+                          v-else-if="
+                            seatIsInshoppingCart(seat, selectedFloor) > -1
+                          "
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn"
+                          @click="selectSeat(seat, selectedFloor, [i, j])"
                         >
-                          <!-- acá tengo las columnas del bus (son 5)-->
-                          <v-flex
-                            xs1
-                            class="text-xs-center mt-1"
-                            style="margin-right: 1rem"
-                            v-for="(seat, j) in col"
-                            :key="j"
-                          >
-                            <!-- Acà voy a ir obteniendo los asientos de atras hacia adelante de una de las 5 columnas-->
-                            <!-- <template > -->
-                            <template v-if="seat !== null">
-                              <!-- baño -->
-                              <template v-if="seat.includes('B')">
-                                <div class="my-1">
-                                  <img
-                                    src="static/imgs/grid/wc.svg"
-                                    alt=""
-                                    class="wcSize"
-                                  />
-                                </div>
-                              </template>
-                              <div
-                                v-else-if="seat === 'X' || seat === '%'"
-                                style="height: 33px; width: 33px;"
-                              />
-                              <v-btn
-                                v-else-if="
-                                  seatIsInshoppingCart(seat, selectedFloor) > -1
-                                "
-                                fab
-                                small
-                                class="mx-0 my-0 seatBtn"
-                                color="light-green accent-4"
-                                @click="selectSeat(seat, selectedFloor, [i, j])"
-                              >
-                                <seat
-                                  :seatNumber="seat[0]"
-                                  :selectedNumber="seat[0]"
-                                  :floor="selectedFloor"
-                                  type="desktop"
-                                />
-                              </v-btn>
-                              <v-btn
-                                v-else-if="seat[1] !== '0'"
-                                fab
-                                small
-                                class="mx-0 my-0 seatBtn"
-                                style="background-color: var(--var-red) !important;"
-                                disabled
-                              >
-                                <seat
-                                  :seatNumber="seat[0]"
-                                  :floor="selectedFloor"
-                                  type="desktop"
-                                />
-                              </v-btn>
-                              <v-btn
-                                v-else
-                                fab
-                                flat
-                                class="mx-0 my-0 seatBtn"
-                                small
-                                @click="selectSeat(seat, selectedFloor, [i, j])"
-                              >
-                                <seat
-                                  :seatNumber="seat[0]"
-                                  type="desktop"
-                                  :floor="selectedFloor"
-                                />
-                              </v-btn>
-                            </template>
-                            <!-- </template> -->
-                          </v-flex>
-                        </v-layout>
-                      </v-flex>
-                    </v-layout>
+                          <seat
+                            :seatNumber="seat[0]"
+                            :floor="selectedFloor"
+                            type="taken"
+                          />
+                        </v-btn>
+                        <v-btn
+                          v-else-if="seat[1] !== '0'"
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn"
+                          disabled
+                        >
+                          <seat
+                            :seatNumber="seat[0]"
+                            :floor="selectedFloor"
+                            type="occupied"
+                          />
+                        </v-btn>
+                        <v-btn
+                          v-else
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn"
+                          @click="selectSeat(seat, selectedFloor, [i, j])"
+                        >
+                          <seat
+                            :seatNumber="seat[0]"
+                            type="free"
+                            :floor="selectedFloor"
+                          />
+                        </v-btn>
+                      </template>
+                      <!-- </template> -->
+                    </div>
                   </div>
-                </v-flex>
-                <v-flex xs4 md4 class="left-border">
-                  <div style="position: relative; height: 100%">
-                    <h2 class="text-xs-center mb-5" v-lang.seat_title></h2>
-                    <v-layout row text-xs-left justify-center>
-                      <v-flex md9 class="displayNoneSm">
-                        <div>
-                          <h3 class="d-block ma-4">
-                            <v-icon>event_seat</v-icon>
-                            {{ translate('available_seats') }}
-                          </h3>
-                          <h3 class="d-block ma-4">
-                            <v-icon color="light-green accent-4"
-                              >event_seat</v-icon
-                            >
-                            {{ translate('selected_seats') }}
-                          </h3>
-                          <h3 class="d-block ma-4">
-                            <v-icon color="error">event_seat</v-icon>
-                            {{ translate('reserved_seats') }}
-                          </h3>
-                        </div>
-                      </v-flex>
-                    </v-layout>
-                    <v-btn
-                      @click="showModal"
-                      class="seatContinueButton font white--text mr-3"
-                      color="error"
-                      :disabled="!selectedSeats.length > 0"
-                      v-lang.continue
-                    ></v-btn>
+                </v-col>
+              </v-row>
+            </div>
+          </v-col>
+          <v-col cols="4" md="4" class="left-border">
+            <div style="position: relative; height: 100%">
+              <h2 class="text-center mb-5" v-lang.seat_title></h2>
+              <v-row justify="center">
+                <v-col md="9" class="displayNoneSm">
+                  <div>
+                    <div
+                      class="d-flex justify-start ma-4"
+                      v-for="(item, index) in seatsImg"
+                      :key="index"
+                    >
+                      <div style="width: 35px">
+                        <v-img
+                          height="40"
+                          :src="
+                            require(`../../../../../static/logos/seats/Iconos-${item.number}.png`)
+                          "
+                          contain
+                        />
+                      </div>
+                      <h3 class="ml-1">
+                        {{ translate(item.text) }}
+                      </h3>
+                    </div>
                   </div>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-          <!-- .Grid end-->
-        </v-card>
-      </v-card>
+                </v-col>
+              </v-row>
+              <v-btn
+                @click="showModal"
+                dark
+                class="seatContinueButton mr-3"
+                color="orange"
+                :disabled="!selectedSeats.length > 0"
+                v-lang.continue
+              ></v-btn>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+      <!-- .Grid end-->
     </v-card>
   </div>
 </template>
 <script>
-import Dialog from '@/views/Services/stepper/List/ContinueDialog'
+// import Dialog from '@/views/Services/stepper/List/ContinueDialog'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
@@ -177,6 +173,12 @@ export default {
   props: ['item', 'expanded', 'isXs', 'back'],
   data() {
     return {
+      seatImageBase: '../../../../../static/logos/seats/',
+      seatsImg: [
+        { text: 'available_seats', number: '28' },
+        { text: 'selected_seats', number: '27' },
+        { text: 'reserved_seats', number: '26' }
+      ],
       dialog: false,
       messageType: false,
       floorArray: [0],
@@ -191,11 +193,11 @@ export default {
     }
   },
   components: {
-    seat,
-    Dialog
+    seat
+    // Dialog
   },
   mounted() {
-    // console.log('fromMounted')
+    console.log('fromMounted', this.item, this.expanded)
     this.getSeats(this.item, this.expanded)
   },
   watch: {
@@ -364,13 +366,13 @@ export default {
           : params.asiento
       return requestParams
     },
-    async getSeats(item, expanded) {
+    async getSeats(item) {
       this.floorArray = item.pisos.length > 1 ? [0, 1] : [0]
       this.selectedFloor = item.pisos[0].piso
       this.data = item
-      if (!expanded) {
-        return
-      }
+      // if (!expanded) {
+      //   return
+      // }
       if (this.bus.grilla.length > 0) {
         return
       }
