@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import App from './App.vue'
-import './registerServiceWorker'
 import './filters'
 import router from './router'
 import store, { addStoreProperty } from './store'
