@@ -1,81 +1,72 @@
 <template>
-  <div>
-    <v-layout xs12 sm12 md8 lg6>
-      <v-flex>
-        <v-card class="elevation-0 mt-2">
-          <v-toolbar color="font" dark class="blue-light">
-            <v-toolbar-title v-lang.payment_methods></v-toolbar-title>
-            <v-spacer></v-spacer>
-          </v-toolbar>
-        </v-card>
-        <v-container>
-          <v-card class="elevation-8">
-            <v-card-text>
-              <v-container class="mb-3 mt-3">
-                <v-layout row>
-                  <v-flex xs2 sm1>
-                    <v-radio-group v-model="payMethod" :mandatory="true">
-                      <v-radio color="primarylight" label="" value="webpay" />
-                    </v-radio-group>
-                  </v-flex>
-                  <v-flex xs10 sm11>
-                    <img
-                      src="static/imgs/brands/web-pay-plus.png"
-                      alt="webpay"
-                      class="webpay-payment"
-                    />
-                  </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card-text>
-          </v-card>
-        </v-container>
-      </v-flex>
-    </v-layout>
-    <v-container class="mt-5">
-      <span class="display-2 amount">Total: {{ totalAmount | currency }}</span>
-      <v-form class="mt-5" v-model="validForm">
-        <v-layout row>
-          <v-flex xs2 sm1>
-            <v-checkbox
-              color="primarylight"
-              v-model="terms"
-              :rules="[v => !!v || '']"
-              required
-            ></v-checkbox>
-          </v-flex>
-          <v-flex xs10 sm11 class="mt-1">
-            <label class="subheading"
-              >{{ translate('read_terms1') }}
-              <span
-                class="termLink"
-                @click="dialog = true"
-                v-lang.read_terms2
-              ></span>
-              {{ translate('read_terms3') }}</label
-            >
-          </v-flex>
-        </v-layout>
-        <v-layout>
-          <v-flex xs4 md4 class="pl-3 pr-3">
+  <v-container class="my-2">
+    <h1 v-lang.payment_methods class="blue_dark--text"></h1>
+    <v-card class="elevation-2 my-12 rounded-search-box">
+      <v-row cols="12" sm="12" md="8" lg="6">
+        <v-col>
+          <v-card-text>
+            <v-row class="mx-8">
+              <v-col cols="2" sm="1">
+                <v-radio-group v-model="payMethod" :mandatory="true">
+                  <v-radio color="primarylight" label="" value="webpay" />
+                </v-radio-group>
+              </v-col>
+              <v-col cols="10" sm="11">
+                <img
+                  src="../../../../static/logos/web-pay-plus.png"
+                  alt="webpay"
+                  class="webpay-payment"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-col>
+      </v-row>
+      <v-container class="mt-5">
+        <span class="display-2 amount"
+          >Total: {{ totalAmount | currency }}</span
+        >
+        <v-form class="mt-5" v-model="validForm">
+          <v-row>
+            <v-col cols="2" sm="1">
+              <v-checkbox
+                color="primarylight"
+                v-model="terms"
+                :rules="[v => !!v || '']"
+                required
+              ></v-checkbox>
+            </v-col>
+            <v-col cols="10" sm="11" class="mt-1">
+              <label class="subheading"
+                >{{ translate('read_terms1') }}
+                <span
+                  class="termLink"
+                  @click="dialog = true"
+                  v-lang.read_terms2
+                ></span>
+                {{ translate('read_terms3') }}</label
+              >
+            </v-col>
+          </v-row>
+          <div class="d-flex justify-end">
             <v-btn
-              color="primary"
-              class="white--text"
+              color="orange"
+              class="white--text mr-5"
               :disabled="disabledButton"
               @click="pay"
               v-lang.continue
             ></v-btn>
             <v-btn
-              style="background-color:#a0a0a0;"
-              class="white--text"
-              @click="$store.dispatch('SET_STEP', { step: 2 })"
+              text
+              class="grey--text"
+              @click="$router.push({ name: 'Services' })"
               v-lang.back
             ></v-btn>
-          </v-flex>
-        </v-layout>
-      </v-form>
-    </v-container>
-    <!-- Dialog -->
+          </div>
+        </v-form>
+      </v-container>
+      <!-- Dialog -->
+    </v-card>
     <v-dialog
       v-model="dialog"
       fullscreen
@@ -96,10 +87,10 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 <script>
-import Terms from '@/views/Services/stepper/Payment/Terms'
+import Terms from '@/views/Services/Payment/Terms'
 import { mapGetters } from 'vuex'
 import APITransaction from '@/services/api/transaction'
 import _ from 'lodash'

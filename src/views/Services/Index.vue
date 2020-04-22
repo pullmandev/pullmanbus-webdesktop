@@ -10,15 +10,7 @@
         </template>
       </Promotions>
     </v-content>
-    <v-row>
-      <v-col cols="2" class="pl-9 pr-0">
-        <search-panel class="displayNoneSm"></search-panel>
-        <filters class="displayNoneSm" />
-      </v-col>
-      <v-col cols="10">
-        <stepper step="1" ref="stepper" />
-      </v-col>
-    </v-row>
+    <router-view></router-view>
     <v-btn
       fab
       dark
@@ -52,18 +44,12 @@
 </template>
 <script>
 /* eslint-disable */
-import SearchPanel from "@/views/Services/searchPanel"
-import Filters from "@/views/Services/filters/Index"
-import Stepper from "@/views/Services/stepper/Index"
 import Promotions from '@/components/PromotionBanner'
 import { mapGetters } from 'vuex'
 
 export default {
   name: "Services",
   components: {
-    SearchPanel,
-    Filters,
-    Stepper,
     Promotions
   },
   data () {

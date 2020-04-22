@@ -2,35 +2,37 @@
   <div>
     <v-container fluid>
       <!-- Card date passenger -->
-      <v-card class="elevation-1">
+      <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
         <v-card-text>
-          <v-col xs12 class="pt-3 pl-4">
-            <v-card-text
-              ><h3 class="capitalize" v-lang.passenger_data></h3
-            ></v-card-text>
-          </v-col>
-          <v-row row wrap class="pl-4 pt-3">
-            <v-col pa-1 xs12 sm3>
+          <v-card-text>
+            <h3 class="headline pt-3" v-lang.passenger_data></h3>
+          </v-card-text>
+          <v-row class="pt-3">
+            <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  {{ translate('name') }}
-                  <h3 class="py-3">{{ payment_info.completeName }}</h3>
+                  <span class="font-weight-black">{{ translate('name') }}</span>
+                  <h3 class="py-2 body-2">{{ payment_info.completeName }}</h3>
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col pa-1 xs12 sm3>
+            <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  {{ translate('email') }}
-                  <h3 class="py-3">{{ payment_info.email }}</h3>
+                  <span class="font-weight-black">{{
+                    translate('email')
+                  }}</span>
+                  <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col pa-1 xs12 sm3>
+            <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  {{ translate('mobile') }}
-                  <h3 class="py-3">
+                  <span class="font-weight-black">{{
+                    translate('mobile')
+                  }}</span>
+                  <h3 class="py-2 body-2">
                     {{
                       payment_info.movil != null
                         ? '+569 ' + payment_info.movil
@@ -40,112 +42,85 @@
                 </v-card-text>
               </v-card>
             </v-col>
-            <v-col pa-1 xs12 sm3>
+            <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  Rut
-                  <h3 class="py-3">{{ payment_info.rut }}</h3>
+                  <span class="font-weight-black">Rut</span>
+                  <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
+          <v-card-text
+            ><h3 class="capitalize" v-lang.one_reservation></h3
+          ></v-card-text>
+          <v-data-table
+            :headers="headers"
+            :items="getSeatWithId"
+            item-key="id"
+            class="elevation-0"
+            hide-default-footer
+          >
+            <template slot="item" slot-scope="props">
+              <td>
+                <h3>{{ props.item.terminalSalida }}</h3>
+              </td>
+              <td>
+                <h3>{{ props.item.terminalLlegada }}</h3>
+              </td>
+              <td>
+                <h3>{{ props.item.fecha }}</h3>
+              </td>
+              <td>
+                <h3>{{ props.item.horaSalida }}</h3>
+              </td>
+              <td>
+                <h3>
+                  {{
+                    props.item.piso > 0
+                      ? parseInt(props.item.asiento) + 20
+                      : props.item.asiento
+                  }}
+                </h3>
+              </td>
+              <td>
+                <h3>
+                  {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
+                </h3>
+              </td>
+              <td>
+                <h3>${{ props.item.precio }}</h3>
+              </td>
+              <td>
+                <v-btn
+                  flat
+                  color="error"
+                  @click="deleteSelected(props.item)"
+                  :disabled="deleting"
+                >
+                  <v-icon>delete</v-icon>
+                </v-btn>
+              </td>
+            </template>
+          </v-data-table>
         </v-card-text>
+        <v-card-actions class="mt-12">
+          <v-spacer></v-spacer>
+          <v-btn
+            color="orange"
+            :disabled="selectedSeats.length <= 0"
+            class="white--text mr-5"
+            @click="validateSeats"
+            v-lang.continue
+          ></v-btn>
+          <v-btn
+            text
+            class="grey--text"
+            @click="$store.dispatch('SET_STEP', { step: 1 })"
+            v-lang.cancel
+          ></v-btn>
+        </v-card-actions>
       </v-card>
-      <!-- Card date Ticket -->
-      <v-card class="elevation-1 mt-5">
-        <v-card-text>
-          <v-col xs12 class="pt-3 pl-4">
-            <v-card-text
-              ><h3 class="capitalize" v-lang.one_reservation></h3
-            ></v-card-text>
-          </v-col>
-        </v-card-text>
-        <v-data-table
-          :headers="headers"
-          :items="getSeatWithId"
-          item-key="id"
-          class="elevation-1"
-          hide-default-footer
-        >
-          <template slot="headerCell" slot-scope="props">
-            <v-tooltip bottom>
-              <span slot="activator">
-                {{ props.header.text }}
-              </span>
-              <span>
-                {{ props.header.text }}
-              </span>
-            </v-tooltip>
-          </template>
-          <template slot="items" slot-scope="props">
-            <!-- <td>
-              <v-checkbox
-                primary
-                hide-details
-                v-model="props.selected"
-              ></v-checkbox>
-            </td> -->
-            <td class="text-xs-right">
-              <h3>{{ props.item.terminalSalida }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>{{ props.item.terminalLlegada }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>{{ props.item.fecha }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>{{ props.item.horaSalida }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>
-                {{
-                  props.item.piso > 0
-                    ? parseInt(props.item.asiento) + 20
-                    : props.item.asiento
-                }}
-              </h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>{{ '0' + (parseInt(props.item.piso) + 1).toString() }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <h3>${{ props.item.precio }}</h3>
-            </td>
-            <td class="text-xs-right">
-              <v-btn
-                flat
-                color="error"
-                @click="deleteSelected(props.item)"
-                :disabled="deleting"
-              >
-                <v-icon>delete</v-icon>
-              </v-btn>
-            </td>
-          </template>
-          <!-- <template slot="footer">
-            <td colspan="100%" class="text-xs-right">
-              <v-btn color="error" :disabled="selected.length <= 0" @click="deleteSelected"
-                :class="selected.length > 0 ? 'fadeIn' : 'fadeOut'" v-lang.delete></v-btn>
-            </td>
-          </template> -->
-        </v-data-table>
-      </v-card>
-      <div class="mt-5">
-        <v-btn
-          color="primary"
-          :disabled="selectedSeats.length <= 0"
-          class="white--text"
-          @click="validateSeats"
-          v-lang.continue
-        ></v-btn>
-        <v-btn
-          style="background-color:#a0a0a0;"
-          class="white--text"
-          @click="$store.dispatch('SET_STEP', { step: 1 })"
-          v-lang.cancel
-        ></v-btn>
-      </div>
     </v-container>
   </div>
 </template>
@@ -161,22 +136,9 @@ export default {
       rut: '',
       email: '',
       deleting: false
-      // selected: []
     }
   },
   methods: {
-    // async deleteSelected () {
-    //   for (let item of this.selected) {
-    //     const index = this.findSeatIndex(item.id)
-    //     if (index > -1) {
-    //       const params = this.selectedSeats[index]
-    //       const requestParams = this.createRequestParams(params)
-    //       await API.freeSeat(requestParams)
-    //       await this.awaitForDeletion(index)
-    //     }
-    //   }
-    //   this.selected = []
-    // },
     async deleteSelected(item) {
       this.deleting = true
       const index = this.findSeatIndex(item.id)
@@ -218,7 +180,7 @@ export default {
       return index
     },
     async validateSeats() {
-      this.$store.dispatch('SET_STEP', { step: 3 })
+      this.$router.push({ name: 'Payment' })
     }
   },
   computed: {
@@ -269,3 +231,8 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+.rounded-search-box {
+  border-radius: 10px !important;
+}
+</style>
