@@ -144,8 +144,8 @@
   .v-application .app-textfield .error--text,
   .v-application .v-label.error--text,
   .v-application .v-text-field__details.error--text {
-    color: rgb(0, 0, 0) !important;
-    caret-color: rgb(2, 0, 0) !important;
+    color: rgb(110, 52, 3) !important;
+    caret-color: rgb(110, 52, 3) !important;
   }
 
   @media (max-width: 960px) {

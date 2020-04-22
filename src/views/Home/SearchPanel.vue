@@ -3,33 +3,27 @@
     <Carousel />
     <v-container class="search_container">
       <div class="margin-search" />
-      <v-card color="orange" class="elevation-24 rounded-search-box mt-5">
-        <v-row justify="center">
-          <v-col cols="6">
-            <v-radio-group dark v-model="row" row class="search-panel-radios">
-              <v-radio color="blue_dark" label="Ida" value="ida"></v-radio>
-              <v-radio
-                color="blue_dark"
-                label="Vuelta"
-                value="vuelta"
-              ></v-radio>
-            </v-radio-group>
-          </v-col>
-        </v-row>
+      <v-card
+        color="orange"
+        class="elevation-24 rounded-search-box mt-5 px-12 pt-7"
+      >
+        <v-card-text class="px-0"
+          ><h2 class="display-1 white--text" v-lang.travel_details></h2
+        ></v-card-text>
         <v-row>
-          <v-col md="2" sm="12" offset-md="1">
+          <v-col md="6" sm="12" class="py-0">
             <cities-list direction="from" />
           </v-col>
-          <v-col md="2" sm="12">
+          <v-col md="6" sm="12" class="py-0">
             <cities-list direction="to" />
           </v-col>
-          <v-col md="2" sm="12" class="pt-2">
+          <v-col md="6" sm="12" class="py-0">
             <calendar :fromHome="true" direction="from" />
           </v-col>
-          <v-col md="2" sm="12" class="pt-2">
+          <v-col md="6" sm="12" class="py-0">
             <calendar :fromHome="true" direction="to" />
           </v-col>
-          <v-col md="2" sm="12">
+          <v-col md="4" sm="12" offset-md="4">
             <v-btn
               block
               class="white--text rounded-search"

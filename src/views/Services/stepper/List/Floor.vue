@@ -279,7 +279,6 @@ export default {
           this.$emit('confirm')
         }
       } else {
-        alert('Confirme')
         this.$emit('confirm')
       }
     },

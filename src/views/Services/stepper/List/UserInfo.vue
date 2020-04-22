@@ -4,36 +4,19 @@
       <!-- <v-btn color="primary" dark slot="activator">Open Dialog</v-btn> -->
       <v-card class="pt-3 pr-3 pl-3" color="orange">
         <v-card-title class="px-2">
-          <v-row no-gutters justify="center">
-            <v-col class="pt-2">
-              <span
-                class="headline user-data-title white--text"
-                v-lang.purchase_data
-              ></span>
-            </v-col>
-            <v-col>
-              <v-btn
-                color="light"
-                class="orange--text"
-                @click="
-                  $router.push({ path: '/login', query: { fromService: true } })
-                "
-              >
-                <span class="headline capitalize" v-lang.login></span>
-              </v-btn>
-            </v-col>
-          </v-row>
+          <span class="headline white--text" v-lang.purchase_data></span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <v-form v-model="validForm">
               <v-row>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="name"
                     dark
                     filled
                     outlined
+                    dense
                     :hint="translate('insert_name')"
                     :label="translate('name')"
                     outline-1
@@ -43,12 +26,13 @@
                     class="app-textfield"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="lastname"
                     dark
                     filled
                     outlined
+                    dense
                     :hint="translate('insert_lastname')"
                     :label="translate('lastname')"
                     outline
@@ -56,12 +40,13 @@
                     class="app-textfield"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="rut"
                     dark
                     filled
                     outlined
+                    dense
                     :rules="rutRules"
                     :label="'Nº ' + translate('document')"
                     :hint="translate('insert_rut')"
@@ -71,39 +56,42 @@
                     class="app-textfield"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="movil"
                     dark
                     filled
                     outlined
+                    dense
                     prefix="+569"
                     :label="translate('mobile')"
                     clearable
                     placeholder=" "
                     :hint="translate('insert_mobile')"
                     mask="#### ####"
-                    class="app-textfield"
+                    class="app-textfield custom-prefix"
                   />
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="email"
                     dark
                     filled
                     outlined
+                    dense
                     :rules="emailRules"
                     label="E-mail"
                     required
                     class="app-textfield"
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12">
+                <v-col cols="6">
                   <v-text-field
                     v-model="confirmemail"
                     dark
                     filled
                     outlined
+                    dense
                     :rules="emailconfirmRules"
                     :label="translate('confirm_email')"
                     required
@@ -115,20 +103,39 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            text
-            class="white--text"
-            @click.native="$emit('finish')"
-            v-lang.back
-          ></v-btn>
-          <v-btn
-            color="light"
-            class="orange--text"
-            @click.native="confirm"
-            :disabled="!validForm"
-            v-lang.continue
-          ></v-btn>
+          <v-row justify="center">
+            <v-col cols="6" class="d-flex justify-end">
+              <v-btn
+                text
+                class="white--text"
+                @click.native="$emit('finish')"
+                v-lang.back
+              ></v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn
+                color="light"
+                class="orange--text"
+                @click.native="confirm"
+                :disabled="!validForm"
+                v-lang.continue
+              ></v-btn>
+            </v-col>
+            <v-col cols="12" class="text-center white--text">
+              <span>ó</span>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <v-btn
+                color="blue_dark"
+                class="white--text"
+                @click="
+                  $router.push({ path: '/login', query: { fromService: true } })
+                "
+              >
+                <span class="capitalize" v-lang.login></span>
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -189,8 +196,10 @@ export default {
   }
 }
 </script>
-<style>
-.user-data-title {
-  color: var(--var-dark-blue);
+<style scoped>
+.custom-prefix .v-text-field__prefix {
+  margin: 0 !important;
+  padding-top: 8 !important;
+  padding-bottom: 8 !important;
 }
 </style>

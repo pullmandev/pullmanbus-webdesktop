@@ -15,7 +15,6 @@
               v-on="on"
               dark
               color="grey lighten-4"
-              slot="activator"
               :outlined="outlined"
               :label="languageChange"
               v-model="formatedDate"

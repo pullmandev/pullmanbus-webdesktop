@@ -1,6 +1,6 @@
 <template v-if="direction">
   <div>
-    <v-select
+    <v-autocomplete
       class="body-1"
       dark
       :outlined="outlined"
@@ -9,23 +9,22 @@
       color="grey lighten-4"
       item-text="nombre"
       item-value="codigo"
-      bottom
+      :menu-props="{ bottom: true }"
       return-object
       clearable
       v-model="userCity"
-      autocomplete
     >
       <template slot="item" slot-scope="data">
         <template v-if="typeof data.item !== 'object'">
-          <v-list-tile-content v-text="data.item"></v-list-tile-content>
+          <v-list-item-content v-text="data.item"></v-list-item-content>
         </template>
         <template v-else>
-          <v-list-tile-content>
-            <v-list-tile-title v-html="data.item.nombre"></v-list-tile-title>
-          </v-list-tile-content>
+          <v-list-item-content>
+            <v-list-item-title v-html="data.item.nombre"></v-list-item-title>
+          </v-list-item-content>
         </template>
       </template>
-    </v-select>
+    </v-autocomplete>
   </div>
 </template>
 <script>
