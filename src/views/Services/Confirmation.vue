@@ -2,20 +2,20 @@
   <div>
     <v-container class="center">
       <v-card class="elevation-10 pt-5 pb-5">
-        <v-container fluid grid-list-lg>
-          <v-layout column class="confirmation-title">
-            <v-flex xs12 md12 lg12>
+        <v-container fluid>
+          <v-row class="confirmation-title orange--text">
+            <v-col cols="12" md="12" lg="12">
               <h1>Comprobando compra</h1>
-            </v-flex>
-            <v-flex xs12 md12 lg12> </v-flex>
-            <v-flex xs12 class="text-xs-center">
+            </v-col>
+            <v-col cols="12" md="12" lg="12"> </v-col>
+            <v-col cols="12" class="text-center">
               <v-progress-circular
                 indeterminate
                 :size="100"
-                color="primary"
+                color="blue_dark"
               ></v-progress-circular>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card>
     </v-container>
@@ -97,7 +97,6 @@ export default {
 .confirmation-title h1 {
   line-height: 4rem !important;
   font-size: 44px;
-  color: #8dcae2;
 }
 .confirmation-title p {
   font-size: 20px;
