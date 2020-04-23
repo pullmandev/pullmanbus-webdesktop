@@ -12,7 +12,7 @@
               </span>
             </v-toolbar-title>
             <template v-if="hasVuelta" v-slot:extension>
-              <v-tabs v-model="model" centered slider-color="yellow">
+              <v-tabs v-model="selectedTab" centered slider-color="yellow">
                 <v-tab
                   v-for="i in tabs"
                   :key="i"
@@ -24,7 +24,7 @@
                     class="ma-0"
                     :class="i === 'Ida' ? 'mr-1' : 'ml-1'"
                     color="blue_light"
-                    :outline="selectedTab !== i"
+                    text
                     @click="selectedTab = i"
                   >
                     <span class="white--text">
@@ -36,16 +36,16 @@
             </template>
           </v-toolbar>
           <template v-if="hasVuelta">
-            <v-tabs-items>
-              <v-tabs-content id="tab-Ida">
-                <List :search="search" />
-              </v-tabs-content>
-              <v-tabs-content id="tab-Vuelta">
-                <List :search="search" :back="true" />
-              </v-tabs-content>
+            <v-tabs-items v-model="selectedTab" class="light">
+              <v-tab-item value="tab-Ida">
+                <List />
+              </v-tab-item>
+              <v-tab-item value="tab-Vuelta">
+                <List :back="true" />
+              </v-tab-item>
             </v-tabs-items>
           </template>
-          <List v-else :search="search" :back="false" />
+          <List v-else :back="false" />
         </div>
       </v-col>
     </v-row>
@@ -66,7 +66,6 @@ export default {
     return {
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       //Button
-      search: '',
       tabs: ['Ida', 'Vuelta']
     };
   },

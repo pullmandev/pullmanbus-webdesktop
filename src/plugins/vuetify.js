@@ -13,7 +13,8 @@ export default new Vuetify({
         blue_variant: '#4AC2CE',
         yellow: '#FFA71A',
         orange: '#FF5500',
-        orange_dark: '#EA4006'
+        orange_dark: '#EA4006',
+        light: '#F7F7F7'
       },
       dark: {
         blue_dark: '#1110AD',
@@ -22,7 +23,8 @@ export default new Vuetify({
         blue_variant: '#4AC2CE',
         yellow: '#FFA71A',
         orange: '#FF5500',
-        orange_dark: '#EA4006'
+        orange_dark: '#EA4006',
+        light: '#F7F7F7'
       }
     }
   }
