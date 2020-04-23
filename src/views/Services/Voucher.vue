@@ -2,22 +2,22 @@
   <div>
     <v-container class="center">
       <v-card class="elevation-10 pt-5 pb-5">
-        <v-container fluid grid-list-lg>
-          <v-layout column class="confirmation-title">
-            <v-flex xs12 md12 lg12>
+        <v-container fluid>
+          <v-row class="confirmation-title blue_dark--text">
+            <v-col cols="12" md="12" lg="12">
               <h1 v-lang.congratulations></h1>
-            </v-flex>
-            <v-flex xs12 md12 lg12>
+            </v-col>
+            <v-col cols="12" md="12" lg="12">
               <p v-lang.success_buy></p>
-            </v-flex>
-            <v-flex xs12 md12 lg12>
-              <v-card-media
-                src="/static/imgs/background/Confirmación-pago.png"
-                height="125px"
-                contain
-              ></v-card-media>
-            </v-flex>
-            <v-flex xs12 md12 lg12>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <div
+                class="page-icon text-center d-flex align-center justify-center"
+              >
+                <v-icon size="70" class="white--text">check</v-icon>
+              </div>
+            </v-col>
+            <v-col cols="12" md="12" lg="12">
               <h3 class="mb-2">Datos de la compra:</h3>
               <v-data-table
                 :headers="headers"
@@ -25,30 +25,30 @@
                 hide-actions
                 class="elevation-1"
               >
-                <template slot="items" slot-scope="props">
-                  <td class="text-xs-right">{{ $route.params.id }}</td>
-                  <td class="text-xs-right">Viajaenbus</td>
-                  <td class="text-xs-right">Peso Chileno</td>
-                  <td class="text-xs-right">
+                <template slot="item" slot-scope="props">
+                  <td class="text-left">{{ $route.params.id }}</td>
+                  <td class="text-left">Pullman bus</td>
+                  <td class="text-left">Peso Chileno</td>
+                  <td class="text-left">
                     {{ props.item.montoFormateado }}
                   </td>
-                  <td class="text-xs-center">
+                  <td class="text-center">
                     {{ props.item.codigoTransbank }}
                   </td>
-                  <td class="text-xs-right">{{ fechaFormateada }}</td>
-                  <td class="text-xs-right">
+                  <td class="text-left">{{ fechaFormateada }}</td>
+                  <td class="text-left">
                     {{ props.item.tipoPagoFormateado }}
                   </td>
-                  <td class="text-xs-right">{{ props.item.numeroCuota }}</td>
-                  <td class="text-xs-right">{{ props.item.numeroTarjeta }}</td>
+                  <td class="text-left">{{ props.item.numeroCuota }}</td>
+                  <td class="text-left">{{ props.item.numeroTarjeta }}</td>
                 </template>
               </v-data-table>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card>
       <v-btn
-        style="background-color:#a0a0a0;"
+        color="blue_dark"
         class="white--text mt-5"
         @click="$router.push({ path: '/' })"
         v-lang.back
@@ -149,6 +149,12 @@ export default {
 }
 </script>
 <style scoped>
+.page-icon {
+  border-radius: 50%;
+  width: 125px;
+  height: 125px;
+  background-color: var(--var-orange);
+}
 .center {
   margin-top: 8vh !important;
 }
@@ -159,7 +165,6 @@ export default {
 .confirmation-title h1 {
   line-height: 4rem !important;
   font-size: 44px;
-  color: #8dcae2;
 }
 .confirmation-title p {
   font-size: 20px;

@@ -8,7 +8,7 @@
             <v-row class="mx-8">
               <v-col cols="2" sm="1">
                 <v-radio-group v-model="payMethod" :mandatory="true">
-                  <v-radio color="primarylight" label="" value="webpay" />
+                  <v-radio color="orange_dark" label="" value="webpay" />
                 </v-radio-group>
               </v-col>
               <v-col cols="10" sm="11">
@@ -22,21 +22,19 @@
           </v-card-text>
         </v-col>
       </v-row>
-      <v-container class="mt-5">
-        <span class="display-2 amount"
-          >Total: {{ totalAmount | currency }}</span
-        >
+      <v-container class="mt-5 px-8">
+        <span class="headline" style="color: #454545">
+          Total: {{ totalAmount | currency }}
+        </span>
         <v-form class="mt-5" v-model="validForm">
-          <v-row>
-            <v-col cols="2" sm="1">
-              <v-checkbox
-                color="primarylight"
-                v-model="terms"
-                :rules="[v => !!v || '']"
-                required
-              ></v-checkbox>
-            </v-col>
-            <v-col cols="10" sm="11" class="mt-1">
+          <div class="d-flex justify-start">
+            <v-checkbox
+              color="orange_dark"
+              v-model="terms"
+              :rules="[v => !!v || '']"
+              required
+            ></v-checkbox>
+            <div class="d-flex align-center">
               <label class="subheading"
                 >{{ translate('read_terms1') }}
                 <span
@@ -46,8 +44,8 @@
                 ></span>
                 {{ translate('read_terms3') }}</label
               >
-            </v-col>
-          </v-row>
+            </div>
+          </div>
           <div class="d-flex justify-end">
             <v-btn
               color="orange"
@@ -211,15 +209,11 @@ export default {
   display: inline-block !important;
 }
 .termLink {
-  color: var(--var-dark-blue);
+  color: var(--var-blue_light);
   text-decoration: underline;
 }
 .termLink:hover {
   cursor: pointer;
-}
-.amount {
-  color: var(--var-dark-blue);
-  font-weight: bold !important;
 }
 
 .webpay-payment {

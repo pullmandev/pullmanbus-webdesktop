@@ -39,7 +39,7 @@
     >
       <v-icon dark>directions_bus</v-icon>
     </v-btn>
-    <div style="margin-top: 100px" class="displayNoneMd"></div>
+    <div style="height: 150px; background: var(--var-light);"></div>
   </div>
 </template>
 <script>
@@ -83,24 +83,6 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
-    const {fromFail} = localStorage
-    if (fromFail || this.$route.query.fromLogin) {
-      localStorage.removeItem('fromFail')
-    } else if (this.$store.state.services.data.length < 1) {
-      this.$store.dispatch('LOAD_SERVICES_LIST')
-    } else {
-      this.$store.dispatch('SET_PAYMENT_INFO', {
-        payment_info: {
-          name: '',
-          rut: '',
-          email: '',
-          movil: '',
-          completeName: ''
-        }
-      })
-      this.$store.dispatch('DELETE_ALL_SEAT')
-      this.$store.dispatch('SET_STEP', {step: 1})
-    }
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)

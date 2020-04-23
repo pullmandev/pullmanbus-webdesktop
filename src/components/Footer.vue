@@ -12,10 +12,16 @@
             </v-col>
             <v-col cols="12">
               <span class="body-1 d-block">Escríbenos</span>
-              <p class="body-2">
-                <v-icon dark>mdi-chevron-down-box</v-icon>
-                info@pullmanbus.cl
-              </p>
+              <div class="d-flex align-center">
+                <div>
+                  <v-img
+                    src="../../static/logos/Iconos-33.png"
+                    height="30"
+                    width="30"
+                  />
+                </div>
+                <span class="body-2">info@pullmanbus.cl</span>
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -40,7 +46,7 @@
             <v-col>
               <span class="body-1 d-block">Pago seguro</span>
               <v-img
-                src="../../static/logos/web-pay-plus.png"
+                src="../../static/logos/web-pay-plus-white.png"
                 height="100"
                 position="left center"
                 contain

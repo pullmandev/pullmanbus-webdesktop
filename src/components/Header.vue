@@ -2,13 +2,20 @@
   <div>
     <v-app-bar color="orange" fixed dark>
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <div style="width: 300px">
-        <v-img
-          src="../../static/logos/pullman bus_blanco.png"
-          height="50"
-          contain
-        />
-      </div>
+      <v-btn
+        text
+        color="orange"
+        class="pb-12"
+        @click="$router.push({ path: '/' })"
+      >
+        <div style="width: 300px" class="mb-12">
+          <v-img
+            src="../../static/logos/pullman bus_blanco.png"
+            height="50"
+            contain
+          />
+        </div>
+      </v-btn>
       <v-spacer></v-spacer>
 
       <v-menu offset-y>
@@ -27,7 +34,12 @@
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
-            <v-icon>mdi-earth</v-icon>
+            <v-img
+              class="mx-2"
+              src="../../static/logos/header/Iconos-25.png"
+              height="30"
+              width="30"
+            />
             {{ languageSelected }}
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
@@ -41,7 +53,12 @@
         </v-list>
       </v-menu>
       <v-btn text v-on="on">
-        <v-icon>mdi-account-circle</v-icon>
+        <v-img
+          class="mx-2"
+          src="../../static/logos/header/Iconos-24.png"
+          height="30"
+          width="30"
+        />
         Iniciar sesion
       </v-btn>
 

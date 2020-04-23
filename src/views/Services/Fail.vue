@@ -2,20 +2,22 @@
   <div>
     <v-container class="center">
       <v-card class="elevation-10 pt-5 pb-5">
-        <v-container fluid grid-list-lg>
-          <v-layout column class="confirmation-title">
-            <v-flex xs12 md12 lg12>
-              <h1>Lo sentimos</h1>
-            </v-flex>
-            <v-flex xs12 md12 lg12>
+        <v-container fluid>
+          <v-row column class="confirmation-title">
+            <v-col cols="12" md="12" lg="12">
+              <h1 class="blue_dark--text">Lo sentimos</h1>
+            </v-col>
+            <v-col cols="12" md="12" lg="12">
               <p>Orden de compra {{ $route.params.id }} rechazada</p>
-            </v-flex>
-            <v-flex xs12 class="container-icon">
-              <div class="page-icon text-xs-center pt-2">
-                <v-icon>clear</v-icon>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-center">
+              <div
+                class="page-icon text-center d-flex align-center justify-center"
+              >
+                <v-icon size="70" class="white--text">clear</v-icon>
               </div>
-            </v-flex>
-            <v-flex xs12 md6 offset-md3>
+            </v-col>
+            <v-col cols="12" md="6" offset-md="3">
               <div class="ml-5">
                 <h3 class="mb-2">Las posibles causas de este rechazo son:</h3>
                 <ol class="ml-4">
@@ -32,13 +34,12 @@
                   </li>
                 </ol>
               </div>
-            </v-flex>
-          </v-layout>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card>
       <v-btn
-        style="background-color:#a0a0a0;"
-        class="white--text mt-5"
+        class="white--text mt-5 blue_dark"
         @click="toServices"
         v-lang.back
       ></v-btn>
@@ -56,19 +57,11 @@ export default {
 }
 </script>
 <style scoped>
-.container-icon {
-  display: flex;
-  justify-content: center;
-}
 .page-icon {
   border-radius: 50%;
   width: 125px;
   height: 125px;
-  background-color: var(--var-light-blue);
-}
-.page-icon .icon {
-  color: white;
-  font-size: 100px;
+  background-color: var(--var-orange);
 }
 ol li {
   color: #a0a0a0;
@@ -83,7 +76,6 @@ ol li {
 .confirmation-title h1 {
   line-height: 4rem !important;
   font-size: 44px;
-  color: #8dcae2;
 }
 .confirmation-title p {
   font-size: 20px;

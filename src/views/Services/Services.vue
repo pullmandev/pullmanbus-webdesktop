@@ -18,6 +18,26 @@ export default {
     SearchPanel,
     Filters,
     Stepper
+  },
+  mounted() {
+    const { fromFail } = localStorage
+    if (fromFail || this.$route.query.fromLogin) {
+      localStorage.removeItem('fromFail')
+    } else if (this.$store.state.services.data.length < 1) {
+      this.$store.dispatch('LOAD_SERVICES_LIST')
+    } else {
+      this.$store.dispatch('SET_PAYMENT_INFO', {
+        payment_info: {
+          name: '',
+          rut: '',
+          email: '',
+          movil: '',
+          completeName: ''
+        }
+      })
+      this.$store.dispatch('DELETE_ALL_SEAT')
+      this.$store.dispatch('SET_STEP', { step: 1 })
+    }
   }
 }
 </script>
