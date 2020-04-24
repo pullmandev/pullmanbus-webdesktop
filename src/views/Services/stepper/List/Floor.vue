@@ -199,12 +199,6 @@ export default {
     console.log('fromMounted', this.item, this.expanded)
     this.getSeats(this.item, this.expanded)
   },
-  watch: {
-    item() {
-      console.log('watch')
-      this.getSeats(this.item, this.expanded)
-    }
-  },
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
@@ -260,7 +254,7 @@ export default {
       if (ok) {
         this.$emit('confirm')
       } else {
-        const tab = type ? 'Vuelta' : 'Ida'
+        const tab = type ? 'tab-Vuelta' : 'tab-Ida'
         this.$store.dispatch('SET_SERVICE_TAB', { tab })
         scrollAnimation('#serviceToolbar')
       }
@@ -307,7 +301,6 @@ export default {
     },
     async takeSeat(params, indexes) {
       const seatList = this.seatsByTravel(this.back)
-      console.log('seatList', seatList)
       if (seatList.length > 3) {
         this.$notify({
           group: 'error',

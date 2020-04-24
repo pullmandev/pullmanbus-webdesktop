@@ -1,9 +1,9 @@
 <template>
-  <v-dialog v-model="open" persistent max-width="290">
+  <v-dialog v-model="open" persistent max-width="400">
     <v-card>
-      <v-card-title class="headline"
-        >No ha seleccionado {{ type ? 'vuelta' : 'ida' }}</v-card-title
-      >
+      <v-card-title class="headline">
+        No ha seleccionado {{ type ? 'vuelta' : 'ida' }}
+      </v-card-title>
       <v-card-text>
         <p class="pa-3">
           ¿Desea continuar la compra sin haber seleccionado un boleto para la
@@ -13,13 +13,13 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="primary"
+          color="orange white--text"
           @click.native="closeDialog(true)"
           v-lang.continue
         ></v-btn>
         <v-btn
-          color="darkgrey"
-          class="white--text"
+          color="white"
+          class="orange--text"
           @click.native="closeDialog(false)"
         >
           No, reservar {{ type ? 'vuelta' : 'ida' }}

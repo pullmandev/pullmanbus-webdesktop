@@ -25,7 +25,6 @@
                     :class="i === 'Ida' ? 'mr-1' : 'ml-1'"
                     color="blue_light"
                     text
-                    @click="selectedTab = i"
                   >
                     <span class="white--text">
                       {{ i }}
@@ -93,9 +92,6 @@ export default {
       set (tab) {
         this.$store.dispatch('SET_SERVICE_TAB', {tab})
       }
-    },
-    active () {
-      return 'tab-' + this.selectedTab
     },
     langSearch () {
       return this.translate('search')
