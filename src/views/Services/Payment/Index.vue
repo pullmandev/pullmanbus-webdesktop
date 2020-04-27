@@ -73,7 +73,7 @@
       scrollable
     >
       <v-card>
-        <v-toolbar dark class="primary">
+        <v-toolbar dark class="orange">
           <v-btn icon @click.native="dialog = false" dark>
             <v-icon>close</v-icon>
           </v-btn>
@@ -158,7 +158,7 @@ export default {
         medioDePago: 'WBPAY',
         puntoVenta: 'VEB',
         montoTotal: this.totalAmount,
-        idSistema: 2,
+        idSistema: 7,
         codigoPais: '+569',
         numeroTelefono:
           this.payment_info.movil != null ? this.payment_info.movil : '+569'

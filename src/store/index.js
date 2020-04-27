@@ -92,7 +92,7 @@ const store = new Vuex.Store({
         destino: state.searching.to_city.codigo,
         fecha: state.searching.from_date.replace(/-/g, ''),
         hora: '0000',
-        idSistema: 2
+        idSistema: 7
       })
       let requestReturn
       if (state.searching.to_date != null) {
@@ -101,7 +101,7 @@ const store = new Vuex.Store({
           destino: state.searching.from_city.codigo,
           fecha: state.searching.to_date.replace(/-/g, ''),
           hora: '0000',
-          idSistema: 2
+          idSistema: 7
         }) 
       }
       dispatch('SET_LOADING_SERVICE', {loading: true})
