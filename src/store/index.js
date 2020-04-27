@@ -15,6 +15,10 @@ const store = new Vuex.Store({
   })],
   state: {
     language: 'es',
+    sessionDialog: {
+      dialogType: '',
+      open: false
+    },
     cities: [],
     searching: {
       from_city: null,
@@ -65,6 +69,10 @@ const store = new Vuex.Store({
   },
 
   actions: {
+    SET_SESSION_DIALOG ({commit}, payload) {
+      if (payload.type === 'dialogType') commit('SET_SESSION_DIALOG_TYPE', {dialogType: payload.dialogType})
+      if (payload.type === 'open') commit('SET_SESSION_DIALOG_OPEN', {open: payload.open})
+    },
     LOAD_CITIES_LIST ({commit}) {
       APICities.getCities().then((response) => {
         if (response.data) {
@@ -254,9 +262,13 @@ const store = new Vuex.Store({
       commit('DELETE_USER')
     }
   },
-
-
   mutations: {
+    SET_SESSION_DIALOG_TYPE: (state, {dialogType}) => {
+      state.sessionDialog.dialogType = dialogType
+    },
+    SET_SESSION_DIALOG_OPEN: (state, {open}) => {
+      state.sessionDialog.open = open
+    },
     SET_CITIES_LIST: (state, {list}) => {
       state.cities = list
     },

@@ -46,13 +46,13 @@
         </template>
         <v-list>
           <v-list-item v-for="(item, index) in languageMenu" :key="index">
-            <v-list-item-title @click="languageSelected = item.title">{{
-              item.title
-            }}</v-list-item-title>
+            <v-list-item-title @click="languageSelected = item.title">
+              {{ item.title }}
+            </v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn text v-on="on">
+      <v-btn text @click="openDialog('login')">
         <v-img
           class="mx-2"
           src="../../static/logos/header/Iconos-24.png"
@@ -83,8 +83,10 @@
   </div>
 </template>
 <script>
+import openDialog from '@/helpers/openDialog'
 export default {
   data: () => ({
+    loginDialog: false,
     languageMenu: [{ title: 'Español' }, { title: 'Ingles' }],
     languageSelected: 'Español',
     startMenu: [
@@ -93,6 +95,9 @@ export default {
       { title: 'Pullman Pass' },
       { title: 'Contacto' }
     ]
-  })
+  }),
+  methods: {
+    openDialog
+  }
 }
 </script>
