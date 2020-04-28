@@ -62,45 +62,47 @@
             hide-default-footer
           >
             <template slot="item" slot-scope="props">
-              <td>
-                <h3>{{ props.item.terminalSalida }}</h3>
-              </td>
-              <td>
-                <h3>{{ props.item.terminalLlegada }}</h3>
-              </td>
-              <td>
-                <h3>{{ props.item.fecha }}</h3>
-              </td>
-              <td>
-                <h3>{{ props.item.horaSalida }}</h3>
-              </td>
-              <td>
-                <h3>
-                  {{
-                    props.item.piso > 0
-                      ? parseInt(props.item.asiento) + 20
-                      : props.item.asiento
-                  }}
-                </h3>
-              </td>
-              <td>
-                <h3>
-                  {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
-                </h3>
-              </td>
-              <td>
-                <h3>${{ props.item.precio }}</h3>
-              </td>
-              <td>
-                <v-btn
-                  flat
-                  color="error"
-                  @click="deleteSelected(props.item)"
-                  :disabled="deleting"
-                >
-                  <v-icon>delete</v-icon>
-                </v-btn>
-              </td>
+              <tr>
+                <td>
+                  <h3>{{ props.item.terminalSalida }}</h3>
+                </td>
+                <td>
+                  <h3>{{ props.item.terminalLlegada }}</h3>
+                </td>
+                <td>
+                  <h3>{{ props.item.fecha }}</h3>
+                </td>
+                <td>
+                  <h3>{{ props.item.horaSalida }}</h3>
+                </td>
+                <td>
+                  <h3>
+                    {{
+                      props.item.piso > 0
+                        ? parseInt(props.item.asiento) + 20
+                        : props.item.asiento
+                    }}
+                  </h3>
+                </td>
+                <td>
+                  <h3>
+                    {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
+                  </h3>
+                </td>
+                <td>
+                  <h3>${{ props.item.precio }}</h3>
+                </td>
+                <td>
+                  <v-btn
+                    flat
+                    color="error"
+                    @click="deleteSelected(props.item)"
+                    :disabled="deleting"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </td>
+              </tr>
             </template>
           </v-data-table>
         </v-card-text>
@@ -218,8 +220,6 @@ export default {
       return [
         { text: this.translate('from_city2'), value: 'terminalSalida' },
         { text: this.translate('to_city2'), value: 'terminalLlegada' },
-        // { text: 'Origen', value: 'fat' },
-        // { text: 'Destino', value: 'carbs' },
         { text: this.translate('from_date2'), value: 'fecha' },
         { text: this.translate('departure_hour'), value: 'horaSalida' },
         { text: this.translate('seat'), value: 'asiento' },

@@ -30,8 +30,8 @@
               filled
               outlined
               dense
-              v-model="m_lastname"
-              :label="translate('m_lastname')"
+              v-model="f_lastname"
+              :label="translate('lastname')"
               outline-1
               color="grey lighten-4"
               class="app-textfield"
@@ -41,7 +41,8 @@
             <v-row dense>
               <v-col cols="12" style="position: relative">
                 <v-menu
-                  :close-on-content-click="true"
+                  v-model="pickerMenu"
+                  :close-on-content-click="false"
                   transition="scale-transition"
                   full-width
                   color="blue-dark"
@@ -58,19 +59,17 @@
                       v-on="on"
                       color="grey lighten-4"
                       :label="languageChange"
-                      v-model="date"
+                      v-model="formatedDate"
                       readonly
                     >
                     </v-text-field>
                   </template>
                   <v-date-picker
                     min="1920-01-01"
-                    @change="setDate"
                     v-model="date"
-                    @input="setDate($event)"
                     color="blue_dark"
-                    :locale="localeChange"
                     :first-day-of-week="firstDayOfweek"
+                    @input="pickerMenu = false"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -202,13 +201,13 @@ export default {
   props: ['open'],
   data() {
     return {
+      pickerMenu: false,
       loading: false,
       validForm: false,
       seePassword: true,
       seePassword2: true,
       name: '',
       date: '',
-      m_lastname: '',
       f_lastname: '',
       gender: '',
       doc_type: '',
@@ -239,6 +238,12 @@ export default {
       dateRules: [v => !!v || '']
     }
   },
+  computed: {
+    formatedDate() {
+      if (this.date === '') return ''
+      else return moment(this.date).format('LL')
+    }
+  },
   methods: {
     async signup() {
       this.loading = true
@@ -246,14 +251,13 @@ export default {
         rut: this.rut,
         email: this.email,
         nombre: this.name,
-        apellidoMaterno: this.m_lastname,
         apellidoPaterno: this.f_lastname,
         estado: 'ACT',
         fechaCreacion: moment(moment(), 'DD-MM-YYYY')
           .format('L')
           .split('/')
           .join('-'),
-        fechaNacimiento: `${this.day}-${this.month}-${this.year}`,
+        fechaNacimiento: this.date,
         password: this.password
       }
       console.log('params', params)
