@@ -1,6 +1,6 @@
 <template>
   <Container :open="open" :width="600" @close="$emit('close')">
-    <v-container>
+    <v-container class="pt-0">
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">

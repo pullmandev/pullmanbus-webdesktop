@@ -8,17 +8,18 @@
     <v-card color="orange" dark class="rounded-search-box">
       <div class="d-flex justify-end">
         <v-btn
-          text
-          small
+          max-width="25px"
+          max-height="25px"
           fab
-          class="white--text mt-2 mr-4"
+          class="white--text mt-2 mr-4 elevation-1"
+          color="white"
           @click="
             $store.dispatch('SET_SESSION_DIALOG', {
               type: 'open',
               open: false
             })
           "
-          ><v-icon>clear</v-icon>
+          ><v-icon color="orange">clear</v-icon>
         </v-btn>
       </div>
       <slot></slot>

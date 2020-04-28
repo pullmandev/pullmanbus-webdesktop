@@ -1,6 +1,6 @@
 <template>
   <Container :open="open" :width="300" @close="$emit('close')">
-    <v-container>
+    <v-container class="pt-0">
       <v-row class="mt-5">
         <v-form v-model="validForm">
           <v-col cols="12" class="text-center">
@@ -27,14 +27,14 @@
             <v-btn
               block
               class="white--text search-font rounded-search"
-              color="error"
+              color="blue_dark"
               @click="sendEmail"
               :disabled="!validForm || loading"
             >
               <template v-if="loading">
                 <v-progress-circular
                   indeterminate
-                  color="primarylight"
+                  color="blue_dark"
                 ></v-progress-circular>
               </template>
               <template v-else>
@@ -89,7 +89,10 @@ export default {
           title: this.translate('send_password_success'),
           type: 'info'
         })
-        this.$router.push({ path: '/change_pass' })
+        this.$store.dispatch('SET_SESSION_DIALOG', {
+          type: 'dialogType',
+          dialogType: 'confirmation' //'change_pass'
+        })
       }
     }
   }
