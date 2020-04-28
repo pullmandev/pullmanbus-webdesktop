@@ -128,9 +128,7 @@
               <v-btn
                 color="blue_dark"
                 class="white--text"
-                @click="
-                  $router.push({ path: '/login', query: { fromService: true } })
-                "
+                @click="openDialog('login')"
               >
                 <span class="capitalize" v-lang.login></span>
               </v-btn>
@@ -143,6 +141,7 @@
 </template>
 <script>
 import validations from '@/helpers/fieldsValidation'
+import openDialog from '@/helpers/openDialog'
 
 export default {
   props: ['dialog'],
@@ -168,7 +167,19 @@ export default {
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },
+  mounted() {
+    this.$store.watch(
+      (state, getters) => getters.userData,
+      userData => {
+        if (Object.keys(userData.usuario).length > 0) {
+          this.$emit('loged')
+          this.$emit('finish')
+        }
+      }
+    )
+  },
   methods: {
+    openDialog,
     confirm() {
       const paymentInfo = {
         name: this.name,

@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :fluid="fluid">
     <v-card color="blue_dark" dark>
       <div class="d-flex flex-no-wrap justify-space-between">
         <div
@@ -31,7 +31,8 @@ export default {
     height: {
       type: [Number, String],
       default: 400
-    }
+    },
+    fluid: Boolean
   },
   data: () => ({
     src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',

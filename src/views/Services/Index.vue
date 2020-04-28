@@ -2,14 +2,12 @@
   <div class="ServicesBackground font">
     <!-- Principal View -->
     <div style="margin-top: 64px"></div>
-    <v-content class="displayNoneSm">
-      <Promotions height="270">
-        <template slot="promotion">
-          <p class="headline d-block">Aprovecha las promociones</p>
-          <p class="display-2">Hasta 40% de descuento</p>
-        </template>
-      </Promotions>
-    </v-content>
+    <Promotions height="270" fluid="true">
+      <template slot="promotion">
+        <p class="headline d-block">Aprovecha las promociones</p>
+        <p class="display-2">Hasta 40% de descuento</p>
+      </template>
+    </Promotions>
     <router-view></router-view>
     <v-btn
       fab

@@ -21,7 +21,7 @@ export default {
   },
   mounted() {
     const { fromFail } = localStorage
-    if (fromFail || this.$route.query.fromLogin) {
+    if (fromFail) {
       localStorage.removeItem('fromFail')
     } else if (this.$store.state.services.data.length < 1) {
       this.$store.dispatch('LOAD_SERVICES_LIST')

@@ -52,16 +52,48 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn text @click="openDialog('login')">
-        <v-img
-          class="mx-2"
-          src="../../static/logos/header/Iconos-24.png"
-          height="30"
-          width="30"
-        />
-        Iniciar sesion
-      </v-btn>
-
+      <template v-if="Object.keys(user.usuario).length <= 0">
+        <v-btn text @click="openDialog('login')">
+          <v-img
+            class="mx-2"
+            src="../../static/logos/header/Iconos-24.png"
+            height="30"
+            width="30"
+          />
+          Iniciar sesion
+        </v-btn>
+      </template>
+      <template v-else>
+        <v-menu
+          bottom
+          offset-y
+          style="display: flex; height: 100%; align-items: center;"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn class="white--text" text v-on="on">
+              <v-img
+                class="mx-2"
+                src="../../static/logos/header/Iconos-24.png"
+                height="30"
+                width="30"
+              />
+              <span
+                class="hidden-sm-and-down header-text capitalize"
+                v-lang.my_account
+              ></span>
+              <v-icon>arrow_drop_down</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="$router.push({ name: 'my_profile' })">
+              <v-list-item-title v-lang.my_profile></v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="signOut">
+              <v-list-item-title v-lang.sign_out></v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </template>
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
@@ -84,6 +116,7 @@
 </template>
 <script>
 import openDialog from '@/helpers/openDialog'
+import { mapGetters } from 'vuex'
 export default {
   data: () => ({
     loginDialog: false,
@@ -96,8 +129,15 @@ export default {
       { title: 'Contacto' }
     ]
   }),
+  computed: mapGetters({
+    user: ['userData']
+  }),
   methods: {
-    openDialog
+    openDialog,
+    signOut() {
+      this.$store.dispatch('DELETE_USER')
+      this.$router.push({ path: '/' })
+    }
   }
 }
 </script>

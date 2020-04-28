@@ -126,6 +126,7 @@ export default {
       API.auth({ usuario: this.email, password: this.password })
         .then(response => {
           const data = JSON.parse(JSON.stringify(response.data))
+          console.log(response.data)
           if (!data.exito) {
             this.$notify({
               group: 'error',
@@ -166,12 +167,10 @@ export default {
               active: true
             }
           })
-          if (this.$route.query.fromService) {
-            this.$store.dispatch('SET_STEP', { step: 2 })
-            this.$router.push({ path: '/services', query: { fromLogin: true } })
-          } else {
-            this.$router.push({ path: '/' })
-          }
+          this.$store.dispatch('SET_SESSION_DIALOG', {
+            type: 'open',
+            open: false
+          })
         })
         .catch(err => console.log(err))
         .finally(() => {

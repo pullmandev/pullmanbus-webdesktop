@@ -44,7 +44,6 @@
                   v-model="pickerMenu"
                   :close-on-content-click="false"
                   transition="scale-transition"
-                  full-width
                   color="blue-dark"
                   max-width="290px"
                   min-width="290px"
@@ -58,7 +57,6 @@
                       placeholder="Fecha de nacimiento"
                       v-on="on"
                       color="grey lighten-4"
-                      :label="languageChange"
                       v-model="formatedDate"
                       readonly
                     >
@@ -68,7 +66,6 @@
                     min="1920-01-01"
                     v-model="date"
                     color="blue_dark"
-                    :first-day-of-week="firstDayOfweek"
                     @input="pickerMenu = false"
                   >
                   </v-date-picker>
@@ -263,8 +260,12 @@ export default {
       console.log('params', params)
       const response = await API.signup(params)
       this.loading = false
+      console.log(response.data)
       if (response.data.exito) {
-        this.$router.push({ path: '/login' })
+        this.$store.dispatch('SET_SESSION_DIALOG', {
+          type: 'dialogType',
+          dialogType: 'signup'
+        })
       } else {
         this.$notify({
           group: 'error',

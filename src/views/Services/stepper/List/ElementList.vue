@@ -135,6 +135,7 @@
     <Dialog
       :dialog="dialog"
       @finish="dialog = false"
+      @loged="goToPayment"
       @confirm="goToPaymentFromModal"
     />
   </div>
