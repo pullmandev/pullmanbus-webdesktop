@@ -54,12 +54,11 @@
                       <template v-if="seat !== null">
                         <!-- baño -->
                         <template v-if="seat.includes('B')">
-                          <div class="my-1">
-                            <img
-                              src="static/imgs/grid/wc.svg"
-                              alt=""
-                              class="wcSize"
-                            />
+                          <div
+                            style="height: 33px; width: 33px;"
+                            class="d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
+                          >
+                            <span>WC</span>
                           </div>
                         </template>
                         <div
@@ -196,7 +195,6 @@ export default {
     Dialog
   },
   mounted() {
-    console.log('fromMounted', this.item, this.expanded)
     this.getSeats(this.item, this.expanded)
   },
   computed: {
@@ -362,25 +360,12 @@ export default {
       this.floorArray = item.pisos.length > 1 ? [0, 1] : [0]
       this.selectedFloor = item.pisos[0].piso
       this.data = item
-      // if (!expanded) {
-      //   return
-      // }
       if (this.bus.grilla.length > 0) {
         return
       }
       this.loadingSeats = true
-      console.log('parent item', item)
       this.createDataForRequest()
       const mapResponse = await API.getMap({
-        idServicio: item.idServicio,
-        tipoBusPiso1: item.busPiso1,
-        tipoBusPiso2: item.busPiso2,
-        fechaServicio: item.fechaServicio,
-        idOrigen: item.idTerminalOrigen,
-        idDestino: item.idTerminalDestino,
-        integrador: item.integrador
-      })
-      console.log('availabilityParams', {
         idServicio: item.idServicio,
         tipoBusPiso1: item.busPiso1,
         tipoBusPiso2: item.busPiso2,

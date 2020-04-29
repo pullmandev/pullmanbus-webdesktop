@@ -1,8 +1,8 @@
 <template>
   <div class="ServicesBackground font">
     <!-- Principal View -->
-    <div style="margin-top: 64px"></div>
-    <Promotions height="270" fluid="true">
+    <div style="margin-top: 52px"></div>
+    <Promotions height="270" banner="true">
       <template slot="promotion">
         <p class="headline d-block">Aprovecha las promociones</p>
         <p class="display-2">Hasta 40% de descuento</p>

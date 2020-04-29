@@ -1,6 +1,6 @@
 <template>
-  <v-container :fluid="fluid">
-    <v-card color="blue_dark" dark>
+  <v-container :fluid="banner" :px-0="banner">
+    <v-card color="blue_dark" dark :class="{ 'null-radius': banner }">
       <div class="d-flex flex-no-wrap justify-space-between">
         <div
           class="text-center d-flex justify-center align-center flex-column"
@@ -32,7 +32,7 @@ export default {
       type: [Number, String],
       default: 400
     },
-    fluid: Boolean
+    banner: Boolean
   },
   data: () => ({
     src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg',
@@ -41,3 +41,8 @@ export default {
   })
 }
 </script>
+<style scoped>
+.null-radius {
+  border-radius: 0 !important;
+}
+</style>

@@ -91,11 +91,17 @@
                       </td>
                       <td>
                         <v-btn
-                          dark
-                          color="blue"
+                          fab
+                          icon
+                          :class="{
+                            'icon-service-expanded': props.isExpanded
+                          }"
                           @click="props.expand(!props.isExpanded)"
-                          >Comprar</v-btn
                         >
+                          <v-icon size="30" color="orange_dark"
+                            >keyboard_arrow_right</v-icon
+                          >
+                        </v-btn>
                       </td>
                     </tr>
                   </template>
@@ -308,11 +314,6 @@ export default {
   transform: rotate(90deg);
 }
 
-.icon-service {
-  color: var(--var-red);
-  font-size: 30px;
-}
-
 .service-company-image {
   margin-top: 20px;
   width: 200px;
@@ -358,22 +359,6 @@ export default {
 .noServices {
   min-height: 25vh;
 }
-/* .arrow .expansion-panel__header .icon {
-  color: rgba(63, 12, 182, 0.54);
-  font-size: 60px;
-}
-
-.arrow .expansion-panel__header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  cursor: pointer;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  position: relative;
-  height: 110px;
-} */
 
 .card__text {
   padding: 2px !important;

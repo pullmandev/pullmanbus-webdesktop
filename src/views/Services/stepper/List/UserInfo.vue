@@ -1,10 +1,9 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="500px">
-      <!-- <v-btn color="primary" dark slot="activator">Open Dialog</v-btn> -->
-      <v-card class="pt-3 pr-3 pl-3" color="orange">
+      <v-card class="pt-3 pr-3 pl-3">
         <v-card-title class="px-2">
-          <span class="headline white--text" v-lang.purchase_data></span>
+          <span class="headline blue_dark--text" v-lang.purchase_data></span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -13,7 +12,7 @@
                 <v-col cols="6">
                   <v-text-field
                     v-model="name"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
@@ -23,13 +22,12 @@
                     clearable
                     :rules="generalRules"
                     required
-                    class="app-textfield"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="lastname"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
@@ -37,13 +35,12 @@
                     :label="translate('lastname')"
                     outline
                     clearable
-                    class="app-textfield"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="rut"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
@@ -53,13 +50,12 @@
                     outline
                     clearable
                     required
-                    class="app-textfield"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="movil"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
@@ -69,33 +65,31 @@
                     placeholder=" "
                     :hint="translate('insert_mobile')"
                     mask="#### ####"
-                    class="app-textfield custom-prefix"
+                    class="custom-prefix"
                   />
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="email"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
                     :rules="emailRules"
                     label="E-mail"
                     required
-                    class="app-textfield"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="6">
                   <v-text-field
                     v-model="confirmemail"
-                    dark
+                    color="blue"
                     filled
                     outlined
                     dense
                     :rules="emailconfirmRules"
                     :label="translate('confirm_email')"
                     required
-                    class="app-textfield"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -105,23 +99,18 @@
         <v-card-actions>
           <v-row justify="center">
             <v-col cols="6" class="d-flex justify-end">
-              <v-btn
-                text
-                class="white--text"
-                @click.native="$emit('finish')"
-                v-lang.back
-              ></v-btn>
+              <v-btn text @click.native="$emit('finish')" v-lang.back></v-btn>
             </v-col>
             <v-col cols="6">
               <v-btn
-                color="light"
-                class="orange--text"
+                color="orange"
+                class="white--text"
                 @click.native="confirm"
                 :disabled="!validForm"
                 v-lang.continue
               ></v-btn>
             </v-col>
-            <v-col cols="12" class="text-center white--text">
+            <v-col cols="12" class="text-center">
               <span>ó</span>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
