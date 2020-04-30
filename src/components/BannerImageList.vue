@@ -7,9 +7,9 @@
       {{ subTitle }}
     </h4>
     <v-container>
-      <v-row>
+      <v-row no-gutters>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
-          <v-card class="mx-auto">
+          <v-card class="mx-1">
             <v-img
               class="white--text align-end"
               :class="{ 'align-center': index === 1 }"

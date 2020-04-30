@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Header from './components/Header'
+import Header from './components/Header/Index'
 import Footer from './components/Footer'
 import SessionDialog from '@/views/Login/Index'
 
