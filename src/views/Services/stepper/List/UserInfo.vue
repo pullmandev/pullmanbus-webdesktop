@@ -164,7 +164,7 @@ export default {
     this.$store.watch(
       (state, getters) => getters.userData,
       userData => {
-        if (Object.keys(userData.usuario).length > 0) {
+        if (Object.keys(userData.usuario).length > 0 && this.dialog) {
           this.$emit('loged')
           this.$emit('finish')
         }

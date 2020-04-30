@@ -67,6 +67,8 @@
                     v-model="date"
                     color="blue_dark"
                     @input="pickerMenu = false"
+                    :first-day-of-week="this.language === 'en' ? 0 : 1"
+                    :locale="translate('locale')"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -254,7 +256,7 @@ export default {
           .format('L')
           .split('/')
           .join('-'),
-        fechaNacimiento: this.date,
+        fechaNacimiento: moment(this.date).format('DD-MM-YYYY'),
         password: this.password
       }
       console.log('params', params)

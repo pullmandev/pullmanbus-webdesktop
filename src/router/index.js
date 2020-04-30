@@ -5,6 +5,14 @@ import ServicesContainer from '../views/Services/Index.vue'
 import Services from '../views/Services/Services.vue'
 import Payment from '../views/Services/Payment/Index.vue'
 import Confirmation from '@/views/Services/Confirmation.vue'
+
+// Profile
+import Profile from '@/views/Profile/Index'
+import Purchases from '@/views/Profile/Purchases'
+import PersonalData from '@/views/Profile/PersonalData'
+import CancelPurchase from '@/views/Profile/CancelPurchase'
+import ProfilePassword from '@/views/Profile/ProfilePassword'
+
 import Voucher from '@/views/Services/Voucher.vue'
 import Fail from '@/views/Services/Fail.vue'
 import Error404 from '@/views/ErrorPages/Error404.vue'
@@ -45,6 +53,32 @@ const routes = [
         path: '/fail/:id',
         name: 'fail',
         component: Fail
+      }
+    ]
+  },
+  {
+    path: '/profile',
+    component: Profile,
+    children: [
+      {
+        name: 'my_profile',
+        path: 'my_profile',
+        component: PersonalData
+      },
+      {
+        name: 'purchases',
+        path: 'purchases',
+        component: Purchases
+      },
+      {
+        name: 'cancel_purchase',
+        path: 'cancel_purchase',
+        component: CancelPurchase
+      },
+      {
+        name: 'profile_pass',
+        path: 'password',
+        component: ProfilePassword
       }
     ]
   },
