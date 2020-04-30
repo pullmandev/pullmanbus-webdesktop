@@ -123,9 +123,12 @@ export default {
     languageMenu: [{ title: 'Español' }, { title: 'Ingles' }],
     languageSelected: 'Español',
     startMenu: [
-      { title: 'Inicio' },
       { title: 'Agencias' },
       { title: 'Pullman Pass' },
+      { title: 'Viajes Especiales' },
+      { title: 'Cuenta Corriente' },
+      { title: 'Venta Cuponera' },
+      { title: 'Destino del mes' },
       { title: 'Contacto' }
     ]
   }),

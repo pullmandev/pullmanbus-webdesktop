@@ -8,27 +8,27 @@ const tipoCuenta = endPoints.tipoCuenta
 const bancos = endPoints.bancos
 
 export default {
-  searchTicket (params) {
+  searchTicket(params) {
     return axios.post(buscarBoletoCode, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  searchTransaction (params) {
+  searchTransaction(params) {
     return axios.post(buscarTransEmail, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  cancel (params) {
+  cancel(params) {
     return axios.post(cancel, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  tipoCuenta (params) {
+  tipoCuenta(params) {
     return axios.post(tipoCuenta, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  bancos () {
+  bancos() {
     return axios.post(bancos, null, {
       headers: { 'Content-Type': 'application/json' }
     })

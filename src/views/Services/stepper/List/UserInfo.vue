@@ -99,7 +99,11 @@
         <v-card-actions>
           <v-row justify="center">
             <v-col cols="6" class="d-flex justify-end">
-              <v-btn text @click.native="$emit('finish')" v-lang.back></v-btn>
+              <v-btn
+                outlined
+                @click.native="$emit('finish')"
+                v-lang.back
+              ></v-btn>
             </v-col>
             <v-col cols="6">
               <v-btn

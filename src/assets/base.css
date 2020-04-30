@@ -1,12 +1,12 @@
-:root {
-  --var-blue_dark: #1110AD;
-  --var-blue: #1715E6;
-  --var-blue_light: #2069E0;
-  --var-blue_variant: #4AC2CE;
-  --var-yellow: #FFA71A;
-  --var-orange: #FF5500;
-  --var-orange_dark: #EA4006;
-  --var-light: #F7F7F7;
+  :root {
+    --var-blue_dark: #1110AD;
+    --var-blue: #1715E6;
+    --var-blue_light: #2069E0;
+    --var-blue_variant: #4AC2CE;
+    --var-yellow: #FFA71A;
+    --var-orange: #FF5500;
+    --var-orange_dark: #EA4006;
+    --var-light: #F7F7F7;
   }
   
   @font-face {

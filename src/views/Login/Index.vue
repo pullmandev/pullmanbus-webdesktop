@@ -10,6 +10,11 @@
     <Confirmation
       :open="sessionDialog.dialogType === 'confirmation' && sessionDialog.open"
     />
+    <ChangePassword
+      :open="
+        sessionDialog.dialogType === 'changePassword' && sessionDialog.open
+      "
+    />
   </div>
 </template>
 <script>
@@ -17,6 +22,7 @@ import Login from '@/views/Login/Login'
 import SignUp from '@/views/Login/SignUp'
 import SendPassword from '@/views/Login/SendPassword'
 import Confirmation from '@/views/Login/Confirmation'
+import ChangePassword from '@/views/Login/ChangePassword'
 import { mapState } from 'vuex'
 
 export default {
@@ -24,7 +30,8 @@ export default {
     Login,
     SignUp,
     SendPassword,
-    Confirmation
+    Confirmation,
+    ChangePassword
   },
   computed: mapState(['sessionDialog'])
 }
