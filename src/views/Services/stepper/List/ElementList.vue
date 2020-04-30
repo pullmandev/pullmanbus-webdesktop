@@ -181,7 +181,7 @@ export default {
       selectedService: ['getSelectedService'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
-      companiesFilter: ['getUserCompanyFilter'],
+      // companiesFilter: ['getUserCompanyFilter'],
       payment_info: ['payment_info']
     }),
     headers() {
@@ -223,19 +223,19 @@ export default {
       const text = this.translate('results_page')
       return this.windowSize.x <= 600 ? text.split(' ')[0] : text
     },
-    getIdCompanyBySearch() {
-      const filter = this.search.trim().toLowerCase()
-      const filtered = this.companiesFilter.filter(item => {
-        if (item.name === 'Todos') {
-          return false
-        }
-        const companyName = item.name.toLowerCase()
-        const regex = new RegExp(filter)
-        return regex.test(companyName)
-      })
-      console.log('filtered', filtered)
-      return filtered.map(item => item.id)
-    },
+    // getIdCompanyBySearch() {
+    //   const filter = this.search.trim().toLowerCase()
+    //   const filtered = this.companiesFilter.filter(item => {
+    //     if (item.name === 'Todos') {
+    //       return false
+    //     }
+    //     const companyName = item.name.toLowerCase()
+    //     const regex = new RegExp(filter)
+    //     return regex.test(companyName)
+    //   })
+    //   console.log('filtered', filtered)
+    //   return filtered.map(item => item.id)
+    // },
     services() {
       const services = this.servicesList(this.back)
       return services

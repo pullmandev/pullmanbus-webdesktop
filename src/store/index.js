@@ -6,7 +6,7 @@ import APIService from '@/services/api/services'
 import APICities from '@/services/api/cities'
 import router from '../router'
 import moment from 'moment'
-import companiesList from '../../companies.json'
+// import companiesList from '../../companies.json'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -43,9 +43,9 @@ const store = new Vuex.Store({
       hours: {
         min: 0,
         max: 1439
-      },
-      companies: [],
-      selectedCompany: 'Todos'
+      }
+      // companies: [],
+      // selectedCompany: 'Todos'
     },
     selected: false,
     grid: [],
@@ -140,21 +140,21 @@ const store = new Vuex.Store({
             text: this.$translate('no_av_services')
           })
           commit('SET_SERVICES_LIST', {list: []})
-          dispatch('SET_USER_FILTER', {filter: [], type: 'companies'})
+          // dispatch('SET_USER_FILTER', {filter: [], type: 'companies'})
           dispatch('SET_USER_FILTER', {filter: [], type: 'class'})
           return
         }
         router.push('/services')
         if (resultData) {
           commit('SET_SERVICES_LIST', {list: resultData})
-          const companies = []
+          // const companies = []
           const classes = []
           resultData.forEach(item => {
-            if (companies.length < 1) {
-              companies.push(item.empresa)
-            } else if (companies.filter(company => company === item.empresa).length < 1) {
-              companies.push(item.empresa)
-            }
+            // if (companies.length < 1) {
+            //   companies.push(item.empresa)
+            // } else if (companies.filter(company => company === item.empresa).length < 1) {
+            //   companies.push(item.empresa)
+            // }
             const firstService = item.servicioPrimerPiso
             const secondService = item.servicioSegundoPiso
             if (classes.length < 1) {
@@ -171,11 +171,11 @@ const store = new Vuex.Store({
               }
             }
           })
+          // companies.push('Todos')
+          // dispatch('SET_USER_FILTER', {filter: companies, type: 'companies'})
+          // dispatch('SET_USER_FILTER', {filter: 'Todos', type: 'selectedCompany'})
           classes.push('Todos')
-          companies.push('Todos')
-          dispatch('SET_USER_FILTER', {filter: companies, type: 'companies'})
           dispatch('SET_USER_FILTER', {filter: classes, type: 'class'})
-          dispatch('SET_USER_FILTER', {filter: 'Todos', type: 'selectedCompany'})
           dispatch('SET_USER_FILTER', {filter: 'Todos', type: 'selectedClass'})
         }
       })
@@ -213,8 +213,8 @@ const store = new Vuex.Store({
     SET_USER_FILTER ({commit}, payload) {
       if (payload.type === 'class') commit('SET_CLASS_FILTER', {filter: payload.filter})
       if (payload.type === 'selectedClass') commit('SET_SELECTED_CLASS_FILTER', {filter: payload.filter})
-      if (payload.type === 'companies') commit('SET_COMPANIE_FILTER', {filter: payload.filter})
-      if (payload.type === 'selectedCompany') commit('SET_SELECTED_COMPANY_FILTER', {filter: payload.filter})
+      // if (payload.type === 'companies') commit('SET_COMPANIE_FILTER', {filter: payload.filter})
+      // if (payload.type === 'selectedCompany') commit('SET_SELECTED_COMPANY_FILTER', {filter: payload.filter})
       if (payload.type === 'prices') commit('SET_PRICE_FILTER', {filter: payload.filter})
       if (payload.type === 'hours') commit('SET_HOUR_FILTER', {filter: payload.filter})
     },
@@ -300,12 +300,12 @@ const store = new Vuex.Store({
     SET_SELECTED_CLASS_FILTER: (state, {filter}) => {
       state.serviceFilters.selectedClass = filter
     },
-    SET_COMPANIE_FILTER: (state, {filter}) => {
-      state.serviceFilters.companies = filter
-    },
-    SET_SELECTED_COMPANY_FILTER: (state, {filter}) => {
-      state.serviceFilters.selectedCompany = filter
-    },
+    // SET_COMPANIE_FILTER: (state, {filter}) => {
+    //   state.serviceFilters.companies = filter
+    // },
+    // SET_SELECTED_COMPANY_FILTER: (state, {filter}) => {
+    //   state.serviceFilters.selectedCompany = filter
+    // },
     SET_PRICE_FILTER: (state, {filter}) => {
       state.serviceFilters.prices = filter
     },
@@ -370,9 +370,9 @@ const store = new Vuex.Store({
       const serviceFilters = state.serviceFilters
       const servicesByCompany = state.services.data.filter((service) => {
         let filter = true
-        if (serviceFilters.selectedCompany !== 'Todos') {
-          filter = service.empresa === serviceFilters.selectedCompany
-        }
+        // if (serviceFilters.selectedCompany !== 'Todos') {
+        //   filter = service.empresa === serviceFilters.selectedCompany
+        // }
         const timeSplited = service.horaSalida.split(':')
         const hours = parseInt(timeSplited[0]*60)
         const minutes = parseInt(timeSplited[1])
@@ -498,20 +498,20 @@ const store = new Vuex.Store({
       }
       return []
     },
-    getUserCompanyFilter: state => {
-      if (state.serviceFilters.companies) {
-        const ids = state.serviceFilters.companies
-        return companiesList.filter(company => {
-          for (let id of ids) {
-            if (company.id === id) {
-              return true
-            }
-          }
-          return false
-        })
-      }
-      return []
-    },
+    // getUserCompanyFilter: state => {
+    //   if (state.serviceFilters.companies) {
+    //     const ids = state.serviceFilters.companies
+    //     return companiesList.filter(company => {
+    //       for (let id of ids) {
+    //         if (company.id === id) {
+    //           return true
+    //         }
+    //       }
+    //       return false
+    //     })
+    //   }
+    //   return []
+    // },
     set_step: state => {
       return state.step
     },
