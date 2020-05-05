@@ -13,18 +13,18 @@
           <!-- First expasión Panel-->
           <v-expansion-panel
             :key="index"
-            v-for="(company, index) in getPricesByCompany"
+            v-for="(service, index) in itemsPerPage"
             class="arrow elevation-0"
           >
             <v-expansion-panel-header>
               <v-row>
                 <v-col cols="3">
                   <span class="headline d-block">
-                    {{ company.data[0].horaSalida | to12 }}
+                    {{ service.horaSalida | to12 }}
                   </span>
                   <span class="body-2 d-block"><b>Salida:</b></span>
                   <span class="body-2 d-block">{{
-                    company.data[0].terminalSalida
+                    service.terminalSalida
                   }}</span>
                 </v-col>
                 <v-col cols="2" class="text-center pr-12">
@@ -35,100 +35,25 @@
                 </v-col>
                 <v-col cols="3">
                   <span class="headline d-block">
-                    {{
-                      company.data[company.data.length - 1].horaSalida | to12
-                    }}
+                    {{ service.horaLlegada | to12 }}
                   </span>
                   <span class="body-2 d-block"><b>Llegada:</b></span>
                   <span class="body-2 d-block">{{
-                    company.data[0].terminalDestino
+                    service.terminalDestino
                   }}</span>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <div>
-                <div v-if="company && company.data.length > 0">
-                  <floor
-                    v-for="(item, index) in company.data"
-                    :key="index"
-                    :back="back"
-                    :item="item"
-                    :expanded="true"
-                    :isXs="windowSize.x <= 600"
-                    @confirm="showModal"
-                  />
-                </div>
-                <!-- <v-data-table
-                  v-if="company && company.data.length > 0"
-                  no-data-text
-                  hide-default-footer
-                  :headers="headers"
-                  :items="company.data"
-                  item-key="id"
-                  style="width: 100%;"
-                  show-expand
-                >
-                  <template slot="item" slot-scope="props">
-                    <tr
-                      @click="props.expanded = !props.expanded"
-                      class="result"
-                    >
-                      <td></td>
-                      <td>
-                        <h3 v-if="props.item.pisos[0]">
-                          {{ props.item.pisos[0].servicio }}
-                        </h3>
-                        <small
-                          style="font-size: 12px;"
-                          v-if="props.item.pisos[1]"
-                        >
-                          {{ props.item.pisos[1].servicio }}
-                        </small>
-                      </td>
-                      <td :class="{ 'px-0': windowSize.x <= 600 }">
-                        <h2>{{ props.item.pisosNumber }}</h2>
-                      </td>
-                      <td>
-                        <h2 v-if="props.item.pisos[0]">
-                          $ {{ props.item.pisos[0].tarifaInternet }}
-                        </h2>
-                        <small
-                          style="font-size: 14px;"
-                          v-if="props.item.pisos[1]"
-                        >
-                          $ {{ props.item.pisos[1].tarifaInternet }}
-                        </small>
-                      </td>
-                      <td>
-                        <v-btn
-                          fab
-                          icon
-                          :class="{
-                            'icon-service-expanded': props.isExpanded
-                          }"
-                          @click="props.expand(!props.isExpanded)"
-                        >
-                          <v-icon size="30" color="orange_dark"
-                            >keyboard_arrow_right</v-icon
-                          >
-                        </v-btn>
-                      </td>
-                    </tr>
-                  </template>
-                  <template slot="expanded-item" slot-scope="props">
-                    <td :colspan="props.headers.length" class="px-0">
-                      <floor
-                        ref="floor"
-                        :back="back"
-                        :item="props.item"
-                        :expanded="props.expanded"
-                        :isXs="windowSize.x <= 600"
-                        @confirm="showModal"
-                      />
-                    </td>
-                  </template>
-                </v-data-table> -->
+                <floor
+                  v-if="service"
+                  :back="back"
+                  :item="service"
+                  :expanded="true"
+                  :isXs="windowSize.x <= 600"
+                  @confirm="showModal"
+                />
                 <v-alert
                   v-else
                   color="warning"
@@ -143,6 +68,14 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
+        <v-pagination
+          color="blue_dark"
+          circle
+          v-model="page"
+          :length="paginationLength"
+          :total-visible="7"
+          class="mt-12"
+        ></v-pagination>
       </v-container>
     </div>
     <v-card v-else class="elevation-0">
@@ -161,12 +94,12 @@ import Floor from '@/views/Services/stepper/List/Floor'
 import Dialog from '@/views/Services/stepper/List/UserInfo'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
-import _ from 'lodash'
 
 export default {
   props: ['search', 'back'],
   data() {
     return {
+      page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       dialog: false,
       expand: false,
@@ -193,38 +126,6 @@ export default {
       loadingServices: ['getLoadingService'],
       payment_info: ['payment_info']
     }),
-    headers() {
-      return [
-        {
-          text: this.$t('service'),
-          sortable: false,
-          value: 'servicioPrimerPiso',
-          class: 'hidden-sm-and-down',
-          align: 'start'
-        },
-        {
-          text: this.$t('floors'),
-          sortable: false,
-          value: 'pisosNumber',
-          align: 'left',
-          class: this.windowSize.x <= 600 ? 'px-0' : ''
-        },
-        {
-          text: '',
-          sortable: false,
-          value: 'tarifaPrimerPiso',
-          align: 'left',
-          class: 'hidden-sm-and-down'
-        },
-        {
-          text: ' ',
-          sortable: false,
-          value: '',
-          align: 'center',
-          class: 'hidden-sm-and-down'
-        }
-      ]
-    },
     langSearch() {
       return this.$t('search')
     },
@@ -236,39 +137,25 @@ export default {
       const services = this.servicesList(this.back)
       return services
     },
-    getPricesByCompany() {
-      const classFilter = this.$store.state.serviceFilters.class
-      const result = this.services.map(company => {
-        let list = []
-        company.data.map(service => {
-          const result = service.pisos.map(piso => {
-            return _.pick(piso, ['servicio', 'tarifaInternet'])
-          })
-          list = list.concat(result)
-          if (service.pisos.length > 1) {
-            service.pisosNumber = '02'
-          } else {
-            service.pisosNumber = '01'
-          }
-          return service
-        })
-        list.sort((a, b) => {
-          return a.tarifaInternet - b.tarifaInternet
-        })
-        let lowPrices = []
-        classFilter.forEach(service => {
-          if (service != 'Todos') {
-            const sortedItem = list.filter(item => item.servicio === service)[0]
-            lowPrices.push({
-              servicio: service,
-              tarifa: sortedItem ? sortedItem.tarifaInternet : 0
-            })
-          }
-        })
-        return { ...company, lowPrices }
-      })
-      console.log('low', result)
-      return result
+    paginationLength() {
+      return Math.ceil(this.services.length / 5)
+    },
+    itemsPerPage() {
+      let pages = []
+      let page = []
+      for (const servicesGroup of this.services) {
+        page.push(servicesGroup)
+        if (page.length === 5) {
+          pages.push(page)
+          page = []
+        }
+      }
+      if (page.length > 0) {
+        pages.push(page)
+        page = []
+      }
+      console.log('view', this.services)
+      return pages[this.page - 1]
     }
   },
   methods: {

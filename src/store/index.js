@@ -469,16 +469,7 @@ const store = new Vuex.Store({
         }
       })
       // Obteniendo data
-      services.map(item => {
-        for (let service of servicesTemp) {
-          if (item.id === service.horaSalida + service.horaLlegada + service.terminaLlegada) {
-            item.data.push({id: service.idServicio + service.idTerminalOrigen, ...service})
-          }
-        }
-        return item
-      })
-      console.log('services result', services)
-      return services
+      return servicesTemp
     },
     getSelectedService: state => {
       return state.services.selected
