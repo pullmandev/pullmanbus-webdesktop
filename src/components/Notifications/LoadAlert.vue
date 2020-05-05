@@ -7,11 +7,11 @@
     position="bottom right"
   >
     <template slot="body" slot-scope="props">
-      <div class="custom-template font">
+      <div class="custom-template font pl-5">
         <div class="custom-template-icon">
           <v-progress-circular
             indeterminate
-            :size="40"
+            :size="30"
             color="blue_light"
           ></v-progress-circular>
         </div>

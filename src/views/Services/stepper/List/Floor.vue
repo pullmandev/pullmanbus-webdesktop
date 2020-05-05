@@ -27,7 +27,8 @@
                 {{ $t('floor') }} {{ selectedFloor + 1 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
-                {{ data.pisos[selectedFloor].servicio }}
+                {{ data.pisos[selectedFloor].servicio }} -
+                {{ data.pisos[floorArray].tarifaInternet }}
               </h4>
               <v-row justify="center" dense>
                 <v-col
@@ -168,7 +169,7 @@ import API from '@/services/api/seats'
 import _ from 'lodash'
 
 export default {
-  props: ['item', 'expanded', 'isXs', 'back'],
+  props: ['item', 'isXs', 'back'],
   data() {
     return {
       seatImageBase: '../../../../../static/logos/seats/',
@@ -195,7 +196,7 @@ export default {
     Dialog
   },
   mounted() {
-    this.getSeats(this.item, this.expanded)
+    this.getSeats(this.item)
   },
   computed: {
     ...mapGetters({

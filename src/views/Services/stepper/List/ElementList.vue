@@ -48,7 +48,18 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <div>
-                <v-data-table
+                <div v-if="company && company.data.length > 0">
+                  <floor
+                    v-for="(item, index) in company.data"
+                    :key="index"
+                    :back="back"
+                    :item="item"
+                    :expanded="true"
+                    :isXs="windowSize.x <= 600"
+                    @confirm="showModal"
+                  />
+                </div>
+                <!-- <v-data-table
                   v-if="company && company.data.length > 0"
                   no-data-text
                   hide-default-footer
@@ -105,7 +116,6 @@
                       </td>
                     </tr>
                   </template>
-                  <!-- template of passenger -->
                   <template slot="expanded-item" slot-scope="props">
                     <td :colspan="props.headers.length" class="px-0">
                       <floor
@@ -118,7 +128,7 @@
                       />
                     </td>
                   </template>
-                </v-data-table>
+                </v-data-table> -->
                 <v-alert
                   v-else
                   color="warning"
@@ -181,7 +191,6 @@ export default {
       selectedService: ['getSelectedService'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
-      // companiesFilter: ['getUserCompanyFilter'],
       payment_info: ['payment_info']
     }),
     headers() {
@@ -223,19 +232,6 @@ export default {
       const text = this.$t('results_page')
       return this.windowSize.x <= 600 ? text.split(' ')[0] : text
     },
-    // getIdCompanyBySearch() {
-    //   const filter = this.search.trim().toLowerCase()
-    //   const filtered = this.companiesFilter.filter(item => {
-    //     if (item.name === 'Todos') {
-    //       return false
-    //     }
-    //     const companyName = item.name.toLowerCase()
-    //     const regex = new RegExp(filter)
-    //     return regex.test(companyName)
-    //   })
-    //   console.log('filtered', filtered)
-    //   return filtered.map(item => item.id)
-    // },
     services() {
       const services = this.servicesList(this.back)
       return services
