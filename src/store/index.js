@@ -454,21 +454,10 @@ const store = new Vuex.Store({
           pisos.push(pisoDos)
         }
         if (pisos.length > 0) {
-          servicesTemp.push({...Object.assign({}, item), pisos})
+          const id = item.idServicio + item.fechaSalida + item.idTerminalOrigen + item.idTerminalDestino
+          servicesTemp.push({...Object.assign({}, item), id, pisos})
         }
       })
-      // Obteniendo keys
-      servicesTemp.forEach(item => {
-        if (services.length < 1) {
-          services.push({id: item.horaSalida + item.horaLlegada + item.terminaLlegada, data: []})
-        } else {
-          const elements = services.filter(service => service.id === item.horaSalida + item.horaLlegada + item.terminaLlegada)
-          if (elements.length < 1) {
-            services.push({id: item.horaSalida + item.horaLlegada + item.terminaLlegada, data: []})
-          }
-        }
-      })
-      // Obteniendo data
       return servicesTemp
     },
     getSelectedService: state => {

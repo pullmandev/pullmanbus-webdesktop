@@ -12,8 +12,8 @@
         <v-expansion-panels class="elevation-0">
           <!-- First expasión Panel-->
           <v-expansion-panel
-            :key="index"
-            v-for="(service, index) in itemsPerPage"
+            :key="service.id"
+            v-for="service in itemsPerPage"
             class="arrow elevation-0"
           >
             <v-expansion-panel-header>
@@ -28,9 +28,9 @@
                   }}</span>
                 </v-col>
                 <v-col cols="2" class="text-center pr-12">
-                  <v-icon class="display-2 d-block" color="orange"
-                    >mdi-arrow-right</v-icon
-                  >
+                  <v-icon class="display-2 d-block" color="orange">
+                    mdi-arrow-right
+                  </v-icon>
                   <small>1h</small>
                 </v-col>
                 <v-col cols="3">
