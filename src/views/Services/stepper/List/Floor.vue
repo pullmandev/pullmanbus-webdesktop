@@ -28,7 +28,7 @@
               </h2>
               <h4 class="text-center mb-3 subheading">
                 {{ data.pisos[selectedFloor].servicio }} -
-                {{ data.pisos[floorArray].tarifaInternet }}
+                {{ data.pisos[selectedFloor].tarifaInternet }}
               </h4>
               <v-row justify="center" dense>
                 <v-col
