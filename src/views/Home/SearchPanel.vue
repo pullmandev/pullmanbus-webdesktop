@@ -8,8 +8,10 @@
         class="elevation-24 rounded-search-box mt-5 px-12 pt-7"
       >
         <v-card-text class="px-0"
-          ><h2 class="display-1 white--text" v-lang.travel_details></h2
-        ></v-card-text>
+          ><h2 class="display-1 white--text">
+            {{ $t('travel_details') }}
+          </h2></v-card-text
+        >
         <v-row>
           <v-col md="6" sm="12" class="py-0">
             <cities-list direction="from" />
@@ -31,7 +33,7 @@
               @click="validateSearch"
               :disabled="loadingServices"
             >
-              <span v-lang.search></span>
+              <span>{{ $t('search') }}</span>
             </v-btn>
           </v-col>
           <v-col md="1" />
@@ -60,7 +62,7 @@ export default {
     validateSearch() {
       this.$notify({
         group: 'stuck-load',
-        title: this.translate('search_services'),
+        title: this.$t('search_services'),
         type: 'info'
       })
       const { fromFail } = localStorage

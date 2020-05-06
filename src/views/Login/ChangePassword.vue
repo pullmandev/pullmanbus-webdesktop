@@ -4,10 +4,10 @@
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">
-            <h1 class="headline" v-lang.change_password2></h1>
+            <h1 class="headline">{{ $t('change_password2') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
-            <p v-lang.change_password_data></p>
+            <p>{{ $t('change_password_data') }}</p>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
@@ -16,7 +16,7 @@
               outlined
               dense
               v-model="email"
-              :label="translate('email')"
+              :label="$t('email')"
               outline-1
               color="grey lighten-4"
               :rules="emailRules"
@@ -45,7 +45,7 @@
               outlined
               dense
               v-model="password"
-              :label="translate('password')"
+              :label="$t('password')"
               :append-icon="seePassword2 ? 'visibility' : 'visibility_off'"
               @click:append="seePassword2 = !seePassword2"
               :type="seePassword2 ? 'password' : 'text'"
@@ -61,7 +61,7 @@
               outlined
               dense
               v-model="confirmpassword"
-              :label="translate('confirm_password')"
+              :label="$t('confirm_password')"
               outline-1
               :rules="passwordconfirmRules"
               :append-icon="seePassword3 ? 'visibility' : 'visibility_off'"
@@ -85,7 +85,7 @@
                 ></v-progress-circular>
               </template>
               <template v-else>
-                <span v-lang.send></span>
+                <span>{{ $t('send') }}</span>
               </template>
             </v-btn>
           </v-col>
@@ -144,15 +144,15 @@ export default {
       if (!response.data.exito) {
         this.$notify({
           group: 'error',
-          title: this.translate('change_password'),
+          title: this.$t('change_password'),
           type: 'error',
-          text: this.translate('change_password_error')
+          text: this.$t('change_password_error')
         })
         console.error(response.data)
       } else {
         this.$notify({
           group: 'info',
-          title: this.translate('change_password_success'),
+          title: this.$t('change_password_success'),
           type: 'info'
         })
         this.$router.push({ path: '/' })

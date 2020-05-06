@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="blue--text mb-6">{{ translate('my_purchases') }}</h1>
+    <h1 class="blue--text mb-6">{{ $t('my_purchases') }}</h1>
     <v-data-table
       :headers="transactionHeaders"
       :items="transactions"
@@ -72,21 +72,21 @@ export default {
     transactionHeaders() {
       return [
         {
-          text: this.translate('transaction_code'),
+          text: this.$t('transaction_code'),
           align: 'left',
           sortable: false,
           value: 'codigo',
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('state'),
+          text: this.$t('state'),
           value: 'estado',
           align: 'left',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('purchase_date'),
+          text: this.$t('purchase_date'),
           value: 'fechacompra',
           align: 'left',
           sortable: false,
@@ -111,42 +111,42 @@ export default {
     ticketsHeaders() {
       return [
         {
-          text: this.translate('ticket'),
+          text: this.$t('ticket'),
           align: 'left',
           sortable: false,
           value: 'boleto',
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('date'),
+          text: this.$t('date'),
           value: 'fechaHoraSalida',
           align: 'left',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('from_city2'),
+          text: this.$t('from_city2'),
           value: 'nombreTerminalOrigen',
           align: 'left',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('to_city2'),
+          text: this.$t('to_city2'),
           value: 'nombreTerminalDestino',
           align: 'left',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('seat'),
+          text: this.$t('seat'),
           value: 'asiento',
           align: 'left',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
-          text: this.translate('value'),
+          text: this.$t('value'),
           value: 'total',
           align: 'left',
           sortable: false,
@@ -175,7 +175,7 @@ export default {
     async getTicket(codigo) {
       this.$notify({
         group: 'load',
-        title: this.translate('get_ticket'),
+        title: this.$t('get_ticket'),
         type: 'info'
       })
       const response = await API.searchTicket({

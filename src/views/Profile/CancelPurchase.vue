@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="blue--text mb-6">{{ translate('cancellations') }}</h1>
+    <h1 class="blue--text mb-6">{{ $t('cancellations') }}</h1>
     <v-card max-width="800">
       <v-card-text>
         <p class="subheading">
@@ -360,16 +360,16 @@ export default {
       if (response.data.exito) {
         this.$notify({
           group: 'info',
-          title: this.translate('cancellations_success'),
+          title: this.$t('cancellations_success'),
           type: 'info'
         })
         this.clearData()
       } else {
         this.$notify({
           group: 'error',
-          title: this.translate('cancellation'),
+          title: this.$t('cancellation'),
           type: 'error',
-          text: this.translate('cancellations_error')
+          text: this.$t('cancellations_error')
         })
       }
       console.log('boletos', response.data)

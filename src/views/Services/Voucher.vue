@@ -5,10 +5,10 @@
         <v-container fluid>
           <v-row class="confirmation-title blue_dark--text">
             <v-col cols="12" md="12" lg="12">
-              <h1 v-lang.congratulations></h1>
+              <h1>{{ $t('congratulations') }}</h1>
             </v-col>
             <v-col cols="12" md="12" lg="12">
-              <p v-lang.success_buy></p>
+              <p>{{ $t('success_buy') }}</p>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
               <div
@@ -51,8 +51,8 @@
         color="blue_dark"
         class="white--text mt-5"
         @click="$router.push({ path: '/' })"
-        v-lang.back
-      ></v-btn>
+        >{{ $t('back') }}
+      </v-btn>
     </v-container>
   </div>
 </template>
@@ -80,7 +80,7 @@ export default {
   mounted() {
     this.$notify({
       group: 'load',
-      title: this.translate('get_ticket'),
+      title: this.$t('get_ticket'),
       type: 'info'
     })
     const codigo = this.$route.params.id
@@ -98,8 +98,8 @@ export default {
   },
   computed: {
     fechaFormateada() {
-      console.log(this.language)
-      moment.locale(this.language)
+      console.log(this.$i18n.locale)
+      moment.locale(this.$i18n.locale)
       return moment(this.data.fechaCompra).format('L')
     }
   },

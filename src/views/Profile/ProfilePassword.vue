@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="blue--text mb-6">{{ translate('change_password') }}</h1>
+    <h1 class="blue--text mb-6">{{ $t('change_password') }}</h1>
     <v-card class="rounded-search-box" max-width="700">
       <v-card-title>
         <v-container>
@@ -11,7 +11,7 @@
                   outlined
                   dense
                   v-model="oldpassword"
-                  :label="translate('password')"
+                  :label="$t('password')"
                   :append-icon="seePassword ? 'visibility' : 'visibility_off'"
                   @click:append="seePassword = !seePassword"
                   :type="seePassword ? 'password' : 'text'"
@@ -39,7 +39,7 @@
                   outlined
                   dense
                   v-model="confirmpassword"
-                  :label="translate('confirm_password')"
+                  :label="$t('confirm_password')"
                   outline-1
                   :rules="passwordconfirmRules"
                   :append-icon="seePassword3 ? 'visibility' : 'visibility_off'"
@@ -55,7 +55,7 @@
                   color="blue_dark"
                   @click="changePassword"
                 >
-                  <span v-lang.save></span>
+                  <span>{{ $t('save') }}</span>
                 </v-btn>
                 <v-btn
                   text
@@ -63,7 +63,7 @@
                   :disabled="loading"
                   @click="clear"
                 >
-                  <span v-lang.cancel></span>
+                  <span>{{ $t('cancel') }}</span>
                 </v-btn>
               </v-col>
             </v-row>
@@ -119,7 +119,7 @@ export default {
       if (!response.data.exito) {
         this.$notify({
           group: 'error',
-          title: this.translate('update_data'),
+          title: this.$t('update_data'),
           type: 'error',
           text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
         })
@@ -127,7 +127,7 @@ export default {
       } else {
         this.$notify({
           group: 'info',
-          title: this.translate('data_updated'),
+          title: this.$t('data_updated'),
           type: 'info'
         })
       }

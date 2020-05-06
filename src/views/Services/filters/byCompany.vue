@@ -2,7 +2,7 @@
   <div>
     <v-card flat hover class="mt-2">
       <v-container fluid>
-        <h3 class="title blue--text" v-lang.company></h3>
+        <h3 class="title blue--text">{{ $t('company') }}</h3>
         <v-radio-group v-model="company" :mandatory="false" @change="setFilter">
           <v-radio
             color="blue_dark"
@@ -38,7 +38,7 @@ export default {
       companies: ['getUserCompanyFilter']
     }),
     getName() {
-      let result = this.translate('company')
+      let result = this.$t('company')
       for (let item of this.companies) {
         if (item.id === this.company) {
           result = item.name

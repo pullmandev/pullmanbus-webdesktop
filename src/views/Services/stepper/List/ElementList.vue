@@ -126,7 +126,7 @@
                   class="noServices mt-0"
                 >
                   <v-row class="align-center justify-center">
-                    <h2 v-lang.no_services></h2>
+                    <h2>{{ $t('no_services') }}</h2>
                   </v-row>
                 </v-alert>
               </div>
@@ -136,7 +136,7 @@
       </v-container>
     </div>
     <v-card v-else class="elevation-0">
-      <span v-lang.no_elements></span>
+      <span>{{ $t('no_elements') }}</span>
     </v-card>
     <Dialog
       :dialog="dialog"
@@ -187,14 +187,14 @@ export default {
     headers() {
       return [
         {
-          text: this.translate('service'),
+          text: this.$t('service'),
           sortable: false,
           value: 'servicioPrimerPiso',
           class: 'hidden-sm-and-down',
           align: 'start'
         },
         {
-          text: this.translate('floors'),
+          text: this.$t('floors'),
           sortable: false,
           value: 'pisosNumber',
           align: 'left',
@@ -217,10 +217,10 @@ export default {
       ]
     },
     langSearch() {
-      return this.translate('search')
+      return this.$t('search')
     },
     langPerPage() {
-      const text = this.translate('results_page')
+      const text = this.$t('results_page')
       return this.windowSize.x <= 600 ? text.split(' ')[0] : text
     },
     // getIdCompanyBySearch() {
@@ -280,7 +280,7 @@ export default {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     },
     getDepartureString(idText) {
-      const text = this.translate(idText)
+      const text = this.$t(idText)
       if (this.windowSize.x <= 960) {
         return text.split(' ')[0]
       }

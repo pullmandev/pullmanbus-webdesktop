@@ -24,7 +24,7 @@
           >
             <div>
               <h2 class="text-center mb-1">
-                {{ translate('floor') }} {{ selectedFloor + 1 }}
+                {{ $t('floor') }} {{ selectedFloor + 1 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
                 {{ data.pisos[selectedFloor].servicio }}
@@ -119,7 +119,7 @@
           </v-col>
           <v-col cols="4" md="4" class="left-border">
             <div style="position: relative; height: 100%">
-              <h2 class="text-center mb-5" v-lang.seat_title></h2>
+              <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
               <v-row justify="center">
                 <v-col md="9" class="displayNoneSm">
                   <div>
@@ -138,7 +138,7 @@
                         />
                       </div>
                       <h3 class="ml-1">
-                        {{ translate(item.text) }}
+                        {{ $t(item.text) }}
                       </h3>
                     </div>
                   </div>
@@ -149,8 +149,8 @@
                 class="seatContinueButton white--text mr-3"
                 color="orange"
                 :disabled="!selectedSeats.length > 0"
-                v-lang.continue
-              ></v-btn>
+                >{{ $t('continue') }}</v-btn
+              >
             </div>
           </v-col>
         </v-row>
@@ -302,14 +302,14 @@ export default {
       if (seatList.length > 3) {
         this.$notify({
           group: 'error',
-          title: this.translate('seats_max'),
+          title: this.$t('seats_max'),
           type: 'error'
         })
         return
       }
       this.$notify({
         group: 'load',
-        title: this.translate('taking_seat'),
+        title: this.$t('taking_seat'),
         type: 'info'
       })
       const requestParams = this.createRequestParams(params)
@@ -317,11 +317,11 @@ export default {
       if (!response.data > 0) {
         this.$notify({
           group: 'error',
-          title: this.translate('seats'),
+          title: this.$t('seats'),
           text:
-            this.translate('seats_error1') +
+            this.$t('seats_error1') +
             requestParams.asiento +
-            this.translate('seats_error2'),
+            this.$t('seats_error2'),
           type: 'error'
         })
         this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]][1] = '1'

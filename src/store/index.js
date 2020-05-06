@@ -87,9 +87,9 @@ const store = new Vuex.Store({
       if (state.searching.from_date == null || state.searching.from_date === '') {
         Vue.notify({
           group: 'error',
-          title: this.$translate('services'),
+          title: this.$tc('services'),
           type: 'error',
-          text: this.$translate('no_going_date')
+          text: this.$tc('no_going_date')
         })
         Vue.notify({ group: 'stuck-load', clean: true })
         dispatch('SET_LOADING_SERVICE', {loading: false})
@@ -135,9 +135,9 @@ const store = new Vuex.Store({
         if (resultData.length <= 0) {
           Vue.notify({
             group: 'error',
-            title: this.$translate('services'),
+            title: this.$i18n.t('services'),
             type: 'error',
-            text: this.$translate('no_av_services')
+            text: this.$i18n.t('no_av_services')
           })
           commit('SET_SERVICES_LIST', {list: []})
           // dispatch('SET_USER_FILTER', {filter: [], type: 'companies'})

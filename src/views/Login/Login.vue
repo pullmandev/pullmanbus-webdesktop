@@ -16,7 +16,7 @@
               outlined
               dense
               v-model="email"
-              :label="translate('email')"
+              :label="$t('email')"
               outline-1
               color="grey lighten-4"
               :rules="emailRules"
@@ -30,7 +30,7 @@
               outlined
               dense
               v-model="password"
-              :label="translate('password')"
+              :label="$t('password')"
               :append-icon="see ? 'visibility' : 'visibility_off'"
               @click:append="see = !see"
               :type="see ? 'password' : 'text'"
@@ -56,7 +56,7 @@
                 ></v-progress-circular>
               </template>
               <template v-else>
-                <span v-lang.login></span>
+                <span>{{ $t('login') }}</span>
               </template>
             </v-btn>
           </v-col>
@@ -69,7 +69,7 @@
                 })
               "
             >
-              <small class="small-text" v-lang.forgot></small>
+              <small class="small-text">{{ $t('forgot') }}</small>
             </a>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -82,7 +82,7 @@
                 })
               "
             >
-              <small class="small-text" v-lang.sign_up></small>
+              <small class="small-text">{{ $t('sign_up') }}</small>
             </a>
           </v-col>
         </v-row>
@@ -130,9 +130,9 @@ export default {
           if (!data.exito) {
             this.$notify({
               group: 'error',
-              title: this.translate('login'),
+              title: this.$t('login'),
               type: 'error',
-              text: this.translate('login_error')
+              text: this.$t('login_error')
             })
             return
           }

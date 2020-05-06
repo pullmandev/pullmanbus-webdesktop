@@ -35,13 +35,7 @@
           >
           </v-date-picker>
         </v-menu>
-        <v-btn
-          icon
-          dark
-          @click="clearDate"
-          class="mt-3 pl-1 btn-picker"
-          v-if="direction === 'from' ? false : userCalendarTo"
-        >
+        <v-btn icon dark @click="clearDate" class="mt-3 pl-1 btn-picker">
           <v-icon>clear</v-icon>
         </v-btn>
       </v-col>
@@ -155,8 +149,8 @@ export default {
       }
     },
     localeChange() {
-      this.firstDayOfweek = this.language === 'en' ? 0 : 1
-      moment.locale(this.language)
+      this.firstDayOfweek = this.$i18n.locale === 'en' ? 0 : 1
+      moment.locale(this.$i18n.locale)
       const format = this.fromHome ? 'LL' : 'DD/MM'
       if (this.$store.state.searching.from_date)
         this.formattedDateFrom = moment(
@@ -166,20 +160,20 @@ export default {
         this.formattedDateTo = moment(
           this.$store.state.searching.to_date
         ).format(format)
-      return this.translate('locale')
+      return this.$t('locale')
     },
     languageChange() {
       let result = ''
       if (this.fromHome) {
         result =
           this.direction === 'from'
-            ? this.translate('from_date2')
-            : this.translate('to_date2')
+            ? this.$t('from_date2')
+            : this.$t('to_date2')
       } else {
         result =
           this.direction === 'from'
-            ? this.translate('from_date2')
-            : this.translate('to_date3')
+            ? this.$t('from_date2')
+            : this.$t('to_date3')
       }
       return result
     }

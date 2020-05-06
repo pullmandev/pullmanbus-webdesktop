@@ -67,7 +67,7 @@ export default {
       if (!this.resume) {
         this.$notify({
           group: 'resume',
-          title: this.translate('purchase_detail'),
+          title: this.$t('purchase_detail'),
           type: 'info'
         })
         this.$store.dispatch('SHOW_RESUME', {showResume: true})

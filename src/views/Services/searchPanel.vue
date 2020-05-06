@@ -2,8 +2,8 @@
   <v-row>
     <v-card color="orange" class="pt-12">
       <v-card-text class="py-0 white--text"
-        ><h2 v-lang.travel_details></h2
-      ></v-card-text>
+        ><h2>{{ $t('travel_details') }}</h2></v-card-text
+      >
       <v-container>
         <v-form>
           <v-row dense>
@@ -26,8 +26,8 @@
                 color="blue_dark"
                 class="font white--text rounded-search pa-0"
                 :disabled="loadingServices"
-                v-lang.search
-              ></v-btn>
+                >{{ $t('search') }}</v-btn
+              >
             </v-col>
           </v-row>
         </v-form>

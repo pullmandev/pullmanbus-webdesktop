@@ -3,7 +3,9 @@
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card class="pt-3 pr-3 pl-3">
         <v-card-title class="px-2">
-          <span class="headline blue_dark--text" v-lang.purchase_data></span>
+          <span class="headline blue_dark--text">{{
+            $t('purchase_data')
+          }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -16,8 +18,8 @@
                     filled
                     outlined
                     dense
-                    :hint="translate('insert_name')"
-                    :label="translate('name')"
+                    :hint="$t('insert_name')"
+                    :label="$t('name')"
                     outline-1
                     clearable
                     :rules="generalRules"
@@ -31,8 +33,8 @@
                     filled
                     outlined
                     dense
-                    :hint="translate('insert_lastname')"
-                    :label="translate('lastname')"
+                    :hint="$t('insert_lastname')"
+                    :label="$t('lastname')"
                     outline
                     clearable
                   ></v-text-field>
@@ -45,8 +47,8 @@
                     outlined
                     dense
                     :rules="rutRules"
-                    :label="'Nº ' + translate('document')"
-                    :hint="translate('insert_rut')"
+                    :label="'Nº ' + $t('document')"
+                    :hint="$t('insert_rut')"
                     outline
                     clearable
                     required
@@ -60,10 +62,10 @@
                     outlined
                     dense
                     prefix="+569"
-                    :label="translate('mobile')"
+                    :label="$t('mobile')"
                     clearable
                     placeholder=" "
-                    :hint="translate('insert_mobile')"
+                    :hint="$t('insert_mobile')"
                     mask="#### ####"
                     class="custom-prefix"
                   />
@@ -88,7 +90,7 @@
                     outlined
                     dense
                     :rules="emailconfirmRules"
-                    :label="translate('confirm_email')"
+                    :label="$t('confirm_email')"
                     required
                   ></v-text-field>
                 </v-col>
@@ -99,11 +101,9 @@
         <v-card-actions>
           <v-row justify="center">
             <v-col cols="6" class="d-flex justify-end">
-              <v-btn
-                outlined
-                @click.native="$emit('finish')"
-                v-lang.back
-              ></v-btn>
+              <v-btn outlined @click.native="$emit('finish')">{{
+                $t('back')
+              }}</v-btn>
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -111,8 +111,8 @@
                 class="white--text"
                 @click.native="confirm"
                 :disabled="!validForm"
-                v-lang.continue
-              ></v-btn>
+                >{{ $t('continue') }}</v-btn
+              >
             </v-col>
             <v-col cols="12" class="text-center">
               <span>ó</span>
@@ -123,7 +123,7 @@
                 class="white--text"
                 @click="openDialog('login')"
               >
-                <span class="capitalize" v-lang.login></span>
+                <span class="capitalize">{{ $t('login') }}</span>
               </v-btn>
             </v-col>
           </v-row>

@@ -2,8 +2,8 @@
   <v-stepper :value="step" class="grey-color" id="paymentStepper">
     <v-stepper-header>
       <v-stepper-step step="1" :complete="step > 1">
-        <span v-lang.services></span>
-        <small v-lang.select_services></small>
+        <span>{{ $t('services') }}</span>
+        <small>{{ $t('select_services') }}</small>
       </v-stepper-step>
       <v-divider></v-divider>
       <v-stepper-step step="2" :complete="step > 2">

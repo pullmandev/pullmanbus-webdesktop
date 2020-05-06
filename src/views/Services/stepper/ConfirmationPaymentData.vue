@@ -5,13 +5,13 @@
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
         <v-card-text>
           <v-card-text>
-            <h3 class="headline pt-3" v-lang.passenger_data></h3>
+            <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
           <v-row class="pt-3">
             <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  <span class="font-weight-black">{{ translate('name') }}</span>
+                  <span class="font-weight-black">{{ $t('name') }}</span>
                   <h3 class="py-2 body-2">{{ payment_info.completeName }}</h3>
                 </v-card-text>
               </v-card>
@@ -19,9 +19,7 @@
             <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  <span class="font-weight-black">{{
-                    translate('email')
-                  }}</span>
+                  <span class="font-weight-black">{{ $t('email') }}</span>
                   <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
                 </v-card-text>
               </v-card>
@@ -29,9 +27,7 @@
             <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
-                  <span class="font-weight-black">{{
-                    translate('mobile')
-                  }}</span>
+                  <span class="font-weight-black">{{ $t('mobile') }}</span>
                   <h3 class="py-2 body-2">
                     {{
                       payment_info.movil != null
@@ -51,9 +47,9 @@
               </v-card>
             </v-col>
           </v-row>
-          <v-card-text
-            ><h3 class="capitalize" v-lang.one_reservation></h3
-          ></v-card-text>
+          <v-card-text>
+            <h3 class="capitalize">{{ $t('one_reservation') }}</h3>
+          </v-card-text>
           <v-data-table
             :headers="headers"
             :items="getSeatWithId"
@@ -113,14 +109,14 @@
             :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
             @click="validateSeats"
-            v-lang.continue
-          ></v-btn>
+            >{{ $t('continue') }}</v-btn
+          >
           <v-btn
             text
             class="grey--text"
             @click="$store.dispatch('SET_STEP', { step: 1 })"
-            v-lang.cancel
-          ></v-btn>
+            >{{ $t('cancel') }}</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-container>
@@ -218,13 +214,13 @@ export default {
     },
     headers() {
       return [
-        { text: this.translate('from_city2'), value: 'terminalSalida' },
-        { text: this.translate('to_city2'), value: 'terminalLlegada' },
-        { text: this.translate('from_date2'), value: 'fecha' },
-        { text: this.translate('departure_hour'), value: 'horaSalida' },
-        { text: this.translate('seat'), value: 'asiento' },
-        { text: this.translate('floor'), value: 'piso' },
-        { text: this.translate('price'), value: 'precio' },
+        { text: this.$t('from_city2'), value: 'terminalSalida' },
+        { text: this.$t('to_city2'), value: 'terminalLlegada' },
+        { text: this.$t('from_date2'), value: 'fecha' },
+        { text: this.$t('departure_hour'), value: 'horaSalida' },
+        { text: this.$t('seat'), value: 'asiento' },
+        { text: this.$t('floor'), value: 'piso' },
+        { text: this.$t('price'), value: 'precio' },
         { text: '', value: '' }
       ]
     }

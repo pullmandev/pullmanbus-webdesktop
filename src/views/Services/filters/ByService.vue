@@ -2,7 +2,7 @@
   <div>
     <v-card flat hover class="mt-2">
       <v-container fluid>
-        <h3 class="title blue--text" v-lang.service></h3>
+        <h3 class="title blue--text">{{ $t('service') }}</h3>
         <v-radio-group v-model="service" :mandatory="false" @change="setFilter">
           <v-radio
             color="blue_dark"

@@ -4,7 +4,7 @@
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">
-            <h1 class="headline" v-lang.sign_up></h1>
+            <h1 class="headline">{{ $t('sign_up') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
             <p>Únete! Ingresa tus datos para obtener una cuenta</p>
@@ -16,7 +16,7 @@
               outlined
               dense
               v-model="name"
-              :label="translate('name')"
+              :label="$t('name')"
               outline-1
               color="grey lighten-4"
               :rules="generalRules"
@@ -31,7 +31,7 @@
               outlined
               dense
               v-model="f_lastname"
-              :label="translate('lastname')"
+              :label="$t('lastname')"
               outline-1
               color="grey lighten-4"
               class="app-textfield"
@@ -67,8 +67,8 @@
                     v-model="date"
                     color="blue_dark"
                     @input="pickerMenu = false"
-                    :first-day-of-week="this.language === 'en' ? 0 : 1"
-                    :locale="translate('locale')"
+                    :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
+                    :locale="$t('locale')"
                   >
                   </v-date-picker>
                 </v-menu>
@@ -82,7 +82,7 @@
               outlined
               dense
               v-model="rut"
-              :label="'Nº ' + translate('document')"
+              :label="'Nº ' + $t('document')"
               outline-1
               color="grey lighten-4"
               :rules="rutRules"
@@ -98,7 +98,7 @@
               prefix="+569"
               placeholder=" "
               v-model="movil"
-              :label="translate('mobile')"
+              :label="$t('mobile')"
               outline-1
               mask="#### ####"
               color="grey lighten-4"
@@ -113,7 +113,7 @@
               dense
               v-model="email"
               :rules="emailRules"
-              :label="translate('email')"
+              :label="$t('email')"
               outline-1
               color="grey lighten-4"
               class="app-textfield"
@@ -128,7 +128,7 @@
               dense
               v-model="confirmemail"
               :rules="emailconfirmRules"
-              :label="translate('confirm_email')"
+              :label="$t('confirm_email')"
               outline-1
               color="grey lighten-4"
               class="app-textfield"
@@ -141,7 +141,7 @@
               outlined
               dense
               v-model="password"
-              :label="translate('password')"
+              :label="$t('password')"
               :append-icon="seePassword ? 'visibility' : 'visibility_off'"
               @click:append="seePassword = !seePassword"
               :type="seePassword ? 'password' : 'text'"
@@ -159,7 +159,7 @@
               outlined
               dense
               v-model="confirmpassword"
-              :label="translate('confirm_password')"
+              :label="$t('confirm_password')"
               outline-1
               :rules="passwordconfirmRules"
               :append-icon="seePassword2 ? 'visibility' : 'visibility_off'"
@@ -177,7 +177,7 @@
               :disabled="!validForm || loading"
               @click="signup"
             >
-              <span v-lang.sign_up></span>
+              <span>{{ $t('sign_up') }}</span>
             </v-btn>
           </v-col>
         </v-row>
@@ -271,9 +271,9 @@ export default {
       } else {
         this.$notify({
           group: 'error',
-          title: this.translate('sign_up'),
+          title: this.$t('sign_up'),
           type: 'error',
-          text: this.translate('sign_up_error')
+          text: this.$t('sign_up_error')
         })
         console.error(response.data)
       }

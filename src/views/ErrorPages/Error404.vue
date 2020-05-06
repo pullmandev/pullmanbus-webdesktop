@@ -5,7 +5,7 @@
         <v-container fluid grid-list-lg>
           <v-row class="confirmation-title">
             <v-col cols="12">
-              <p v-lang.error_404></p>
+              <p>{{ $t('error_404') }}</p>
             </v-col>
             <v-col cols="12">
               <h1 class="error-title orange--text text-center">
@@ -19,8 +19,8 @@
         color="blue_dark"
         class="white--text mt-5"
         @click="$router.push({ path: '/' })"
-        v-lang.back
-      ></v-btn>
+        >{{ $t('back') }}</v-btn
+      >
     </v-container>
     <div style="height: 150px;"></div>
   </div>

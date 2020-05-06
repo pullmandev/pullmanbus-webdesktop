@@ -12,11 +12,9 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          color="orange white--text"
-          @click.native="closeDialog(true)"
-          v-lang.continue
-        ></v-btn>
+        <v-btn color="orange white--text" @click.native="closeDialog(true)">{{
+          $t('continue')
+        }}</v-btn>
         <v-btn
           color="white"
           class="orange--text"

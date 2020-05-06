@@ -26,13 +26,17 @@
               height="30"
               width="30"
             />
-            {{ languageSelected }}
+            {{ $t($i18n.locale) }}
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(item, index) in languageMenu" :key="index">
-            <v-list-item-title @click="languageSelected = item.title">
+          <v-list-item
+            v-for="(item, index) in languageMenu"
+            :key="index"
+            @click="$i18n.locale = item.lang"
+          >
+            <v-list-item-title>
               {{ item.title }}
             </v-list-item-title>
           </v-list-item>
@@ -63,10 +67,9 @@
                 height="30"
                 width="30"
               />
-              <span
-                class="hidden-sm-and-down header-text capitalize"
-                v-lang.my_account
-              ></span>
+              <span class="hidden-sm-and-down header-text capitalize">{{
+                $t('my_account')
+              }}</span>
               <v-icon>arrow_drop_down</v-icon>
             </v-btn>
           </template>
@@ -76,12 +79,10 @@
               :key="i"
               @click="$router.push({ name: route.name })"
             >
-              <v-list-item-title>{{
-                translate(route.title)
-              }}</v-list-item-title>
+              <v-list-item-title>{{ $t(route.title) }}</v-list-item-title>
             </v-list-item>
             <v-list-item @click="signOut">
-              <v-list-item-title v-lang.sign_out></v-list-item-title>
+              <v-list-item-title>{{ $t('sign_out') }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -101,8 +102,6 @@ export default {
   data: () => ({
     drawer: false,
     loginDialog: false,
-    languageMenu: [{ title: 'Español' }, { title: 'Ingles' }],
-    languageSelected: 'Español',
     profileManu: [
       { title: 'my_profile', name: 'my_profile' },
       { title: 'my_purchases', name: 'purchases' },
@@ -110,9 +109,18 @@ export default {
       { title: 'change_password', name: 'profile_pass' }
     ]
   }),
-  computed: mapGetters({
-    user: ['userData']
-  }),
+  computed: {
+    ...mapGetters({
+      user: ['userData']
+    }),
+    languageMenu() {
+      return [
+        { title: this.$t('es'), lang: 'es' },
+        { title: this.$t('en'), lang: 'en' }
+      ]
+    }
+  },
+
   methods: {
     openDialog,
     signOut() {

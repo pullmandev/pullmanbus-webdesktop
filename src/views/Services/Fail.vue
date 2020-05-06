@@ -38,11 +38,9 @@
           </v-row>
         </v-container>
       </v-card>
-      <v-btn
-        class="white--text mt-5 blue_dark"
-        @click="toServices"
-        v-lang.back
-      ></v-btn>
+      <v-btn class="white--text mt-5 blue_dark" @click="toServices">{{
+        $t('back')
+      }}</v-btn>
     </v-container>
   </div>
 </template>

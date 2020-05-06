@@ -4,18 +4,11 @@ import './filters'
 import router from './router'
 import store, { addStoreProperty } from './store'
 import vuetify from './plugins/vuetify'
-import MultiLanguage from 'vue-multilanguage'
+import i18n from './plugins/vueI18n'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
-import ES from './translations/es'
-import EN from './translations/en'
 import('./assets/base.css')
 
-Vue.use(MultiLanguage, {
-  default: 'es',
-  es: ES.es,
-  en: EN.en
-})
 Vue.use(Notifications)
 Vue.use(VueCurrencyFilter, {
   symbol: '$',
@@ -31,7 +24,7 @@ const app = new Vue({
   router,
   store,
   vuetify,
+  i18n,
   render: h => h(App)
 }).$mount('#app')
-
-addStoreProperty('$translate', app.translate)
+addStoreProperty('$i18n', app.$i18n)

@@ -4,10 +4,10 @@
       <v-row class="mt-5">
         <v-form v-model="validForm">
           <v-col cols="12" class="text-center">
-            <h1 class="headline" v-lang.change_password2></h1>
+            <h1 class="headline">{{ $t('change_password2') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
-            <p v-lang.send_email></p>
+            <p>{{ $t('send_email') }}</p>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -16,7 +16,7 @@
               outlined
               dense
               v-model="email"
-              :label="translate('email')"
+              :label="$t('email')"
               outline-1
               color="grey lighten-4"
               :rules="emailRules"
@@ -38,7 +38,7 @@
                 ></v-progress-circular>
               </template>
               <template v-else>
-                <span v-lang.send></span>
+                <span>{{ $t('send') }}</span>
               </template>
             </v-btn>
           </v-col>
@@ -78,15 +78,15 @@ export default {
       if (!response.data.exito) {
         this.$notify({
           group: 'error',
-          title: this.translate('send_password'),
+          title: this.$t('send_password'),
           type: 'error',
-          text: this.translate('send_password_error')
+          text: this.$t('send_password_error')
         })
         console.error(response.data)
       } else {
         this.$notify({
           group: 'info',
-          title: this.translate('send_password_success'),
+          title: this.$t('send_password_success'),
           type: 'info'
         })
         this.$store.dispatch('SET_SESSION_DIALOG', {

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="blue--text mb-6">{{ translate('my_profile') }}</h1>
+    <h1 class="blue--text mb-6">{{ $t('my_profile') }}</h1>
     <v-card max-width="700">
       <v-toolbar color="orange" class="white--text elevation-0">
         <div style="width: 50px">
@@ -31,7 +31,7 @@
                   outlined
                   dense
                   v-model="name"
-                  :label="translate('name')"
+                  :label="$t('name')"
                   outline-1
                   color="primary"
                   :rules="generalRules"
@@ -44,7 +44,7 @@
                   outlined
                   dense
                   v-model="f_lastname"
-                  :label="translate('lastname')"
+                  :label="$t('lastname')"
                   outline-1
                   color="primary"
                 ></v-text-field>
@@ -78,8 +78,8 @@
                         v-model="date"
                         color="blue_dark"
                         @input="pickerMenu = false"
-                        :first-day-of-week="this.language === 'en' ? 0 : 1"
-                        :locale="translate('locale')"
+                        :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
+                        :locale="$t('locale')"
                       >
                       </v-date-picker>
                     </v-menu>
@@ -92,7 +92,7 @@
                   outlined
                   dense
                   v-model="rut"
-                  :label="'Nº ' + translate('document')"
+                  :label="'Nº ' + $t('document')"
                   outline-1
                   color="primary"
                   :rules="rutRules"
@@ -105,7 +105,7 @@
                   dense
                   v-model="email"
                   :rules="emailRules"
-                  :label="translate('email')"
+                  :label="$t('email')"
                   outline-1
                   color="primary"
                   required
@@ -118,7 +118,7 @@
                   dense
                   v-model="confirmemail"
                   :rules="emailconfirmRules"
-                  :label="translate('confirm_email')"
+                  :label="$t('confirm_email')"
                   outline-1
                   color="primary"
                 ></v-text-field>
@@ -131,7 +131,7 @@
                   color="blue_dark"
                   @click="modify"
                 >
-                  <span v-lang.save></span>
+                  <span>{{ $t('save') }}</span>
                 </v-btn>
                 <v-btn
                   text
@@ -140,7 +140,7 @@
                   :disabled="loading"
                   @click="clear"
                 >
-                  <span v-lang.undo></span>
+                  <span>{{ $t('undo') }}</span>
                 </v-btn>
               </v-col>
             </v-row>
@@ -207,7 +207,7 @@ export default {
       userData: ['userData']
     }),
     formatedDate() {
-      moment.locale(this.language)
+      moment.locale(this.$i18n.locale)
       return moment(this.date).format('LL')
     }
   },

@@ -57,8 +57,8 @@ export default {
     },
     languageChange() {
       return this.direction === 'from'
-        ? this.translate('from_city2')
-        : this.translate('to_city2')
+        ? this.$t('from_city2')
+        : this.$t('to_city2')
     }
   }
 }

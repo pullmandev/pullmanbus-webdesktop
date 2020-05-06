@@ -27,19 +27,19 @@
                         color="primary"
                         @click="reloadAvailability(item.piso)"
                       >
-                        {{ translate('floor') }} {{ item.piso + 1 }}
+                        {{ $t('floor') }} {{ item.piso + 1 }}
                       </v-btn>
                     </v-flex>
                     <v-flex xs12>
                       <h3 class="mt-4 mb-2">
-                        {{ translate('price') }}: ${{
+                        {{ $t('price') }}: ${{
                           getSelectedFloor.tarifaInternet
                         }}
                       </h3>
                     </v-flex>
                     <v-flex xs12>
                       <h3>
-                        {{ translate('service') }}:
+                        {{ $t('service') }}:
                         {{ getSelectedFloor.servicio }}
                       </h3>
                     </v-flex>
@@ -48,7 +48,7 @@
                 <v-flex xs12 md10>
                   <div>
                     <h2 class="text-xs-center mb-1">
-                      {{ translate('floor') }} {{ selectedFloor + 1 }}
+                      {{ $t('floor') }} {{ selectedFloor + 1 }}
                     </h2>
                     <v-layout row wrap justify-center>
                       <v-flex
@@ -150,16 +150,15 @@
         <v-layout row class="mb-3">
           <v-flex md5 class="displayNoneSm">
             <span class="d-block mb-1"
-              ><v-icon>event_seat</v-icon>
-              {{ translate('available_seats') }}</span
+              ><v-icon>event_seat</v-icon> {{ $t('available_seats') }}</span
             >
             <span class="d-block mb-1"
               ><v-icon color="light-green accent-4">event_seat</v-icon>
-              {{ translate('selected_seats') }}</span
+              {{ $t('selected_seats') }}</span
             >
             <span class="d-block"
               ><v-icon color="error">event_seat</v-icon>
-              {{ translate('reserved_seats') }}</span
+              {{ $t('reserved_seats') }}</span
             >
           </v-flex>
           <v-flex md2 offset-md0 xs4 offset-xs4>
@@ -168,8 +167,8 @@
               class="right font white--text mt-5 mr-5"
               color="error"
               :disabled="!selectedSeats.length > 0"
-              v-lang.continue
-            ></v-btn>
+              >{{ $t('continue') }}</v-btn
+            >
           </v-flex>
         </v-layout>
       </v-card>
@@ -318,14 +317,14 @@ export default {
       if (seatList.length > 3) {
         this.$notify({
           group: 'error',
-          title: this.translate('seats_max'),
+          title: this.$t('seats_max'),
           type: 'error'
         })
         return
       }
       this.$notify({
         group: 'load',
-        title: this.translate('taking_seat'),
+        title: this.$t('taking_seat'),
         type: 'info'
       })
       const requestParams = this.createRequestParams(params)
@@ -333,11 +332,11 @@ export default {
       if (!response.data > 0) {
         this.$notify({
           group: 'error',
-          title: this.translate('seats'),
+          title: this.$t('seats'),
           text:
-            this.translate('seats_error1') +
+            this.$t('seats_error1') +
             requestParams.asiento +
-            this.translate('seats_error2'),
+            this.$t('seats_error2'),
           type: 'error'
         })
         this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]][1] = '1'

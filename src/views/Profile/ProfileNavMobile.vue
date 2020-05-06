@@ -18,10 +18,10 @@ export default {
   computed: {
     items () {
       return [
-        { title: this.translate('my_profile'), icon: 'person', name: 'my_profile' },
-        { title: this.translate('my_purchases'), icon: 'account_box', name: 'purchases' },
-        { title: this.translate('cancellations'), icon: 'clear', name: 'cancel_purchase' },
-        { title: this.translate('change_password'), icon: 'lock', name: 'profile_pass' }
+        { title: this.$t('my_profile'), icon: 'person', name: 'my_profile' },
+        { title: this.$t('my_purchases'), icon: 'account_box', name: 'purchases' },
+        { title: this.$t('cancellations'), icon: 'clear', name: 'cancel_purchase' },
+        { title: this.$t('change_password'), icon: 'lock', name: 'profile_pass' }
       ]
     }
   },

@@ -6,8 +6,8 @@
           <v-toolbar dark color="blue_light" id="serviceToolbar">
             <v-toolbar-title>
               <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
-                {{ translate('outbound_service') }}:
-                {{ searching.from_city.nombre }} {{ translate('to') }}
+                {{ $t('outbound_service') }}: {{ searching.from_city.nombre }}
+                {{ $t('to') }}
                 {{ searching.to_city.nombre }}
               </span>
             </v-toolbar-title>
@@ -94,7 +94,7 @@ export default {
       }
     },
     langSearch () {
-      return this.translate('search')
+      return this.$t('search')
     }
   },
   methods: {

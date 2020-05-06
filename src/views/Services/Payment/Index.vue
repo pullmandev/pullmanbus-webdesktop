@@ -1,6 +1,6 @@
 <template>
   <v-container class="my-2">
-    <h1 v-lang.payment_methods class="blue_dark--text"></h1>
+    <h1 class="blue_dark--text">{{ $t('payment_methods') }}</h1>
     <v-card class="elevation-2 my-12 rounded-search-box">
       <v-row cols="12" sm="12" md="8" lg="6">
         <v-col>
@@ -36,13 +36,11 @@
             ></v-checkbox>
             <div class="d-flex align-center">
               <label class="subheading"
-                >{{ translate('read_terms1') }}
-                <span
-                  class="termLink"
-                  @click="dialog = true"
-                  v-lang.read_terms2
-                ></span>
-                {{ translate('read_terms3') }}</label
+                >{{ $t('read_terms1') }}
+                <span class="termLink" @click="dialog = true">{{
+                  $t('read_terms2')
+                }}</span>
+                {{ $t('read_terms3') }}</label
               >
             </div>
           </div>
@@ -52,14 +50,14 @@
               class="white--text mr-5"
               :disabled="disabledButton"
               @click="pay"
-              v-lang.continue
-            ></v-btn>
+              >{{ $t('continue') }}</v-btn
+            >
             <v-btn
               text
               class="grey--text"
               @click="$router.push({ name: 'Services' })"
-              v-lang.back
-            ></v-btn>
+              >{{ $t('back') }}</v-btn
+            >
           </div>
         </v-form>
       </v-container>
@@ -77,7 +75,7 @@
           <v-btn icon @click.native="dialog = false" dark>
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>{{ translate('terms') }}</v-toolbar-title>
+          <v-toolbar-title>{{ $t('terms') }}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-card-text>
