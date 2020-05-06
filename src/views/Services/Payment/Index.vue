@@ -2,31 +2,158 @@
   <v-container class="my-2">
     <h1 class="blue_dark--text">{{ $t('payment_methods') }}</h1>
     <v-card class="elevation-2 my-12 rounded-search-box">
-      <v-row cols="12" sm="12" md="8" lg="6">
-        <v-col>
-          <v-card-text>
-            <v-row class="mx-8">
-              <v-col cols="2" sm="1">
-                <v-radio-group v-model="payMethod" :mandatory="true">
-                  <v-radio color="orange_dark" label="" value="webpay" />
-                </v-radio-group>
-              </v-col>
-              <v-col cols="10" sm="11">
-                <img
-                  src="../../../../static/logos/web-pay-plus.png"
-                  alt="webpay"
-                  class="webpay-payment"
-                />
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-col>
-      </v-row>
+      <v-toolbar dense color="orange" class="white--text elevation-0">
+        <v-toolbar-title>
+          <h2
+            class="d-flex flex-column text-left headline"
+            style="line-height: 20px"
+          >
+            Convenios
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-card-title>
+        <v-row cols="12" sm="12" md="8" lg="6">
+          <v-col>
+            <v-card-text>
+              <v-radio-group v-model="selectedConvenio" :mandatory="true" row>
+                <v-col :key="i" v-for="(item, i) in covenios">
+                  <v-row>
+                    <v-col cols="2">
+                      <v-radio
+                        color="orange_dark"
+                        label=""
+                        :value="item.value"
+                      />
+                    </v-col>
+                    <v-col cols="10">
+                      <v-img
+                        :src="
+                          require(`../../../../static/logos/payments/${item.img}`)
+                        "
+                        class="webpay-payment"
+                        width="130px"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-radio-group>
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card-title>
+      <!-- Dialog -->
+    </v-card>
+    <v-card class="elevation-2 my-12 rounded-search-box">
+      <v-toolbar dense color="orange" class="white--text elevation-0">
+        <v-toolbar-title>
+          <h2
+            class="d-flex flex-column text-left headline"
+            style="line-height: 20px"
+          >
+            Validación
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-card-title> Nombre del convenio: {{ selectedConvenio }} </v-card-title>
+      <v-card-text>
+        <v-form v-model="validForm">
+          <v-row cols="12" sm="12" md="8" lg="6">
+            <v-col cols="3">
+              <v-text-field
+                filled
+                outlined
+                dense
+                v-model="rut"
+                label="Rut"
+                outline-1
+                color="blue"
+                :rules="rutRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="4">
+              <v-btn color="orange" class="white--text">
+                Validar
+              </v-btn>
+              <v-btn text>
+                {{ $t('cancel') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <!-- Dialog -->
+    </v-card>
+    <v-card class="elevation-2 my-12 rounded-search-box">
+      <v-toolbar dense color="orange" class="white--text elevation-0">
+        <v-toolbar-title>
+          <h2
+            class="d-flex flex-column text-left headline"
+            style="line-height: 20px"
+          >
+            Medios de pago
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
       <v-container class="mt-5 px-8">
-        <span class="headline" style="color: #454545">
+        <strong class="display-1" style="color: #454545">
           Total: {{ totalAmount | currency }}
-        </span>
-        <v-form class="mt-5" v-model="validForm">
+        </strong>
+        <v-form class="mt-5" v-model="validForm2">
+          <v-row>
+            <v-col cols="4">
+              <v-text-field
+                filled
+                outlined
+                dense
+                v-model="email"
+                label="Email"
+                outline-1
+                color="blue"
+                :rules="emailRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="4">
+              <v-text-field
+                filled
+                outlined
+                dense
+                v-model="confirmemail"
+                label="Re-ingresar email"
+                outline-1
+                color="blue"
+                required
+                :rules="emailconfirmRules"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+        </v-form>
+        <v-row cols="12" sm="12" md="8">
+          <v-col>
+            <v-radio-group v-model="payMethod" :mandatory="true" row>
+              <v-col :key="index" v-for="(item, index) in payments" md="4">
+                <v-row>
+                  <v-col cols="1">
+                    <v-radio color="orange_dark" label="" :value="item.vale" />
+                  </v-col>
+                  <v-col cols="11">
+                    <v-img
+                      width="150px"
+                      :src="
+                        require(`../../../../static/logos/payments/${item.img}`)
+                      "
+                      :alt="item.alt"
+                      class="webpay-payment"
+                    />
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-radio-group>
+          </v-col>
+        </v-row>
+        <v-form class="mt-5" v-model="validForm3">
           <div class="d-flex justify-start">
             <v-checkbox
               color="orange_dark"
@@ -61,6 +188,7 @@
           </div>
         </v-form>
       </v-container>
+
       <!-- Dialog -->
     </v-card>
     <v-dialog
@@ -89,6 +217,7 @@
 import Terms from '@/views/Services/Payment/Terms'
 import { mapGetters } from 'vuex'
 import APITransaction from '@/services/api/transaction'
+import validations from '@/helpers/fieldsValidation'
 import _ from 'lodash'
 
 export default {
@@ -97,22 +226,69 @@ export default {
   },
   data() {
     return {
+      selectedConvenio: '',
+      covenios: [
+        {
+          img: '29.png',
+          value: '29',
+          alt: '29'
+        },
+        {
+          img: '30.png',
+          value: '30',
+          alt: '30'
+        },
+        {
+          img: '31.png',
+          value: '31',
+          alt: '31'
+        },
+        {
+          img: '32.png',
+          value: '32',
+          alt: '32'
+        },
+        {
+          img: '33.png',
+          value: '33',
+          alt: '33'
+        },
+        {
+          img: '34.png',
+          value: '34',
+          alt: '34'
+        }
+      ],
+      rut: '',
       payMethod: 'webpay',
+      payments: [
+        {
+          img: 'web-pay-plus.png',
+          value: 'webpay',
+          alt: 'webpay'
+        },
+        {
+          img: '36.png',
+          value: '36',
+          alt: '36'
+        }
+      ],
       terms: false,
       dialog: false,
       validForm: false,
-      email: this.$store.getters.payment_info.email,
+      validForm2: false,
+      validForm3: false,
+      email: this.$store.getters.payment_info.email.toString(),
       confirmemail: '',
       movil: this.$store.getters.payment_info.movil,
+      rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
       emailRules: [
         v => !!v || 'E-mail es requerido',
-        v => /^.+@.+\..+$/.test(v) || 'E-mail debe ser valido'
+        validations.emailValidation
       ],
       emailconfirmRules: [
-        v => !!v || 'E-mail es requerido',
-        v => this.email === v || 'E-mails no coinciden'
-      ],
-      generalRules: [v => !!v || 'Este campo es requerido']
+        v => (!!v && this.email === v) || 'E-mails no coinciden'
+      ]
     }
   },
   methods: {
@@ -191,7 +367,14 @@ export default {
       searching: ['getSearching']
     }),
     disabledButton() {
-      return !this.validForm || this.payMethod === ''
+      return (
+        !this.validForm ||
+        !this.validForm2 ||
+        !this.validForm3 ||
+        this.email !== this.confirmemail ||
+        this.payMethod === '' ||
+        this.selectedConvenio === ''
+      )
     }
   }
 }
