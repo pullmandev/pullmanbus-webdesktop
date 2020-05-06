@@ -1,169 +1,185 @@
 <template>
-  <div>
-    <p class="subheading">
-      Debe seleccionar el o los boletos que desea anular para la devolución de
-      su dinero. La devolución debe ser realizada por lo menos 4 hrs. antes de
-      la salida del servicio.
-    </p>
-    <form>
-      <v-layout row wrap align-center>
-        <v-flex xs12 sm6 md6 class="pl-3 pr-3">
-          <v-text-field
-            label="Orden"
-            v-model="code"
-            :disabled="!search"
-            required
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs6 md6 class="pl-3 pr-3">
-          <v-btn @click="getTicket" color="primary" :disabled="loading">
-            <template v-if="loading">
+  <v-container>
+    <h1 class="blue--text mb-6">{{ translate('cancellations') }}</h1>
+    <v-card max-width="800">
+      <v-card-text>
+        <p class="subheading">
+          Debe seleccionar el o los boletos que desea anular para la devolución
+          de su dinero. La devolución debe ser realizada por lo menos 4 hrs.
+          antes de la salida del servicio.
+        </p>
+        <form>
+          <v-row align="center">
+            <v-col cols="12" sm="6" md="6" class="pl-3 pr-3">
+              <v-text-field
+                label="Orden"
+                v-model="code"
+                :disabled="!search"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6" md="6" class="pl-3 pr-3">
+              <v-btn
+                @click="getTicket"
+                color="blue"
+                :disabled="loading"
+                class="white--text"
+              >
+                <template v-if="loading">
+                  <v-progress-circular
+                    indeterminate
+                    color="blue"
+                  ></v-progress-circular>
+                </template>
+                <template v-else>
+                  <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
+                </template>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </form>
+        <v-data-table
+          :headers="headers"
+          :items="tickets"
+          hide-default-footer
+          class="elevation-0 purchase-table mb-3"
+        >
+          <template slot="headerCell" slot-scope="props">
+            <span class="purchase-table-header">
+              {{ props.header.text }}
+            </span>
+          </template>
+          <template slot="item" slot-scope="props">
+            <tr>
+              <td class="text-left">{{ props.item.boleto }}</td>
+              <td class="text-left">{{ props.item.fechaHoraSalida }}</td>
+              <td class="text-left pa-1">
+                {{ props.item.nombreTerminalOrigen }}
+              </td>
+              <td class="text-left pa-1">
+                {{ props.item.nombreTerminalDestino }}
+              </td>
+              <td class="text-center">{{ props.item.asiento }}</td>
+              <td class="text-left pa-2">
+                {{ props.item.total | currency }}
+              </td>
+              <td class="text-left">
+                <v-btn
+                  text
+                  icon
+                  color="blue"
+                  @click="getTicketInfo(props.item.boleto)"
+                >
+                  <v-icon>search</v-icon>
+                </v-btn>
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+        <i class="subheading">
+          *Si la compra se realizo con tarjeta de credito, se generara una
+          reversa en su cuenta, si se realizo con tarjeta de debito, se
+          realizara una transferencia a la cuenta que entregue para este fin. La
+          devolución o reversa se hara efectiva en un plazo maximo de 6 dias
+        </i>
+        <v-form v-model="validForm">
+          <v-row align="center" class="mt-5">
+            <v-col cols="12" md="6" class="pl-3 pr-3">
+              <v-text-field
+                label="Boleto"
+                v-model="selectedTicket"
+                :rules="generalRules"
+                required
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" class="pl-3 pr-3">
+              <v-select
+                label="Tipo de compra"
+                :items="purchaseTypes"
+                v-model="selectedPurchase"
+                autocomplete
+              ></v-select>
+            </v-col>
+            <template v-if="selectedPurchase === 'Debito'">
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-text-field
+                  label="Rut solicitante"
+                  v-model="rutApplicant"
+                  :rules="rutApplicantRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-text-field
+                  label="Usuario"
+                  v-model="name"
+                  :rules="emailRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-text-field
+                  label="RUT de titular de cuenta"
+                  v-model="rutHolder"
+                  :rules="rutRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-select
+                  label="Tipo de cuenta"
+                  :items="accountTypes"
+                  v-model="selectedAccountType"
+                  item-text="nombre"
+                  item-value="codigo"
+                  clearable
+                  autocomplete
+                  :rules="generalRules"
+                  required
+                ></v-select>
+              </v-col>
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-text-field
+                  label="Numero de cuenta"
+                  v-model="accountNumber"
+                  :rules="generalRules"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="6" class="pl-3 pr-3">
+                <v-select
+                  label="Banco"
+                  :items="banks"
+                  v-model="selectedBank"
+                  item-text="nombre"
+                  item-value="codigo"
+                  clearable
+                  autocomplete
+                  :rules="generalRules"
+                  required
+                ></v-select>
+              </v-col>
+            </template>
+          </v-row>
+          <v-btn
+            @click="submit"
+            color="blue_dark"
+            :disabled="!validForm || code === '' || loadingCancel"
+          >
+            <template v-if="loadingCancel">
               <v-progress-circular
                 indeterminate
-                color="primary"
+                color="blue_dark"
               ></v-progress-circular>
             </template>
             <template v-else>
-              <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
+              <span>Anular</span>
             </template>
           </v-btn>
-        </v-flex>
-      </v-layout>
-    </form>
-    <v-data-table
-      :headers="headers"
-      :items="tickets"
-      hide-actions
-      class="elevation-1 purchase-table mb-3"
-    >
-      <template slot="headerCell" slot-scope="props">
-        <span class="purchase-table-header">
-          {{ props.header.text }}
-        </span>
-      </template>
-      <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.boleto }}</td>
-        <td class="text-xs-left">{{ props.item.fechaHoraSalida }}</td>
-        <td class="text-xs-left pa-1">{{ props.item.nombreTerminalOrigen }}</td>
-        <td class="text-xs-left pa-1">
-          {{ props.item.nombreTerminalDestino }}
-        </td>
-        <td class="text-xs-center">{{ props.item.asiento }}</td>
-        <td class="text-xs-left pa-2">{{ props.item.total | currency }}</td>
-        <td class="text-xs-left">
-          <v-btn
-            flat
-            icon
-            color="primary"
-            @click="getTicketInfo(props.item.boleto)"
-          >
-            <v-icon>search</v-icon>
-          </v-btn>
-        </td>
-      </template>
-    </v-data-table>
-    <i class="subheading">
-      *Si la compra se realizo con tarjeta de credito, se generara una reversa
-      en su cuenta, si se realizo con tarjeta de debito, se realizara una
-      transferencia a la cuenta que entregue para este fin. La devolución o
-      reversa se hara efectiva en un plazo maximo de 6 dias
-    </i>
-    <v-form v-model="validForm">
-      <v-layout row wrap align-center class="mt-5">
-        <v-flex xs12 md6 class="pl-3 pr-3">
-          <v-text-field
-            label="Boleto"
-            v-model="selectedTicket"
-            :rules="generalRules"
-            required
-          ></v-text-field>
-        </v-flex>
-        <v-flex xs12 md6 class="pl-3 pr-3">
-          <v-select
-            label="Tipo de compra"
-            :items="purchaseTypes"
-            v-model="selectedPurchase"
-            autocomplete
-          ></v-select>
-        </v-flex>
-        <template v-if="selectedPurchase === 'Debito'">
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-text-field
-              label="Rut solicitante"
-              v-model="rutApplicant"
-              :rules="rutApplicantRules"
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-text-field
-              label="Usuario"
-              v-model="name"
-              :rules="emailRules"
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-text-field
-              label="RUT de titular de cuenta"
-              v-model="rutHolder"
-              :rules="rutRules"
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-select
-              label="Tipo de cuenta"
-              :items="accountTypes"
-              v-model="selectedAccountType"
-              item-text="nombre"
-              item-value="codigo"
-              clearable
-              autocomplete
-              :rules="generalRules"
-              required
-            ></v-select>
-          </v-flex>
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-text-field
-              label="Numero de cuenta"
-              v-model="accountNumber"
-              :rules="generalRules"
-              required
-            ></v-text-field>
-          </v-flex>
-          <v-flex xs12 md6 class="pl-3 pr-3">
-            <v-select
-              label="Banco"
-              :items="banks"
-              v-model="selectedBank"
-              item-text="nombre"
-              item-value="codigo"
-              clearable
-              autocomplete
-              :rules="generalRules"
-              required
-            ></v-select>
-          </v-flex>
-        </template>
-      </v-layout>
-      <v-btn
-        @click="submit"
-        color="primary"
-        :disabled="!validForm || code === '' || loadingCancel"
-      >
-        <template v-if="loadingCancel">
-          <v-progress-circular
-            indeterminate
-            color="primary"
-          ></v-progress-circular>
-        </template>
-        <template v-else>
-          <span>Anular</span>
-        </template>
-      </v-btn>
-    </v-form>
-  </div>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-container>
 </template>
 <script>
 // Base component
@@ -251,7 +267,6 @@ export default {
     }
   },
   mounted() {
-    this.$parent.$parent.$data.title = 'cancellations'
     this.getParameters()
   },
   computed: mapGetters({

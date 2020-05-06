@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div style="margin-top: 100px"></div>
+  <div class="ProfileBackground">
     <router-view></router-view>
-    <div style="margin-top: 100px"></div>
   </div>
 </template>
 <script>
@@ -14,3 +12,11 @@ export default {
   }
 }
 </script>
+<style scoped>
+.ProfileBackground {
+  background: var(--var-light);
+  min-height: 95vh;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+</style>

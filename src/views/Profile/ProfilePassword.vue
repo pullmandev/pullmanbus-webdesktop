@@ -1,68 +1,77 @@
 <template>
-  <v-app>
-    <template>
-      <v-card class="rounded-search-box">
-        <v-card-title>
-          <v-container>
-            <v-layout column>
-              <v-form v-model="validForm">
-                <v-flex xs12>
-                  <v-text-field
-                    v-model="oldpassword"
-                    :label="translate('password')"
-                    :append-icon="seePassword ? 'visibility' : 'visibility_off'"
-                    :append-icon-cb="() => (seePassword = !seePassword)"
-                    :type="seePassword ? 'password' : 'text'"
-                    outline-1
-                    color="primary"
-                    :rules="codeRules"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    v-model="password"
-                    label="Nueva contraseña"
-                    :append-icon="
-                      seePassword2 ? 'visibility' : 'visibility_off'
-                    "
-                    :append-icon-cb="() => (seePassword2 = !seePassword2)"
-                    :type="seePassword2 ? 'password' : 'text'"
-                    outline-1
-                    color="primary"
-                    :rules="passwordRules"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                  <v-text-field
-                    v-model="confirmpassword"
-                    :label="translate('confirm_password')"
-                    outline-1
-                    :rules="passwordconfirmRules"
-                    :append-icon="
-                      seePassword3 ? 'visibility' : 'visibility_off'
-                    "
-                    :append-icon-cb="() => (seePassword3 = !seePassword3)"
-                    :type="seePassword3 ? 'password' : 'text'"
-                    color="primary"
-                  ></v-text-field>
-                </v-flex>
-              </v-form>
-            </v-layout>
-          </v-container>
-        </v-card-title>
-      </v-card>
-      <div class="pt-3">
-        <v-btn
-          :disabled="!validForm || loading"
-          class="white--text search-font rounded-search"
-          color="error"
-          @click="changePassword"
-        >
-          <span v-lang.save></span>
-        </v-btn>
-      </div>
-    </template>
-  </v-app>
+  <v-container>
+    <h1 class="blue--text mb-6">{{ translate('change_password') }}</h1>
+    <v-card class="rounded-search-box" max-width="700">
+      <v-card-title>
+        <v-container>
+          <v-form v-model="validForm">
+            <v-row>
+              <v-col cols="12">
+                <v-text-field
+                  outlined
+                  dense
+                  v-model="oldpassword"
+                  :label="translate('password')"
+                  :append-icon="seePassword ? 'visibility' : 'visibility_off'"
+                  @click:append="seePassword = !seePassword"
+                  :type="seePassword ? 'password' : 'text'"
+                  outline-1
+                  color="blue"
+                  :rules="codeRules"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  outlined
+                  dense
+                  v-model="password"
+                  label="Nueva contraseña"
+                  :append-icon="seePassword2 ? 'visibility' : 'visibility_off'"
+                  @click:append="seePassword2 = !seePassword2"
+                  :type="seePassword2 ? 'password' : 'text'"
+                  outline-1
+                  color="blue"
+                  :rules="passwordRules"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12">
+                <v-text-field
+                  outlined
+                  dense
+                  v-model="confirmpassword"
+                  :label="translate('confirm_password')"
+                  outline-1
+                  :rules="passwordconfirmRules"
+                  :append-icon="seePassword3 ? 'visibility' : 'visibility_off'"
+                  @click:append="seePassword3 = !seePassword3"
+                  :type="seePassword3 ? 'password' : 'text'"
+                  color="blue"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" lg="5" class="ml-3 mr-3">
+                <v-btn
+                  :disabled="!validForm || loading"
+                  class="white--text rounded-search"
+                  color="blue_dark"
+                  @click="changePassword"
+                >
+                  <span v-lang.save></span>
+                </v-btn>
+                <v-btn
+                  text
+                  class="white--grey ml-6"
+                  :disabled="loading"
+                  @click="clear"
+                >
+                  <span v-lang.cancel></span>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-container>
+      </v-card-title>
+    </v-card>
+  </v-container>
 </template>
 
 <script>
@@ -91,9 +100,6 @@ export default {
         v => (v && this.password === v) || 'Contraseñas no coinciden'
       ]
     }
-  },
-  mounted() {
-    this.$parent.$parent.$data.title = 'change_password'
   },
   computed: {
     ...mapGetters({

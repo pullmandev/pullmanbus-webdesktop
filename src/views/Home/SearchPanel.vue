@@ -104,10 +104,6 @@ div.card.search_card {
   color: #fff;
 }
 
-.rounded-search-box {
-  border-radius: 10px !important;
-}
-
 .search_container {
   position: absolute;
   top: 0;

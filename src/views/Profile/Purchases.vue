@@ -1,62 +1,57 @@
 <template>
-  <div>
+  <v-container>
+    <h1 class="blue--text mb-6">{{ translate('my_purchases') }}</h1>
     <v-data-table
       :headers="transactionHeaders"
       :items="transactions"
-      class="elevation-1 mb-5 purchase-table"
+      class="elevation-1 mb-5 rounded-search-box"
+      :footer-props="{
+        showFirstLastPage: true,
+        firstIcon: 'mdi-chevron-double-left',
+        lastIcon: 'mdi-chevron-double-right'
+      }"
     >
-      <template slot="headerCell" slot-scope="props">
-        <v-tooltip bottom>
-          <span slot="activator" class="purchase-table-header">
-            {{ props.header.text }}
-          </span>
-          <span>
-            {{ props.header.text }}
-          </span>
-        </v-tooltip>
-      </template>
-      <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.codigo }}</td>
-        <td class="text-xs-left">{{ props.item.estado }}</td>
-        <td class="text-xs-left">{{ props.item.fechacompra }}</td>
-        <td class="text-xs-left">{{ props.item.monto | currency }}</td>
-        <td class="text-xs-left">
-          <v-btn
-            flat
-            icon
-            color="primary"
-            @click="getTicket(props.item.codigo)"
-          >
-            <i class="material-icons">search</i>
-          </v-btn>
-        </td>
+      <template slot="item" slot-scope="props">
+        <tr>
+          <td class="text-xs-left">{{ props.item.codigo }}</td>
+          <td class="text-xs-left">{{ props.item.estado }}</td>
+          <td class="text-xs-left">{{ props.item.fechacompra }}</td>
+          <td class="text-xs-left">{{ props.item.monto | currency }}</td>
+          <td class="text-xs-left">
+            <v-btn
+              flat
+              icon
+              color="blue_dark"
+              @click="getTicket(props.item.codigo)"
+            >
+              <i class="material-icons">search</i>
+            </v-btn>
+          </td>
+        </tr>
       </template>
     </v-data-table>
     <v-data-table
       v-bind:headers="ticketsHeaders"
       :items="tickets"
-      class="elevation-1 my-5 purchase-table"
+      class="elevation-1 my-5 rounded-search-box"
+      :footer-props="{
+        showFirstLastPage: true,
+        firstIcon: 'mdi-chevron-double-left',
+        lastIcon: 'mdi-chevron-double-right'
+      }"
     >
-      <template slot="headerCell" slot-scope="props">
-        <v-tooltip bottom>
-          <span slot="activator" class="purchase-table-header">
-            {{ props.header.text }}
-          </span>
-          <span>
-            {{ props.header.text }}
-          </span>
-        </v-tooltip>
-      </template>
-      <template slot="items" slot-scope="props">
-        <td class="text-xs-left">{{ props.item.boleto }}</td>
-        <td class="text-xs-left">{{ props.item.fechaHoraSalida }}</td>
-        <td class="text-xs-left">{{ props.item.nombreTerminalOrigen }}</td>
-        <td class="text-xs-left">{{ props.item.nombreTerminalDestino }}</td>
-        <td class="text-xs-center">{{ props.item.asiento }}</td>
-        <td class="text-xs-left">{{ props.item.total | currency }}</td>
+      <template slot="item" slot-scope="props">
+        <tr>
+          <td class="text-xs-left">{{ props.item.boleto }}</td>
+          <td class="text-xs-left">{{ props.item.fechaHoraSalida }}</td>
+          <td class="text-xs-left">{{ props.item.nombreTerminalOrigen }}</td>
+          <td class="text-xs-left">{{ props.item.nombreTerminalDestino }}</td>
+          <td class="text-xs-center">{{ props.item.asiento }}</td>
+          <td class="text-xs-left">{{ props.item.total | currency }}</td>
+        </tr>
       </template>
     </v-data-table>
-  </div>
+  </v-container>
 </template>
 <script>
 import API from '@/services/api/cancel'
@@ -80,31 +75,36 @@ export default {
           text: this.translate('transaction_code'),
           align: 'left',
           sortable: false,
-          value: 'codigo'
+          value: 'codigo',
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('state'),
           value: 'estado',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('purchase_date'),
           value: 'fechacompra',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: 'Total',
           value: 'monto',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: '',
           value: '',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         }
       ]
     },
@@ -114,37 +114,43 @@ export default {
           text: this.translate('ticket'),
           align: 'left',
           sortable: false,
-          value: 'boleto'
+          value: 'boleto',
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('date'),
           value: 'fechaHoraSalida',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('from_city2'),
           value: 'nombreTerminalOrigen',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('to_city2'),
           value: 'nombreTerminalDestino',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('seat'),
           value: 'asiento',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         },
         {
           text: this.translate('value'),
           value: 'total',
           align: 'left',
-          sortable: false
+          sortable: false,
+          class: 'purchase-table-header'
         }
       ]
     }
@@ -152,7 +158,6 @@ export default {
   mounted() {
     const { email } = this.$store.getters.userData.usuario
     console.log('Mis compras', email)
-    this.$parent.$parent.$data.title = 'my_purchases'
     API.searchTransaction({ email })
       .then(response => {
         console.log('Mis compras', response)
@@ -190,18 +195,15 @@ export default {
         item.total = item.imprimeVoucher.total
         return item
       })
-      // const voucherData = _.pick(data.imprimeVoucher, 'nombreTerminalOrigen', 'nombreTerminalDestino')
       console.log(this.tickets)
     }
   }
 }
 </script>
 <style>
-.purchase-table thead {
-  background-color: var(--var-light-blue) !important;
-}
 .purchase-table-header {
-  color: white;
-  font-size: 16px;
+  background-color: var(--var-orange);
+  color: white !important;
+  font-size: 16px !important;
 }
 </style>

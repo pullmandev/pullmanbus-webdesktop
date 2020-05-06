@@ -199,7 +199,4 @@ export default {
 .spacer {
   height: 20vh;
 }
-.rounded-search-box {
-  border-radius: 10px !important;
-}
 </style>

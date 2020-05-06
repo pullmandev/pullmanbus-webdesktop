@@ -141,9 +141,7 @@
   }
 
   .v-application .app-textfield.error--text,
-  .v-application .app-textfield .error--text,
-  .v-application .v-label.error--text,
-  .v-application .v-text-field__details.error--text {
+  .v-application .app-textfield .error--text {
     color: rgb(110, 52, 3) !important;
     caret-color: rgb(110, 52, 3) !important;
   }
@@ -214,4 +212,9 @@
   .fadeOut {
     animation: fadeOut 0.3s linear;
     opacity: 0;
+  }
+
+  .rounded-search-box {
+    border-radius: 10px !important;
+    overflow: hidden;
   }
