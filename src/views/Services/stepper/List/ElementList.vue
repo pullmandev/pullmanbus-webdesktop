@@ -18,7 +18,15 @@
           >
             <v-expansion-panel-header>
               <v-row>
-                <v-col cols="3">
+                <v-col cols="2">
+                  <span class="headline d-block">
+                    <img
+                      :src="'data:image;base64,' + service.logo"
+                      class="service-company-image"
+                    />
+                  </span>
+                </v-col>
+                <v-col cols="2">
                   <span class="headline d-block">
                     {{ service.horaSalida | to12 }}
                   </span>
@@ -27,13 +35,23 @@
                     service.terminalSalida
                   }}</span>
                 </v-col>
-                <v-col cols="2" class="text-center pr-12">
-                  <v-icon class="display-2 d-block" color="orange">
-                    mdi-arrow-right
-                  </v-icon>
-                  <small>1h</small>
+                <v-col cols="2" class="pr-12 text-center">
+                  <div style="position: relative">
+                    <v-icon
+                      class="display-2 white"
+                      style="z-index: 2"
+                      color="blue_light"
+                    >
+                      mdi-bus-side
+                    </v-icon>
+                    <hr
+                      style="position: absolute; top: 50%; left: 0; right: 0; height: 0"
+                    />
+                  </div>
+                  <small>{{ hoursDifference(service) }}</small>
+                  <!-- <small>1h</small> -->
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="2">
                   <span class="headline d-block">
                     {{ service.horaLlegada | to12 }}
                   </span>
@@ -41,6 +59,25 @@
                   <span class="body-2 d-block">{{
                     service.terminalDestino
                   }}</span>
+                </v-col>
+                <v-col
+                  cols="2"
+                  v-for="(piso, index) in service.pisos"
+                  :key="index"
+                >
+                  <span class="headline d-block">
+                    $ {{ piso.tarifaInternet }}
+                  </span>
+                  <span
+                    class="body-2 d-block"
+                    style="text-decoration: line-through"
+                    ><b>$ {{ piso.tarifa }}</b></span
+                  >
+                  <span class="caption d-block"><b>Promoción internet</b></span>
+                  <span class="caption d-block"
+                    ><b>Piso {{ index }}</b></span
+                  >
+                  <span class="caption d-block">{{ piso.servicio }}</span>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -94,6 +131,7 @@ import Floor from '@/views/Services/stepper/List/Floor'
 import Dialog from '@/views/Services/stepper/List/UserInfo'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
+import moment from 'moment'
 
 export default {
   props: ['search', 'back'],
@@ -159,6 +197,19 @@ export default {
     }
   },
   methods: {
+    hoursDifference(service) {
+      const from = service.fechaSalida + 'T' + service.horaSalida
+      const to = service.fechaLlegada + 'T' + service.horaLlegada
+      const format = 'DD/MM/YYYYTHH:mm'
+      const fromDate = moment(from, format)
+      const toDate = moment(to, format)
+      console.log(from, to)
+      console.log(fromDate.format(), toDate.format())
+      const hours = toDate.diff(fromDate, 'hours')
+      const minutes = toDate.diff(fromDate, 'minutes') - hours * 60
+      const result = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`
+      return result
+    },
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     },
@@ -198,11 +249,8 @@ export default {
 }
 
 .service-company-image {
-  margin-top: 20px;
-  width: 200px;
-  height: 50px;
-  max-width: 150px;
-  max-height: 100px;
+  max-width: 100px;
+  height: 40px;
 }
 
 @media (max-width: 1060px) {
