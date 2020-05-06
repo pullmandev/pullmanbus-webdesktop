@@ -14,7 +14,14 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item-title
+            ><a
+              style="text-decoration: none; color: white"
+              :href="item.link"
+              target="blank"
+              >{{ item.title }}</a
+            ></v-list-item-title
+          >
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -32,13 +39,53 @@ export default {
   data() {
     return {
       items: [
-        { title: 'Agencias', icon: 'dashboard' },
-        { title: 'Pullman Pass', icon: 'dashboard' },
-        { title: 'Viajes Especiales', icon: 'dashboard' },
-        { title: 'Cuenta Corriente', icon: 'dashboard' },
-        { title: 'Venta Cuponera', icon: 'dashboard' },
-        { title: 'Destino del mes', icon: 'dashboard' },
-        { title: 'Contacto', icon: 'dashboard' }
+        {
+          title: 'Agencias',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/agencias.jsf#header'
+        },
+        {
+          title: 'Pullman Pass',
+          icon: 'dashboard',
+          link: 'https://www.pullmanbus.cl/portalWAR/paginas/contenido/pass.jsf'
+        },
+        {
+          title: 'Viajes Especiales',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/viajesEspeciales.jsf#header'
+        },
+        {
+          title: 'Cuenta Corriente',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/cuentaCorrientes.jsf#header'
+        },
+        {
+          title: 'Convenio',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header'
+        },
+        {
+          title: 'Cambio boleto',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/canjePublico.jsf#header'
+        },
+        {
+          title: 'Preguntas frecuentes',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/preguntasfrecuentes.jsf'
+        },
+        {
+          title: 'Contacto',
+          icon: 'dashboard',
+          link:
+            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/contacto.jsf'
+        }
       ]
     }
   },

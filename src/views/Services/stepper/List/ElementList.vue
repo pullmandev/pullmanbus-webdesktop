@@ -40,14 +40,13 @@
                     <v-icon
                       class="display-2 white"
                       style="z-index: 2"
-                      color="blue_light"
+                      color="orange"
                     >
                       mdi-bus-side
                     </v-icon>
                     <hr class="hr-bus-style" />
                   </div>
                   <small>{{ hoursDifference(service) }}</small>
-                  <!-- <small>1h</small> -->
                 </v-col>
                 <v-col cols="2">
                   <span class="headline d-block">

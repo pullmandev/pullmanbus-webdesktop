@@ -142,26 +142,31 @@
                         {{ $t(item.text) }}
                       </h3>
                     </div>
-                    <strong class="d-block">Total</strong>
-                    <div class="text-right">
-                      <hr />
-                      <span
-                        :key="index"
-                        v-for="(seat, index) in selectedSeats"
-                        class="d-block"
-                        >{{ seat.servicioNombre }} -
-                        <strong>${{ seat.tarifa }}</strong></span
-                      >
-                      <hr />
-                      <strong>{{ totalAmount | currency }}</strong>
-                    </div>
+                    <template v-if="selectedSeats.length > 0">
+                      <strong class="d-block">Total</strong>
+                      <div class="text-right">
+                        <hr />
+                        <span
+                          :key="index"
+                          v-for="(seat, index) in selectedSeats"
+                          class="d-block"
+                          >{{ seat.servicioNombre }} -
+                          <strong>${{ seat.tarifa }}</strong></span
+                        >
+                        <hr />
+                        <strong>{{ totalAmount | currency }}</strong>
+                      </div>
+                    </template>
                   </div>
                 </v-col>
               </v-row>
               <div class="seatContinueButton mr-3">
-                <v-btn text :disabled="!selectedSeats.length > 0">{{
-                  $t('cancel')
-                }}</v-btn>
+                <v-btn
+                  text
+                  :disabled="!selectedSeats.length > 0"
+                  @click="$store.dispatch('DELETE_ALL_SEAT')"
+                  >{{ $t('cancel') }}</v-btn
+                >
                 <v-btn
                   @click="showModal"
                   class="white--text"
