@@ -122,8 +122,8 @@ export default {
 
 .service-company-image {
   margin-top: 20px;
-  width: 200px;
-  height: 50px;
+  width: 100%;
+  height: auto;
   max-width: 150px;
   max-height: 100px;
 }

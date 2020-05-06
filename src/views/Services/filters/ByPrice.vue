@@ -2,7 +2,7 @@
   <div>
     <v-card flat hover class="mt-2">
       <v-card-title>
-        <h3 class="title blue--text">{{ $t('price_range') }}</h3>
+        <h3 class="title blue--text" style="font-size: 1rem !important;">{{ $t('price_range') }}</h3>
       </v-card-title>
       <v-card-text>
         <div class="label-price-slider">

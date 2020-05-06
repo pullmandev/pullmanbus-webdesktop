@@ -1,6 +1,6 @@
 <template>
   <div class="destinies-type-container pt-5">
-    <h3 class="display-2 text-center" style="color: var(--var-blue_dark)">
+    <h3 class="display-2 text-center" style="color: var(--var-blue_dark); font-size: 2.5rem !important;">
       {{ title }}
     </h3>
     <h4 class="headline text-center my-5" style="color: var(--var-blue_light)">
