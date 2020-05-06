@@ -90,7 +90,7 @@
                 </td>
                 <td>
                   <v-btn
-                    flat
+                    text
                     color="error"
                     @click="deleteSelected(props.item)"
                     :disabled="deleting"

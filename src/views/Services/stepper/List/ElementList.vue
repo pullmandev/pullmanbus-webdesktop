@@ -44,9 +44,7 @@
                     >
                       mdi-bus-side
                     </v-icon>
-                    <hr
-                      style="position: absolute; top: 50%; left: 0; right: 0; height: 0"
-                    />
+                    <hr class="hr-bus-style" />
                   </div>
                   <small>{{ hoursDifference(service) }}</small>
                   <!-- <small>1h</small> -->
@@ -244,6 +242,15 @@ export default {
 </script>
 
 <style>
+.hr-bus-style {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  background-color: black;
+  opacity: 0.3;
+}
+
 .icon-service-expanded {
   transform: rotate(90deg);
 }

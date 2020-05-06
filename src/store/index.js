@@ -512,6 +512,14 @@ const store = new Vuex.Store({
       return state.seats
     },
 
+    seatsTotalAmount: (state, getters) => {
+      let totalAmount = 0
+      getters.seats.forEach(item => {
+        totalAmount += parseInt(item.tarifa.split('.').join('')) // totalAmount += 10
+      })
+      return totalAmount
+    },
+
     hasVuelta (state, getters) {
       const services = getters.getServiceList(true)
       return services.length > 0

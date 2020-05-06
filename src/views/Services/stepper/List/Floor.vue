@@ -142,6 +142,19 @@
                         {{ $t(item.text) }}
                       </h3>
                     </div>
+                    <strong class="d-block">Total</strong>
+                    <div class="text-right">
+                      <hr />
+                      <span
+                        :key="index"
+                        v-for="(seat, index) in selectedSeats"
+                        class="d-block"
+                        >{{ seat.servicioNombre }} -
+                        <strong>${{ seat.tarifa }}</strong></span
+                      >
+                      <hr />
+                      <strong>{{ totalAmount | currency }}</strong>
+                    </div>
                   </div>
                 </v-col>
               </v-row>
@@ -201,6 +214,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
+      totalAmount: ['seatsTotalAmount'],
       seatsByTravel: ['seatsByTravel'],
       hasVuelta: ['hasVuelta']
     }),

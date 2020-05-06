@@ -186,16 +186,10 @@ export default {
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
+      totalAmount: ['seatsTotalAmount'],
       payment_info: ['payment_info'],
       searching: ['getSearching']
     }),
-    totalAmount() {
-      let totalAmount = 0
-      this.selectedSeats.forEach(item => {
-        totalAmount += parseInt(item.tarifa.split('.').join('')) // totalAmount += 10
-      })
-      return totalAmount
-    },
     disabledButton() {
       return !this.validForm || this.payMethod === ''
     }
