@@ -158,13 +158,18 @@
                   </div>
                 </v-col>
               </v-row>
-              <v-btn
-                @click="showModal"
-                class="seatContinueButton white--text mr-3"
-                color="orange"
-                :disabled="!selectedSeats.length > 0"
-                >{{ $t('continue') }}</v-btn
-              >
+              <div class="seatContinueButton mr-3">
+                <v-btn text :disabled="!selectedSeats.length > 0">{{
+                  $t('cancel')
+                }}</v-btn>
+                <v-btn
+                  @click="showModal"
+                  class="white--text"
+                  color="orange"
+                  :disabled="!selectedSeats.length > 0"
+                  >{{ $t('continue') }}</v-btn
+                >
+              </div>
             </div>
           </v-col>
         </v-row>
