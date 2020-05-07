@@ -1,6 +1,6 @@
 <template>
   <v-stepper :value="step" class="grey-color" id="paymentStepper">
-    <v-stepper-header>
+    <v-stepper-header style="display: none;">
       <v-stepper-step step="1" :complete="step > 1">
         <span>{{ $t('services') }}</span>
         <small>{{ $t('select_services') }}</small>
@@ -11,11 +11,11 @@
       </v-stepper-step>
     </v-stepper-header>
     <v-stepper-items>
-      <v-stepper-content step="1">
+      <v-stepper-content step="1" style="padding-top: 0;">
         <!-- List of Services -->
         <list :step="step" ref="serviceList" />
       </v-stepper-content>
-      <v-stepper-content step="2">
+      <v-stepper-content step="2" style="padding-top: 0;">
         <!-- View of Pay -->
         <buy />
       </v-stepper-content>

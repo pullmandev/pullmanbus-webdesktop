@@ -27,7 +27,7 @@
                   </span>
                 </v-col>
                 <v-col cols="2">
-                  <span class="headline d-block">
+                  <span class="headline d-block" style="font-size: 1rem !important;">
                     {{ service.horaSalida | to12 }}
                   </span>
                   <span class="body-2 d-block"><b>Salida:</b></span>
@@ -49,7 +49,7 @@
                   <small>{{ hoursDifference(service) }}</small>
                 </v-col>
                 <v-col cols="2">
-                  <span class="headline d-block">
+                  <span class="headline d-block" style="font-size: 1rem !important;">
                     {{ service.horaLlegada | to12 }}
                   </span>
                   <span class="body-2 d-block"><b>Llegada:</b></span>
@@ -62,7 +62,7 @@
                   v-for="(piso, index) in service.pisos"
                   :key="index"
                 >
-                  <span class="headline d-block">
+                  <span class="headline d-block" style="font-size: 1rem !important;">
                     $ {{ piso.tarifaInternet }}
                   </span>
                   <span
@@ -72,7 +72,7 @@
                   >
                   <span class="caption d-block"><b>Promoción internet</b></span>
                   <span class="caption d-block"
-                    ><b>Piso {{ index }}</b></span
+                    ><b>Piso {{ index + 1 }}</b></span
                   >
                   <span class="caption d-block">{{ piso.servicio }}</span>
                 </v-col>
@@ -255,14 +255,14 @@ export default {
 }
 
 .service-company-image {
-  max-width: 100px;
-  height: 40px;
+  max-width: 100%;
+  height: auto;
 }
 
 @media (max-width: 1060px) {
   .service-company-image {
-    width: 100px;
-    height: 25px;
+    max-width: 100%;
+    height: auto;
   }
   .stepper__content {
     padding: 0px !important;
@@ -271,8 +271,8 @@ export default {
 
 @media (max-width: 1060px) {
   .service-company-image {
-    width: 60px;
-    height: 15px;
+    width: 100%;
+    height: auto;
   }
   .expansion-panel__header {
     padding-left: 0px !important;
@@ -340,5 +340,18 @@ h3 {
   max-width: 4.333333333333332% !important;
 }
 
+#paymentStepper .mdi-chevron-down::before {
+  background-color: #1110ad;
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+#paymentStepper h2 {
+  font-size: 1rem;
+}
+#paymentStepper h4, #paymentStepper h3 {
+ font-size: .8rem;
+}
 /* . estilo Bus */
 </style>

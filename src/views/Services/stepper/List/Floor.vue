@@ -21,6 +21,8 @@
             md="4"
             v-for="(selectedFloor, index) in floorArray"
             :key="index"
+            :class="{ 'left-border': selectedFloor > 0 }"
+
           >
             <div>
               <h2 class="text-center mb-1">
@@ -37,7 +39,7 @@
                   md="12"
                   lg="10"
                   class="text-xs-center mb-4 border-bus"
-                  :class="{ 'left-border': selectedFloor > 0 }"
+
                 >
                   <div
                     v-for="(col, i) in bus.grilla[selectedFloor].grid"
@@ -131,7 +133,7 @@
                     >
                       <div style="width: 35px">
                         <v-img
-                          height="40"
+                          height="20"
                           :src="
                             require(`../../../../../static/logos/seats/Iconos-${item.number}.png`)
                           "
