@@ -306,6 +306,7 @@ export default {
         ...this.serviceData,
         servicioNombre: this.serviceData.pisos[index].servicio,
         tarifa: this.serviceData.pisos[index].tarifaInternet,
+        tarifaNormal: this.serviceData.pisos[index].tarifa,
         monto: this.serviceData.pisos[index].tarifaInternet,
         precio: this.serviceData.pisos[index].tarifaInternet,
         clase: this.serviceData.pisos[index].clase,
