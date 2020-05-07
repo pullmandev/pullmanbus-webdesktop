@@ -8,7 +8,12 @@
     temporary
   >
     <v-list>
-      <v-list-item v-for="item in items" :key="item.title" link style="margin: 0 0">
+      <v-list-item
+        v-for="item in items"
+        :key="item.title"
+        link
+        style="margin: 0 0"
+      >
         <v-list-item-icon style="margin: 10px 0">
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -18,7 +23,7 @@
             ><a
               style="text-decoration: none; color: white; font-size: .9rem"
               :href="item.link"
-              target="blank"
+              target="_blank"
               >{{ item.title }}</a
             ></v-list-item-title
           >
