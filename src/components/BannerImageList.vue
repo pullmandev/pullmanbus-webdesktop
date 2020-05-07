@@ -1,15 +1,16 @@
 <template>
   <div class="destinies-type-container pt-5">
-    <h3 class="display-2 text-center" style="color: var(--var-blue_dark); font-size: 2.5rem !important;">
+    <h3 class="display-3 text-center" style="color: var(--var-blue_dark); font-size: 2rem !important;">
       {{ title }}
     </h3>
-    <h4 class="headline text-center my-5" style="color: var(--var-blue_light)">
+    <h4 class="headline text-center " style="color: var(--var-blue_light); font-size: 1.5rem !important;">
       {{ subTitle }}
     </h4>
     <v-container>
       <v-row no-gutters>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
           <v-card class="mx-1">
+            <a :href="links[index]" target="_blank">
             <v-img
               class="white--text align-end"
               :class="{ 'align-center': index === 5 }"
@@ -19,6 +20,7 @@
             >
 
             </v-img>
+            </a>
           </v-card>
         </v-col>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
@@ -50,6 +52,7 @@ export default {
     subTitle: String,
     itemTitles: [String],
     images: [String],
+    links: [String],
     text: String
   }
 }

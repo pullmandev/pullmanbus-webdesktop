@@ -12,16 +12,13 @@ export default {
   data: () => ({
     items: [
       {
-        src: 'banner_1.jpg'
+        src: '1-2.jpg'
       },
       {
-        src: 'banner_2.jpg'
+        src: '2-2.jpg'
       },
       {
-        src: 'banner_3.jpg'
-      },
-      {
-        src: 'banner_4.jpg'
+        src: '3-2.jpg'
       }
     ]
   })
