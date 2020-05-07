@@ -1,9 +1,9 @@
 <template>
   <BannerImageList
-    title="Enlaces"
-    subTitle="Accede a información de interés"
-    :itemTitles="['Valparaiso', 'Angol', 'Copiapó']"
-    :images="['Imagen-convenios.png', 'bus.png', 'Imagen-viajaenbus.png']"
+    title=""
+    subTitle=""
+    :itemTitles="['Viaja en Bus, la manera más inteligente de viajar', 'Obtén aquí tu Pullman Pass', 'Conoce aquí los convenios que Pullman Bus tiene para tí']"
+    :images="['Imagen-viajaenbus.png', 'bus.png','Imagen-convenios.png']"
   />
 </template>
 <script>
