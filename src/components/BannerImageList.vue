@@ -10,6 +10,7 @@
       <v-row no-gutters>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
           <v-card class="mx-1">
+            <a :href="links[index]" target="_blank">
             <v-img
               class="white--text align-end"
               :class="{ 'align-center': index === 5 }"
@@ -19,6 +20,7 @@
             >
 
             </v-img>
+            </a>
           </v-card>
         </v-col>
         <v-col cols="4" v-for="(item, index) of images" :key="index">
@@ -50,6 +52,7 @@ export default {
     subTitle: String,
     itemTitles: [String],
     images: [String],
+    links: [String],
     text: String
   }
 }

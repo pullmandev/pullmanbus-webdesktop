@@ -7,6 +7,7 @@
       '',
       ''
     ]"
+    :links="['','','']"
     :images="['Noticia1.png', 'Noticia2.png', 'Noticia3.png']"
   />
 </template>
