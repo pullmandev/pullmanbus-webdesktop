@@ -22,7 +22,6 @@
             v-for="(selectedFloor, index) in floorArray"
             :key="index"
             :class="{ 'left-border': selectedFloor > 0 }"
-
           >
             <div>
               <h2 class="text-center mb-1">
@@ -39,7 +38,6 @@
                   md="12"
                   lg="10"
                   class="text-xs-center mb-4 border-bus"
-
                 >
                   <div
                     v-for="(col, i) in bus.grilla[selectedFloor].grid"
@@ -164,17 +162,17 @@
               </v-row>
               <div class="seatContinueButton mr-3">
                 <v-btn
-                  text
-                  :disabled="!selectedSeats.length > 0"
-                  @click="$store.dispatch('DELETE_ALL_SEAT')"
-                  >{{ $t('cancel') }}</v-btn
-                >
-                <v-btn
                   @click="showModal"
-                  class="white--text"
+                  class="white--text mr-3"
                   color="orange"
                   :disabled="!selectedSeats.length > 0"
                   >{{ $t('continue') }}</v-btn
+                >
+                <v-btn
+                  outlined
+                  :disabled="!selectedSeats.length > 0"
+                  @click="$store.dispatch('DELETE_ALL_SEAT')"
+                  >{{ $t('cancel') }}</v-btn
                 >
               </div>
             </div>
