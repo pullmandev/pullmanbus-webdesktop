@@ -40,13 +40,13 @@
                     <v-icon dark>mdi-chevron-right</v-icon>
                   </span>
                 </v-col>
+                <v-col cols="12" lg="6">
+                  <span class="body-1 d-block">
+                    Información al consumidor
+                    <v-icon dark>mdi-chevron-right</v-icon>
+                  </span>
+                </v-col>
               </v-row>
-            </v-col>
-            <v-col cols="12">
-              <span class="body-1 d-block">
-                Información al consumidor
-                <v-icon dark>mdi-chevron-right</v-icon>
-              </span>
             </v-col>
           </v-row>
         </v-col>
