@@ -27,8 +27,11 @@
                   </span>
                 </v-col>
                 <v-col cols="2">
-                  <span class="headline d-block" style="font-size: 1rem !important;">
-                    {{ service.horaSalida | to12 }}
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
+                    {{ service.horaSalida }}
                   </span>
                   <span class="body-2 d-block"><b>Salida:</b></span>
                   <span class="body-2 d-block">{{
@@ -49,8 +52,11 @@
                   <small>{{ hoursDifference(service) }}</small>
                 </v-col>
                 <v-col cols="2">
-                  <span class="headline d-block" style="font-size: 1rem !important;">
-                    {{ service.horaLlegada | to12 }}
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
+                    {{ service.horaLlegada }}
                   </span>
                   <span class="body-2 d-block"><b>Llegada:</b></span>
                   <span class="body-2 d-block">{{
@@ -62,7 +68,10 @@
                   v-for="(piso, index) in service.pisos"
                   :key="index"
                 >
-                  <span class="headline d-block" style="font-size: 1rem !important;">
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
                     $ {{ piso.tarifaInternet }}
                   </span>
                   <span
@@ -86,7 +95,7 @@
                   :item="service"
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
-                  @confirm="showModal"
+                  @confirm="goToPayment"
                 />
                 <v-alert
                   v-else
@@ -350,8 +359,9 @@ h3 {
 #paymentStepper h2 {
   font-size: 1rem;
 }
-#paymentStepper h4, #paymentStepper h3 {
- font-size: .8rem;
+#paymentStepper h4,
+#paymentStepper h3 {
+  font-size: 0.8rem;
 }
 /* . estilo Bus */
 </style>

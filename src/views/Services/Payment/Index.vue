@@ -13,7 +13,7 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-card-title>
-        <v-row cols="12" sm="12" md="8" lg="6">
+        <v-row cols="12" sm="12" md="8" lg="7">
           <v-col>
             <v-card-text>
               <v-radio-group v-model="selectedConvenio"  row>
@@ -233,7 +233,7 @@ export default {
       validForm: false,
       validForm2: false,
       validForm3: false,
-      email: this.$store.getters.payment_info.email.toString(),
+      email: this.$store.getters.payment_info.email,
       confirmemail: '',
       movil: this.$store.getters.payment_info.movil,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
@@ -330,15 +330,14 @@ export default {
         listaCarrito.push(params)
       })
       const paymentInfo = {
-        email: this.payment_info.email,
-        rut: this.payment_info.rut,
+        email: this.email,
+        rut: this.rut,
         medioDePago: this.payMethod,
         puntoVenta: 'PUL',
         montoTotal: this.totalAmount,
         idSistema: 7,
         codigoPais: '+569',
-        numeroTelefono:
-          this.payment_info.movil != null ? this.payment_info.movil : '+569'
+        numeroTelefono: '+569'
       }
       const transactionParams = { ...paymentInfo, listaCarrito }
       console.log('transactionParams', transactionParams)
@@ -370,7 +369,9 @@ export default {
       searching: ['getSearching']
     }),
     disabledButton() {
+      const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
       return (
+        !checkForRut ||
         !this.validForm2 ||
         !this.validForm3 ||
         this.email !== this.confirmemail ||

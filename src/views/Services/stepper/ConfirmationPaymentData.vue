@@ -7,34 +7,15 @@
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
-          <v-row class="pt-3">
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">{{ $t('name') }}</span>
-                  <h3 class="py-2 body-2">{{ payment_info.completeName }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
+          <v-row
+            class="pt-3"
+            v-if="payment_info.email && payment_info.email !== ''"
+          >
             <v-col cols="12" sm="3">
               <v-card class="elevation-0">
                 <v-card-text>
                   <span class="font-weight-black">{{ $t('email') }}</span>
                   <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">{{ $t('mobile') }}</span>
-                  <h3 class="py-2 body-2">
-                    {{
-                      payment_info.movil != null
-                        ? '+569 ' + payment_info.movil
-                        : 'Sin móvil'
-                    }}
-                  </h3>
                 </v-card-text>
               </v-card>
             </v-col>

@@ -10,16 +10,6 @@
     </Promotions>
     <router-view></router-view>
     <v-btn
-      fab
-      dark
-      :large="windowSize.x > 960"
-      color="orange"
-      @click="showResume"
-      class="floating-resume-btn"
-    >
-      <v-icon dark>shopping_cart</v-icon>
-    </v-btn>
-    <v-btn
       color="primary"
       class="white--text floating-filters-btn displayNoneMd"
       @click="$router.push({ path: '/filters' })"
@@ -62,19 +52,6 @@ export default {
   methods: {
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
-    },
-    showResume () {
-      if (!this.resume) {
-        this.$notify({
-          group: 'resume',
-          title: this.$t('purchase_detail'),
-          type: 'info'
-        })
-        this.$store.dispatch('SHOW_RESUME', {showResume: true})
-      } else {
-        this.$notify({ group: 'resume', clean: true })
-        this.$store.dispatch('SHOW_RESUME', {showResume: false})
-      }
     }
   },
   mounted() {
