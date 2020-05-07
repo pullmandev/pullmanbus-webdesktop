@@ -86,7 +86,7 @@
                   :item="service"
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
-                  @confirm="showModal"
+                  @confirm="goToPayment"
                 />
                 <v-alert
                   v-else

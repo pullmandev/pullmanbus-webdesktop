@@ -16,7 +16,7 @@
         <v-row cols="12" sm="12" md="8" lg="6">
           <v-col>
             <v-card-text>
-              <v-radio-group v-model="selectedConvenio" :mandatory="true" row>
+              <v-radio-group v-model="selectedConvenio" row>
                 <v-col :key="i" v-for="(item, i) in covenios">
                   <v-row>
                     <v-col cols="2">
@@ -44,7 +44,10 @@
       </v-card-title>
       <!-- Dialog -->
     </v-card>
-    <v-card class="elevation-2 my-12 rounded-search-box">
+    <v-card
+      class="elevation-2 my-12 rounded-search-box fadeIn"
+      v-if="selectedConvenio !== ''"
+    >
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
