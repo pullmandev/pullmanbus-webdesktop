@@ -139,7 +139,7 @@
               <v-col :key="index" v-for="(item, index) in payments" md="4">
                 <v-row>
                   <v-col cols="1">
-                    <v-radio color="orange_dark" label="" :value="item.vale" />
+                    <v-radio color="orange_dark" label="" :value="item.value" />
                   </v-col>
                   <v-col cols="11">
                     <v-img
@@ -262,12 +262,12 @@ export default {
           alt: '34'
         }
       ],
-      rut: '',
-      payMethod: 'webpay',
+      rut: this.$store.getters.payment_info.rut,
+      payMethod: '',
       payments: [
         {
           img: 'web-pay-plus.png',
-          value: 'webpay',
+          value: 'WBPAY',
           alt: 'webpay'
         },
         {
@@ -281,7 +281,7 @@ export default {
       validForm: false,
       validForm2: false,
       validForm3: false,
-      email: this.$store.getters.payment_info.email.toString(),
+      email: this.$store.getters.payment_info.email,
       confirmemail: '',
       movil: this.$store.getters.payment_info.movil,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
@@ -330,15 +330,14 @@ export default {
         listaCarrito.push(params)
       })
       const paymentInfo = {
-        email: this.payment_info.email,
-        rut: this.payment_info.rut,
-        medioDePago: 'WBPAY',
+        email: this.email,
+        rut: this.rut,
+        medioDePago: this.payMethod,
         puntoVenta: 'VEB',
         montoTotal: this.totalAmount,
         idSistema: 7,
         codigoPais: '+569',
-        numeroTelefono:
-          this.payment_info.movil != null ? this.payment_info.movil : '+569'
+        numeroTelefono: '+569'
       }
       const transactionParams = { ...paymentInfo, listaCarrito }
       console.log('transactionParams', transactionParams)
