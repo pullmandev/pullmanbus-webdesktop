@@ -271,7 +271,7 @@ export default {
             "origen": seat.origen,
             "pago": seat.precio.replace(re,''),
             "piso": seat.piso,
-            "valor": seat.tarifa.replace(re,''),
+            "valor": seat.tarifaNormal.replace(re,''),
             "asiento": seat.asiento,
             "promocion": "0"
             }
@@ -325,8 +325,8 @@ export default {
           seat.piso === 1
             ? (parseInt(seat.asiento) + 20).toString()
             : seat.asiento
-        params.datoConvenio = ''
-        params.convenio = ''
+        params.datoConvenio = this.rut
+        params.convenio = this.selectedConvenio
         listaCarrito.push(params)
       })
       const paymentInfo = {
@@ -369,9 +369,8 @@ export default {
       searching: ['getSearching']
     }),
     disabledButton() {
-      const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
+      //const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
       return (
-        !checkForRut ||
         !this.validForm2 ||
         !this.validForm3 ||
         this.email !== this.confirmemail ||
@@ -419,6 +418,11 @@ export default {
         }       
       },
      selectedConvenio: function(newConvenio){
+       this.rut=""
+       this.selectedSeats.forEach(seat=>{
+         console.log(seat)
+         seat.tarifa=seat.precio;
+       })
        if(newConvenio!="BCNSD"){
          this.payMethod="WBPAY"
        }
