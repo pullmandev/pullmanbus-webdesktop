@@ -16,8 +16,8 @@
         <v-row cols="12" sm="12" md="8" lg="6">
           <v-col>
             <v-card-text>
-              <v-radio-group v-model="selectedConvenio" :mandatory="true" row>
-                <v-col :key="i" v-for="(item, i) in covenios">
+              <v-radio-group v-model="selectedConvenio"  row>
+                <v-col :key="i" v-for="(item, i) in listaCovenios">
                   <v-row>
                     <v-col cols="2">
                       <v-radio
@@ -27,12 +27,9 @@
                       />
                     </v-col>
                     <v-col cols="10">
-                      <v-img
-                        :src="
-                          require(`../../../../static/logos/payments/${item.img}`)
-                        "
+                      <v-img width="100px"
+                        :src="item.img"
                         class="webpay-payment"
-                        width="130px"
                       />
                     </v-col>
                   </v-row>
@@ -44,7 +41,7 @@
       </v-card-title>
       <!-- Dialog -->
     </v-card>
-    <v-card class="elevation-2 my-12 rounded-search-box">
+    <v-card class="elevation-2 my-12 rounded-search-box" v-if="selectedConvenio!=''">
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
@@ -73,7 +70,8 @@
               ></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-btn color="orange" class="white--text">
+              <v-btn color="orange" class="white--text"
+              @click="validate">
                 Validar
               </v-btn>
               <v-btn text>
@@ -136,14 +134,12 @@
               <v-col :key="index" v-for="(item, index) in payments" md="4">
                 <v-row>
                   <v-col cols="1">
-                    <v-radio color="orange_dark" label="" :value="item.vale" />
+                    <v-radio color="orange_dark" label="" :value="item.value" />
                   </v-col>
                   <v-col cols="11">
                     <v-img
-                      width="150px"
-                      :src="
-                        require(`../../../../static/logos/payments/${item.img}`)
-                      "
+                      width="100px"
+                      :src="`data:image/png;base64,${item.img}`"
                       :alt="item.alt"
                       class="webpay-payment"
                     />
@@ -217,6 +213,7 @@
 import Terms from '@/views/Services/Payment/Terms'
 import { mapGetters } from 'vuex'
 import APITransaction from '@/services/api/transaction'
+import APIConvenio from '@/services/api/convenios'
 import validations from '@/helpers/fieldsValidation'
 import _ from 'lodash'
 
@@ -227,52 +224,10 @@ export default {
   data() {
     return {
       selectedConvenio: '',
-      covenios: [
-        {
-          img: '29.png',
-          value: '29',
-          alt: '29'
-        },
-        {
-          img: '30.png',
-          value: '30',
-          alt: '30'
-        },
-        {
-          img: '31.png',
-          value: '31',
-          alt: '31'
-        },
-        {
-          img: '32.png',
-          value: '32',
-          alt: '32'
-        },
-        {
-          img: '33.png',
-          value: '33',
-          alt: '33'
-        },
-        {
-          img: '34.png',
-          value: '34',
-          alt: '34'
-        }
-      ],
+      listaCovenios: [],
       rut: '',
-      payMethod: 'webpay',
-      payments: [
-        {
-          img: 'web-pay-plus.png',
-          value: 'webpay',
-          alt: 'webpay'
-        },
-        {
-          img: '36.png',
-          value: '36',
-          alt: '36'
-        }
-      ],
+      payMethod: 'WBPAY',
+      payments: [],
       terms: false,
       dialog: false,
       validForm: false,
@@ -292,6 +247,54 @@ export default {
     }
   },
   methods: {
+    async validate(){
+      console.log("validate")
+      var re = /\./gi
+      const params= {
+        "descuento": "0",
+        "idConvenio": this.selectedConvenio,
+        "listaAtributo":[{"idCampo": "RUT","valor": this.rut}],
+        "listaBoleto":[],
+        "mensaje": "",
+        "montoTotal": "0",
+        "totalApagar": "0"
+      }
+      this.selectedSeats.forEach(seat => {
+          console.log(seat)
+          var fecha = seat.fechaPasada.split("/");
+          params.listaBoleto.push({
+            "clase": seat.clase,
+            "descuento": "",
+            "destino": seat.destino,
+            "fechaSalida": fecha[2] + fecha[1] + fecha[0],
+            "idServicio": seat.servicio,
+            "origen": seat.origen,
+            "pago": seat.precio.replace(re,''),
+            "piso": seat.piso,
+            "valor": seat.tarifa.replace(re,''),
+            "asiento": seat.asiento,
+            "promocion": "0"
+            }
+          )
+        })
+        const response = await APIConvenio.getValidateConvenio(params)
+        if(response.data.mensaje=="OK"){
+          response.data.listaBoleto.forEach(salida=>{
+            console.log(salida)
+            this.selectedSeats.find(seat => {
+              var fechaArr = seat.fechaPasada.split("/")
+              var fecha = fechaArr[2]+fechaArr[1]+fechaArr[0]
+              if(seat.servicio==salida.idServicio &&
+                  seat.origen==salida.origen &&
+                  seat.destino==salida.destino &&
+                  seat.asiento==salida.asiento &&
+                  fecha==salida.fechaSalida){
+                    seat.tarifa=salida.pago;
+                  }
+            })
+          })
+        }
+    },
     async pay() {
       this.makeTransaccion().catch(err => {
         console.log(err)
@@ -316,7 +319,7 @@ export default {
           'integrador'
         ])
         params.monto = parseInt(seat.monto.split('.').join('')) // params.monto = 10
-        params.precio = parseInt(seat.precio.split('.').join('')) // params.precio = 10
+        params.precio = parseInt(seat.tarifa.split('.').join('')) // params.precio = 10
         params.piso = seat.piso + 1
         params.asiento =
           seat.piso === 1
@@ -329,8 +332,8 @@ export default {
       const paymentInfo = {
         email: this.payment_info.email,
         rut: this.payment_info.rut,
-        medioDePago: 'WBPAY',
-        puntoVenta: 'VEB',
+        medioDePago: this.payMethod,
+        puntoVenta: 'PUL',
         montoTotal: this.totalAmount,
         idSistema: 7,
         codigoPais: '+569',
@@ -368,15 +371,58 @@ export default {
     }),
     disabledButton() {
       return (
-        !this.validForm ||
         !this.validForm2 ||
         !this.validForm3 ||
         this.email !== this.confirmemail ||
-        this.payMethod === '' ||
-        this.selectedConvenio === ''
+        this.payMethod === '' 
       )
     }
-  }
+  },
+  created: function () {
+    console.log("Create")
+    APIConvenio.getBotonPago().then(response =>{      
+      const data = response.data.Convenio
+      data.forEach(convenio=>{        
+        if(convenio.BotonPago=='SI'){
+          this.payments.push({
+          img: convenio.Imagen,
+          value: convenio.Convenio,
+          alt: convenio.Descripcion
+          })
+        }
+      })
+    })   
+    
+    APIConvenio.getConvenios().then(response=>{
+      const data = response.data
+      data.forEach(convenio=>{
+        this.listaCovenios.push({
+          img: convenio.imagenCarrusel,
+          value: convenio.idConvenio,
+          alt: convenio.convenio.descripcion
+          })
+      })
+      console.log(this.convenios)
+    })
+  },
+  watch: {
+    payMethod: function(newMethod)
+      {
+        console.log(newMethod)
+        if(newMethod=="BCNSD"){
+          this.selectedConvenio="BCNSD"
+        }else{
+          if(this.selectedConvenio=="BCNSD"){
+            this.selectedConvenio=""
+          }
+        }       
+      },
+     selectedConvenio: function(newConvenio){
+       if(newConvenio!="BCNSD"){
+         this.payMethod="WBPAY"
+       }
+     } 
+  } 
 }
 </script>
 <style>
