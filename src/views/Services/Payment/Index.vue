@@ -13,7 +13,7 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-card-title>
-        <v-row cols="12" sm="12" md="8" lg="6">
+        <v-row cols="12" sm="12" md="8" lg="7">
           <v-col>
             <v-card-text>
               <v-radio-group v-model="selectedConvenio" row>
@@ -37,6 +37,17 @@
                     </v-col>
                   </v-row>
                 </v-col>
+                <v-col>
+                  <v-row>
+                    <v-col>
+                      <v-radio
+                        color="orange_dark"
+                        label="No aplica"
+                        value="NA"
+                      />
+                    </v-col>
+                  </v-row>
+                </v-col>
               </v-radio-group>
             </v-card-text>
           </v-col>
@@ -46,7 +57,7 @@
     </v-card>
     <v-card
       class="elevation-2 my-12 rounded-search-box fadeIn"
-      v-if="selectedConvenio !== ''"
+      v-if="selectedConvenio !== 'NA'"
     >
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
@@ -229,7 +240,7 @@ export default {
   },
   data() {
     return {
-      selectedConvenio: '',
+      selectedConvenio: 'NA',
       covenios: [
         {
           img: '29.png',
@@ -369,13 +380,13 @@ export default {
       searching: ['getSearching']
     }),
     disabledButton() {
+      const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
       return (
-        !this.validForm ||
+        !checkForRut ||
         !this.validForm2 ||
         !this.validForm3 ||
         this.email !== this.confirmemail ||
-        this.payMethod === '' ||
-        this.selectedConvenio === ''
+        this.payMethod === ''
       )
     }
   }
