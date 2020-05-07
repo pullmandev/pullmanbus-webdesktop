@@ -198,7 +198,6 @@ export default {
         pages.push(page)
         page = []
       }
-      console.log('view', this.services)
       return pages[this.page - 1]
     }
   },
@@ -209,8 +208,6 @@ export default {
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)
       const toDate = moment(to, format)
-      console.log(from, to)
-      console.log(fromDate.format(), toDate.format())
       const hours = toDate.diff(fromDate, 'hours')
       const minutes = toDate.diff(fromDate, 'minutes') - hours * 60
       const result = minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`

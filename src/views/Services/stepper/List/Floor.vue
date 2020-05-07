@@ -162,17 +162,18 @@
               </v-row>
               <div class="seatContinueButton mr-3">
                 <v-btn
-                  @click="showModal"
-                  class="white--text mr-3"
-                  color="orange"
-                  :disabled="!selectedSeats.length > 0"
-                  >{{ $t('continue') }}</v-btn
-                >
-                <v-btn
                   outlined
+                  class="mr-3"
                   :disabled="!selectedSeats.length > 0"
                   @click="$store.dispatch('DELETE_ALL_SEAT')"
                   >{{ $t('cancel') }}</v-btn
+                >
+                <v-btn
+                  @click="showModal"
+                  class="white--text"
+                  color="orange"
+                  :disabled="!selectedSeats.length > 0"
+                  >{{ $t('continue') }}</v-btn
                 >
               </div>
             </div>
