@@ -28,10 +28,19 @@
         <v-col cols="6">
           <v-row column>
             <v-col cols="12">
-              <span class="body-1 d-block">
-                Menú
-                <v-icon dark>mdi-chevron-right</v-icon>
-              </span>
+              <v-row class="pa-0 ma-0" no-gutters>
+                <v-col
+                  cols="12"
+                  lg="6"
+                  :key="index"
+                  v-for="(item, index) in links"
+                >
+                  <span class="body-1 d-block">
+                    {{ item.title }}
+                    <v-icon dark>mdi-chevron-right</v-icon>
+                  </span>
+                </v-col>
+              </v-row>
             </v-col>
             <v-col cols="12">
               <span class="body-1 d-block">
@@ -73,6 +82,7 @@
 </template>
 <script>
 export default {
+  props: ['links'],
   data: () => ({
     icons: ['mdi-home', 'mdi-email', 'mdi-calendar', 'mdi-delete'],
     items: ['default', 'absolute', 'fixed'],

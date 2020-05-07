@@ -9,7 +9,7 @@
   >
     <v-list>
       <v-list-item
-        v-for="item in items"
+        v-for="item in links"
         :key="item.title"
         link
         style="margin: 0 0"
@@ -40,60 +40,7 @@
 </template>
 <script>
 export default {
-  props: ['open'],
-  data() {
-    return {
-      items: [
-        {
-          title: 'Agencias',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/agencias.jsf#header'
-        },
-        {
-          title: 'Pullman Pass',
-          icon: 'mdi-chevron-right',
-          link: 'https://www.pullmanbus.cl/portalWAR/paginas/contenido/pass.jsf'
-        },
-        {
-          title: 'Viajes Especiales',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/viajesEspeciales.jsf#header'
-        },
-        {
-          title: 'Cuenta Corriente',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/cuentaCorrientes.jsf#header'
-        },
-        {
-          title: 'Convenio',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header'
-        },
-        {
-          title: 'Cambio boleto',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/canjePublico.jsf#header'
-        },
-        {
-          title: 'Preguntas frecuentes',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/preguntasfrecuentes.jsf'
-        },
-        {
-          title: 'Contacto',
-          icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/contacto.jsf'
-        }
-      ]
-    }
-  },
+  props: ['open', 'links'],
   computed: {
     drawer: {
       get() {
