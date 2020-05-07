@@ -13,30 +13,30 @@
             <v-img
               class="white--text align-end"
               :class="{ 'align-center': index === 5 }"
-              gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.6)"
+
               :src="require(`../../static/images/${item}`)"
               height="350px"
             >
+
+            </v-img>
+          </v-card>
+        </v-col>
+        <v-col cols="4" v-for="(item, index) of images" :key="index">
+          <v-card class="mx-1">
               <v-card-title class="justify-center">
-                <template v-if="index !== 5">
+                <template v-if="index == 5">
                   {{ itemTitles[index] }}
                 </template>
                 <template v-else>
                   <div class="d-block text-center">
                     <span>
-                      {{ itemTitles[index] }}
                     </span>
-                    <!--p class="body-2 ma-12">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Repudiandae dolor maiores perferendis ad voluptates
-                    </p-->
-                    <v-btn dark color="blue_dark">
-                      Más info.
-                    </v-btn>
+                    <p class="body-1">
+                      {{ itemTitles[index] }}
+                    </p>
                   </div>
                 </template>
               </v-card-title>
-            </v-img>
           </v-card>
         </v-col>
       </v-row>
@@ -57,6 +57,6 @@ export default {
 <style scoped>
 .destinies-type-container {
   width: 100vw;
-  height: 70vh;
+  height: 80vh;
 }
 </style>

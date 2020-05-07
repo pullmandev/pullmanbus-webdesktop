@@ -1,6 +1,6 @@
 <template>
   <BannerImageList
-    title="Articulos recientes"
+    title="Artículos recientes"
     subTitle="Ingresa a nuestro blog"
     :itemTitles="[
       '',
