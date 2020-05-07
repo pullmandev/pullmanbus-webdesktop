@@ -12,13 +12,13 @@
           <v-card class="mx-1">
             <v-img
               class="white--text align-end"
-              :class="{ 'align-center': index === 1 }"
+              :class="{ 'align-center': index === 5 }"
               gradient="to bottom, rgba(0,0,0,.3), rgba(0,0,0,.6)"
               :src="require(`../../static/images/${item}`)"
               height="350px"
             >
               <v-card-title class="justify-center">
-                <template v-if="index !== 1">
+                <template v-if="index !== 5">
                   {{ itemTitles[index] }}
                 </template>
                 <template v-else>
@@ -26,10 +26,10 @@
                     <span>
                       {{ itemTitles[index] }}
                     </span>
-                    <p class="body-2 ma-12">
+                    <!--p class="body-2 ma-12">
                       Lorem ipsum dolor sit amet consectetur adipisicing elit.
                       Repudiandae dolor maiores perferendis ad voluptates
-                    </p>
+                    </p-->
                     <v-btn dark color="blue_dark">
                       Más info.
                     </v-btn>

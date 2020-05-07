@@ -1,9 +1,9 @@
 <template>
   <BannerImageList
-    title="Destinos populares"
-    subTitle="Ver todos los destinos"
-    :itemTitles="['Valparaiso', 'Angol', 'Copiapó']"
-    :images="['Copiapó.jpg', 'Angol.jpg', 'Valparaiso.jpg']"
+    title=""
+    subTitle=""
+    :itemTitles="['Viaja en Bus, la manera más inteligente de viajar', 'Obtén aquí tu Pullman Pass', 'Conoce aquí los convenios que Pullman Bus tiene para tí']"
+    :images="['Imagen-viajaenbus.png', 'bus.png','Imagen-convenios.png']"
   />
 </template>
 <script>
