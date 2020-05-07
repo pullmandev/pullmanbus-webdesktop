@@ -1,9 +1,9 @@
 <template>
   <BannerImageList
-    title="Destinos populares"
-    subTitle="Ver todos los destinos"
+    title="Enlaces"
+    subTitle="Accede a información de interés"
     :itemTitles="['Valparaiso', 'Angol', 'Copiapó']"
-    :images="['Copiapó.jpg', 'Angol.jpg', 'Valparaiso.jpg']"
+    :images="['Imagen-convenios.png', 'bus.png', 'Imagen-viajaenbus.png']"
   />
 </template>
 <script>
