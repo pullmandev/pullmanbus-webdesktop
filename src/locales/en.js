@@ -1,6 +1,7 @@
 export default {
   en: 'English',
   es: 'Spanish',
+  download: 'Download',
   welcome: 'Welcome',
   contact: 'Contact',
   login: 'Log in',

@@ -100,3 +100,8 @@ export default {
   }
 }
 </script>
+<style lang="sass">
+/* sass variables for sliders in filters components */
+$themeColor: var(--var-orange)
+@import '~vue-slider-component/lib/theme/default.scss'
+</style>

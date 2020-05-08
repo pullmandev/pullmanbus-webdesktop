@@ -6,18 +6,16 @@
           <v-row>
             <v-col cols="12">
               <span class="body-1 d-block">Call Center</span>
-              <p class="body-2">
-                <v-icon dark>mdi-phone</v-icon> +58 9 1234 5678
-              </p>
+              <p class="body-2"><v-icon dark>mdi-phone</v-icon> 600 600 0018</p>
             </v-col>
             <v-col cols="12">
               <span class="body-1 d-block">Escríbenos</span>
               <div class="d-flex align-center">
                 <div>
                   <v-img
-                          src="../../static/logos/Iconos-33.png"
-                          height="30"
-                          width="30"
+                    src="../../static/logos/Iconos-33.png"
+                    height="30"
+                    width="30"
                   />
                 </div>
                 <span class="body-2">info@pullmanbus.cl</span>
@@ -26,9 +24,13 @@
             <v-col cols="12">
               <span class="body-1 d-block">Casa Matriz Pullman Bus</span>
               <div class="d-flex align-center">
-                <div>
-                </div>
-                <span class="body-2">San Borja 235, Estación Central, Santiago</span>
+                <div></div>
+                <span class="body-2">
+                  <v-icon dark>
+                    mdi-map-marker
+                  </v-icon>
+                  San Borja 235, Estación Central, Santiago</span
+                >
               </div>
             </v-col>
           </v-row>
@@ -39,11 +41,11 @@
               <span class="body-1 d-block pb-3">
                 Información al consumidor
               </span>
-              <span class="body-2 d-block">
+              <span class="body-2 d-block pb-3">
                 Conoce tus derechos
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
-              <span class="body-2 d-block">
+              <span class="body-2 d-block pb-3">
                 Política de privacidad
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
@@ -52,19 +54,48 @@
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
             </v-col>
+            <v-col class="my-0">
+              <v-menu
+                top
+                offset-y
+                style="display: flex; height: 100%; align-items: center;"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="white--text body-2 capitalize pa-0"
+                    text
+                    v-on="on"
+                  >
+                    Menu
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item v-for="(item, i) in links" :key="i">
+                    <v-list-item-title
+                      ><a
+                        style="text-decoration: none; color: black;"
+                        :href="item.link"
+                        target="_blank"
+                        >{{ item.title }}</a
+                      >
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-col>
           </v-row>
         </v-col>
         <v-col cols="3">
           <v-row colum>
             <v-col>
-
               <span class="body-1 d-block text-center">
-              Búscanos en
+                Búscanos en
               </span>
-              <span class="body-1 d-block text-center">
-                <v-icon dark class="ml-1">mdi-facebook</v-icon>
-                <v-icon dark class="ml-1">mdi-instagram</v-icon>
-                <v-icon dark class="ml-1">mdi-youtube</v-icon>
+              <span class="d-block mt-5 text-center">
+                <v-icon size="40" dark>mdi-facebook</v-icon>
+                <v-icon size="40" dark class="mx-5">mdi-instagram</v-icon>
+                <v-icon size="40" dark>mdi-youtube</v-icon>
               </span>
             </v-col>
           </v-row>
@@ -89,9 +120,8 @@
         <v-card-text class="white--text">
           Todos los derechos reservados, {{ new Date().getFullYear() }}
           <span class="float-right">
-              Desarrollada por WIT Innovación y Tecnología SPA
-              </span>
-
+            Desarrollada por Wit innovación y tecnología spa
+          </span>
         </v-card-text>
       </div>
     </v-card>
@@ -99,6 +129,7 @@
 </template>
 <script>
 export default {
+  props: ['links'],
   data: () => ({
     icons: ['mdi-home', 'mdi-email', 'mdi-calendar', 'mdi-delete'],
     items: ['default', 'absolute', 'fixed'],

@@ -44,15 +44,20 @@
                 </template>
               </v-data-table>
             </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn outlined class="mt-5" @click="$router.push({ path: '/' })"
+                >{{ $t('back') }}
+              </v-btn>
+              <v-btn
+                color="blue_dark"
+                class="white--text mt-5 ml-3"
+                @click="gettingTickets"
+                >{{ $t('download') }}
+              </v-btn>
+            </v-col>
           </v-row>
         </v-container>
       </v-card>
-      <v-btn
-        color="blue_dark"
-        class="white--text mt-5"
-        @click="$router.push({ path: '/' })"
-        >{{ $t('back') }}
-      </v-btn>
     </v-container>
   </div>
 </template>
@@ -78,23 +83,7 @@ export default {
     }
   },
   mounted() {
-    this.$notify({
-      group: 'load',
-      title: this.$t('get_ticket'),
-      type: 'info'
-    })
-    const codigo = this.$route.params.id
-    API.postHeader({ orden: codigo }).then(response => {
-      this.data = response.data
-      const boletos = this.data.boletos
-      boletos.forEach(async item => {
-        const response = await API.postVoucher({
-          boleto: item.boleto,
-          codigo
-        })
-        this.toPDF(response.data)
-      })
-    })
+    this.gettingTickets()
   },
   computed: {
     fechaFormateada() {
@@ -104,6 +93,25 @@ export default {
     }
   },
   methods: {
+    gettingTickets() {
+      this.$notify({
+        group: 'load',
+        title: this.$t('get_ticket'),
+        type: 'info'
+      })
+      const codigo = this.$route.params.id
+      API.postHeader({ orden: codigo }).then(response => {
+        this.data = response.data
+        const boletos = this.data.boletos
+        boletos.forEach(async item => {
+          const response = await API.postVoucher({
+            boleto: item.boleto,
+            codigo
+          })
+          this.toPDF(response.data)
+        })
+      })
+    },
     toPDF(response) {
       // create a download anchor tag
       const tipo = response.tipo.toLowerCase()
