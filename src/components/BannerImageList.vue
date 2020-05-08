@@ -62,4 +62,19 @@ export default {
   width: 100vw;
   height: 80vh;
 }
+.body-1 {
+  word-break: break-word;
+}
+@media (min-width: 1280px) {
+  .destinies-type-container {
+    width: 100vw;
+    height: 80vh;
+  }
+}
+@media (min-width: 1441px) {
+  .destinies-type-container {
+    width: 100vw;
+    height: 50vh;
+  }
+}
 </style>
