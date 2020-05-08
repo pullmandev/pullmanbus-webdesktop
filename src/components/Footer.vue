@@ -48,7 +48,7 @@
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
               <span class="body-2 d-block">
-                Tñerminos y condiciones de pasajes
+                Términos y condiciones de pasajes
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
             </v-col>
