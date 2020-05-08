@@ -40,7 +40,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => this.formatter(val),
         tooltip: 'hover',
-        width: '190px',
+        width: '100%',
         height: 8,
         dotSize: 20,
         min: 0,

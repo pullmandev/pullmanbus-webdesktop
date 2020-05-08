@@ -39,7 +39,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => '$' + val,
         tooltip: 'hover',
-        width: '190px',
+        width: '100%',
         height: 8,
         dotSize: 20,
         min: 500,
