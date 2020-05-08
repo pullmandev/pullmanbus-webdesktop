@@ -25,7 +25,7 @@
           >
             <div>
               <h2 class="text-center mb-1">
-                {{ $t('floor') }} {{ selectedFloor + 1 }}
+                {{ $t('floor') }} {{ data.pisos[selectedFloor].piso + 1 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
                 {{ data.pisos[selectedFloor].servicio }} -
@@ -40,7 +40,9 @@
                   class="text-xs-center mb-4 border-bus"
                 >
                   <div
-                    v-for="(col, i) in bus.grilla[selectedFloor].grid"
+                    v-for="(col, i) in bus.grilla[
+                      data.pisos[selectedFloor].piso
+                    ].grid"
                     :key="i"
                     class="d-inline-block"
                   >
@@ -68,17 +70,25 @@
                         />
                         <v-btn
                           v-else-if="
-                            seatIsInshoppingCart(seat, selectedFloor) > -1
+                            seatIsInshoppingCart(
+                              seat,
+                              data.pisos[selectedFloor].piso
+                            ) > -1
                           "
                           fab
                           text
                           small
                           class="mx-0 my-0 seatBtn"
-                          @click="selectSeat(seat, selectedFloor, [i, j])"
+                          @click="
+                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                              i,
+                              j
+                            ])
+                          "
                         >
                           <seat
                             :seatNumber="seat[0]"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                             type="taken"
                           />
                         </v-btn>
@@ -92,7 +102,7 @@
                         >
                           <seat
                             :seatNumber="seat[0]"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                             type="occupied"
                           />
                         </v-btn>
@@ -102,12 +112,17 @@
                           text
                           small
                           class="mx-0 my-0 seatBtn"
-                          @click="selectSeat(seat, selectedFloor, [i, j])"
+                          @click="
+                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                              i,
+                              j
+                            ])
+                          "
                         >
                           <seat
                             :seatNumber="seat[0]"
                             type="free"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                           />
                         </v-btn>
                       </template>
@@ -191,6 +206,7 @@ import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
 import API from '@/services/api/seats'
 import _ from 'lodash'
+// import moment from 'moment'
 
 export default {
   props: ['item', 'isXs', 'back'],
@@ -221,6 +237,12 @@ export default {
   },
   mounted() {
     this.getSeats(this.item)
+  },
+  watch: {
+    item() {
+      console.log('watch', this.item)
+      this.getSeats(this.item)
+    }
   },
   computed: {
     ...mapGetters({
@@ -269,7 +291,8 @@ export default {
           item.destino === this.serviceData.destino &&
           item.integrador === this.serviceData.integrador &&
           item.empresa === this.serviceData.empresa &&
-          seat[0] === item.asiento
+          seat[0] === item.asiento //&&
+        // moment().diff(moment(item.fechaTomada), 'minutes') < 15
       )
       return index
     },
@@ -313,6 +336,7 @@ export default {
         clase: this.serviceData.pisos[index].clase,
         bus: this.serviceData.pisos[index].busPiso,
         descuento: 0
+        // fechaTomada: moment.now()
       }
       if (seatIndex > -1) {
         this.leverageSeat(
