@@ -33,7 +33,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="3">
           <v-row column>
             <v-col cols="12">
               <span class="body-1 d-block pb-3">
@@ -57,13 +57,6 @@
         <v-col cols="3">
           <v-row colum>
             <v-col>
-              <span class="body-1 d-block text-center">Pago seguro</span>
-              <v-img
-                src="../../static/logos/web-pay-plus-white.png"
-                height="100"
-                position="center center"
-                contain
-              />
 
               <span class="body-1 d-block text-center">
               Búscanos en
@@ -73,6 +66,19 @@
                 <v-icon dark class="ml-1">mdi-instagram</v-icon>
                 <v-icon dark class="ml-1">mdi-youtube</v-icon>
               </span>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col cols="3">
+          <v-row colum>
+            <v-col>
+              <span class="body-1 d-block text-center">Pago seguro</span>
+              <v-img
+                src="../../static/logos/web-pay-plus-white.png"
+                height="100"
+                position="center center"
+                contain
+              />
             </v-col>
           </v-row>
         </v-col>
