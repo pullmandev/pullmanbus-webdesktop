@@ -27,7 +27,7 @@
                       />
                     </v-col>
                     <v-col cols="10">
-                      <v-img width="100px"
+                      <v-img height="70px"
                         :src="item.img"
                         class="webpay-payment"
                       />
@@ -169,17 +169,17 @@
           </div>
           <div class="d-flex justify-end">
             <v-btn
-              color="orange"
-              class="white--text mr-5"
-              :disabled="disabledButton"
-              @click="pay"
-              >{{ $t('continue') }}</v-btn
-            >
-            <v-btn
               text
               class="grey--text"
               @click="$router.push({ name: 'Services' })"
               >{{ $t('back') }}</v-btn
+            >
+            <v-btn
+                    color="orange"
+                    class="white--text mr-5"
+                    :disabled="disabledButton"
+                    @click="pay"
+            >{{ $t('continue') }}</v-btn
             >
           </div>
         </v-form>
