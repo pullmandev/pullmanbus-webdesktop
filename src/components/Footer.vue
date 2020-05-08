@@ -44,13 +44,20 @@
         <v-col cols="3">
           <v-row colum>
             <v-col>
-              <span class="body-1 d-block">Pago seguro</span>
+              <span class="body-1 d-block text-center">Pago seguro</span>
               <v-img
                 src="../../static/logos/web-pay-plus-white.png"
                 height="100"
-                position="left center"
+                position="center center"
                 contain
               />
+
+              <span class="float-right">
+              Búscanos en
+            <v-icon dark class="ml-1">mdi-facebook</v-icon>
+            <v-icon dark class="ml-1">mdi-instagram</v-icon>
+            <v-icon dark class="ml-1">mdi-youtube</v-icon>
+          </span>
             </v-col>
           </v-row>
         </v-col>
@@ -60,12 +67,6 @@
       <div class="orange_dark px-5">
         <v-card-text class="white--text">
           Todos los derechos reservados, {{ new Date().getFullYear() }}
-          <span class="float-right">
-            Siguenos en
-            <v-icon dark class="ml-1">mdi-facebook</v-icon>
-            <v-icon dark class="ml-1">mdi-instagram</v-icon>
-            <v-icon dark class="ml-1">mdi-youtube</v-icon>
-          </span>
         </v-card-text>
       </div>
     </v-card>
