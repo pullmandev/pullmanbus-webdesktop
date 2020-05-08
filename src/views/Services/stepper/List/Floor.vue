@@ -70,7 +70,6 @@
                           class="seatWidth"
                         />
                         <v-btn
-                          :width="seatWidth"
                           v-else-if="
                             seatIsInshoppingCart(
                               seat,
@@ -95,7 +94,6 @@
                           />
                         </v-btn>
                         <v-btn
-                          :width="seatWidth"
                           v-else-if="seat[1] !== '0'"
                           fab
                           text
@@ -184,7 +182,7 @@
                     <v-btn
                       outlined
                       :disabled="!selectedSeats.length > 0"
-                      @click="$store.dispatch('DELETE_ALL_SEAT')"
+                      @click="deleteSeats"
                       >{{ $t('cancel') }}</v-btn
                     >
                   </v-col>
@@ -212,6 +210,7 @@ import Dialog from '@/views/Services/stepper/List/ContinueDialog'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
+import deleteSeat from '@/helpers/deleteSeat'
 import API from '@/services/api/seats'
 import _ from 'lodash'
 // import moment from 'moment'
@@ -270,6 +269,12 @@ export default {
     }
   },
   methods: {
+    async deleteSeats() {
+      const lenght = this.selectedSeats.length - 1
+      for (let index = lenght; index >= 0; index--) {
+        await deleteSeat(index)
+      }
+    },
     createDataForRequest() {
       this.serviceData = {
         empresa: this.data.empresa,
