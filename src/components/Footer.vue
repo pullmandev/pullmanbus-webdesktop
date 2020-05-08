@@ -36,7 +36,7 @@
         <v-col cols="6">
           <v-row column>
             <v-col cols="12">
-              <span class="body-1 d-block">
+              <span class="body-1 d-block pb-3">
                 Información al consumidor
               </span>
               <span class="body-2 d-block">
