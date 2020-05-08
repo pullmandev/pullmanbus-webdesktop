@@ -17,6 +17,30 @@
         </div>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-menu
+        bottom
+        offset-y
+        style="display: flex; height: 100%; align-items: center;"
+      >
+        <template v-slot:activator="{ on }">
+          <v-btn class="white--text" text v-on="on">
+            Menu
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item v-for="(item, i) in links" :key="i">
+            <v-list-item-title
+              ><a
+                style="text-decoration: none; color: black;"
+                :href="item.link"
+                target="_blank"
+                >{{ item.title }}</a
+              >
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
@@ -88,7 +112,7 @@
         </v-menu>
       </template>
     </v-app-bar>
-    <Drawer :open.sync="drawer" />
+    <Drawer :open.sync="drawer" :links="links" />
   </div>
 </template>
 <script>
@@ -96,6 +120,7 @@ import Drawer from '@/components/Header/Drawer'
 import openDialog from '@/helpers/openDialog'
 import { mapGetters } from 'vuex'
 export default {
+  props: ['links'],
   components: {
     Drawer
   },

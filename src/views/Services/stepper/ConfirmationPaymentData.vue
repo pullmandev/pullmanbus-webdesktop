@@ -86,17 +86,17 @@
         <v-card-actions class="mt-12">
           <v-spacer></v-spacer>
           <v-btn
+            outlined
+            class="grey--text"
+            @click="$store.dispatch('SET_STEP', { step: 1 })"
+            >{{ $t('cancel') }}</v-btn
+          >
+          <v-btn
             color="orange"
             :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
             @click="validateSeats"
             >{{ $t('continue') }}</v-btn
-          >
-          <v-btn
-            text
-            class="grey--text"
-            @click="$store.dispatch('SET_STEP', { step: 1 })"
-            >{{ $t('cancel') }}</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -105,8 +105,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import API from '@/services/api/seats'
-import _ from 'lodash'
+import deleteSeat from '@/helpers/deleteSeat'
 
 export default {
   data() {
@@ -122,10 +121,7 @@ export default {
       this.deleting = true
       const index = this.findSeatIndex(item.id)
       if (index > -1) {
-        const params = this.selectedSeats[index]
-        const requestParams = this.createRequestParams(params)
-        await API.freeSeat(requestParams)
-        this.$store.dispatch('DELETE_SEAT', { seat: index })
+        await deleteSeat(index)
       }
       this.deleting = false
     },
@@ -136,21 +132,6 @@ export default {
           resolve()
         }, 100)
       })
-    },
-    createRequestParams(params) {
-      const requestParams = _.pick(params, [
-        'servicio',
-        'fecha',
-        'origen',
-        'destino',
-        'integrador',
-        'asiento'
-      ])
-      requestParams.asiento =
-        params.piso > 0
-          ? (parseInt(params.asiento) + 20).toString()
-          : params.asiento
-      return requestParams
     },
     findSeatIndex(id) {
       const index = this.selectedSeats.findIndex(

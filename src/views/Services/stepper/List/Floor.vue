@@ -25,7 +25,7 @@
           >
             <div>
               <h2 class="text-center mb-1">
-                {{ $t('floor') }} {{ selectedFloor + 1 }}
+                {{ $t('floor') }} {{ data.pisos[selectedFloor].piso + 1 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
                 {{ data.pisos[selectedFloor].servicio }} -
@@ -37,16 +37,18 @@
                   sm="12"
                   md="12"
                   lg="10"
-                  class="text-xs-center mb-4 border-bus"
+                  class="text-center mb-4 border-bus"
                 >
                   <div
-                    v-for="(col, i) in bus.grilla[selectedFloor].grid"
+                    v-for="(col, i) in bus.grilla[
+                      data.pisos[selectedFloor].piso
+                    ].grid"
                     :key="i"
                     class="d-inline-block"
                   >
                     <!-- acá tengo las columnas del bus (son 5)-->
                     <div
-                      style="margin-right: 1rem"
+                      class="blank-seat-rem"
                       v-for="(seat, j) in col"
                       :key="j"
                     >
@@ -56,29 +58,38 @@
                         <!-- baño -->
                         <template v-if="seat.includes('B')">
                           <div
-                            style="height: 33px; width: 33px;"
-                            class="d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
+                            style="height: 33px"
+                            class="seatWidth d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
                           >
                             <span>WC</span>
                           </div>
                         </template>
                         <div
                           v-else-if="seat === 'X' || seat === '%'"
-                          style="height: 33px; width: 33px;"
+                          style="height: 33px"
+                          class="seatWidth"
                         />
                         <v-btn
                           v-else-if="
-                            seatIsInshoppingCart(seat, selectedFloor) > -1
+                            seatIsInshoppingCart(
+                              seat,
+                              data.pisos[selectedFloor].piso
+                            ) > -1
                           "
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
-                          @click="selectSeat(seat, selectedFloor, [i, j])"
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          @click="
+                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                              i,
+                              j
+                            ])
+                          "
                         >
                           <seat
                             :seatNumber="seat[0]"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                             type="taken"
                           />
                         </v-btn>
@@ -87,12 +98,12 @@
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
+                          class="mx-0 my-0 seatBtn seatWidth"
                           disabled
                         >
                           <seat
                             :seatNumber="seat[0]"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                             type="occupied"
                           />
                         </v-btn>
@@ -101,13 +112,18 @@
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
-                          @click="selectSeat(seat, selectedFloor, [i, j])"
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          @click="
+                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                              i,
+                              j
+                            ])
+                          "
                         >
                           <seat
                             :seatNumber="seat[0]"
                             type="free"
-                            :floor="selectedFloor"
+                            :floor="data.pisos[selectedFloor].piso"
                           />
                         </v-btn>
                       </template>
@@ -119,10 +135,10 @@
             </div>
           </v-col>
           <v-col cols="4" md="4" class="left-border">
-            <div style="position: relative; height: 100%">
+            <div class="d-flex flex-column" style="height: 100%">
               <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
               <v-row justify="center">
-                <v-col md="9" class="displayNoneSm">
+                <v-col md="9">
                   <div>
                     <div
                       class="d-flex justify-start ma-4"
@@ -160,21 +176,26 @@
                   </div>
                 </v-col>
               </v-row>
-              <div class="seatContinueButton mr-3">
-                <v-btn
-                  outlined
-                  class="mr-3"
-                  :disabled="!selectedSeats.length > 0"
-                  @click="$store.dispatch('DELETE_ALL_SEAT')"
-                  >{{ $t('cancel') }}</v-btn
-                >
-                <v-btn
-                  @click="showModal"
-                  class="white--text"
-                  color="orange"
-                  :disabled="!selectedSeats.length > 0"
-                  >{{ $t('continue') }}</v-btn
-                >
+              <div class="align-self-end justify-self-end">
+                <v-row class="align-end">
+                  <v-col class="d-flex align-end justify-end">
+                    <v-btn
+                      outlined
+                      :disabled="!selectedSeats.length > 0"
+                      @click="deleteSeats"
+                      >{{ $t('cancel') }}</v-btn
+                    >
+                  </v-col>
+                  <v-col class="d-flex align-end justify-end">
+                    <v-btn
+                      @click="showModal"
+                      class="white--text"
+                      color="orange"
+                      :disabled="!selectedSeats.length > 0"
+                      >{{ $t('continue') }}</v-btn
+                    >
+                  </v-col>
+                </v-row>
               </div>
             </div>
           </v-col>
@@ -189,8 +210,10 @@ import Dialog from '@/views/Services/stepper/List/ContinueDialog'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
+import deleteSeat from '@/helpers/deleteSeat'
 import API from '@/services/api/seats'
 import _ from 'lodash'
+// import moment from 'moment'
 
 export default {
   props: ['item', 'isXs', 'back'],
@@ -222,6 +245,12 @@ export default {
   mounted() {
     this.getSeats(this.item)
   },
+  watch: {
+    item() {
+      console.log('watch', this.item)
+      this.getSeats(this.item)
+    }
+  },
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
@@ -240,6 +269,12 @@ export default {
     }
   },
   methods: {
+    async deleteSeats() {
+      const lenght = this.selectedSeats.length - 1
+      for (let index = lenght; index >= 0; index--) {
+        await deleteSeat(index)
+      }
+    },
     createDataForRequest() {
       this.serviceData = {
         empresa: this.data.empresa,
@@ -269,7 +304,8 @@ export default {
           item.destino === this.serviceData.destino &&
           item.integrador === this.serviceData.integrador &&
           item.empresa === this.serviceData.empresa &&
-          seat[0] === item.asiento
+          seat[0] === item.asiento //&&
+        // moment().diff(moment(item.fechaTomada), 'minutes') < 15
       )
       return index
     },
@@ -313,6 +349,7 @@ export default {
         clase: this.serviceData.pisos[index].clase,
         bus: this.serviceData.pisos[index].busPiso,
         descuento: 0
+        // fechaTomada: moment.now()
       }
       if (seatIndex > -1) {
         this.leverageSeat(
@@ -475,5 +512,25 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.seatWidth {
+  width: 33px;
+}
+.blank-seat-rem {
+  margin-right: 1rem;
+}
+@media screen and (max-width: 1364px) {
+  .seatWidth {
+    width: 29px;
+  }
+  .blank-seat-rem {
+    margin-right: 0.5;
+  }
+}
+
+@media screen and (max-width: 1064px) {
+  .blank-seat-rem {
+    margin-right: 0;
+  }
 }
 </style>
