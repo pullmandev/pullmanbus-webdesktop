@@ -81,7 +81,7 @@
                   >
                   <span class="caption d-block"><b>Promoción internet</b></span>
                   <span class="caption d-block"
-                    ><b>Piso {{ index + 1 }}</b></span
+                    ><b>Piso {{ piso.piso + 1 }}</b></span
                   >
                   <span class="caption d-block">{{ piso.servicio }}</span>
                 </v-col>

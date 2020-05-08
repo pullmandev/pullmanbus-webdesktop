@@ -37,7 +37,7 @@
                   sm="12"
                   md="12"
                   lg="10"
-                  class="text-xs-center mb-4 border-bus"
+                  class="text-center mb-4 border-bus"
                 >
                   <div
                     v-for="(col, i) in bus.grilla[
@@ -48,7 +48,7 @@
                   >
                     <!-- acá tengo las columnas del bus (son 5)-->
                     <div
-                      style="margin-right: 1rem"
+                      class="blank-seat-rem"
                       v-for="(seat, j) in col"
                       :key="j"
                     >
@@ -58,17 +58,19 @@
                         <!-- baño -->
                         <template v-if="seat.includes('B')">
                           <div
-                            style="height: 33px; width: 33px;"
-                            class="d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
+                            style="height: 33px"
+                            class="seatWidth d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
                           >
                             <span>WC</span>
                           </div>
                         </template>
                         <div
                           v-else-if="seat === 'X' || seat === '%'"
-                          style="height: 33px; width: 33px;"
+                          style="height: 33px"
+                          class="seatWidth"
                         />
                         <v-btn
+                          :width="seatWidth"
                           v-else-if="
                             seatIsInshoppingCart(
                               seat,
@@ -78,7 +80,7 @@
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
+                          class="mx-0 my-0 seatBtn seatWidth"
                           @click="
                             selectSeat(seat, data.pisos[selectedFloor].piso, [
                               i,
@@ -93,11 +95,12 @@
                           />
                         </v-btn>
                         <v-btn
+                          :width="seatWidth"
                           v-else-if="seat[1] !== '0'"
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
+                          class="mx-0 my-0 seatBtn seatWidth"
                           disabled
                         >
                           <seat
@@ -111,7 +114,7 @@
                           fab
                           text
                           small
-                          class="mx-0 my-0 seatBtn"
+                          class="mx-0 my-0 seatBtn seatWidth"
                           @click="
                             selectSeat(seat, data.pisos[selectedFloor].piso, [
                               i,
@@ -134,10 +137,10 @@
             </div>
           </v-col>
           <v-col cols="4" md="4" class="left-border">
-            <div style="position: relative; height: 100%">
+            <div class="d-flex flex-column" style="height: 100%">
               <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
               <v-row justify="center">
-                <v-col md="9" class="displayNoneSm">
+                <v-col md="9">
                   <div>
                     <div
                       class="d-flex justify-start ma-4"
@@ -175,21 +178,26 @@
                   </div>
                 </v-col>
               </v-row>
-              <div class="seatContinueButton mr-3">
-                <v-btn
-                  outlined
-                  class="mr-3"
-                  :disabled="!selectedSeats.length > 0"
-                  @click="$store.dispatch('DELETE_ALL_SEAT')"
-                  >{{ $t('cancel') }}</v-btn
-                >
-                <v-btn
-                  @click="showModal"
-                  class="white--text"
-                  color="orange"
-                  :disabled="!selectedSeats.length > 0"
-                  >{{ $t('continue') }}</v-btn
-                >
+              <div class="align-self-end justify-self-end">
+                <v-row class="align-end">
+                  <v-col class="d-flex align-end justify-end">
+                    <v-btn
+                      outlined
+                      :disabled="!selectedSeats.length > 0"
+                      @click="$store.dispatch('DELETE_ALL_SEAT')"
+                      >{{ $t('cancel') }}</v-btn
+                    >
+                  </v-col>
+                  <v-col class="d-flex align-end justify-end">
+                    <v-btn
+                      @click="showModal"
+                      class="white--text"
+                      color="orange"
+                      :disabled="!selectedSeats.length > 0"
+                      >{{ $t('continue') }}</v-btn
+                    >
+                  </v-col>
+                </v-row>
               </div>
             </div>
           </v-col>
@@ -499,5 +507,25 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+}
+.seatWidth {
+  width: 33px;
+}
+.blank-seat-rem {
+  margin-right: 1rem;
+}
+@media screen and (max-width: 1364px) {
+  .seatWidth {
+    width: 29px;
+  }
+  .blank-seat-rem {
+    margin-right: 0.5;
+  }
+}
+
+@media screen and (max-width: 1064px) {
+  .blank-seat-rem {
+    margin-right: 0;
+  }
 }
 </style>
