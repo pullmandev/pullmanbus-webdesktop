@@ -5,7 +5,7 @@
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
-            class="d-flex flex-column text-left headline"
+            class="body-1 d-flex flex-column text-left headline"
             style="line-height: 20px"
           >
             Convenios
@@ -45,7 +45,7 @@
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
-            class="d-flex flex-column text-left headline"
+            class="body-1 d-flex flex-column text-left headline"
             style="line-height: 20px"
           >
             Validación
@@ -87,7 +87,7 @@
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
-            class="d-flex flex-column text-left headline"
+            class="body-1 d-flex flex-column text-left headline"
             style="line-height: 20px"
           >
             Medios de pago
