@@ -1,5 +1,5 @@
 <template>
-  <v-carousel cycle hide-delimiters :show-arrows="false" height="57vh">
+  <v-carousel cycle hide-delimiters :show-arrows="false" :height="imageHeight">
     <v-carousel-item
       v-for="(item, i) in items"
       :key="i"
@@ -21,6 +21,19 @@ export default {
         src: '3-2.jpg'
       }
     ]
-  })
+  }),
+  computed: {
+    imageHeight() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return 150
+        case 'sm':
+        case 'md':
+          return 300
+        default:
+          return '57vh'
+      }
+    }
+  }
 }
 </script>

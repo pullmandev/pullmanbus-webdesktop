@@ -2,7 +2,7 @@
   <v-footer :padless="padless">
     <v-card flat tile width="100%" class="text-left white--text orange">
       <v-row class="px-7">
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md="3">
           <v-row>
             <v-col cols="12">
               <span class="body-1 d-block">Call Center</span>
@@ -35,8 +35,8 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="3">
-          <v-row column>
+        <v-col cols="12" sm="12" md="3">
+          <v-row>
             <v-col cols="12">
               <span class="body-1 d-block pb-3">
                 Información al consumidor
@@ -86,7 +86,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md="3">
           <v-row colum>
             <v-col>
               <span class="body-1 d-block text-center">
@@ -100,7 +100,7 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" sm="12" md="3">
           <v-row colum>
             <v-col>
               <span class="body-1 d-block text-center">Pago seguro</span>
@@ -119,7 +119,7 @@
       <div class="orange_dark px-5">
         <v-card-text class="white--text">
           Todos los derechos reservados, {{ new Date().getFullYear() }}
-          <span class="float-right">
+          <span :class="breakPoints">
             Desarrollada por Wit innovación y tecnología spa
           </span>
         </v-card-text>
@@ -135,6 +135,17 @@ export default {
     items: ['default', 'absolute', 'fixed'],
     padless: true,
     variant: 'default'
-  })
+  }),
+  computed: {
+    breakPoints() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+          return 'd-block'
+        default:
+          return 'float-right'
+      }
+    }
+  }
 }
 </script>

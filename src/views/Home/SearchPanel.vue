@@ -2,30 +2,30 @@
   <div style="position: relative;">
     <Carousel />
     <v-container class="search_container">
-      <div class="margin-search" />
+      <div :style="{ marginTop: breakPoint.margin }" />
       <v-card
         color="orange"
         class="elevation-24 rounded-search-box mt-5 px-12 pt-7"
       >
         <v-card-text class="px-0"
-          ><h2 class="display-1 white--text">
+          ><h2 class="display-1 white--text" :class="breakPoint.fontClass">
             {{ $t('travel_details') }}
           </h2></v-card-text
         >
         <v-row>
-          <v-col md="6" sm="12" class="py-0">
+          <v-col md="6" cols="12" class="py-0">
             <cities-list direction="from" />
           </v-col>
-          <v-col md="6" sm="12" class="py-0">
+          <v-col md="6" cols="12" class="py-0">
             <cities-list direction="to" />
           </v-col>
-          <v-col md="6" sm="12" class="py-0">
+          <v-col md="6" cols="12" class="py-0">
             <calendar :fromHome="true" direction="from" />
           </v-col>
-          <v-col md="6" sm="12" class="py-0">
+          <v-col md="6" cols="12" class="py-0">
             <calendar :fromHome="true" direction="to" />
           </v-col>
-          <v-col md="4" sm="12" offset-md="4">
+          <v-col md="4" cols="12" offset-md="4">
             <v-btn
               block
               class="white--text rounded-search"
@@ -36,7 +36,6 @@
               <span>{{ $t('search') }}</span>
             </v-btn>
           </v-col>
-          <v-col md="1" />
         </v-row>
       </v-card>
     </v-container>
@@ -58,6 +57,26 @@ export default {
   data: () => ({
     row: null
   }),
+  computed: {
+    ...mapGetters({
+      loadingServices: ['getLoadingService']
+    }),
+    breakPoint() {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'sm':
+        case 'xs':
+          return {
+            margin: '100px',
+            fontClass: 'headline'
+          }
+        default:
+          return {
+            margin: '50vh',
+            fontClass: 'display-1'
+          }
+      }
+    }
+  },
   methods: {
     validateSearch() {
       this.$notify({
@@ -72,9 +91,6 @@ export default {
       this.$store.dispatch('LOAD_SERVICES_LIST')
     }
   },
-  computed: mapGetters({
-    loadingServices: ['getLoadingService']
-  }),
   mounted() {
     this.$store.dispatch('LOAD_CITIES_LIST')
   }
@@ -88,15 +104,10 @@ export default {
 
 @media (max-width: 960px) {
   .margin-search {
-    margin-top: 40vh;
+    margin-top: 100px;
   }
 }
 
-@media (max-width: 960px) and (orientation: landscape) {
-  .margin-search {
-    margin-top: 100vh;
-  }
-}
 .center_layout {
   z-index: 2;
 }

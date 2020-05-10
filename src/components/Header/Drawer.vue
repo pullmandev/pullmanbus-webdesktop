@@ -3,8 +3,8 @@
     v-model="drawer"
     class="orange_dark"
     dark
-    absolute
-    bottom
+    fixed
+    clipped
     temporary
   >
     <v-list>
@@ -30,12 +30,6 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-
-    <template v-slot:append>
-      <div class="pa-2">
-        <v-btn block>Logout</v-btn>
-      </div>
-    </template>
   </v-navigation-drawer>
 </template>
 <script>
