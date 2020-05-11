@@ -24,6 +24,16 @@
                       :src="'data:image;base64,' + service.logo"
                       class="service-company-image"
                     />
+                    <v-btn
+                      text
+                      small
+                      @click.stop="
+                        selectedService = service
+                        dialog = true
+                      "
+                    >
+                      Ver itinerario
+                    </v-btn>
                   </span>
                 </v-col>
                 <v-col cols="2">
@@ -124,17 +134,12 @@
     <v-card v-else class="elevation-0">
       <span>{{ $t('no_elements') }}</span>
     </v-card>
-    <Dialog
-      :dialog="dialog"
-      @finish="dialog = false"
-      @loged="goToPayment"
-      @confirm="goToPaymentFromModal"
-    />
+    <Dialog :open.sync="dialog" :service="selectedService" />
   </div>
 </template>
 <script>
 import Floor from '@/views/Services/stepper/List/Floor'
-import Dialog from '@/views/Services/stepper/List/UserInfo'
+import Dialog from '@/views/Services/stepper/List/Itinerary'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
@@ -143,6 +148,7 @@ export default {
   props: ['search', 'back'],
   data() {
     return {
+      selectedService: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       dialog: false,

@@ -10,7 +10,6 @@ const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
 const serviciosVenta = `${baseServ}/serviciosVenta/rest/Servicios`
 const administracion = `${base}/administracion-web/rest`
-
 export default {
   cities: `${baseVenta}/buscaCiudades`,
   services: `${baseVenta}/obtenerServicio`,
@@ -32,6 +31,7 @@ export default {
   cancel: `${baseVenta}/anularVenta`,
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
   bancos: `${parametros}/obtenerBanco`,
+  itinerario: `${parametros}/buscarItinerario`,
   botonPago: `${serviciosVenta}/GetConvenio`,
   validarConvenio: `${serviciosVenta}/GetDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`
