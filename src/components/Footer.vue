@@ -49,10 +49,14 @@
                 Política de privacidad
                 <v-icon dark>mdi-chevron-right</v-icon>
               </span>
-              <span class="body-2 d-block">
+              <router-link
+                to="/docs/terms"
+                class="body-2"
+                style="text-decoration: none; color: white;"
+              >
                 Términos y condiciones de pasajes
                 <v-icon dark>mdi-chevron-right</v-icon>
-              </span>
+              </router-link>
             </v-col>
             <v-col class="my-0">
               <v-menu

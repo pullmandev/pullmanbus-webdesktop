@@ -13,9 +13,14 @@ import PersonalData from '@/views/Profile/PersonalData'
 import CancelPurchase from '@/views/Profile/CancelPurchase'
 import ProfilePassword from '@/views/Profile/ProfilePassword'
 
+//Payment response
 import Voucher from '@/views/Services/Voucher.vue'
 import Fail from '@/views/Services/Fail.vue'
 import Error404 from '@/views/ErrorPages/Error404.vue'
+
+//Docs
+import Docs from '@/views/Docs/Index'
+import Terms from '@/views/Docs/Terms'
 
 Vue.use(VueRouter)
 
@@ -79,6 +84,17 @@ const routes = [
         name: 'profile_pass',
         path: 'password',
         component: ProfilePassword
+      }
+    ]
+  },
+  {
+    path: '/docs',
+    component: Docs,
+    children: [
+      {
+        path: 'terms',
+        name: 'terms',
+        component: Terms
       }
     ]
   },
