@@ -32,7 +32,8 @@
                         dialog = true
                       "
                     >
-                      Ver itinerario
+                      <v-icon color="orange">mdi-plus</v-icon>
+                      <span class="capitalize">itinerario</span>
                     </v-btn>
                   </span>
                 </v-col>
