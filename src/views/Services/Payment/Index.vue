@@ -13,35 +13,37 @@
         </v-toolbar-title>
       </v-toolbar>
       <v-card-title>
-        <v-row cols="12" sm="12" md="8" lg="7">
-          <v-col>
-            <v-card-text>
-              <v-radio-group v-model="selectedConvenio"  row>
-                <v-col :key="i" v-for="(item, i) in listaCovenios">
-                  <v-row>
-                    <v-col cols="2">
-                      <v-radio
-                        color="orange_dark"
-                        label=""
-                        :value="item.value"
-                      />
-                    </v-col>
-                    <v-col cols="10">
-                      <v-img height="70px"
-                        :src="item.img"
-                        class="webpay-payment"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-radio-group>
-            </v-card-text>
-          </v-col>
-        </v-row>
+        <v-card-text>
+          <v-radio-group v-model="selectedConvenio" row>
+            <v-row>
+              <v-col
+                :key="i"
+                v-for="(item, i) in listaCovenios"
+                class="d-flex align-center justify-center"
+              >
+                <v-radio
+                  class="mr-1"
+                  color="orange_dark"
+                  label=""
+                  :value="item.value"
+                />
+                <v-img
+                  max-height="130px"
+                  max-width="130px"
+                  :src="item.img"
+                  class="webpay-payment"
+                />
+              </v-col>
+            </v-row>
+          </v-radio-group>
+        </v-card-text>
       </v-card-title>
       <!-- Dialog -->
     </v-card>
-    <v-card class="elevation-2 my-12 rounded-search-box" v-if="selectedConvenio!=''">
+    <v-card
+      class="elevation-2 my-12 rounded-search-box"
+      v-if="selectedConvenio != ''"
+    >
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
@@ -70,8 +72,7 @@
               ></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-btn color="orange" class="white--text"
-              @click="validate">
+              <v-btn color="orange" class="white--text" @click="validate">
                 Validar
               </v-btn>
               <v-btn text>
@@ -175,11 +176,11 @@
               >{{ $t('back') }}</v-btn
             >
             <v-btn
-                    color="orange"
-                    class="white--text mr-5"
-                    :disabled="disabledButton"
-                    @click="pay"
-            >{{ $t('continue') }}</v-btn
+              color="orange"
+              class="white--text mr-5"
+              :disabled="disabledButton"
+              @click="pay"
+              >{{ $t('continue') }}</v-btn
             >
           </div>
         </v-form>
@@ -247,53 +248,54 @@ export default {
     }
   },
   methods: {
-    async validate(){
-      console.log("validate")
+    async validate() {
+      console.log('validate')
       var re = /\./gi
-      const params= {
-        "descuento": "0",
-        "idConvenio": this.selectedConvenio,
-        "listaAtributo":[{"idCampo": "RUT","valor": this.rut}],
-        "listaBoleto":[],
-        "mensaje": "",
-        "montoTotal": "0",
-        "totalApagar": "0"
+      const params = {
+        descuento: '0',
+        idConvenio: this.selectedConvenio,
+        listaAtributo: [{ idCampo: 'RUT', valor: this.rut }],
+        listaBoleto: [],
+        mensaje: '',
+        montoTotal: '0',
+        totalApagar: '0'
       }
       this.selectedSeats.forEach(seat => {
-          console.log(seat)
-          var fecha = seat.fechaPasada.split("/");
-          params.listaBoleto.push({
-            "clase": seat.clase,
-            "descuento": "",
-            "destino": seat.destino,
-            "fechaSalida": fecha[2] + fecha[1] + fecha[0],
-            "idServicio": seat.servicio,
-            "origen": seat.origen,
-            "pago": seat.precio.replace(re,''),
-            "piso": seat.piso,
-            "valor": seat.tarifaNormal.replace(re,''),
-            "asiento": seat.asiento,
-            "promocion": "0"
-            }
-          )
+        console.log(seat)
+        var fecha = seat.fechaPasada.split('/')
+        params.listaBoleto.push({
+          clase: seat.clase,
+          descuento: '',
+          destino: seat.destino,
+          fechaSalida: fecha[2] + fecha[1] + fecha[0],
+          idServicio: seat.servicio,
+          origen: seat.origen,
+          pago: seat.precio.replace(re, ''),
+          piso: seat.piso,
+          valor: seat.tarifaNormal.replace(re, ''),
+          asiento: seat.asiento,
+          promocion: '0'
         })
-        const response = await APIConvenio.getValidateConvenio(params)
-        if(response.data.mensaje=="OK"){
-          response.data.listaBoleto.forEach(salida=>{
-            console.log(salida)
-            this.selectedSeats.find(seat => {
-              var fechaArr = seat.fechaPasada.split("/")
-              var fecha = fechaArr[2]+fechaArr[1]+fechaArr[0]
-              if(seat.servicio==salida.idServicio &&
-                  seat.origen==salida.origen &&
-                  seat.destino==salida.destino &&
-                  seat.asiento==salida.asiento &&
-                  fecha==salida.fechaSalida){
-                    seat.tarifa=salida.pago;
-                  }
-            })
+      })
+      const response = await APIConvenio.getValidateConvenio(params)
+      if (response.data.mensaje == 'OK') {
+        response.data.listaBoleto.forEach(salida => {
+          console.log(salida)
+          this.selectedSeats.find(seat => {
+            var fechaArr = seat.fechaPasada.split('/')
+            var fecha = fechaArr[2] + fechaArr[1] + fechaArr[0]
+            if (
+              seat.servicio == salida.idServicio &&
+              seat.origen == salida.origen &&
+              seat.destino == salida.destino &&
+              seat.asiento == salida.asiento &&
+              fecha == salida.fechaSalida
+            ) {
+              seat.tarifa = salida.pago
+            }
           })
-        }
+        })
+      }
     },
     async pay() {
       this.makeTransaccion().catch(err => {
@@ -374,60 +376,59 @@ export default {
         !this.validForm2 ||
         !this.validForm3 ||
         this.email !== this.confirmemail ||
-        this.payMethod === '' 
+        this.payMethod === ''
       )
     }
   },
-  created: function () {
-    console.log("Create")
-    APIConvenio.getBotonPago().then(response =>{      
+  created: function() {
+    console.log('Create')
+    APIConvenio.getBotonPago().then(response => {
       const data = response.data.Convenio
-      data.forEach(convenio=>{        
-        if(convenio.BotonPago=='SI'){
+      data.forEach(convenio => {
+        if (convenio.BotonPago == 'SI') {
           this.payments.push({
-          img: convenio.Imagen,
-          value: convenio.Convenio,
-          alt: convenio.Descripcion
+            img: convenio.Imagen,
+            value: convenio.Convenio,
+            alt: convenio.Descripcion
           })
         }
       })
-    })   
-    
-    APIConvenio.getConvenios().then(response=>{
+    })
+
+    APIConvenio.getConvenios().then(response => {
       const data = response.data
-      data.forEach(convenio=>{
+      data.forEach(convenio => {
         this.listaCovenios.push({
           img: convenio.imagenCarrusel,
           value: convenio.idConvenio,
           alt: convenio.convenio.descripcion
-          })
+        })
       })
       console.log(this.convenios)
     })
   },
   watch: {
-    payMethod: function(newMethod)
-      {
-        console.log(newMethod)
-        if(newMethod=="BCNSD"){
-          this.selectedConvenio="BCNSD"
-        }else{
-          if(this.selectedConvenio=="BCNSD"){
-            this.selectedConvenio=""
-          }
-        }       
-      },
-     selectedConvenio: function(newConvenio){
-       this.rut=""
-       this.selectedSeats.forEach(seat=>{
-         console.log(seat)
-         seat.tarifa=seat.precio;
-       })
-       if(newConvenio!="BCNSD"){
-         this.payMethod="WBPAY"
-       }
-     } 
-  } 
+    payMethod: function(newMethod) {
+      console.log(newMethod)
+      if (newMethod == 'BCNSD') {
+        this.selectedConvenio = 'BCNSD'
+      } else {
+        if (this.selectedConvenio == 'BCNSD') {
+          this.selectedConvenio = ''
+        }
+      }
+    },
+    selectedConvenio: function(newConvenio) {
+      this.rut = ''
+      this.selectedSeats.forEach(seat => {
+        console.log(seat)
+        seat.tarifa = seat.precio
+      })
+      if (newConvenio != 'BCNSD') {
+        this.payMethod = 'WBPAY'
+      }
+    }
+  }
 }
 </script>
 <style>
