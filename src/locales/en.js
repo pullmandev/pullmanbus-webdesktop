@@ -19,7 +19,7 @@ export default {
   m_lastname: "Mother's last name",
   f_lastname: "Father's last name",
   birth_date: 'Birth date',
-  short_year: 'y',
+  short_year: 'Y',
   document: 'Document',
   doc_type: 'Document type',
   other: 'Other',

@@ -19,7 +19,7 @@ export default {
   m_lastname: 'Apellido materno',
   f_lastname: 'Apellido paterno',
   birth_date: 'Feha de nacimiento',
-  short_year: 'a',
+  short_year: 'A',
   document: 'Documento',
   doc_type: 'Tipo de documento',
   other: 'Otro',

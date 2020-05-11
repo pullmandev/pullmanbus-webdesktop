@@ -51,41 +51,54 @@
             </v-radio-group>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
-            <v-row dense>
-              <v-col cols="12" style="position: relative">
-                <v-menu
-                  v-model="pickerMenu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  color="blue-dark"
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      dark
-                      filled
-                      outlined
-                      dense
-                      placeholder="Fecha de nacimiento"
-                      v-on="on"
-                      color="grey lighten-4"
-                      v-model="formatedDate"
-                      readonly
-                    >
-                    </v-text-field>
-                  </template>
-                  <v-date-picker
-                    min="1920-01-01"
-                    :max="actualDate"
-                    v-model="date"
-                    color="blue_dark"
-                    @input="pickerMenu = false"
-                    :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
-                    :locale="$t('locale')"
-                  >
-                  </v-date-picker>
-                </v-menu>
+            <v-row no-gutters>
+              <v-col>
+                <v-autocomplete
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="day"
+                  :items="days"
+                  dark
+                  outlined
+                  filled
+                  dense
+                  label="D"
+                  color="grey lighten-4"
+                  style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="month"
+                  :items="months"
+                  dark
+                  outlined
+                  filled
+                  dense
+                  label="M"
+                  color="grey lighten-4"
+                  style="border-radius: 0;"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  maxLength="4"
+                  class="body-1"
+                  append-icon=""
+                  v-model="year"
+                  :items="years"
+                  dark
+                  outlined
+                  filled
+                  dense
+                  :label="$t('short_year')"
+                  color="grey lighten-4"
+                  style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+                />
               </v-col>
             </v-row>
           </v-col>
@@ -169,7 +182,12 @@ export default {
       seePassword: true,
       seePassword2: true,
       name: '',
-      date: '',
+      day: '',
+      days: Array.from({ length: 31 }, (v, k) => k + 1),
+      month: '',
+      months: Array.from({ length: 12 }, (v, k) => k + 1),
+      year: '',
+      years: Array.from({ length: 81 }, (v, k) => k + 1940),
       f_lastname: '',
       gender: 'F',
       doc_type: '',
@@ -211,7 +229,7 @@ export default {
           email: this.email,
           nombre: this.name,
           apellidoPaterno: this.f_lastname,
-          fechaNacimiento: this.date + 'T00:00:00.000+0000',
+          fechaNacimiento: `${this.year}-${this.month}-${this.day}T00:00:00.000+0000`,
           genero: this.gender
         }
         console.log('params', params)
