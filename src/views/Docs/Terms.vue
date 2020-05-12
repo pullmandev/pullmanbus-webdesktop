@@ -151,8 +151,6 @@
             pudiese afectar la seguridad o transporte de los demás pasajeros, se
             negará a prestarle el servicio, debido a una conducta contraria al
             comportamiento razonable que debe mantener una persona abordo.
-          </li>
-          <li>
             <ol>
               <li>
                 Que la persona o cliente realice una infracción o delito que
@@ -214,6 +212,8 @@ import scrollAnimation from '@/helpers/scrollAnimation'
 export default {
   mounted() {
     this.scrollAnimation('#docs')
+    console.log('terms', this.$parent)
+    this.$parent.$data.title = 'terms'
   },
   methods: { scrollAnimation }
 }

@@ -4,7 +4,7 @@
       src="../../../static/images/Slide1.png"
       class="d-flex justify-center align-center text-center white--text"
     >
-      <h1>{{ $t('terms') }}</h1>
+      <h1>{{ $t(title) }}</h1>
     </v-img>
     <router-view></router-view>
   </div>

@@ -11,30 +11,26 @@
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="name"
               :label="$t('name')"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="generalRules"
-              class="app-textfield"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="f_lastname"
               :label="$t('lastname')"
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
@@ -46,8 +42,8 @@
               dense
               row
             >
-              <v-radio value="F" label="Mujer" />
-              <v-radio value="M" label="Hombre" />
+              <v-radio value="F" label="Mujer" color="blue" />
+              <v-radio value="M" label="Hombre" color="blue" />
             </v-radio-group>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -59,12 +55,11 @@
                   append-icon=""
                   v-model="day"
                   :items="days"
-                  dark
                   outlined
                   filled
                   dense
                   label="D"
-                  color="grey lighten-4"
+                  color="blue"
                   style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
                 />
               </v-col>
@@ -75,12 +70,11 @@
                   append-icon=""
                   v-model="month"
                   :items="months"
-                  dark
                   outlined
                   filled
                   dense
                   label="M"
-                  color="grey lighten-4"
+                  color="blue"
                   style="border-radius: 0;"
                 />
               </v-col>
@@ -91,12 +85,11 @@
                   append-icon=""
                   v-model="year"
                   :items="years"
-                  dark
                   outlined
                   filled
                   dense
                   :label="$t('short_year')"
-                  color="grey lighten-4"
+                  color="blue"
                   style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
                 />
               </v-col>
@@ -104,21 +97,18 @@
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="rut"
               :label="'Nº ' + $t('document')"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="rutRules"
-              class="app-textfield"
             ></v-text-field>
           </v-col>
           <v-col xs12 lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
@@ -126,14 +116,12 @@
               :rules="emailRules"
               :label="$t('email')"
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
@@ -141,8 +129,7 @@
               :rules="emailconfirmRules"
               :label="$t('confirm_email')"
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
             ></v-text-field>
           </v-col>
           <v-col md="4" cols="12" offset-md="4" class="pt-3">
