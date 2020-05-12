@@ -2,7 +2,7 @@
   <section class="container">
     <v-row>
       <v-col cols="10" offset="1">
-        <h2 class="mb-12">Términos y condiciones</h2>
+        <h2 class="mb-12">{{ $t('terms') }}</h2>
 
         <h3>I.- CONDICIONES COMERCIALES Y RESTRICCIONES</h3>
 

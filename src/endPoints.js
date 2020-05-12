@@ -32,6 +32,7 @@ export default {
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
   bancos: `${parametros}/obtenerBanco`,
   itinerario: `${parametros}/buscarItinerario`,
+  obtenerFaq: `${parametros}/obtenerFaq`,
   botonPago: `${serviciosVenta}/GetConvenio`,
   validarConvenio: `${serviciosVenta}/GetDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`

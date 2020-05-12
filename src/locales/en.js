@@ -119,6 +119,8 @@ export default {
   get_ticket: 'Getting tickets',
   error_404: "This is not the page you're looking for",
   terms: 'Terms of use.',
+  your_rights: 'Know your rights',
+  FAQs: 'Frequent questions',
   save: 'Save',
   undo: 'Undo',
   my_profile: 'My profile',

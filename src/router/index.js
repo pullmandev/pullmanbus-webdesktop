@@ -21,6 +21,8 @@ import Error404 from '@/views/ErrorPages/Error404.vue'
 //Docs
 import Docs from '@/views/Docs/Index'
 import Terms from '@/views/Docs/Terms'
+import Rights from '@/views/Docs/Rights'
+import FAQs from '@/views/Docs/FAQs'
 
 Vue.use(VueRouter)
 
@@ -95,6 +97,16 @@ const routes = [
         path: 'terms',
         name: 'terms',
         component: Terms
+      },
+      {
+        path: 'rights',
+        name: 'rights',
+        component: Rights
+      },
+      {
+        path: 'FAQs',
+        name: 'FAQs',
+        component: FAQs
       }
     ]
   },

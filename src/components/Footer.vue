@@ -41,20 +41,23 @@
               <span class="body-1 d-block pb-3">
                 Información al consumidor
               </span>
-              <span class="body-2 d-block pb-3">
+              <router-link to="/docs/rights" class="body-2 d-block footerLink">
                 Conoce tus derechos
                 <v-icon dark>mdi-chevron-right</v-icon>
-              </span>
-              <span class="body-2 d-block pb-3">
+              </router-link>
+              <router-link
+                to="/docs/politics"
+                class="body-2 d-block footerLink"
+              >
                 Política de privacidad
                 <v-icon dark>mdi-chevron-right</v-icon>
-              </span>
-              <router-link
-                to="/docs/terms"
-                class="body-2"
-                style="text-decoration: none; color: white;"
-              >
+              </router-link>
+              <router-link to="/docs/terms" class="body-2 d-block footerLink">
                 Términos y condiciones de pasajes
+                <v-icon dark>mdi-chevron-right</v-icon>
+              </router-link>
+              <router-link to="/docs/FAQs" class="body-2 d-block footerLink">
+                Preguntas frecuentes
                 <v-icon dark>mdi-chevron-right</v-icon>
               </router-link>
             </v-col>
@@ -153,3 +156,10 @@ export default {
   }
 }
 </script>
+<style scoped>
+.footerLink {
+  text-decoration: none;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+</style>

@@ -119,6 +119,8 @@ export default {
   get_ticket: 'Obteniendo boletos',
   error_404: 'No hemos encontrado la página que estas buscando',
   terms: 'Términos de uso.',
+  your_rights: 'Conoce tus derechos',
+  FAQs: 'Preguntas frecuentes',
   save: 'Guardar',
   undo: 'Deshacer',
   my_profile: 'Mi perfil',
