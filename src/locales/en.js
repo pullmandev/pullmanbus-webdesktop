@@ -112,6 +112,7 @@ export default {
   passenger_data: 'Passenger data',
   delete: 'Delete',
   one_reservation: 'One way reservation',
+  two_reservation: 'One way reservation',
   no_av_services: 'No services available at this time',
   no_going_date: 'Departure date is mandatory',
   search_services: 'Looking for services',

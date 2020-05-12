@@ -3,6 +3,7 @@
     group="load"
     :duration="1000"
     :width="windowSize.x <= 960 ? '80%' : 600"
+    :ignoreDuplicates="true"
     animation-name="v-fade-left"
     position="bottom right"
   >

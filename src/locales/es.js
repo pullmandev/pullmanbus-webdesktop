@@ -112,6 +112,7 @@ export default {
   passenger_data: 'Datos pasajero',
   delete: 'Eliminar',
   one_reservation: 'Reserva ida',
+  two_reservation: 'Reserva de ida y vuelta',
   no_av_services: 'No se encontraron servicios disponibles en este momento',
   no_going_date: 'Fecha de ida es obligatoria',
   search_services: 'Buscando servicios',

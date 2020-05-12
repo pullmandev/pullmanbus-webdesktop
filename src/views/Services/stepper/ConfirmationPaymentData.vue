@@ -29,7 +29,10 @@
             </v-col>
           </v-row>
           <v-card-text>
-            <h3 class="capitalize">{{ $t('one_reservation') }}</h3>
+            <h3 v-if="hasVuelta">
+              {{ $t('two_reservation') }}
+            </h3>
+            <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
           </v-card-text>
           <v-data-table
             :headers="headers"
@@ -148,7 +151,8 @@ export default {
       selectedSeats: ['seats'],
       payment_info: ['payment_info'],
       userData: ['userData'],
-      searching: ['getSearching']
+      searching: ['getSearching'],
+      hasVuelta: ['hasVuelta']
     }),
     getSeatWithId() {
       const result = this.selectedSeats.map(seat => {

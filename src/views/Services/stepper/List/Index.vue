@@ -10,6 +10,17 @@
                 {{ $t('to') }}
                 {{ searching.to_city.nombre }}
               </span>
+              <span
+                class="title ml-3"
+                :class="{ 'body-1': windowSize.x <= 960 }"
+              >
+                <template v-if="selectedTab === 'tab-Vuelta'">
+                  Fecha de vuelta: {{ formatDate(searching.to_date) }}
+                </template>
+                <template v-else>
+                  Fecha de ida: {{ formatDate(searching.from_date) }}
+                </template>
+              </span>
             </v-toolbar-title>
             <template v-if="hasVuelta" v-slot:extension>
               <v-tabs v-model="selectedTab" centered slider-color="yellow">
@@ -79,12 +90,9 @@ export default {
   computed: {
     ...mapGetters({
       services: ['getServiceList'],
-      searching: ['getSearching']
+      searching: ['getSearching'],
+      hasVuelta: ['hasVuelta']
     }),
-    hasVuelta () {
-      const services = this.services(true)
-      return services.length > 0
-    },
     selectedTab: {
       get () {
         return this.$store.state.services.tab
@@ -98,6 +106,9 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      return moment(date).format('LL')
+    },
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
     }

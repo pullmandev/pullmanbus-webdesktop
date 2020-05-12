@@ -3,6 +3,7 @@
     group="stuck-load"
     :duration="-1"
     :width="windowSize.x <= 960 ? '80%' : 600"
+    :ignoreDuplicates="true"
     animation-name="v-fade-left"
     position="bottom right"
   >
