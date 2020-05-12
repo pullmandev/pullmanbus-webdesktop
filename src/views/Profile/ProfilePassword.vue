@@ -111,10 +111,9 @@ export default {
       this.loading = true
       const params = {
         email: this.userData.usuario.email,
-        password: this.oldpassword,
-        nuevaPassword: this.password
+        password: this.oldpassword
       }
-      const response = await API.changePassword(params)
+      const response = await API.updateUser(params)
       this.loading = false
       if (!response.data.exito) {
         this.$notify({

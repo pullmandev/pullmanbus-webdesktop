@@ -19,7 +19,7 @@
           <td class="text-xs-left">{{ props.item.monto | currency }}</td>
           <td class="text-xs-left">
             <v-btn
-              flat
+              text
               icon
               color="blue_dark"
               @click="getTicket(props.item.codigo)"
@@ -168,7 +168,7 @@ export default {
         this.transactions = data
       })
       .catch(err => {
-        console.log(err)
+        console.err(err)
       })
   },
   methods: {
@@ -179,8 +179,7 @@ export default {
         type: 'info'
       })
       const response = await API.searchTicket({
-        codigo,
-        email: this.userData.usuario.email
+        codigo
       })
       this.tickets = response.data.map(item => {
         const { fechaHoraSalida } = item.imprimeVoucher

@@ -49,6 +49,19 @@
                   color="primary"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+                <h3 class="title  my-0">Genero</h3>
+                <v-radio-group
+                  class="my-0"
+                  v-model="gender"
+                  :mandatory="true"
+                  dense
+                  row
+                >
+                  <v-radio value="F" label="Mujer" color="blue" />
+                  <v-radio value="M" label="Hombre" color="blue" />
+                </v-radio-group>
+              </v-col>
               <v-col cols="12" lg="5" class="ml-3 mr-3">
                 <v-row dense>
                   <v-col cols="12" style="position: relative">
@@ -65,7 +78,7 @@
                           filled
                           outlined
                           dense
-                          placeholder="Fecha de nacimiento"
+                          label="Fecha de nacimiento"
                           v-on="on"
                           color="grey lighten-4"
                           v-model="formatedDate"
@@ -202,6 +215,11 @@ export default {
   mounted() {
     this.clear()
   },
+  watch: {
+    date(value) {
+      console.log(value)
+    }
+  },
   computed: {
     ...mapGetters({
       userData: ['userData']
@@ -214,36 +232,42 @@ export default {
 
   methods: {
     async modify() {
-      this.loading = true
-      const { usuario } = Object.assign({}, this.userData)
-      const params = {
-        rut: this.rut,
-        email: this.email,
-        nombre: this.name,
-        apellidoMaterno: this.m_lastname,
-        apellidoPaterno: this.f_lastname,
-        fechaCreacion: usuario.fechaCreacion,
-        fechaNacimiento: moment(this.date).format('DD-MM-YYYY')
-      }
-      const response = await API.signup(params)
-      this.loading = false
-      if (!response.data.exito) {
-        this.$notify({
-          group: 'error',
-          title: 'Actualizar datos',
-          type: 'error',
-          text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
-        })
-        console.error(response.data)
-      } else {
-        this.$notify({
-          group: 'info',
-          title: 'Datos actualizados',
-          type: 'info'
-        })
-        const newUsuario = Object.assign({}, usuario, params)
-        const userData = { ...this.userData, usuario: newUsuario }
-        this.$store.dispatch('SET_USER', { userData })
+      try {
+        this.loading = true
+        const { usuario } = Object.assign({}, this.userData)
+        const params = {
+          rut: this.rut,
+          email: this.email,
+          nombre: this.name,
+          apellidoPaterno: this.f_lastname,
+          fechaNacimiento:
+            moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
+          genero: this.gender
+        }
+        console.log(params)
+        const response = await API.updateUser(params)
+        if (!response.data.exito) {
+          this.$notify({
+            group: 'error',
+            title: 'Actualizar datos',
+            type: 'error',
+            text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
+          })
+          console.error(response.data)
+        } else {
+          this.$notify({
+            group: 'info',
+            title: 'Datos actualizados',
+            type: 'info'
+          })
+          const newUsuario = Object.assign({}, usuario, params)
+          const userData = { ...this.userData, usuario: newUsuario }
+          this.$store.dispatch('SET_USER', { userData })
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loading = false
       }
     },
     clear() {
@@ -252,11 +276,11 @@ export default {
         'YYYY-MM-DD'
       )
       this.name = usuario.nombre
-      this.m_lastname = usuario.apellidoMaterno
       this.f_lastname = usuario.apellidoPaterno
       this.email = usuario.email
       this.confirmemail = usuario.email
       this.rut = usuario.rut
+      this.gender = usuario.gender
     }
   }
 }
