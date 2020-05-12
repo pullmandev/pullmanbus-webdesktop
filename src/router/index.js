@@ -23,6 +23,7 @@ import Docs from '@/views/Docs/Index'
 import Terms from '@/views/Docs/Terms'
 import Rights from '@/views/Docs/Rights'
 import FAQs from '@/views/Docs/FAQs'
+import Privacy from '@/views/Docs/Privacy'
 
 Vue.use(VueRouter)
 
@@ -107,6 +108,11 @@ const routes = [
         path: 'FAQs',
         name: 'FAQs',
         component: FAQs
+      },
+      {
+        path: 'privacy',
+        name: 'privacy',
+        component: Privacy
       }
     ]
   },

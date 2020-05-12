@@ -45,10 +45,7 @@
                 Conoce tus derechos
                 <v-icon dark>mdi-chevron-right</v-icon>
               </router-link>
-              <router-link
-                to="/docs/politics"
-                class="body-2 d-block footerLink"
-              >
+              <router-link to="/docs/privacy" class="body-2 d-block footerLink">
                 Política de privacidad
                 <v-icon dark>mdi-chevron-right</v-icon>
               </router-link>

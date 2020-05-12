@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app-bar color="orange" fixed dark>
+    <v-app-bar color="orange" fixed dark style="overflow: hidden;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-btn
         text

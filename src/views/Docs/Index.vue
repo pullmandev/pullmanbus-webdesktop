@@ -10,10 +10,17 @@
   </div>
 </template>
 <script>
+import scrollAnimation from '@/helpers/scrollAnimation'
+
 export default {
   data() {
     return {
       title: ''
+    }
+  },
+  methods: {
+    scrollToTop() {
+      scrollAnimation('#docs')
     }
   }
 }

@@ -208,13 +208,11 @@
   </section>
 </template>
 <script>
-import scrollAnimation from '@/helpers/scrollAnimation'
 export default {
   mounted() {
-    this.scrollAnimation('#docs')
+    this.$parent.scrollToTop()
     this.$parent.$data.title = 'terms'
-  },
-  methods: { scrollAnimation }
+  }
 }
 </script>
 <style scoped>

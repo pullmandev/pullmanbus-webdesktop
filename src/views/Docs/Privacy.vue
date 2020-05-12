@@ -2,7 +2,7 @@
   <section class="container">
     <v-row>
       <v-col cols="10" offset="1">
-        <h2 class="mb-12">{{ $t('your_rights') }}</h2>
+        <h2 class="mb-12">{{ $t('privacy') }}</h2>
 
         <h3>Deberes de los pasajeros</h3>
         <ul class="my-6">
@@ -125,8 +125,8 @@
 <script>
 export default {
   mounted() {
+    this.$parent.$data.title = 'privacy'
     this.$parent.scrollToTop()
-    this.$parent.$data.title = 'your_rights'
   }
 }
 </script>

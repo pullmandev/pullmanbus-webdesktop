@@ -1,6 +1,13 @@
 <template>
   <section class="container">
-    <v-row justify="center">
+    <div v-if="loading" class="text-center pt-12">
+      <v-progress-circular
+        indeterminate
+        :size="100"
+        color="blue"
+      ></v-progress-circular>
+    </div>
+    <v-row v-else justify="center">
       <v-col>
         <h2 class="mb-12 text-center">{{ $t('FAQs') }}</h2>
         <v-expansion-panels multiple>
@@ -32,7 +39,7 @@
 import API from '@/services/api/parameters'
 export default {
   data() {
-    return { data: [] }
+    return { loading: false, data: [] }
   },
   computed: {
     availableInfo() {
@@ -41,12 +48,15 @@ export default {
   },
   mounted() {
     this.$parent.$data.title = 'FAQs'
+    this.$parent.scrollToTop()
+    this.loading = true
     API.getFaqs()
       .then(response => {
         this.data = response.data
         console.log('faqs', this.data)
       })
       .catch(err => console.error(err))
+      .finally(() => (this.loading = false))
   }
 }
 </script>
