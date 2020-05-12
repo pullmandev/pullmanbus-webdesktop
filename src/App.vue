@@ -100,8 +100,45 @@ export default {
   }
 }
 </script>
-<style lang="sass">
+<style lang="scss">
 /* sass variables for sliders in filters components */
-$themeColor: var(--var-orange)
-@import '~vue-slider-component/lib/theme/default.scss'
+$themeColor: var(--var-orange);
+@import '~vue-slider-component/lib/theme/default.scss';
+@mixin track() {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+@mixin scrollbar() {
+  width: 7px;
+  background-color: #f5f5f5;
+}
+@mixin thumb {
+  background-color: var(--var-orange_dark);
+  border-radius: 5px;
+}
+
+.v-dialog::-webkit-scrollbar-track {
+  @include track();
+}
+
+.v-dialog::-webkit-scrollbar {
+  @include scrollbar();
+}
+
+.v-dialog::-webkit-scrollbar-thumb {
+  @include thumb();
+}
+
+body::-webkit-scrollbar-track {
+  @include track();
+}
+
+body::-webkit-scrollbar {
+  @include scrollbar();
+}
+
+body::-webkit-scrollbar-thumb {
+  @include thumb();
+}
 </style>

@@ -212,7 +212,6 @@ import scrollAnimation from '@/helpers/scrollAnimation'
 export default {
   mounted() {
     this.scrollAnimation('#docs')
-    console.log('terms', this.$parent)
     this.$parent.$data.title = 'terms'
   },
   methods: { scrollAnimation }
