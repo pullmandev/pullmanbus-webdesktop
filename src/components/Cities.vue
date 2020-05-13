@@ -2,6 +2,7 @@
   <div>
     <v-autocomplete
       class="body-1"
+      :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
       dark
       :outlined="outlined"
       :label="languageChange"

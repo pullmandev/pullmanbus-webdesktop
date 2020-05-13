@@ -1,7 +1,13 @@
 import axios from 'axios'
 import endPoints from '@/endPoints'
 
-const { auth, registro, recuperarPassword, guardarUsuario } = endPoints
+const {
+  auth,
+  registro,
+  recuperarPassword,
+  guardarUsuario,
+  cambioPassowrd
+} = endPoints
 export default {
   auth(params) {
     return axios.post(auth, params, {
@@ -20,6 +26,11 @@ export default {
   },
   updateUser(params) {
     return axios.post(guardarUsuario, params, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+  },
+  updatePassword(params) {
+    return axios.post(cambioPassowrd, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   }

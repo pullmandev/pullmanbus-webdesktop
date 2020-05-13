@@ -61,6 +61,7 @@
                   label="D"
                   color="blue"
                   style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+                  :rules="dateRules"
                 />
               </v-col>
               <v-col>
@@ -76,6 +77,7 @@
                   label="M"
                   color="blue"
                   style="border-radius: 0;"
+                  :rules="dateRules"
                 />
               </v-col>
               <v-col>
@@ -91,6 +93,7 @@
                   :label="$t('short_year')"
                   color="blue"
                   style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+                  :rules="dateRules"
                 />
               </v-col>
             </v-row>
@@ -174,7 +177,7 @@ export default {
       month: '',
       months: Array.from({ length: 12 }, (v, k) => k + 1),
       year: '',
-      years: Array.from({ length: 81 }, (v, k) => k + 1940),
+      years: Array.from({ length: 100 }, (v, k) => k + 1940),
       f_lastname: '',
       gender: 'F',
       doc_type: '',
@@ -233,11 +236,15 @@ export default {
             dialogType: 'login'
           })
         } else {
+          let text =
+            response.data.mensaje.length > 0
+              ? response.data.mensaje
+              : this.$t('sign_up_error')
           this.$notify({
             group: 'error',
             title: this.$t('sign_up'),
             type: 'error',
-            text: this.$t('sign_up_error')
+            text
           })
           console.error(response.data)
         }

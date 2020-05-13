@@ -24,6 +24,7 @@ export default {
   auth: `${sesion}/autenticar`,
   registro: `${sesion}/inscribirUsuario`,
   actualizar: `${sesion}/guardar`,
+  cambioPassowrd: `${sesion}/cambioPassowrd`,
   recuperarPassword: `${sesion}/recuperarPassword`,
   guardarUsuario: `${sesion}/guardarUsuario`,
   buscarTransEmail: `${compra}/obtenerTransacciones`,
