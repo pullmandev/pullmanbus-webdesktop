@@ -105,6 +105,9 @@ export default {
   watch: {
     service() {
       this.loading = true
+      this.cities = []
+      this.terminals = []
+      this.hours = []
       API.getItinerario(this.service.idServicio)
         .then(response => {
           response.data.forEach(item => {

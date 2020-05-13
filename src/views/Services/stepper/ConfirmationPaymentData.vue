@@ -44,6 +44,9 @@
             <template slot="item" slot-scope="props">
               <tr>
                 <td>
+                  <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
+                </td>
+                <td>
                   <h3>{{ props.item.terminalSalida }}</h3>
                 </td>
                 <td>
@@ -180,14 +183,27 @@ export default {
     },
     headers() {
       return [
-        { text: this.$t('from_city2'), value: 'terminalSalida' },
-        { text: this.$t('to_city2'), value: 'terminalLlegada' },
-        { text: this.$t('from_date2'), value: 'fecha' },
-        { text: this.$t('departure_hour'), value: 'horaSalida' },
-        { text: this.$t('seat'), value: 'asiento' },
-        { text: this.$t('floor'), value: 'piso' },
-        { text: this.$t('price'), value: 'precio' },
-        { text: '', value: '' }
+        { text: 'Tipo de viaje', value: 'vuelta' },
+        {
+          text: this.$t('from_city2'),
+          value: 'terminalSalida',
+          sortable: false
+        },
+        {
+          text: this.$t('to_city2'),
+          value: 'terminalLlegada',
+          sortable: false
+        },
+        { text: this.$t('from_date2'), value: 'fecha', sortable: false },
+        {
+          text: this.$t('departure_hour'),
+          value: 'horaSalida',
+          sortable: false
+        },
+        { text: this.$t('seat'), value: 'asiento', sortable: false },
+        { text: this.$t('floor'), value: 'piso', sortable: false },
+        { text: this.$t('price'), value: 'precio', sortable: false },
+        { text: '', value: '', sortable: false }
       ]
     }
   }

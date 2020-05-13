@@ -20,6 +20,10 @@
                 :key="i"
                 v-for="(item, i) in listaCovenios"
                 class="d-flex align-center justify-center"
+                lg="2"
+                md="3"
+                sm="6"
+                xs="12"
               >
                 <v-radio
                   class="mr-1"
@@ -57,7 +61,7 @@
       <v-card-title> Nombre del convenio: {{ selectedConvenio }} </v-card-title>
       <v-card-text>
         <v-form v-model="validForm">
-          <v-row cols="12" sm="12" md="8" lg="6">
+          <v-row cols="12" sm="12" md="8" lg="7">
             <v-col cols="3">
               <v-text-field
                 filled
@@ -72,7 +76,12 @@
               ></v-text-field>
             </v-col>
             <v-col cols="4">
-              <v-btn color="orange" class="white--text" @click="validate">
+              <v-btn
+                color="orange"
+                :loading="loadingRutValidation"
+                class="white--text"
+                @click="validate"
+              >
                 Validar
               </v-btn>
               <v-btn text>
@@ -179,6 +188,7 @@
               color="orange"
               class="white--text mr-5"
               :disabled="disabledButton"
+              :loading="loadingPayAction"
               @click="pay"
               >{{ $t('continue') }}</v-btn
             >
@@ -224,8 +234,11 @@ export default {
   },
   data() {
     return {
+      loadingRutValidation: false,
+      loadingPayAction: false,
       selectedConvenio: '',
       listaCovenios: [],
+      selectedSeats: this.$store.state.seats,
       rut: '',
       payMethod: 'WBPAY',
       payments: [],
@@ -247,60 +260,103 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      payment_info: ['payment_info'],
+      searching: ['getSearching']
+    }),
+    totalAmount() {
+      let totalAmount = 0
+      this.selectedSeats.forEach(item => {
+        totalAmount += parseInt(item.tarifa.split('.').join('')) // totalAmount += 10
+      })
+      return totalAmount
+    },
+    disabledButton() {
+      //const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
+      return (
+        !this.validForm2 ||
+        !this.validForm3 ||
+        this.email !== this.confirmemail ||
+        this.payMethod === ''
+      )
+    }
+  },
   methods: {
     async validate() {
-      console.log('validate')
-      var re = /\./gi
-      const params = {
-        descuento: '0',
-        idConvenio: this.selectedConvenio,
-        listaAtributo: [{ idCampo: 'RUT', valor: this.rut }],
-        listaBoleto: [],
-        mensaje: '',
-        montoTotal: '0',
-        totalApagar: '0'
-      }
-      this.selectedSeats.forEach(seat => {
-        console.log(seat)
-        var fecha = seat.fechaPasada.split('/')
-        params.listaBoleto.push({
-          clase: seat.clase,
-          descuento: '',
-          destino: seat.destino,
-          fechaSalida: fecha[2] + fecha[1] + fecha[0],
-          idServicio: seat.servicio,
-          origen: seat.origen,
-          pago: seat.precio.replace(re, ''),
-          piso: seat.piso,
-          valor: seat.tarifaNormal.replace(re, ''),
-          asiento: seat.asiento,
-          promocion: '0'
-        })
-      })
-      const response = await APIConvenio.getValidateConvenio(params)
-      if (response.data.mensaje == 'OK') {
-        response.data.listaBoleto.forEach(salida => {
-          console.log(salida)
-          this.selectedSeats.find(seat => {
-            var fechaArr = seat.fechaPasada.split('/')
-            var fecha = fechaArr[2] + fechaArr[1] + fechaArr[0]
-            if (
-              seat.servicio == salida.idServicio &&
-              seat.origen == salida.origen &&
-              seat.destino == salida.destino &&
-              seat.asiento == salida.asiento &&
-              fecha == salida.fechaSalida
-            ) {
-              seat.tarifa = salida.pago
-            }
+      try {
+        this.loadingRutValidation = true
+        var re = /\./gi
+        const params = {
+          descuento: '0',
+          idConvenio: this.selectedConvenio,
+          listaAtributo: [{ idCampo: 'RUT', valor: this.rut }],
+          listaBoleto: [],
+          mensaje: '',
+          montoTotal: '0',
+          totalApagar: '0'
+        }
+        this.selectedSeats.forEach(seat => {
+          console.log(seat)
+          var fecha = seat.fechaPasada.split('/')
+          params.listaBoleto.push({
+            clase: seat.clase,
+            descuento: '',
+            destino: seat.destino,
+            fechaSalida: fecha[2] + fecha[1] + fecha[0],
+            idServicio: seat.servicio,
+            origen: seat.origen,
+            pago: seat.precio.replace(re, ''),
+            piso: seat.piso,
+            valor: seat.tarifaNormal.replace(re, ''),
+            asiento: seat.asiento,
+            promocion: '0'
           })
         })
+        const response = await APIConvenio.getValidateConvenio(params)
+        if (response.data.mensaje == 'OK') {
+          response.data.listaBoleto.forEach(salida => {
+            console.log(salida)
+            this.selectedSeats.find(seat => {
+              var fechaArr = seat.fechaPasada.split('/')
+              var fecha = fechaArr[2] + fechaArr[1] + fechaArr[0]
+              if (
+                seat.servicio == salida.idServicio &&
+                seat.origen == salida.origen &&
+                seat.destino == salida.destino &&
+                seat.asiento == salida.asiento &&
+                fecha == salida.fechaSalida
+              ) {
+                seat.tarifa = salida.pago
+              }
+            })
+          })
+          this.$notify({
+            group: 'info',
+            title: 'Descuento aplicado',
+            type: 'info'
+          })
+        } else {
+          this.$notify({
+            group: 'error',
+            title: 'Validar conevenio',
+            type: 'error',
+            text: `${response.data.mensaje}`
+          })
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loadingRutValidation = false
       }
     },
     async pay() {
-      this.makeTransaccion().catch(err => {
-        console.log(err)
-      })
+      this.loadingPayAction = true
+      this.makeTransaccion()
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => (this.loadingPayAction = false))
     },
     async makeTransaccion() {
       let listaCarrito = []
@@ -361,23 +417,6 @@ export default {
       document.body.appendChild(f)
       f.submit()
       document.body.removeChild(f)
-    }
-  },
-  computed: {
-    ...mapGetters({
-      selectedSeats: ['seats'],
-      totalAmount: ['seatsTotalAmount'],
-      payment_info: ['payment_info'],
-      searching: ['getSearching']
-    }),
-    disabledButton() {
-      //const checkForRut = this.selectedConvenio !== 'NA' ? this.validForm : true
-      return (
-        !this.validForm2 ||
-        !this.validForm3 ||
-        this.email !== this.confirmemail ||
-        this.payMethod === ''
-      )
     }
   },
   created: function() {
