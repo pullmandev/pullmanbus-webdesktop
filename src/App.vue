@@ -52,14 +52,12 @@ export default {
         {
           title: 'Viajes Especiales',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/viajesEspeciales.jsf#header'
+          route: '/requestTrip'
         },
         {
           title: 'Cuenta Corriente',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/cuentaCorrientes.jsf#header'
+          route: '/requestCurrentAccount'
         },
         {
           title: 'Convenio',

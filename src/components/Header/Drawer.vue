@@ -19,14 +19,22 @@
         </v-list-item-icon>
 
         <v-list-item-content>
-          <v-list-item-title
-            ><a
+          <v-list-item-title>
+            <a
               style="text-decoration: none; color: white; font-size: .9rem"
               :href="item.link"
+              v-if="item.link"
               target="_blank"
               >{{ item.title }}</a
-            ></v-list-item-title
-          >
+            >
+            <router-link
+              v-else
+              :to="item.route"
+              style="text-decoration: none; color: white; font-size: .9rem"
+            >
+              {{ item.title }}
+            </router-link>
+          </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
