@@ -441,11 +441,11 @@ export default {
       data.forEach(convenio => {
         this.listaCovenios.push({
           img: convenio.imagenCarrusel,
-          value: convenio.idConvenio,
+          value: convenio.convenio.descripcion,
           alt: convenio.convenio.descripcion
         })
       })
-      console.log(this.convenios)
+      console.log(response.data)
     })
   },
   watch: {

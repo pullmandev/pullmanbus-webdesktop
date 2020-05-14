@@ -178,7 +178,7 @@ export default {
       month: '',
       months: Array.from({ length: 12 }, (v, k) => k + 1),
       year: '',
-      years: Array.from({ length: 100 }, (v, k) => k + 1940),
+      years: Array.from({ length: 100 }, (v, k) => k + 1920),
       f_lastname: '',
       gender: 'F',
       doc_type: '',
@@ -229,7 +229,7 @@ export default {
         if (response.data.exito) {
           this.$notify({
             group: 'info',
-            title: 'Usuario resgistrado',
+            title: 'Usuario resgistrado corréctamente',
             type: 'info'
           })
           this.$store.dispatch('SET_SESSION_DIALOG', {

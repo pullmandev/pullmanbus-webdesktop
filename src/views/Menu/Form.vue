@@ -1,7 +1,6 @@
 <template>
   <v-container>
-    <h1 class="blue--text mb-6">{{ $t('my_profile') }}</h1>
-    <v-card max-width="700">
+    <v-card max-width="700" style="margin-top: 100px; margin-bottom: 100px">
       <v-toolbar color="orange" class="white--text elevation-0">
         <v-icon size="35" color="white" class="mr-2"
           >mdi-arrow-right-circle</v-icon
@@ -47,9 +46,10 @@
               </v-col>
               <v-col cols="12" lg="5" class="ml-3 mr-3">
                 <v-text-field
-                  v-model="movil"
+                  :value="movil"
+                  @input="phoneInput"
+                  ref="phone"
                   maxLength="9"
-                  type="number"
                   color="blue"
                   filled
                   outlined
@@ -179,6 +179,13 @@ export default {
     }
   },
   methods: {
+    phoneInput(value) {
+      if (!isNaN(value)) {
+        this.movil = value
+      } else {
+        this.$refs.phone.$data.lazyValue = this.movil
+      }
+    },
     async submit() {
       try {
         this.loading = true
