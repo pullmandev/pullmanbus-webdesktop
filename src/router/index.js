@@ -18,6 +18,9 @@ import Voucher from '@/views/Services/Voucher.vue'
 import Fail from '@/views/Services/Fail.vue'
 import Error404 from '@/views/ErrorPages/Error404.vue'
 
+//Menu
+import MenuForm from '@/views/Menu/Form'
+
 //Docs
 import Docs from '@/views/Docs/Index'
 import Terms from '@/views/Docs/Terms'
@@ -32,6 +35,18 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/requestTrip',
+    name: 'requestTrip',
+    component: MenuForm,
+    props: { type: 'Trip' }
+  },
+  {
+    path: '/requestCurrentAccount',
+    name: 'requestCurrentAccount',
+    component: MenuForm,
+    props: { type: 'CurrentAccount' }
   },
   {
     path: '/services',

@@ -29,6 +29,7 @@ export default {
   guardarUsuario: `${sesion}/guardarUsuario`,
   buscarTransEmail: `${compra}/obtenerTransacciones`,
   buscarBoletoCode: `${compra}/obtenerBoleto`,
+  guardarSolicitudServicio: `${compra}/guardarSolicitudServicio`,
   cancel: `${baseVenta}/anularVenta`,
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
   bancos: `${parametros}/obtenerBanco`,

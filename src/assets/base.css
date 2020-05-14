@@ -211,3 +211,15 @@
     border-radius: 10px !important;
     overflow: hidden;
   }
+
+  /* Chrome, Safari, Edge, Opera */
+  .phone input::-webkit-outer-spin-button,
+  .phone input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .phone input[type='number'] {
+    -moz-appearance: textfield;
+  }
