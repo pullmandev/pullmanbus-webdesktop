@@ -131,6 +131,7 @@
                   dense
                   v-model="confirmemail"
                   :rules="emailconfirmRules"
+                  @paste.prevent
                   :label="$t('confirm_email')"
                   outline-1
                   color="primary"

@@ -129,6 +129,7 @@
                 outlined
                 dense
                 v-model="confirmemail"
+                @paste.prevent
                 label="Re-ingresar email"
                 outline-1
                 color="blue"
@@ -178,12 +179,9 @@
             </div>
           </div>
           <div class="d-flex justify-end">
-            <v-btn
-              text
-              class="grey--text"
-              @click="$router.push({ name: 'Services' })"
-              >{{ $t('back') }}</v-btn
-            >
+            <v-btn text class="grey--text" @click="toServices">{{
+              $t('back')
+            }}</v-btn>
             <v-btn
               color="orange"
               class="white--text mr-5"
@@ -283,6 +281,10 @@ export default {
     }
   },
   methods: {
+    toServices() {
+      localStorage.fromFail = true
+      this.$router.push({ name: 'Services' })
+    },
     async validate() {
       try {
         this.loadingRutValidation = true

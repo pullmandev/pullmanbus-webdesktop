@@ -131,6 +131,7 @@
               v-model="confirmemail"
               :rules="emailconfirmRules"
               :label="$t('confirm_email')"
+              @paste.prevent
               outline-1
               color="blue"
             ></v-text-field>

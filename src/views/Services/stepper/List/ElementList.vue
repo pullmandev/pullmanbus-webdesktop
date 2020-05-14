@@ -38,6 +38,7 @@
                   </span>
                 </v-col>
                 <v-col cols="2">
+                  <span class="body-2 d-block">{{ service.fechaSalida }}</span>
                   <span
                     class="headline d-block"
                     style="font-size: 1rem !important;"
@@ -63,6 +64,7 @@
                   <small>{{ hoursDifference(service) }}</small>
                 </v-col>
                 <v-col cols="2">
+                  <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
                   <span
                     class="headline d-block"
                     style="font-size: 1rem !important;"
