@@ -23,19 +23,21 @@
               </span>
             </v-toolbar-title>
             <template v-if="hasVuelta" v-slot:extension>
-              <v-tabs v-model="selectedTab" centered slider-color="yellow">
+              <v-tabs v-model="selectedTab" centered hide-slider>
                 <v-tab
                   v-for="i in tabs"
                   :key="i"
                   :href="'#tab-' + i"
-                  class="pa-0 tabButton"
+                  class="pa-0 tab-custom"
+                  v-ripple="{ class: 'blue_dark--text' }"
+                  active-class="tab-active"
                 >
                   <v-btn
                     style="width: 100%; height: 100%;"
-                    class="ma-0"
-                    :class="i === 'Ida' ? 'mr-1' : 'ml-1'"
-                    color="blue_light"
                     text
+                    class="ma-0"
+                    color="blue_light"
+                    tile
                   >
                     <span class="white--text">
                       {{ i }}
@@ -116,10 +118,14 @@ export default {
 };
 </script>
 
-<style >
-.tabButton a{
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+<style lang="scss">
+.tab-custom {
+  border: 0.5px solid lightgray;
+  border-bottom: 0;
+}
+
+.tab-active {
+  background: var(--var-blue_dark);
 }
 
 .icon-service-expanded {

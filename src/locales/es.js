@@ -73,6 +73,7 @@ export default {
   insert_mobile: 'Inserta aquí tu Nº Móvil +569 9898 9898',
   back: 'Volver',
   continue: 'Continuar',
+  proceed: 'Avanzar',
   buy_process: 'Proceso de compra',
   search: 'Buscar',
   destinations: 'Destinos en tendencia',

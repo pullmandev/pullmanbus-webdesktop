@@ -73,6 +73,7 @@ export default {
   insert_mobile: 'Insert your mobile number here +569 9898 9898',
   back: 'Back',
   continue: 'Continue',
+  proceed: 'Proceed',
   buy_process: 'Buy process',
   search: 'Search',
   destinations: 'Trending destinations',

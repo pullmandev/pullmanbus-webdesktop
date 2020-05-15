@@ -26,14 +26,14 @@
                     />
                     <v-btn
                       text
-                      small
+                      large
                       @click.stop="
                         selectedService = service
                         dialog = true
                       "
                     >
                       <v-icon color="orange">mdi-plus</v-icon>
-                      <span class="capitalize">itinerario</span>
+                      <span class="capitalize body-1">itinerario</span>
                     </v-btn>
                   </span>
                 </v-col>
