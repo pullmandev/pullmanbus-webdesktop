@@ -20,6 +20,9 @@ import Error404 from '@/views/ErrorPages/Error404.vue'
 
 //Menu
 import MenuForm from '@/views/Menu/Form'
+import MenuContainer from '@/views/Menu/Index'
+import ChangeTicket from '@/views/Menu/ChangeTicket/ChangeTicket'
+import SearchTicket from '@/views/Menu/ChangeTicket/SearchTicket'
 
 //Docs
 import Docs from '@/views/Docs/Index'
@@ -37,16 +40,32 @@ const routes = [
     component: Home
   },
   {
+    component: MenuContainer,
     path: '/requestTrip',
-    name: 'requestTrip',
-    component: MenuForm,
-    props: { type: 'Trip' }
-  },
-  {
-    path: '/requestCurrentAccount',
-    name: 'requestCurrentAccount',
-    component: MenuForm,
-    props: { type: 'CurrentAccount' }
+    children: [
+      {
+        path: '',
+        name: 'Trip',
+        component: MenuForm,
+        props: { type: 'Trip' }
+      },
+      {
+        path: '/requestCurrentAccount',
+        name: 'CurrentAccount',
+        component: MenuForm,
+        props: { type: 'CurrentAccount' }
+      },
+      {
+        path: '/changeTicket',
+        name: 'ChangeTicket',
+        component: ChangeTicket
+      },
+      {
+        path: '/SearchTicket',
+        name: 'SearchTicket',
+        component: SearchTicket
+      }
+    ]
   },
   {
     path: '/services',

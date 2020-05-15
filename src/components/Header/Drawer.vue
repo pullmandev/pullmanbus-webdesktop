@@ -29,7 +29,7 @@
             >
             <router-link
               v-else
-              :to="item.route"
+              :to="{ name: item.route }"
               style="text-decoration: none; color: white; font-size: .9rem"
             >
               {{ item.title }}

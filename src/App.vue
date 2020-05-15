@@ -52,12 +52,12 @@ export default {
         {
           title: 'Viajes Especiales',
           icon: 'mdi-chevron-right',
-          route: '/requestTrip'
+          route: 'Trip'
         },
         {
           title: 'Cuenta Corriente',
           icon: 'mdi-chevron-right',
-          route: '/requestCurrentAccount'
+          route: 'CurrentAccount'
         },
         {
           title: 'Convenio',
@@ -68,14 +68,12 @@ export default {
         {
           title: 'Cambio boleto',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/canjePublico.jsf#header'
+          route: 'ChangeTicket'
         },
         {
           title: 'Preguntas frecuentes',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/preguntasfrecuentes.jsf'
+          route: 'FAQs'
         },
         {
           title: 'Contacto',

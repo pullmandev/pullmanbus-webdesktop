@@ -53,10 +53,6 @@
                 Términos y condiciones de pasajes
                 <v-icon dark>mdi-chevron-right</v-icon>
               </router-link>
-              <router-link to="/docs/FAQs" class="body-2 d-block footerLink">
-                Preguntas frecuentes
-                <v-icon dark>mdi-chevron-right</v-icon>
-              </router-link>
             </v-col>
             <v-col class="my-0">
               <v-menu
