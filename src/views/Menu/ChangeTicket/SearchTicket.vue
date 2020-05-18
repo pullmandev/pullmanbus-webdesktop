@@ -12,8 +12,8 @@
                 filled
                 outlined
                 dense
-                v-model="name"
-                :label="$t('name')"
+                v-model="ticket"
+                :label="$t('ticket')"
                 outline-1
                 color="blue"
                 :rules="generalRules"
@@ -23,11 +23,10 @@
             <v-col cols="12" lg="5" class="ml-3 mr-3">
               <v-btn
                 class="white--text"
-                small
                 :disabled="!validForm"
                 :loading="loading"
                 color="blue_dark"
-                @click="$emit('changeStep', 2)"
+                @click="Consult"
               >
                 <span>Consultar</span>
               </v-btn>
@@ -41,8 +40,7 @@
 
 <script>
 // Base components
-import API from '@/services/api/menu'
-import validations from '@/helpers/fieldsValidation'
+import API from '@/services/api/changeTicket'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -52,18 +50,7 @@ export default {
     return {
       loading: false,
       validForm: false,
-      name: '',
-      doc_type: 'f',
-      email: '',
-      movil: '',
-      movil_last: '',
-      rut: '',
-      description: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
-      rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      ticket: '',
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },
@@ -94,34 +81,21 @@ export default {
     async Consult() {
       try {
         this.loading = true
-        const params = {
-          tipoSolicitud: this.requestType.id,
-          solicitante: this.name,
-          rut: this.rut,
-          telefono: '+56 9 ' + this.movil,
-          email: this.email,
-          descripcion: this.description,
-          estado: '1',
-          fechaSolicitud: moment().format(),
-          responsable: null
-        }
-        console.log(params)
-        const response = await API.postSolicitudServicio(params)
+        const response = await API.searchTicket({ boleto: this.ticket })
         console.log(response.data)
-        if (!response.data.exito) {
+        if (!response.data.valorFormateado === '') {
           this.$notify({
             group: 'error',
-            title: 'Solicitud para Viaje Especial',
-            type: 'error',
-            text: 'Ocurrió un error al ingreasar solicitud'
+            title: 'Error al solicitar datos de boleto',
+            type: 'error'
           })
-          console.error(response.data)
         } else {
           this.$notify({
             group: 'info',
-            title: 'Solicitud de Viaje Especial ingresada exitosamente',
+            title: 'Datos de boleto entregados',
             type: 'info'
           })
+          this.$router.push({ name: 'ChangeTicket', query: response.data })
         }
       } catch (err) {
         console.error(err)

@@ -6,8 +6,8 @@
       </v-card-title>
       <v-card-text>
         <p class="pa-3">
-          ¿Desea continuar la compra sin haber seleccionado un boleto para la
-          fecha de {{ type ? 'regreso' : 'ida' }}?
+          Recuerda seleccionar tu {{ type ? 'vuelta' : 'ida' }} para seguir
+          avanzando
         </p>
       </v-card-text>
       <v-card-actions>

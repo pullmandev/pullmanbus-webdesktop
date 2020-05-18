@@ -127,7 +127,7 @@
 
 <script>
 // Base components
-import API from '@/services/api/menu'
+import API from '@/services/api/request'
 import validations from '@/helpers/fieldsValidation'
 import { mapGetters } from 'vuex'
 import moment from 'moment'

@@ -58,10 +58,11 @@ const routes = [
       {
         path: '/changeTicket',
         name: 'ChangeTicket',
-        component: ChangeTicket
+        component: ChangeTicket,
+        props: route => ({ ticketParam: route.query })
       },
       {
-        path: '/SearchTicket',
+        path: '/searchTicket',
         name: 'SearchTicket',
         component: SearchTicket
       }

@@ -68,7 +68,7 @@ export default {
         {
           title: 'Cambio boleto',
           icon: 'mdi-chevron-right',
-          route: 'ChangeTicket'
+          route: 'SearchTicket'
         },
         {
           title: 'Preguntas frecuentes',
