@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5">
+  <div class="pt-5" id="#elementList">
     <div v-if="loadingServices" style="text-align: center">
       <v-progress-circular
         indeterminate
@@ -7,7 +7,7 @@
         color="blue"
       ></v-progress-circular>
     </div>
-    <div v-else-if="services.length > 0">
+    <div v-else-if="servicesList.length > 0">
       <v-container class="service-item px-0">
         <v-expansion-panels class="elevation-0">
           <!-- First expasión Panel-->
@@ -17,104 +17,86 @@
             class="arrow elevation-0"
           >
             <v-expansion-panel-header style="overflow: hidden">
-              <v-row no-gutters>
-                <v-col cols="1">
-                  <div
-                    v-if="service.idaVueltaPisoUno || service.idaVueltaPisoDos"
-                    class="white--text text-left orange promotion-advice"
-                  >
-                    <span class="ml-8 caption">Servicio con dcto %!</span>
-                  </div>
-                </v-col>
-                <v-col cols="11">
-                  <v-row>
-                    <v-col cols="2">
-                      <span class="headline d-block">
-                        <img
-                          :src="'data:image;base64,' + service.logo"
-                          class="service-company-image"
-                        />
-                        <v-btn
-                          text
-                          large
-                          @click.stop="
-                            serviceForItinerary = service
-                            dialog = true
-                          "
-                        >
-                          <v-icon color="orange">mdi-plus</v-icon>
-                          <span class="capitalize body-1">itinerario</span>
-                        </v-btn>
-                      </span>
-                    </v-col>
-                    <v-col cols="2">
-                      <span class="body-2 d-block">{{
-                        service.fechaSalida
-                      }}</span>
-                      <span
-                        class="headline d-block"
-                        style="font-size: 1rem !important;"
-                      >
-                        {{ service.horaSalida }}
-                      </span>
-                      <span class="body-2 d-block"><b>Salida:</b></span>
-                      <span class="body-2 d-block">{{
-                        service.terminalSalida
-                      }}</span>
-                    </v-col>
-                    <v-col cols="2" class="pr-12 text-center">
-                      <div style="position: relative">
-                        <v-icon
-                          class="display-2 white"
-                          style="z-index: 2"
-                          color="orange"
-                        >
-                          mdi-bus-side
-                        </v-icon>
-                        <hr class="hr-bus-style" />
-                      </div>
-                      <small>{{ hoursDifference(service) }}</small>
-                    </v-col>
-                    <v-col cols="2">
-                      <span class="body-2 d-block">{{
-                        service.fechaLlegada
-                      }}</span>
-                      <span
-                        class="headline d-block"
-                        style="font-size: 1rem !important;"
-                      >
-                        {{ service.horaLlegada }}
-                      </span>
-                      <span class="body-2 d-block"><b>Llegada:</b></span>
-                      <span class="body-2 d-block">{{
-                        service.terminalDestino
-                      }}</span>
-                    </v-col>
-                    <v-col
-                      cols="2"
-                      v-for="(piso, index) in service.pisos"
-                      :key="index"
+              <v-row>
+                <v-col cols="2">
+                  <span class="headline d-block">
+                    <img
+                      :src="'data:image;base64,' + service.logo"
+                      class="service-company-image"
+                    />
+                    <v-btn
+                      text
+                      large
+                      @click.stop="
+                        serviceForItinerary = service
+                        dialog = true
+                      "
                     >
-                      <span
-                        class="headline d-block"
-                        style="font-size: 1rem !important;"
-                      >
-                        $ {{ piso.tarifaInternet }}
-                      </span>
-                      <span
-                        class="body-2 d-block"
-                        style="text-decoration: line-through"
-                        ><b>$ {{ piso.tarifa }}</b></span
-                      >
-                      <span class="caption d-block"
-                        ><b>Promoción internet</b></span
-                      >
-                      <span class="caption d-block"
-                        ><b>Piso {{ piso.piso + 1 }}</b></span
-                      >
-                      <span class="caption d-block">{{ piso.servicio }}</span>
-                    </v-col>
-                  </v-row>
+                      <v-icon color="orange">mdi-plus</v-icon>
+                      <span class="capitalize body-1">itinerario</span>
+                    </v-btn>
+                  </span>
+                </v-col>
+                <v-col cols="2">
+                  <span class="body-2 d-block">{{ service.fechaSalida }}</span>
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
+                    {{ service.horaSalida }}
+                  </span>
+                  <span class="body-2 d-block"><b>Salida:</b></span>
+                  <span class="body-2 d-block">{{
+                    service.terminalSalida
+                  }}</span>
+                </v-col>
+                <v-col cols="2" class="pr-12 text-center">
+                  <div style="position: relative">
+                    <v-icon
+                      class="display-2 white"
+                      style="z-index: 2"
+                      color="orange"
+                    >
+                      mdi-bus-side
+                    </v-icon>
+                    <hr class="hr-bus-style" />
+                  </div>
+                  <small>{{ hoursDifference(service) }}</small>
+                </v-col>
+                <v-col cols="2">
+                  <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
+                    {{ service.horaLlegada }}
+                  </span>
+                  <span class="body-2 d-block"><b>Llegada:</b></span>
+                  <span class="body-2 d-block">{{
+                    service.terminalDestino
+                  }}</span>
+                </v-col>
+                <v-col
+                  cols="2"
+                  v-for="(piso, index) in service.pisos"
+                  :key="index"
+                >
+                  <span
+                    class="headline d-block"
+                    style="font-size: 1rem !important;"
+                  >
+                    $ {{ piso.tarifaInternet }}
+                  </span>
+                  <span
+                    class="body-2 d-block"
+                    style="text-decoration: line-through"
+                    ><b>$ {{ piso.tarifa }}</b></span
+                  >
+                  <span class="caption d-block"><b>Promoción internet</b></span>
+                  <span class="caption d-block"
+                    ><b>Piso {{ piso.piso + 1 }}</b></span
+                  >
+                  <span class="caption d-block">{{ piso.servicio }}</span>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -122,7 +104,6 @@
               <div>
                 <floor
                   v-if="service"
-                  :back="back"
                   :item="service"
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
@@ -156,50 +137,43 @@
       <span>{{ $t('no_elements') }}</span>
     </v-card>
     <Dialog :open.sync="dialog" :service="serviceForItinerary" />
-    <ServicesListPanel :open.sync="confirmTicketDialog" :price="10000" />
   </div>
 </template>
 <script>
-import Floor from '@/views/Services/stepper/List/Floor'
-import Dialog from '@/views/Services/stepper/List/Itinerary'
-import ServicesListPanel from '@/components/Banners/ServicesListPanel'
+import Floor from '@/views/ConfirmationServices/List/Floor'
+import Dialog from '@/views/ConfirmationServices/List/Itinerary'
 import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
-  props: ['search', 'back'],
   data() {
     return {
       serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       dialog: false,
-      confirmTicketDialog: false,
       expand: false,
       rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }]
     }
   },
   components: {
     Floor,
-    Dialog,
-    ServicesListPanel
+    Dialog
   },
   mounted() {
-    this.confirmTicketDialog = true
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
+    console.log('mounted', this.servicesList)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
   },
   computed: {
     ...mapGetters({
-      servicesList: ['getServiceList'],
-      searching: ['getSearching'],
-      loadingServices: ['getLoadingService'],
-      payment_info: ['payment_info']
+      servicesList: ['getConfirmationServiceList'],
+      loadingServices: ['getConfirmationLoadingService']
     }),
     langSearch() {
       return this.$t('search')
@@ -208,17 +182,13 @@ export default {
       const text = this.$t('results_page')
       return this.windowSize.x <= 600 ? text.split(' ')[0] : text
     },
-    services() {
-      const services = this.servicesList(this.back)
-      return services
-    },
     paginationLength() {
-      return Math.ceil(this.services.length / 5)
+      return Math.ceil(this.servicesList.length / 5)
     },
     itemsPerPage() {
       let pages = []
       let page = []
-      for (const servicesGroup of this.services) {
+      for (const servicesGroup of this.servicesList) {
         page.push(servicesGroup)
         if (page.length === 5) {
           pages.push(page)
@@ -383,19 +353,11 @@ h3 {
   max-width: 4.333333333333332% !important;
 }
 
-#paymentStepper .mdi-chevron-down::before {
+.v-expansion-panel-header__icon .mdi-chevron-down::before {
   background-color: #1110ad;
   color: white;
   border-radius: 50%;
   padding: 10px;
-}
-
-#paymentStepper h2 {
-  font-size: 1rem;
-}
-#paymentStepper h4,
-#paymentStepper h3 {
-  font-size: 0.8rem;
 }
 /* . estilo Bus */
 </style>

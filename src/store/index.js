@@ -11,7 +11,7 @@ import moment from 'moment'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   plugins: [createPersistedState({
-    paths: ['language', 'searching', 'cities', 'seats', 'step', 'payment_info', 'userData']
+    paths: ['language', 'searching', 'searchingConfirmation', 'cities', 'seats', 'step', 'payment_info', 'userData']
   })],
   state: {
     language: 'es',
@@ -26,12 +26,21 @@ const store = new Vuex.Store({
       from_date: null,
       to_date: null
     },
+    searchingConfirmation: {
+      ticket: '',
+      date: null
+    },
     services: {
       data: [],
       loading: false,
       selected: false,
       showResume: false,
       tab: 'Ida'
+    },
+    confirmationServices: {
+      data: [],
+      loading: false,
+      seats: []
     },
     serviceFilters: {
       class: [],
@@ -185,8 +194,59 @@ const store = new Vuex.Store({
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
     },
+    LOAD_CONFIRMATION_SERVICES_LIST ({commit, dispatch, state}) {
+      let errorMessage = null
+      if (state.searchingConfirmation.date == null || state.searchingConfirmation.date === '') {
+        errorMessage = this.$tc('no_going_date')
+      } else if(state.searchingConfirmation.ticket == null || state.searchingConfirmation.ticket === '' ) {
+        errorMessage = 'Debe ingresar boleto por confirmar'
+      }
+      if (errorMessage !== null) {
+        Vue.notify({
+          group: 'error',
+          title: this.$tc('services'),
+          type: 'error',
+          text: errorMessage
+        })
+        Vue.notify({ group: 'stuck-load', clean: true })
+        return
+      }
+      dispatch('SET_LOADING_CONFIRMATION_SERVICE', {loading: true})
+      APIService.get({
+        origen: state.searching.from_city.codigo,
+        destino: state.searching.to_city.codigo,
+        fecha: state.searchingConfirmation.date.replace(/-/g, ''),
+        hora: '0000',
+        idSistema: 7
+      }).then(response => {
+        const resultData = response.data
+        console.log('resultData', resultData)
+        if (resultData.length <= 0) {
+          Vue.notify({
+            group: 'error',
+            title: this.$i18n.t('services'),
+            type: 'error',
+            text: this.$i18n.t('no_av_services')
+          })
+          commit('SET_CONFIRMATION_SERVICES_LIST', {list: []})
+          return
+        }
+        if (resultData) {
+          commit('SET_CONFIRMATION_SERVICES_LIST', {list: resultData})
+        }
+        router.push({name: 'ServicesList'})
+      })
+      .catch(err => console.log(err))
+      .finally(() => {
+        Vue.notify({ group: 'stuck-load', clean: true })
+        dispatch('SET_LOADING_CONFIRMATION_SERVICE', {loading: false})
+      })
+    },
     SET_LOADING_SERVICE ({commit}, payload) {
       commit('SET_LOADING_SERVICE', {loading: payload.loading})
+    },
+    SET_LOADING_CONFIRMATION_SERVICE ({commit}, payload) {
+      commit('SET_LOADING_CONFIRMATION_SERVICE', {loading: payload.loading})
     },
     SELECTED_SERVICE ({commit}, payload) {
       commit('SELECT_SERVICE', {selected: payload.selected})
@@ -207,6 +267,14 @@ const store = new Vuex.Store({
         commit('SET_USER_SEARCHING_FROM_DATE', {date: payload.date})
       } else {
         commit('SET_USER_SEARCHING_TO_DATE', {date: payload.date})
+      }
+    },
+
+    SET_SEARCHING_CONFIRMATION ({commit}, payload) {
+      if (payload.type === 'date') {
+        commit('SET_SEARCHING_CONFIRMATION_DATE', {date: payload.date})
+      } else {
+        commit('SET_SEARCHING_CONFIRMATION_TICKET', {ticket: payload.ticket})
       }
     },
 
@@ -235,19 +303,31 @@ const store = new Vuex.Store({
     SET_GRID ({commit}, payload) {
       commit('SET_GRID', {grid: payload.grid})
     },
-
     SET_SEAT ({commit, getters}, payload) {
       if (getters.seatsByTravel(payload.seat.vuelta).length < 4) {
         commit('SET_SEAT', {seat: payload.seat})
       }
     },
-
+    SET_CONFIRMATION_SEAT ({commit, getters}, payload) {
+      if (getters.confirmationSeats.length < 4) {
+        commit('SET_CONFIRMATION_SEAT', {seat: payload.seat})
+      }
+    },
+    SET_CONFIRMATION_SEAT_AMOUNT ({commit}, payload) {
+      commit('SET_CONFIRMATION_SEAT_AMOUNT', {seat: payload.seat, tomado: payload.tomado})
+    },
     DELETE_SEAT ({commit}, payload) {
       commit('DELETE_SEAT', {seat: payload.seat})
+    },
+    DELETE_CONFIRMATION_SEAT ({commit}, payload) {
+      commit('DELETE_CONFIRMATION_SEAT', {seat: payload.seat})
     },
 
     DELETE_ALL_SEAT: ({commit}) => {
       commit('DELETE_ALL_SEAT', {})
+    },
+    DELETE_ALL_CONFIRMATION_SEAT: ({commit}) => {
+      commit('DELETE_ALL_CONFIRMATION_SEAT', {})
     },
 
     SET_PAYMENT_INFO ({commit}, payload) {
@@ -275,8 +355,14 @@ const store = new Vuex.Store({
     SET_SERVICES_LIST: (state, {list}) => {
       state.services.data = list
     },
+    SET_CONFIRMATION_SERVICES_LIST: (state, {list}) => {
+      state.confirmationServices.data = list
+    },
     SET_LOADING_SERVICE: (state, {loading}) => {
       state.services.loading = loading
+    },
+    SET_LOADING_CONFIRMATION_SERVICE: (state, {loading}) => {
+      state.confirmationServices.loading = loading
     },
     SET_USER_SEARCHING_FROM_CITY: (state, {city}) => {
       state.searching.from_city = city
@@ -290,6 +376,12 @@ const store = new Vuex.Store({
         state.searching.to_date = null
       }
       state.searching.from_date = date
+    },
+    SET_SEARCHING_CONFIRMATION_DATE: (state, {date}) => {
+      state.searchingConfirmation.date = date
+    },
+    SET_SEARCHING_CONFIRMATION_TICKET: (state, {ticket}) => {
+      state.searchingConfirmation.ticket = ticket
     },
     SET_USER_SEARCHING_TO_DATE: (state, {date}) => {
       state.searching.to_date = date
@@ -333,11 +425,23 @@ const store = new Vuex.Store({
     SET_SEAT: (state, {seat}) => {
       state.seats.push(seat)
     },
+    SET_CONFIRMATION_SEAT_AMOUNT: (state, {seat, tomado}) => {
+      state.seats[seat].confirmation.tomado = tomado
+    },
+    SET_CONFIRMATION_SEAT: (state, {seat}) => {
+      state.confirmationServices.seats.push(seat)
+    },
+    DELETE_CONFIRMATION_SEAT: (state, {seat}) => {
+      state.confirmationServices.seats.splice(seat, 1)
+    },
     DELETE_SEAT: (state, {seat}) => {
       state.seats.splice(seat, 1)
     },
     DELETE_ALL_SEAT: (state) => {
       state.seats = []
+    },
+    DELETE_ALL_CONFIRMATION_SEAT: (state) => {
+      state.confirmationServices.seats = []
     },
     SET_PAYMENT_INFO (state, {payment_info}) {
       state.payment_info = payment_info
@@ -434,6 +538,10 @@ const store = new Vuex.Store({
           pisoUno.horaLlegada = item.horaLlegada
           pisoUno.fechaLlegada = item.fechaLlegada
           pisoUno.terminaLlegada = item.terminaLlegada
+          pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
+          if (pisoUno.confirmation.idaVuelta) {
+            pisoUno.confirmation.tomado = false
+          }
           pisos.push(pisoUno)
         }
         if (item.filter2) {
@@ -451,6 +559,63 @@ const store = new Vuex.Store({
           pisoDos.horaLlegada = item.horaLlegada
           pisoDos.fechaLlegada = item.fechaLlegada
           pisoDos.terminaLlegada = item.terminaLlegada
+          pisoDos.confirmation = item.idaVueltaPisoDos || { idaVuelta: false }
+          if (pisoDos.confirmation.idaVuelta) {
+            pisoDos.confirmation.tomado = false
+          }
+          pisos.push(pisoDos)
+        }
+        if (pisos.length > 0) {
+          const id = item.idServicio + item.fechaSalida + item.idTerminalOrigen + item.idTerminalDestino
+          servicesTemp.push({...Object.assign({}, item), id, pisos})
+        }
+      })
+      return servicesTemp
+    },
+    getConfirmationServiceList: state => {
+      let servicesTemp = []
+      state.confirmationServices.data.forEach(item => {
+        const pisos = []
+        const pisoUno = {}
+        const pisoDos = {}
+        pisoUno.piso = 0
+        pisoUno.pisoText = '01'
+        pisoUno.servicio = item.servicioPrimerPiso
+        pisoUno.tarifa = item.tarifaPrimerPiso
+        pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
+        pisoUno.clase = item.idClaseBusPisoUno
+        pisoUno.busPiso = item.busPiso1
+        pisoUno.busOtroPiso = item.busPiso2
+        pisoUno.fechaSalida = item.fechaSalida
+        pisoUno.horaSalida = item.horaSalida
+        pisoUno.terminalSalida = item.terminalSalida
+        pisoUno.horaLlegada = item.horaLlegada
+        pisoUno.fechaLlegada = item.fechaLlegada
+        pisoUno.terminaLlegada = item.terminaLlegada
+        pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
+        if (pisoUno.confirmation.idaVuelta) {
+          pisoUno.confirmation.tomado = false
+        }
+        pisos.push(pisoUno)
+        if (item.busPiso2 != null) {
+          pisoDos.piso = 1
+          pisoDos.pisoText = '02'
+          pisoDos.servicio = item.servicioSegundoPiso
+          pisoDos.tarifa = item.tarifaSegundoPiso
+          pisoDos.tarifaInternet = item.tarifaSegundoPisoInternet
+          pisoDos.clase = item.idClaseBusPisoDos
+          pisoDos.busPiso = item.busPiso2
+          pisoDos.busOtroPiso = pisoUno.busPiso
+          pisoDos.fechaSalida = item.fechaSalida
+          pisoDos.horaSalida = item.horaSalida
+          pisoDos.terminalSalida = item.terminalSalida
+          pisoDos.horaLlegada = item.horaLlegada
+          pisoDos.fechaLlegada = item.fechaLlegada
+          pisoDos.terminaLlegada = item.terminaLlegada
+          pisoDos.confirmation = item.idaVueltaPisoDos || { idaVuelta: false }
+          if (pisoDos.confirmation.idaVuelta) {
+            pisoDos.confirmation.tomado = false
+          }
           pisos.push(pisoDos)
         }
         if (pisos.length > 0) {
@@ -468,6 +633,9 @@ const store = new Vuex.Store({
     },
     getLoadingService: state => {
       return state.services.loading
+    },
+    getConfirmationLoadingService: state => {
+      return state.confirmationServices.loading
     },
     getServiceClassFilters: state => {
       return [...new Set(state.services.data.map(item => item.level_class))]
@@ -511,15 +679,25 @@ const store = new Vuex.Store({
     seats: state => {
       return state.seats
     },
+    confirmationSeats: state => {
+      return state.confirmationServices.seats
+    },
 
     seatsTotalAmount: (state, getters) => {
       let totalAmount = 0
       getters.seats.forEach(item => {
+        const tarifa = item.confirmation.tomado ? item.confirmation.tarifaTotal : item.tarifa
+        totalAmount += parseInt(tarifa.split('.').join('')) // totalAmount += 10
+      })
+      return totalAmount
+    },
+    confirmationSeatsTotalAmount: (state, getters) => {
+      let totalAmount = 0
+      getters.confirmationSeats.forEach(item => {
         totalAmount += parseInt(item.tarifa.split('.').join('')) // totalAmount += 10
       })
       return totalAmount
     },
-
     hasVuelta (state, getters) {
       const services = getters.getServiceList(true)
       return services.length > 0

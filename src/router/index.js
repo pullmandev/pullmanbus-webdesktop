@@ -1,10 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home/Index.vue'
+
+//Services
 import ServicesContainer from '../views/Services/Index.vue'
 import Services from '../views/Services/Services.vue'
 import Payment from '../views/Services/Payment/Index.vue'
 import Confirmation from '@/views/Services/Confirmation.vue'
+
+//Confirmation Services
+import ConfirmationServicesContainer from '@/views/ConfirmationServices/Index.vue'
+import ConfirmationSearchPanel from '@/views/ConfirmationServices/SearchPanel.vue'
+import ConfirmationServicesList from '@/views/ConfirmationServices/List/Index.vue'
+import ConfirmationServiceSucceed from '@/views/ConfirmationServices/Voucher.vue'
 
 // Profile
 import Profile from '@/views/Profile/Index'
@@ -96,6 +104,27 @@ const routes = [
         path: '/fail/:id',
         name: 'fail',
         component: Fail
+      }
+    ]
+  },
+  {
+    path: '/confirmationServices',
+    component: ConfirmationServicesContainer,
+    children: [
+      {
+        path: '',
+        name: 'ConfirmationServicesPanel',
+        component: ConfirmationSearchPanel
+      },
+      {
+        path: 'servicesList',
+        name: 'ServicesList',
+        component: ConfirmationServicesList
+      },
+      {
+        path: 'confirmationServiceSucceed',
+        name: 'ConfirmationServiceSucceed',
+        component: ConfirmationServiceSucceed
       }
     ]
   },

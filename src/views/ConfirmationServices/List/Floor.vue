@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
     <v-card flat class="hideAsientos mt-3">
       <!-- Grilla de asientos -->
       <div v-if="loadingSeats" style="text-align: center">
@@ -24,13 +23,12 @@
             :key="index"
             :class="{ 'left-border': selectedFloor > 0 }"
             class="pa-0"
-            style="overflow: hidden; position: relative"
           >
             <div
               v-if="data.pisos[selectedFloor].confirmation.idaVuelta"
-              class="white--text text-left orange promotion-advice-floor"
+              class="white--text text-center my-3 ml-7 pt-1 orange promotion-advice-floor"
             >
-              <span class="ml-8 caption">Servicio con dcto %!</span>
+              <span class="ml-8 body-1">Servicio en promocion!</span>
             </div>
             <div>
               <h2 class="text-center mb-1">
@@ -158,7 +156,7 @@
                         <v-img
                           height="20"
                           :src="
-                            require(`../../../../../static/logos/seats/Iconos-${item.number}.png`)
+                            require(`../../../../static/logos/seats/Iconos-${item.number}.png`)
                           "
                           contain
                         />
@@ -170,6 +168,25 @@
                     <template v-if="selectedSeats.length > 0">
                       <strong class="d-block">Total</strong>
                       <div class="text-right">
+                        <template v-if="confirmationSeats.length > 0">
+                          <hr />
+
+                          <strong class="d-block orange--text"
+                            >Servicio en promocion</strong
+                          >
+                          <div class="text-right py-1">
+                            <span
+                              class="d-block body-2"
+                              :key="index"
+                              v-for="(seat, index) in confirmationSeats"
+                            >
+                              Boleto por confirmar piso {{ seat.piso + 1 }} -
+                              <strong>
+                                ${{ seat.confirmation.tarifaVuelta }}
+                              </strong>
+                            </span>
+                          </div>
+                        </template>
                         <hr />
                         <span
                           :key="index"
@@ -180,30 +197,6 @@
                         >
                         <hr />
                         <strong>{{ totalAmount | currency }}</strong>
-                      </div>
-                    </template>
-                    <template v-if="confirmationSeats.length > 0">
-                      <strong class="d-block orange--text">
-                        Compra tu pasaje por confirmar
-                      </strong>
-                      <div
-                        class="text-right"
-                        v-for="(floor, i) in confirmationSeats"
-                        :key="i"
-                      >
-                        <hr v-if="i === 0" />
-                        <span class="d-block body-2">
-                          Boleto por confirmar piso {{ floor.piso + 1 }} -
-                          <strong>
-                            ${{ floor.confirmation.tarifaVuelta }}
-                          </strong>
-                        </span>
-                        <v-btn color="orange" small class="white--text my-3">
-                          {{
-                            floor.confirmation.tomado ? 'Remover' : 'Agregar'
-                          }}
-                        </v-btn>
-                        <hr />
                       </div>
                     </template>
                   </div>
@@ -221,7 +214,9 @@
                   </v-col>
                   <v-col class="d-flex align-end justify-end">
                     <v-btn
-                      @click="showModal"
+                      @click="
+                        $router.push({ name: 'ConfirmationServiceSucceed' })
+                      "
                       class="white--text"
                       color="orange"
                       :disabled="!selectedSeats.length > 0"
@@ -239,9 +234,7 @@
   </div>
 </template>
 <script>
-import Dialog from '@/views/Services/stepper/List/ContinueDialog'
-import seat from '@/views/Services/stepper/List/Seat'
-import scrollAnimation from '@/helpers/scrollAnimation'
+import seat from '@/views/ConfirmationServices/List/Seat'
 import { mapGetters } from 'vuex'
 import deleteSeat from '@/helpers/deleteSeat'
 import API from '@/services/api/seats'
@@ -272,8 +265,7 @@ export default {
     }
   },
   components: {
-    seat,
-    Dialog
+    seat
   },
   mounted() {
     this.getSeats(this.item)
@@ -286,10 +278,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedSeats: ['seats'],
-      totalAmount: ['seatsTotalAmount'],
-      seatsByTravel: ['seatsByTravel'],
-      hasVuelta: ['hasVuelta']
+      selectedSeats: ['confirmationSeats'],
+      totalAmount: ['confirmationSeatsTotalAmount']
     }),
     getSelectedFloor() {
       const pisos = this.data.pisos
@@ -301,31 +291,14 @@ export default {
       return piso
     },
     confirmationSeats() {
-      const pisos = this.data.pisos
-        ? this.data.pisos.filter(item => item.confirmation.idaVuelta)
-        : []
-      return pisos
+      return this.data.pisos.filter(item => item.confirmation.idaVuelta)
     }
   },
   methods: {
-    confirmationAmount(piso) {
-      for (let index = 0; index < this.selectedSeats.length; index++) {
-        const seat = this.selectedSeats[index]
-        console.log('piso', piso)
-        console.log('data', this.data.idServicio)
-        if (seat.piso === piso.piso && seat.servicio === this.data.idServicio) {
-          console.log('llego')
-          this.$store.dispatch('SET_CONFIRMATION_SEAT_AMOUNT', {
-            seat: index,
-            tomado: !seat.confirmation.tomado
-          })
-        }
-      }
-    },
     async deleteSeats() {
       const lenght = this.selectedSeats.length - 1
       for (let index = lenght; index >= 0; index--) {
-        await deleteSeat(index)
+        await deleteSeat(index, true)
       }
     },
     createDataForRequest() {
@@ -362,33 +335,6 @@ export default {
       )
       return index
     },
-    closeDialog({ ok, type }) {
-      this.dialog = false
-      if (ok) {
-        this.$emit('confirm')
-      } else {
-        const tab = type ? 'tab-Vuelta' : 'tab-Ida'
-        this.$store.dispatch('SET_SERVICE_TAB', { tab })
-        scrollAnimation('#serviceToolbar')
-      }
-    },
-    showModal() {
-      if (this.hasVuelta) {
-        const hasBackServices = this.seatsByTravel(true).length > 0
-        const hasGoServices = this.seatsByTravel().length > 0
-        if (!hasBackServices && hasGoServices) {
-          this.messageType = true
-          this.dialog = true
-        } else if (hasBackServices && !hasGoServices) {
-          this.messageType = false
-          this.dialog = true
-        } else {
-          this.$emit('confirm')
-        }
-      } else {
-        this.$emit('confirm')
-      }
-    },
     selectSeat(seat, piso, indexes) {
       const index = this.data.pisos.length > 1 ? piso : 0
       const seatIndex = this.seatIsInshoppingCart(seat, piso)
@@ -401,7 +347,6 @@ export default {
         precio: this.serviceData.pisos[index].tarifaInternet,
         clase: this.serviceData.pisos[index].clase,
         bus: this.serviceData.pisos[index].busPiso,
-        confirmation: this.serviceData.pisos[index].confirmation,
         descuento: 0
         // fechaTomada: moment.now()
       }
@@ -416,8 +361,7 @@ export default {
       }
     },
     async takeSeat(params, indexes) {
-      const seatList = this.seatsByTravel(this.back)
-      if (seatList.length > 3) {
+      if (this.selectedSeats.length > 3) {
         this.$notify({
           group: 'error',
           title: this.$t('seats_max'),
@@ -446,7 +390,7 @@ export default {
         this.$forceUpdate()
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
-        this.$store.dispatch('SET_SEAT', { seat })
+        this.$store.dispatch('SET_CONFIRMATION_SEAT', { seat })
       }
     },
     async leverageSeat(params, index, indexes) {
@@ -457,7 +401,7 @@ export default {
         this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]]
       )
       this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]][1] = '0'
-      this.$store.dispatch('DELETE_SEAT', { seat: index })
+      this.$store.dispatch('DELETE_CONFIRMATION_SEAT', { seat: index })
     },
     createRequestParams(params) {
       const requestParams = _.pick(params, [
@@ -551,11 +495,9 @@ export default {
 </script>
 <style scoped>
 .promotion-advice-floor {
-  position: absolute;
-  width: 200px;
-  top: 50px;
-  left: -60px;
-  transform: rotate(-60deg);
+  width: 80%;
+  height: 30px;
+  border-radius: 10px;
 }
 @media (max-width: 400px) {
   .container {

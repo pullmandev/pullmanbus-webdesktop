@@ -1,6 +1,7 @@
 <template>
   <div style="position: relative;">
     <Carousel />
+    <Promotions class="promotion_container displayNoneSm" />
     <v-container class="search_container">
       <div :style="{ marginTop: breakPoint.margin }" />
       <v-card
@@ -46,13 +47,15 @@
 import Carousel from '@/components/Carousel'
 import CitiesList from '@/components/Cities'
 import Calendar from '@/components/Calendar'
+import Promotions from '@/components/Banners/SearchPanelBanner'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Carousel,
     CitiesList,
-    Calendar
+    Calendar,
+    Promotions
   },
   data: () => ({
     row: null
@@ -122,6 +125,13 @@ div.card.search_card {
   top: 0;
   left: 0;
   right: 0;
+}
+
+.promotion_container {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  margin-left: 4rem;
 }
 
 .search-panel-radios .v-input--radio-group__input {

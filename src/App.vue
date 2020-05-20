@@ -80,6 +80,11 @@ export default {
           icon: 'mdi-chevron-right',
           link:
             'https://www.pullmanbus.cl/portalWAR/paginas/contenido/contacto.jsf'
+        },
+        {
+          title: 'Servicio por confirmar',
+          icon: 'mdi-chevron-right',
+          route: 'ConfirmationServicesPanel'
         }
       ]
     }
