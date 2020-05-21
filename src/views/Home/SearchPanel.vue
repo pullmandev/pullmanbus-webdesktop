@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative;">
     <Carousel />
-    <Promotions class="promotion_container displayNoneSm" />
+    <Promotions class="displayNoneSm" />
     <v-container class="search_container">
       <div :style="{ marginTop: breakPoint.margin }" />
       <v-card
@@ -125,13 +125,6 @@ div.card.search_card {
   top: 0;
   left: 0;
   right: 0;
-}
-
-.promotion_container {
-  position: absolute;
-  top: 100px;
-  left: 0;
-  margin-left: 4rem;
 }
 
 .search-panel-radios .v-input--radio-group__input {

@@ -1,34 +1,40 @@
 <template>
-  <v-card
-    color="white"
-    style="width: 500px"
-    :min-height="height"
-    class="rounded"
+  <v-carousel
+    cycle
+    hide-delimiters
+    :show-arrows="false"
+    class="rounded-home-banner promotion-banner_container banner-home-fadeIn"
+    height="auto"
+    v-if="showBanner"
   >
-    <div class="d-flex flex-no-wrap justify-space-between">
-      <v-img width="280" :src="homeBanners[0].urlImagen" cover></v-img>
-      <div
-        class="text-center d-flex justify-center align-center flex-column"
-        style="width: 100%"
-      >
-        <slot name="promotion">
-          <p class="headline d-block">{{ homeBanners[0].titulo }}</p>
-          <p class="body-2 px-3">
-            {{ homeBanners[0].contenido }}
-          </p>
-          <p
-            class="headline px-3"
-            :style="{ backgroundColor: homeBanners[0].fondoTarifa }"
-            style="border-radius: 10px"
+    <v-carousel-item v-for="(item, i) in homeBanners" :key="i">
+      <v-card color="white" style="color: black;" :min-height="height">
+        <div class="d-flex flex-no-wrap justify-space-between">
+          <v-img width="280" :src="item.urlImagen" cover></v-img>
+          <div
+            class="text-center d-flex justify-center align-center flex-column"
+            style="width: 100%"
           >
-            <span :style="{ color: homeBanners[0].colorTarifa }"
-              >${{ homeBanners[0].tarifas }}</span
-            >
-          </p>
-        </slot>
-      </div>
-    </div>
-  </v-card>
+            <slot name="promotion">
+              <p class="headline d-block">{{ item.titulo }}</p>
+              <p class="body-2 px-3">
+                {{ item.contenido }}
+              </p>
+              <p
+                class="headline px-3"
+                :style="{ backgroundColor: item.fondoTarifa }"
+                style="border-radius: 10px"
+              >
+                <span :style="{ color: item.colorTarifa }"
+                  >${{ item.tarifas }}</span
+                >
+              </p>
+            </slot>
+          </div>
+        </div>
+      </v-card>
+    </v-carousel-item>
+  </v-carousel>
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -43,12 +49,47 @@ export default {
   created() {
     this.$store.dispatch('SET_HOME_BANNERS')
   },
-  computed: mapState(['homeBanners'])
+  computed: {
+    ...mapState(['homeBanners']),
+    showBanner() {
+      return this.homeBanners.length > 0
+    }
+  }
 }
 </script>
-<style scoped>
-.rounded {
-  border-radius: 40px !important;
+<style>
+.rounded-home-banner {
+  border-radius: 30px !important;
+  border-bottom-left-radius: 30px !important;
+  border-bottom-right-radius: 30px !important;
   overflow: hidden;
+}
+
+.promotion-banner_container {
+  position: absolute;
+  margin-left: 4rem;
+}
+
+.banner-home-fadeIn {
+  animation: banner-home-fadeIn 0.5s cubic-bezier(0.87, 0, 0.13, 1);
+  top: 100px;
+  left: 0;
+  opacity: 1;
+  width: 500px;
+}
+
+@keyframes banner-home-fadeIn {
+  0% {
+    top: 400px;
+    left: 600px;
+    opacity: 0;
+    width: 100px;
+  }
+  100% {
+    top: 100px;
+    left: 0;
+    opacity: 1;
+    width: 500px;
+  }
 }
 </style>

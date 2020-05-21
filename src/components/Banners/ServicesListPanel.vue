@@ -26,9 +26,9 @@
           </v-col>
           <v-col cols="12" class="d-flex justify-space-around align-center">
             <v-btn outlined @click="promotion = false">Cancelar</v-btn>
-            <v-btn color="orange" class="white--text" @click="accept"
-              >Aceptar</v-btn
-            >
+            <v-btn color="orange" class="white--text" @click="accept">
+              Aceptar
+            </v-btn>
           </v-col>
         </v-row>
       </div>
