@@ -8,10 +8,7 @@
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
           <v-card-text>
-            <h3 v-if="hasVuelta">
-              {{ $t('two_reservation') }}
-            </h3>
-            <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
+            <h3 class="capitalize">{{ $t('one_reservation') }}</h3>
           </v-card-text>
           <div v-for="(item, i) in getSeatWithId" :key="i">
             <v-data-table
@@ -52,16 +49,6 @@
                   <td>
                     <h3>${{ props.item.precio }}</h3>
                   </td>
-                  <td>
-                    <v-btn
-                      text
-                      color="error"
-                      @click="deleteSelected(props.item)"
-                      :disabled="deleting"
-                    >
-                      <v-icon>delete</v-icon>
-                    </v-btn>
-                  </td>
                 </tr>
               </template>
             </v-data-table>
@@ -92,14 +79,14 @@
           <v-btn
             outlined
             class="grey--text"
-            @click="$router.push({ name: 'List' })"
+            @click="routeWithScroll('#paymentStepper', 'List')"
             >{{ $t('cancel') }}</v-btn
           >
           <v-btn
             color="orange"
             :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
-            @click="$router.push({ name: 'ServicesPaymentData' })"
+            @click="validateRoute"
             >{{ $t('continue') }}</v-btn
           >
         </v-card-actions>
@@ -109,8 +96,8 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import deleteSeat from '@/helpers/deleteSeat'
 import confirmationAmount from '@/helpers/updateConfirmationTicket'
+import routeWithScroll from '@/helpers/routeWithScroll'
 
 export default {
   data() {
@@ -123,46 +110,25 @@ export default {
   },
   methods: {
     confirmationAmount,
-    async deleteSelected(item) {
-      this.deleting = true
-      const index = this.findSeatIndex(item.id)
-      if (index > -1) {
-        await deleteSeat(index)
+    routeWithScroll,
+    validateRoute() {
+      if (this.selectedSeats.length <= 0) {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
+      } else {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
       }
-      this.deleting = false
-    },
-    awaitForDeletion(index) {
-      this.$store.dispatch('DELETE_SEAT', { seat: index })
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve()
-        }, 100)
-      })
-    },
-    findSeatIndex(id) {
-      const index = this.selectedSeats.findIndex(
-        item => id === item.servicio + item.piso + item.asiento
-      )
-      return index
-    },
-    async validateSeats() {
-      this.$router.push({ name: 'Payment' })
     }
   },
   watch: {
     selectedSeats(list) {
       if (list.length <= 0) {
-        this.$router.push({ name: 'ServicesPaymentData' })
+        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
       }
     }
   },
   computed: {
     ...mapGetters({
-      selectedSeats: ['seatsWithPromo'],
-      payment_info: ['payment_info'],
-      userData: ['userData'],
-      searching: ['getSearching'],
-      hasVuelta: ['hasVuelta']
+      selectedSeats: ['seatsWithPromoNotSelected']
     }),
     getSeatWithId() {
       const result = this.selectedSeats.map(seat => {
@@ -170,23 +136,6 @@ export default {
         return { ...seat, id }
       })
       return result
-    },
-    getSeatInfo() {
-      let seatsList = ''
-      this.selectedSeats.forEach((seat, index) => {
-        const seatByFloor = seat.piso > 0 ? `${seat.asiento}P2` : seat.asiento
-        const dot = index === 0 ? '' : '-'
-        seatsList = `${seatsList} ${dot} ${seatByFloor}`
-      })
-      return {
-        fromCity: this.searching.from_city.nombre,
-        toCity: this.searching.to_city.nombre,
-        fecha: this.selectedSeats[0].fecha,
-        hora: this.selectedSeats[0].horaSalida,
-        terminalSalida: this.selectedSeats[0].terminalSalida,
-        terminalLlegada: this.selectedSeats[0].terminalLlegada,
-        seats: seatsList
-      }
     },
     headers() {
       return [
@@ -208,8 +157,7 @@ export default {
         },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
         { text: this.$t('floor'), value: 'piso', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false },
-        { text: '', value: '', sortable: false }
+        { text: this.$t('price'), value: 'precio', sortable: false }
       ]
     }
   }

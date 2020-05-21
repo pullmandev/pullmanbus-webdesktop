@@ -161,7 +161,7 @@
 <script>
 import Floor from '@/views/Services/stepper/List/Floor'
 import Dialog from '@/views/Services/stepper/List/Itinerary'
-// import scrollAnimation from '@/helpers/scrollAnimation'
+import routeWithScroll from '@/helpers/routeWithScroll'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -193,7 +193,9 @@ export default {
   computed: {
     ...mapGetters({
       servicesList: ['getServiceList'],
+      seatsWithPromoNotSelected: ['seatsWithPromoNotSelected'],
       seatsWithPromo: ['seatsWithPromo'],
+      selectedSeats: ['seats'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
       payment_info: ['payment_info']
@@ -267,12 +269,15 @@ export default {
       this.dialog = true
     },
     goToPayment() {
-      //scrollAnimation('#paymentStepper')
-      // this.$store.dispatch('SET_STEP', { step: 2 })
-      if (this.seatsWithPromo.length <= 0) {
-        this.$router.push({ name: 'ServicesPaymentData' })
+      if (
+        this.seatsWithPromo.length > 0 &&
+        this.seatsWithPromoNotSelected.length <= 0
+      ) {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
+      } else if (this.seatsWithPromoNotSelected.length > 0) {
+        routeWithScroll('#paymentStepper', 'ServicesDataConfirmation')
       } else {
-        this.$router.push({ name: 'ServicesDataConfirmation' })
+        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
       }
     }
   }

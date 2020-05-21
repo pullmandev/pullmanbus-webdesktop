@@ -3,36 +3,15 @@
     <v-container fluid>
       <!-- Card date passenger -->
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
+        <div class="white--text text-left orange confirmation-promotion-advice">
+          <span class="ml-8 caption">Servicio con dcto %!</span>
+        </div>
         <v-card-text>
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
-          <v-row
-            class="pt-3"
-            v-if="payment_info.email && payment_info.email !== ''"
-          >
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">{{ $t('email') }}</span>
-                  <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">Rut</span>
-                  <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
           <v-card-text>
-            <h3 v-if="hasVuelta">
-              {{ $t('two_reservation') }}
-            </h3>
-            <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
+            <h3 class="capitalize">{{ $t('one_reservation') }}</h3>
           </v-card-text>
           <v-data-table
             :headers="headers"
@@ -75,16 +54,6 @@
                 <td>
                   <h3>${{ props.item.precio }}</h3>
                 </td>
-                <td>
-                  <v-btn
-                    text
-                    color="error"
-                    @click="deleteSelected(props.item)"
-                    :disabled="deleting"
-                  >
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </td>
               </tr>
             </template>
           </v-data-table>
@@ -99,9 +68,8 @@
           >
           <v-btn
             color="orange"
-            :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
-            @click="routeWithScroll('#paymentStepper', 'Payment')"
+            @click="routeWithScroll('#paymentStepper', 'ServicesPaymentData')"
             >{{ $t('continue') }}</v-btn
           >
         </v-card-actions>
@@ -115,14 +83,6 @@ import deleteSeat from '@/helpers/deleteSeat'
 import routeWithScroll from '@/helpers/routeWithScroll'
 
 export default {
-  data() {
-    return {
-      name: '',
-      rut: '',
-      email: '',
-      deleting: false
-    }
-  },
   methods: {
     routeWithScroll,
     async deleteSelected(item) {
@@ -142,7 +102,7 @@ export default {
       })
     },
     findSeatIndex(id) {
-      const index = this.selectedSeats.findIndex(
+      const index = this.seatsWithPromo.findIndex(
         item => id === item.servicio + item.piso + item.asiento
       )
       return index
@@ -153,32 +113,17 @@ export default {
       selectedSeats: ['seats'],
       payment_info: ['payment_info'],
       userData: ['userData'],
-      searching: ['getSearching'],
-      hasVuelta: ['hasVuelta']
+      searching: ['getSearching']
     }),
+    seatsWithPromo() {
+      return this.selectedSeats.filter(item => item.tomadoPromo)
+    },
     getSeatWithId() {
-      const result = this.selectedSeats.map(seat => {
+      const result = this.seatsWithPromo.map(seat => {
         const id = seat.servicio + seat.piso + seat.asiento
         return { ...seat, id }
       })
       return result
-    },
-    getSeatInfo() {
-      let seatsList = ''
-      this.selectedSeats.forEach((seat, index) => {
-        const seatByFloor = seat.piso > 0 ? `${seat.asiento}P2` : seat.asiento
-        const dot = index === 0 ? '' : '-'
-        seatsList = `${seatsList} ${dot} ${seatByFloor}`
-      })
-      return {
-        fromCity: this.searching.from_city.nombre,
-        toCity: this.searching.to_city.nombre,
-        fecha: this.selectedSeats[0].fecha,
-        hora: this.selectedSeats[0].horaSalida,
-        terminalSalida: this.selectedSeats[0].terminalSalida,
-        terminalLlegada: this.selectedSeats[0].terminalLlegada,
-        seats: seatsList
-      }
     },
     headers() {
       return [
@@ -201,10 +146,17 @@ export default {
         },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
         { text: this.$t('floor'), value: 'piso', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false },
-        { text: '', value: '', sortable: false }
+        { text: this.$t('price'), value: 'precio', sortable: false }
       ]
     }
   }
 }
 </script>
+<style scoped>
+.confirmation-promotion-advice {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: -100px;
+  transform: rotate(-60deg);
+}
+</style>

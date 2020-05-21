@@ -306,7 +306,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
-      confirmationSeats: ['seatsWithPromo'],
+      confirmationSeats: ['seatsWithPromoNotSelected'],
       totalAmount: ['seatsTotalAmount'],
       seatsByTravel: ['seatsByTravel'],
       hasVuelta: ['hasVuelta']

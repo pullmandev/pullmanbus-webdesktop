@@ -2,13 +2,16 @@
   <div class="ServicesBackground font">
     <!-- Principal View -->
     <div style="margin-top: 52px"></div>
-    <Promotions height="270" :banner="true">
+    <Promotions height="270" :banner="true" id="paymentStepper">
       <template slot="promotion">
         <p class="headline d-block">Aprovecha las promociones</p>
         <p class="display-2">Hasta 40% de descuento</p>
       </template>
     </Promotions>
-    <router-view></router-view>
+    <div></div>
+    <transition>
+      <router-view></router-view>
+    </transition>
     <v-btn
       color="primary"
       class="white--text floating-filters-btn displayNoneMd"

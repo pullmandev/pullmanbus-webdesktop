@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '@/store'
 import Home from '../views/Home/Index.vue'
 
 //Services
 import ServicesContainer from '@/views/Services/Index.vue'
 import ListContainer from '@/views/Services/Services.vue'
 import Data from '@/views/Services/stepper/ConfirmationPaymentData'
+import DataDiscount from '@/views/Services/stepper/ConfirmationTicketDiscount'
 import DataConfirmation from '@/views/Services/stepper/ConfirmationTicketPayment'
 import List from '@/views/Services/stepper/List/Index'
 import Payment from '@/views/Services/Payment/Index.vue'
@@ -94,14 +96,19 @@ const routes = [
             component: List
           },
           {
-            path: 'servicesPaymentData',
-            name: 'ServicesPaymentData',
-            component: Data
-          },
-          {
             path: 'servicesDataConfirmation',
             name: 'ServicesDataConfirmation',
             component: DataConfirmation
+          },
+          {
+            path: 'servicesPaymentDiscount',
+            name: 'ServicesPaymentDiscount',
+            component: DataDiscount
+          },
+          {
+            path: 'servicesPaymentData',
+            name: 'ServicesPaymentData',
+            component: Data
           }
         ]
       },
@@ -208,4 +215,7 @@ const router = new VueRouter({
   routes
 })
 
+router.afterEach((to, from) => {
+  store.dispatch('SET_HISTORY', { from, to })
+})
 export default router

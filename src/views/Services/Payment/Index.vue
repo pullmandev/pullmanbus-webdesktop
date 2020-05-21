@@ -378,8 +378,14 @@ export default {
           'bus',
           'integrador'
         ])
-        params.monto = parseInt(seat.monto.split('.').join('')) // params.monto = 10
-        params.precio = parseInt(seat.tarifa.split('.').join('')) // params.precio = 10
+        if (seat.tomadoPromo) {
+          params.monto = parseInt(seat.monto.split('.').join(''))
+          params.precio = parseInt(seat.tarifa.split('.').join(''))
+        } else {
+          params.monto = parseInt(seat.totalPromo.split('.').join(''))
+          params.precio = parseInt(seat.totalPromo.split('.').join(''))
+        }
+        params.idaVuelta = seat.tomadoPromo
         params.piso = seat.piso + 1
         params.asiento =
           seat.piso === 1

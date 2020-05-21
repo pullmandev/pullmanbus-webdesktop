@@ -76,7 +76,11 @@ const store = new Vuex.Store({
       usuario: {},
       active: false
     },
-    homeBanners: []
+    homeBanners: [],
+    history: {
+      to: '',
+      from: ''
+    }
   },
 
   actions: {
@@ -368,6 +372,9 @@ const store = new Vuex.Store({
             console.log(err)
           })
       }
+    },
+    SET_HISTORY({commit}, payload) {
+      commit('SET_HISTORY', {from: payload.from, to: payload.to})
     }
   },
   mutations: {
@@ -490,6 +497,9 @@ const store = new Vuex.Store({
     },
     SET_HOME_BANNERS (state, {banners}) {
       state.homeBanners = banners
+    },
+    SET_HISTORY(state, history) {
+      state.history = history
     }
   },
 
@@ -704,9 +714,14 @@ const store = new Vuex.Store({
     seats: state => {
       return state.seats
     },
-    seatsWithPromo: (state, getters) => {
+    seatsWithPromoNotSelected: (state, getters) => {
       return getters.seats.filter(
         item => item.hasPromo && !item.tomadoPromo
+      )
+    },
+    seatsWithPromo: (state, getters) => {
+      return getters.seats.filter(
+        item => item.tomadoPromo
       )
     },
     confirmationSeats: state => {
@@ -748,6 +763,9 @@ const store = new Vuex.Store({
 
     userData: state => {
       return state.userData
+    },
+    getHistory: state => {
+      return state.history
     }
   }
 })
