@@ -32,7 +32,9 @@
             style="overflow: hidden; position: relative"
           >
             <div
-              v-if="data.pisos[selectedFloor].confirmation.idaVuelta"
+              v-if="
+                data.pisos[selectedFloor].confirmation.idaVuelta && !hasVuelta
+              "
               class="white--text text-left orange promotion-advice-floor"
             >
               <span class="ml-8 caption">Servicio con dcto %!</span>
@@ -191,7 +193,7 @@
                         <strong>{{ totalAmount | currency }}</strong>
                       </div>
                     </template>
-                    <template v-if="confirmationSeats.length > 0">
+                    <template v-if="confirmationSeats.length > 0 && !hasVuelta">
                       <strong class="d-block orange--text">
                         Compra tu pasaje por confirmar
                       </strong>
@@ -290,6 +292,9 @@ export default {
     }
   },
   components: {
+    ...mapGetters({
+      hasVuelta: ['hasVuelta']
+    }),
     seat,
     Dialog,
     ServicesListPanel
@@ -453,7 +458,7 @@ export default {
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
         this.$store.dispatch('SET_SEAT', { seat })
-        if (seat.hasPromo && !seat.tomadoPromo) {
+        if (seat.hasPromo && !seat.tomadoPromo && !this.hasVuelta) {
           this.confirmTicketDialog = true
           this.addedSeat = seat
         }

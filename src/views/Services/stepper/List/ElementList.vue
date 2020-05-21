@@ -18,7 +18,7 @@
           >
             <v-expansion-panel-header style="overflow: hidden">
               <v-row no-gutters>
-                <v-col cols="1">
+                <v-col cols="1" v-if="!hasVuelta">
                   <div
                     v-if="service.idaVueltaPisoUno || service.idaVueltaPisoDos"
                     class="white--text text-left orange promotion-advice"
@@ -26,7 +26,7 @@
                     <span class="ml-8 caption">Servicio con dcto %!</span>
                   </div>
                 </v-col>
-                <v-col cols="11">
+                <v-col :cols="hasVuelta ? 12 : 11">
                   <v-row>
                     <v-col cols="2">
                       <span class="headline d-block">
@@ -198,7 +198,8 @@ export default {
       selectedSeats: ['seats'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
-      payment_info: ['payment_info']
+      payment_info: ['payment_info'],
+      hasVuelta: ['hasVuelta']
     }),
     langSearch() {
       return this.$t('search')
@@ -269,6 +270,10 @@ export default {
       this.dialog = true
     },
     goToPayment() {
+      if (this.hasVuelta) {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
+        return
+      }
       if (
         this.seatsWithPromo.length > 0 &&
         this.seatsWithPromoNotSelected.length <= 0
