@@ -283,7 +283,7 @@ export default {
   methods: {
     toServices() {
       localStorage.fromFail = true
-      this.$router.push({ name: 'Services' })
+      this.$router.push({ name: 'ServicesPaymentData' })
     },
     async validate() {
       try {

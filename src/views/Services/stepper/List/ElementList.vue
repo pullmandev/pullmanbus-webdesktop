@@ -156,14 +156,12 @@
       <span>{{ $t('no_elements') }}</span>
     </v-card>
     <Dialog :open.sync="dialog" :service="serviceForItinerary" />
-    <ServicesListPanel :open.sync="confirmTicketDialog" :price="10000" />
   </div>
 </template>
 <script>
 import Floor from '@/views/Services/stepper/List/Floor'
 import Dialog from '@/views/Services/stepper/List/Itinerary'
-import ServicesListPanel from '@/components/Banners/ServicesListPanel'
-import scrollAnimation from '@/helpers/scrollAnimation'
+// import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -182,11 +180,9 @@ export default {
   },
   components: {
     Floor,
-    Dialog,
-    ServicesListPanel
+    Dialog
   },
   mounted() {
-    this.confirmTicketDialog = true
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
@@ -197,6 +193,7 @@ export default {
   computed: {
     ...mapGetters({
       servicesList: ['getServiceList'],
+      seatsWithPromo: ['seatsWithPromo'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
       payment_info: ['payment_info']
@@ -270,8 +267,13 @@ export default {
       this.dialog = true
     },
     goToPayment() {
-      scrollAnimation('#paymentStepper')
-      this.$store.dispatch('SET_STEP', { step: 2 })
+      //scrollAnimation('#paymentStepper')
+      // this.$store.dispatch('SET_STEP', { step: 2 })
+      if (this.seatsWithPromo.length <= 0) {
+        this.$router.push({ name: 'ServicesPaymentData' })
+      } else {
+        this.$router.push({ name: 'ServicesDataConfirmation' })
+      }
     }
   }
 }

@@ -3,9 +3,12 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home/Index.vue'
 
 //Services
-import ServicesContainer from '../views/Services/Index.vue'
-import Services from '../views/Services/Services.vue'
-import Payment from '../views/Services/Payment/Index.vue'
+import ServicesContainer from '@/views/Services/Index.vue'
+import ListContainer from '@/views/Services/Services.vue'
+import Data from '@/views/Services/stepper/ConfirmationPaymentData'
+import DataConfirmation from '@/views/Services/stepper/ConfirmationTicketPayment'
+import List from '@/views/Services/stepper/List/Index'
+import Payment from '@/views/Services/Payment/Index.vue'
 import Confirmation from '@/views/Services/Confirmation.vue'
 
 //Confirmation Services
@@ -83,7 +86,24 @@ const routes = [
       {
         path: '',
         name: 'Services',
-        component: Services
+        component: ListContainer,
+        children: [
+          {
+            path: '',
+            name: 'List',
+            component: List
+          },
+          {
+            path: 'servicesPaymentData',
+            name: 'ServicesPaymentData',
+            component: Data
+          },
+          {
+            path: 'servicesDataConfirmation',
+            name: 'ServicesDataConfirmation',
+            component: DataConfirmation
+          }
+        ]
       },
       {
         path: 'payment',

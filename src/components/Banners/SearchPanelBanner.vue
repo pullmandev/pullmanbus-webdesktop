@@ -1,20 +1,29 @@
 <template>
-  <v-card color="white" style="width: 500px" class="rounded">
+  <v-card
+    color="white"
+    style="width: 500px"
+    :min-height="height"
+    class="rounded"
+  >
     <div class="d-flex flex-no-wrap justify-space-between">
-      <div style="width: 200px">
-        <v-img
-          src="../../../static/images/Imagen-descuento.png"
-          :height="height"
-        ></v-img>
-      </div>
+      <v-img width="280" :src="homeBanners[0].urlImagen" cover></v-img>
       <div
         class="text-center d-flex justify-center align-center flex-column"
         style="width: 100%"
       >
         <slot name="promotion">
-          <p class="headline d-block">Promocion</p>
-          <p class="body-1 px-3">
-            Compra tu pasaje por confirmar a un precio preferente
+          <p class="headline d-block">{{ homeBanners[0].titulo }}</p>
+          <p class="body-2 px-3">
+            {{ homeBanners[0].contenido }}
+          </p>
+          <p
+            class="headline px-3"
+            :style="{ backgroundColor: homeBanners[0].fondoTarifa }"
+            style="border-radius: 10px"
+          >
+            <span :style="{ color: homeBanners[0].colorTarifa }"
+              >${{ homeBanners[0].tarifas }}</span
+            >
           </p>
         </slot>
       </div>
@@ -22,17 +31,19 @@
   </v-card>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     height: {
       type: [Number, String],
-      default: 200
+      default: 180
     },
     banner: Boolean
   },
-  data: () => ({
-    src: 'https://cdn.vuetifyjs.com/images/cards/foster.jpg'
-  })
+  created() {
+    this.$store.dispatch('SET_HOME_BANNERS')
+  },
+  computed: mapState(['homeBanners'])
 }
 </script>
 <style scoped>

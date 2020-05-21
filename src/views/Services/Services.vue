@@ -5,26 +5,26 @@
       <filters class="displayNoneSm" />
     </v-col>
     <v-col cols="10">
-      <stepper step="1" ref="stepper" />
+      <!-- <stepper step="1" ref="stepper" /> -->
+      <router-view></router-view>
     </v-col>
   </v-row>
 </template>
 <script>
 import SearchPanel from '@/views/Services/searchPanel'
 import Filters from '@/views/Services/filters/Index'
-import Stepper from '@/views/Services/stepper/Index'
+// import Stepper from '@/views/Services/stepper/Index'
 export default {
   components: {
     SearchPanel,
-    Filters,
-    Stepper
+    Filters
   },
   mounted() {
     const { fromFail } = localStorage
     if (fromFail) {
       localStorage.removeItem('fromFail')
     } else if (this.$store.state.services.data.length < 1) {
-      this.$store.dispatch('LOAD_SERVICES_LIST')
+      this.$store.dispatch('LOAD_SERVICES_LIST', {})
     } else {
       this.$store.dispatch('SET_PAYMENT_INFO', {
         payment_info: {

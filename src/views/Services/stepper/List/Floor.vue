@@ -1,5 +1,10 @@
 <template>
   <div>
+    <ServicesListPanel
+      :open.sync="confirmTicketDialog"
+      :price="addedSeat.totalPromo"
+      @accept="confirmationAmountFromDialog"
+    />
     <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
     <v-card flat class="hideAsientos mt-3">
       <!-- Grilla de asientos -->
@@ -176,7 +181,11 @@
                           v-for="(seat, index) in selectedSeats"
                           class="d-block"
                           >{{ seat.servicioNombre }} -
-                          <strong>${{ seat.tarifa }}</strong></span
+                          <strong
+                            >${{
+                              seat.tomadoPromo ? seat.totalPromo : seat.tarifa
+                            }}</strong
+                          ></span
                         >
                         <hr />
                         <strong>{{ totalAmount | currency }}</strong>
@@ -188,20 +197,24 @@
                       </strong>
                       <div
                         class="text-right"
-                        v-for="(floor, i) in confirmationSeats"
+                        v-for="(seat, i) in confirmationSeats"
                         :key="i"
                       >
                         <hr v-if="i === 0" />
                         <span class="d-block body-2">
-                          Boleto por confirmar piso {{ floor.piso + 1 }} -
-                          <strong>
-                            ${{ floor.confirmation.tarifaVuelta }}
+                          Boleto por confirmar piso {{ seat.piso + 1 }} asiento
+                          {{ seat.asiento }}
+                          <strong class="d-block">
+                            ${{ seat.totalPromo }}
                           </strong>
                         </span>
-                        <v-btn color="orange" small class="white--text my-3">
-                          {{
-                            floor.confirmation.tomado ? 'Remover' : 'Agregar'
-                          }}
+                        <v-btn
+                          color="orange"
+                          small
+                          class="white--text my-3"
+                          @click="confirmationAmount(seat)"
+                        >
+                          Agregar
                         </v-btn>
                         <hr />
                       </div>
@@ -240,8 +253,10 @@
 </template>
 <script>
 import Dialog from '@/views/Services/stepper/List/ContinueDialog'
+import ServicesListPanel from '@/components/Banners/ServicesListPanel'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
+import confirmationAmount from '@/helpers/updateConfirmationTicket'
 import { mapGetters } from 'vuex'
 import deleteSeat from '@/helpers/deleteSeat'
 import API from '@/services/api/seats'
@@ -252,6 +267,7 @@ export default {
   props: ['item', 'isXs', 'back'],
   data() {
     return {
+      //confirmationSeats: [],
       seatImageBase: '../../../../../static/logos/seats/',
       seatsImg: [
         { text: 'available_seats', number: '28' },
@@ -268,12 +284,15 @@ export default {
       map: [],
       bus: {
         grilla: []
-      }
+      },
+      confirmTicketDialog: false,
+      addedSeat: {}
     }
   },
   components: {
     seat,
-    Dialog
+    Dialog,
+    ServicesListPanel
   },
   mounted() {
     this.getSeats(this.item)
@@ -287,6 +306,7 @@ export default {
   computed: {
     ...mapGetters({
       selectedSeats: ['seats'],
+      confirmationSeats: ['seatsWithPromo'],
       totalAmount: ['seatsTotalAmount'],
       seatsByTravel: ['seatsByTravel'],
       hasVuelta: ['hasVuelta']
@@ -299,28 +319,12 @@ export default {
       })[0]
       console.log('piso', piso)
       return piso
-    },
-    confirmationSeats() {
-      const pisos = this.data.pisos
-        ? this.data.pisos.filter(item => item.confirmation.idaVuelta)
-        : []
-      return pisos
     }
   },
   methods: {
-    confirmationAmount(piso) {
-      for (let index = 0; index < this.selectedSeats.length; index++) {
-        const seat = this.selectedSeats[index]
-        console.log('piso', piso)
-        console.log('data', this.data.idServicio)
-        if (seat.piso === piso.piso && seat.servicio === this.data.idServicio) {
-          console.log('llego')
-          this.$store.dispatch('SET_CONFIRMATION_SEAT_AMOUNT', {
-            seat: index,
-            tomado: !seat.confirmation.tomado
-          })
-        }
-      }
+    confirmationAmount,
+    confirmationAmountFromDialog() {
+      confirmationAmount(this.addedSeat)
     },
     async deleteSeats() {
       const lenght = this.selectedSeats.length - 1
@@ -401,7 +405,9 @@ export default {
         precio: this.serviceData.pisos[index].tarifaInternet,
         clase: this.serviceData.pisos[index].clase,
         bus: this.serviceData.pisos[index].busPiso,
-        confirmation: this.serviceData.pisos[index].confirmation,
+        hasPromo: this.serviceData.pisos[index].confirmation.idaVuelta,
+        totalPromo: this.serviceData.pisos[index].confirmation.tarifaTotal,
+        tomadoPromo: false,
         descuento: 0
         // fechaTomada: moment.now()
       }
@@ -447,6 +453,10 @@ export default {
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
         this.$store.dispatch('SET_SEAT', { seat })
+        if (seat.hasPromo && !seat.tomadoPromo) {
+          this.confirmTicketDialog = true
+          this.addedSeat = seat
+        }
       }
     },
     async leverageSeat(params, index, indexes) {

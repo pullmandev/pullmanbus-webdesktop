@@ -40,5 +40,6 @@ export default {
   obtenerFaq: `${parametros}/obtenerFaq`,
   botonPago: `${serviciosVenta}/GetConvenio`,
   validarConvenio: `${serviciosVenta}/GetDescuentoConvenio`,
-  convenios: `${administracion}/private/convenio/obtenerInformacion`
+  convenios: `${administracion}/private/convenio/obtenerInformacion`,
+  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`
 }

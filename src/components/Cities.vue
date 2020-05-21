@@ -54,6 +54,7 @@ export default {
           city: value,
           direction: this.direction
         })
+        this.$store.dispatch('SET_HOME_BANNERS')
       }
     },
     languageChange() {

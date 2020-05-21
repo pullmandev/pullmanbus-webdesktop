@@ -7,87 +7,85 @@
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
-          <v-row
-            class="pt-3"
-            v-if="payment_info.email && payment_info.email !== ''"
-          >
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">{{ $t('email') }}</span>
-                  <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
-                <v-card-text>
-                  <span class="font-weight-black">Rut</span>
-                  <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
           <v-card-text>
             <h3 v-if="hasVuelta">
               {{ $t('two_reservation') }}
             </h3>
             <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
           </v-card-text>
-          <v-data-table
-            :headers="headers"
-            :items="getSeatWithId"
-            item-key="id"
-            class="elevation-0"
-            hide-default-footer
-          >
-            <template slot="item" slot-scope="props">
-              <tr>
-                <td>
-                  <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
-                </td>
-                <td>
-                  <h3>{{ props.item.terminalSalida }}</h3>
-                </td>
-                <td>
-                  <h3>{{ props.item.terminalLlegada }}</h3>
-                </td>
-                <td>
-                  <h3>{{ props.item.fecha }}</h3>
-                </td>
-                <td>
-                  <h3>{{ props.item.horaSalida }}</h3>
-                </td>
-                <td>
-                  <h3>
-                    {{
-                      props.item.piso > 0
-                        ? parseInt(props.item.asiento) + 20
-                        : props.item.asiento
-                    }}
-                  </h3>
-                </td>
-                <td>
-                  <h3>
-                    {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
-                  </h3>
-                </td>
-                <td>
-                  <h3>${{ props.item.precio }}</h3>
-                </td>
-                <td>
-                  <v-btn
-                    text
-                    color="error"
-                    @click="deleteSelected(props.item)"
-                    :disabled="deleting"
-                  >
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </template>
-          </v-data-table>
+          <div v-for="(item, i) in getSeatWithId" :key="i">
+            <v-data-table
+              :headers="headers"
+              :items="[item]"
+              item-key="id"
+              class="elevation-0"
+              hide-default-footer
+            >
+              <template slot="item" slot-scope="props">
+                <tr>
+                  <td>
+                    <h3>{{ props.item.terminalSalida }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.terminalLlegada }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.fecha }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.horaSalida }}</h3>
+                  </td>
+                  <td>
+                    <h3>
+                      {{
+                        props.item.piso > 0
+                          ? parseInt(props.item.asiento) + 20
+                          : props.item.asiento
+                      }}
+                    </h3>
+                  </td>
+                  <td>
+                    <h3>
+                      {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
+                    </h3>
+                  </td>
+                  <td>
+                    <h3>${{ props.item.precio }}</h3>
+                  </td>
+                  <td>
+                    <v-btn
+                      text
+                      color="error"
+                      @click="deleteSelected(props.item)"
+                      :disabled="deleting"
+                    >
+                      <v-icon>delete</v-icon>
+                    </v-btn>
+                  </td>
+                </tr>
+              </template>
+            </v-data-table>
+            <div class="text-left mt-5">
+              <strong class="d-block orange--text">
+                Compra tu pasaje por confirmar
+              </strong>
+              <hr />
+              <div class="d-flex justify-space-between align-center">
+                <span class="d-block body-2 ml-6">
+                  Boleto por confirmar
+                  <strong> ${{ item.totalPromo }} </strong>
+                </span>
+                <v-btn
+                  color="orange"
+                  small
+                  class="white--text my-3"
+                  @click="confirmationAmount(item)"
+                >
+                  Agregar
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </v-card-text>
         <v-card-actions class="mt-12">
           <v-spacer></v-spacer>
@@ -101,7 +99,7 @@
             color="orange"
             :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
-            @click="validateSeats"
+            @click="$router.push({ name: 'ServicesPaymentData' })"
             >{{ $t('continue') }}</v-btn
           >
         </v-card-actions>
@@ -112,6 +110,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import deleteSeat from '@/helpers/deleteSeat'
+import confirmationAmount from '@/helpers/updateConfirmationTicket'
 
 export default {
   data() {
@@ -123,6 +122,7 @@ export default {
     }
   },
   methods: {
+    confirmationAmount,
     async deleteSelected(item) {
       this.deleting = true
       const index = this.findSeatIndex(item.id)
@@ -149,9 +149,16 @@ export default {
       this.$router.push({ name: 'Payment' })
     }
   },
+  watch: {
+    selectedSeats(list) {
+      if (list.length <= 0) {
+        this.$router.push({ name: 'ServicesPaymentData' })
+      }
+    }
+  },
   computed: {
     ...mapGetters({
-      selectedSeats: ['seats'],
+      selectedSeats: ['seatsWithPromo'],
       payment_info: ['payment_info'],
       userData: ['userData'],
       searching: ['getSearching'],
@@ -183,7 +190,6 @@ export default {
     },
     headers() {
       return [
-        { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
           value: 'terminalSalida',

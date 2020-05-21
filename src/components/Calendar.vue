@@ -115,6 +115,9 @@ export default {
           date: value,
           direction: this.direction
         })
+        if (this.direction === 'from') {
+          this.$store.dispatch('SET_HOME_BANNERS')
+        }
       }
     },
     formatedDate: {

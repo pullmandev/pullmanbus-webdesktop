@@ -91,7 +91,7 @@ export default {
       if (fromFail) {
         localStorage.removeItem('fromFail')
       }
-      this.$store.dispatch('LOAD_SERVICES_LIST')
+      this.$store.dispatch('LOAD_SERVICES_LIST', { goTo: true })
     }
   },
   mounted() {

@@ -21,13 +21,12 @@
           >
             <p class="headline d-block">Promocion</p>
             <p class="title px-3">
-              Compra tu pasaje por confirmar a un precio preferente
-              {{ price | currency }}
+              Compra tu pasaje por confirmar a un precio preferente ${{ price }}
             </p>
           </v-col>
           <v-col cols="12" class="d-flex justify-space-around align-center">
             <v-btn outlined @click="promotion = false">Cancelar</v-btn>
-            <v-btn color="orange" class="white--text" @click="promotion = false"
+            <v-btn color="orange" class="white--text" @click="accept"
               >Aceptar</v-btn
             >
           </v-col>
@@ -47,6 +46,12 @@ export default {
       set(value) {
         this.$emit('update:open', value)
       }
+    }
+  },
+  methods: {
+    accept() {
+      this.$emit('accept')
+      this.promotion = false
     }
   }
 }

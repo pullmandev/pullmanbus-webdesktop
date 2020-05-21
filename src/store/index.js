@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import APIService from '@/services/api/services'
 import APICities from '@/services/api/cities'
+import APIBanners from '@/services/api/banners'
 import router from '../router'
 import moment from 'moment'
 // import companiesList from '../../companies.json'
@@ -74,7 +75,8 @@ const store = new Vuex.Store({
       urlInicial: null,
       usuario: {},
       active: false
-    }
+    },
+    homeBanners: []
   },
 
   actions: {
@@ -92,7 +94,7 @@ const store = new Vuex.Store({
       })
     },
 
-    LOAD_SERVICES_LIST ({commit, dispatch, state}) {
+    LOAD_SERVICES_LIST ({commit, dispatch, state}, payload) {
       if (state.searching.from_date == null || state.searching.from_date === '') {
         Vue.notify({
           group: 'error',
@@ -153,7 +155,9 @@ const store = new Vuex.Store({
           dispatch('SET_USER_FILTER', {filter: [], type: 'class'})
           return
         }
-        router.push('/services')
+        if (payload.goTo) {
+          router.push('/services')
+        }
         if (resultData) {
           commit('SET_SERVICES_LIST', {list: resultData})
           // const companies = []
@@ -340,6 +344,30 @@ const store = new Vuex.Store({
 
     DELETE_USER ({commit}) {
       commit('DELETE_USER')
+    },
+    SET_HOME_BANNERS ({commit, state}) {
+      const { from_city, to_city, from_date } = state.searching
+      if (from_city != null && to_city != null && from_date != null) {
+        const params = {
+          origen: from_city.codigo,
+          destino: to_city.codigo,
+          fechaSalida: from_date.replace(/-/g, ''),
+          etapa: 1
+        }
+        APIBanners.searchBanner(params)
+          .then(response => {
+            const data = response.data
+            let banners = []
+            data.forEach(item => {
+              const params = _.pick(item, ['urlImagen', 'contenido', 'titulo', 'tarifas', 'colorTarifa', 'fondoTarifa'])
+              banners.push(params)
+            })
+            commit('SET_HOME_BANNERS', {banners})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     }
   },
   mutations: {
@@ -426,7 +454,7 @@ const store = new Vuex.Store({
       state.seats.push(seat)
     },
     SET_CONFIRMATION_SEAT_AMOUNT: (state, {seat, tomado}) => {
-      state.seats[seat].confirmation.tomado = tomado
+      state.seats[seat].tomadoPromo = tomado
     },
     SET_CONFIRMATION_SEAT: (state, {seat}) => {
       state.confirmationServices.seats.push(seat)
@@ -459,6 +487,9 @@ const store = new Vuex.Store({
         active: false
       }
       state.userData = userData
+    },
+    SET_HOME_BANNERS (state, {banners}) {
+      state.homeBanners = banners
     }
   },
 
@@ -539,9 +570,6 @@ const store = new Vuex.Store({
           pisoUno.fechaLlegada = item.fechaLlegada
           pisoUno.terminaLlegada = item.terminaLlegada
           pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
-          if (pisoUno.confirmation.idaVuelta) {
-            pisoUno.confirmation.tomado = false
-          }
           pisos.push(pisoUno)
         }
         if (item.filter2) {
@@ -560,9 +588,6 @@ const store = new Vuex.Store({
           pisoDos.fechaLlegada = item.fechaLlegada
           pisoDos.terminaLlegada = item.terminaLlegada
           pisoDos.confirmation = item.idaVueltaPisoDos || { idaVuelta: false }
-          if (pisoDos.confirmation.idaVuelta) {
-            pisoDos.confirmation.tomado = false
-          }
           pisos.push(pisoDos)
         }
         if (pisos.length > 0) {
@@ -679,6 +704,11 @@ const store = new Vuex.Store({
     seats: state => {
       return state.seats
     },
+    seatsWithPromo: (state, getters) => {
+      return getters.seats.filter(
+        item => item.hasPromo && !item.tomadoPromo
+      )
+    },
     confirmationSeats: state => {
       return state.confirmationServices.seats
     },
@@ -686,7 +716,7 @@ const store = new Vuex.Store({
     seatsTotalAmount: (state, getters) => {
       let totalAmount = 0
       getters.seats.forEach(item => {
-        const tarifa = item.confirmation.tomado ? item.confirmation.tarifaTotal : item.tarifa
+        const tarifa = item.tomadoPromo ? item.totalPromo : item.tarifa
         totalAmount += parseInt(tarifa.split('.').join('')) // totalAmount += 10
       })
       return totalAmount
