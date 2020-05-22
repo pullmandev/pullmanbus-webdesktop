@@ -10,6 +10,27 @@
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
           </v-card-text>
+          <v-row
+            class="pt-3"
+            v-if="payment_info.email && payment_info.email !== ''"
+          >
+            <v-col cols="12" sm="3">
+              <v-card class="elevation-0">
+                <v-card-text>
+                  <span class="font-weight-black">{{ $t('email') }}</span>
+                  <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="3">
+              <v-card class="elevation-0">
+                <v-card-text>
+                  <span class="font-weight-black">Rut</span>
+                  <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
           <v-card-text>
             <h3 class="capitalize">{{ $t('one_reservation') }}</h3>
           </v-card-text>
@@ -22,9 +43,6 @@
           >
             <template slot="item" slot-scope="props">
               <tr>
-                <td>
-                  <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
-                </td>
                 <td>
                   <h3>{{ props.item.terminalSalida }}</h3>
                 </td>
@@ -54,9 +72,83 @@
                 <td>
                   <h3>${{ props.item.precio }}</h3>
                 </td>
+                <td>
+                  <v-btn
+                    text
+                    color="error"
+                    @click="deleteSelected(props.item)"
+                    :disabled="deleting"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </td>
               </tr>
             </template>
           </v-data-table>
+          <h3 class="headline ml-3 mt-12 mb-6">Boletos por confirmar</h3>
+          <div v-for="(item, i) in seatsWithPromoNotSelected" :key="i">
+            <v-data-table
+              :headers="headers"
+              :items="[item]"
+              item-key="id"
+              class="elevation-0"
+              hide-default-footer
+            >
+              <template slot="item" slot-scope="props">
+                <tr>
+                  <td>
+                    <h3>{{ props.item.terminalSalida }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.terminalLlegada }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.fecha }}</h3>
+                  </td>
+                  <td>
+                    <h3>{{ props.item.horaSalida }}</h3>
+                  </td>
+                  <td>
+                    <h3>
+                      {{
+                        props.item.piso > 0
+                          ? parseInt(props.item.asiento) + 20
+                          : props.item.asiento
+                      }}
+                    </h3>
+                  </td>
+                  <td>
+                    <h3>
+                      {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
+                    </h3>
+                  </td>
+                  <td>
+                    <h3>${{ props.item.precio }}</h3>
+                  </td>
+                </tr>
+              </template>
+            </v-data-table>
+            <div class="text-left mt-5">
+              <strong class="d-block orange--text">
+                Compra tu pasaje por confirmar
+              </strong>
+              <hr />
+              <div class="d-flex justify-space-between align-center">
+                <span class="d-block body-2 ml-6">
+                  Boleto por confirmar
+                  <strong> ${{ item.totalPromo }} </strong>
+                </span>
+                <v-btn
+                  color="orange"
+                  small
+                  class="white--text my-3"
+                  @click="confirmationAmount(item)"
+                >
+                  Agregar
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </v-card-text>
         <v-card-actions class="mt-12">
           <v-spacer></v-spacer>
@@ -69,7 +161,7 @@
           <v-btn
             color="orange"
             class="white--text mr-5"
-            @click="routeWithScroll('#paymentStepper', 'ServicesPaymentData')"
+            @click="routeWithScroll('#paymentStepper', 'Payment')"
             >{{ $t('continue') }}</v-btn
           >
         </v-card-actions>
@@ -83,26 +175,31 @@ import deleteSeat from '@/helpers/deleteSeat'
 import routeWithScroll from '@/helpers/routeWithScroll'
 
 export default {
+  data() {
+    return {
+      name: '',
+      rut: '',
+      email: '',
+      deleting: false
+    }
+  },
   methods: {
     routeWithScroll,
     async deleteSelected(item) {
-      this.deleting = true
-      const index = this.findSeatIndex(item.id)
-      if (index > -1) {
-        await deleteSeat(index)
+      try {
+        this.deleting = true
+        const index = this.findSeatIndex(item.id)
+        if (index > -1) {
+          await deleteSeat(index)
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.deleting = false
       }
-      this.deleting = false
-    },
-    awaitForDeletion(index) {
-      this.$store.dispatch('DELETE_SEAT', { seat: index })
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve()
-        }, 100)
-      })
     },
     findSeatIndex(id) {
-      const index = this.seatsWithPromo.findIndex(
+      const index = this.selectedSeats.findIndex(
         item => id === item.servicio + item.piso + item.asiento
       )
       return index
@@ -110,16 +207,14 @@ export default {
   },
   computed: {
     ...mapGetters({
+      seatsWithPromoNotSelected: ['seatsWithPromoNotSelected'],
       selectedSeats: ['seats'],
       payment_info: ['payment_info'],
       userData: ['userData'],
       searching: ['getSearching']
     }),
-    seatsWithPromo() {
-      return this.selectedSeats.filter(item => item.tomadoPromo)
-    },
     getSeatWithId() {
-      const result = this.seatsWithPromo.map(seat => {
+      const result = this.selectedSeats.map(seat => {
         const id = seat.servicio + seat.piso + seat.asiento
         return { ...seat, id }
       })
@@ -127,7 +222,6 @@ export default {
     },
     headers() {
       return [
-        { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
           value: 'terminalSalida',
@@ -146,7 +240,8 @@ export default {
         },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
         { text: this.$t('floor'), value: 'piso', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false }
+        { text: this.$t('price'), value: 'precio', sortable: false },
+        { text: '', value: '', sortable: false }
       ]
     }
   }

@@ -133,14 +133,6 @@ export default {
       }
       this.deleting = false
     },
-    awaitForDeletion(index) {
-      this.$store.dispatch('DELETE_SEAT', { seat: index })
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve()
-        }, 100)
-      })
-    },
     findSeatIndex(id) {
       const index = this.selectedSeats.findIndex(
         item => id === item.servicio + item.piso + item.asiento

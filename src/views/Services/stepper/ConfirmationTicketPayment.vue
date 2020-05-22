@@ -76,12 +76,9 @@
         </v-card-text>
         <v-card-actions class="mt-12">
           <v-spacer></v-spacer>
-          <v-btn
-            outlined
-            class="grey--text"
-            @click="routeWithScroll('#paymentStepper', 'List')"
-            >{{ $t('cancel') }}</v-btn
-          >
+          <v-btn outlined class="grey--text" @click="router.goTo(-1)">{{
+            $t('cancel')
+          }}</v-btn>
           <v-btn
             color="orange"
             :disabled="selectedSeats.length <= 0"
@@ -112,23 +109,17 @@ export default {
     confirmationAmount,
     routeWithScroll,
     validateRoute() {
-      if (this.selectedSeats.length <= 0) {
+      if (this.seatsWithPromo.length > 0) {
         routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
       } else {
         routeWithScroll('#paymentStepper', 'ServicesPaymentData')
       }
     }
   },
-  watch: {
-    selectedSeats(list) {
-      if (list.length <= 0) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
-      }
-    }
-  },
   computed: {
     ...mapGetters({
-      selectedSeats: ['seatsWithPromoNotSelected']
+      selectedSeats: ['seatsWithPromoNotSelected'],
+      seatsWithPromo: ['seatsWithPromo']
     }),
     getSeatWithId() {
       const result = this.selectedSeats.map(seat => {

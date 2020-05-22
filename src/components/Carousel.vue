@@ -4,6 +4,7 @@
       v-for="(item, i) in items"
       :key="i"
       :src="require(`../../static/images/${item.src}`)"
+      transition="fade-carousel"
     ></v-carousel-item>
   </v-carousel>
 </template>
@@ -24,3 +25,21 @@ export default {
   })
 }
 </script>
+<style lang="scss" scoped>
+.fade-carousel {
+  &-leave-active {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+  &-enter-active,
+  &-leave-active {
+    transition: 3s ease-out !important;
+  }
+  &-enter,
+  &-leave,
+  &-leave-to {
+    opacity: 0 !important;
+  }
+}
+</style>

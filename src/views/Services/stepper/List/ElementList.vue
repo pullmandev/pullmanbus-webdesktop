@@ -274,10 +274,7 @@ export default {
         routeWithScroll('#paymentStepper', 'ServicesPaymentData')
         return
       }
-      if (
-        this.seatsWithPromo.length > 0 &&
-        this.seatsWithPromoNotSelected.length <= 0
-      ) {
+      if (this.seatsWithPromo.length > 0) {
         routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
       } else if (this.seatsWithPromoNotSelected.length > 0) {
         routeWithScroll('#paymentStepper', 'ServicesDataConfirmation')
