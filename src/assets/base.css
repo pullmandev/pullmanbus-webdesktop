@@ -54,7 +54,7 @@
   }
   
   .satisfyFont {
-    font-family: 'Satisfy-Regular';
+    font-family: 'Satisfy-Regular' !important;
   }
   
   .relativePos {

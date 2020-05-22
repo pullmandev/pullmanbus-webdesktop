@@ -12,32 +12,28 @@
     >
       {{ subTitle }}
     </h4>
-    <v-container>
-      <v-row>
-        <v-col md="4" sm="12" v-for="(item, index) of images" :key="index">
+    <v-container fluid>
+      <v-row class="mx-6">
+        <v-col md="3" sm="12" v-for="(item, index) of images" :key="index">
           <v-card>
             <a :href="links[index]" target="_blank">
               <v-img
                 class="white--text align-end"
-                :class="{ 'align-center': index === 5 }"
                 :src="require(`../../static/images/${item}`)"
                 cover
-                height="350px"
+                height="260px"
               >
               </v-img>
             </a>
             <v-card-text>
-              <template v-if="index == 5">
-                {{ itemTitles[index] }}
-              </template>
-              <template v-else>
-                <div class="d-block text-center">
-                  <span> </span>
-                  <p class="body-1">
-                    {{ itemTitles[index] }}
-                  </p>
-                </div>
-              </template>
+              <div class="d-block">
+                <strong style="font-size: 0.9rem">{{
+                  itemTitle[index]
+                }}</strong>
+                <p class="body-2">
+                  {{ itemContent[index] }}
+                </p>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>
@@ -50,7 +46,8 @@ export default {
   props: {
     title: String,
     subTitle: String,
-    itemTitles: [String],
+    itemTitle: [String],
+    itemContent: [String],
     images: [String],
     links: [String],
     text: String
