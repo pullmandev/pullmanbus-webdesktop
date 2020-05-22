@@ -23,7 +23,9 @@
                     v-if="service.idaVueltaPisoUno || service.idaVueltaPisoDos"
                     class="white--text text-left orange promotion-advice"
                   >
-                    <span class="ml-8 caption">Servicio con dcto %!</span>
+                    <span class="ml-8 caption">{{
+                      service.textoPromocion
+                    }}</span>
                   </div>
                 </v-col>
                 <v-col :cols="hasVuelta ? 12 : 11">

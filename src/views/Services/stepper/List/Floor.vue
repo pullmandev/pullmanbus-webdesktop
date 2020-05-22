@@ -37,7 +37,7 @@
               "
               class="white--text text-left orange promotion-advice-floor"
             >
-              <span class="ml-8 caption">Servicio con dcto %!</span>
+              <span class="ml-8 caption">{{ data.textoPromocion }}</span>
             </div>
             <div>
               <h2 class="text-center mb-1">
@@ -568,9 +568,9 @@ export default {
 .promotion-advice-floor {
   position: absolute;
   width: 200px;
-  top: 50px;
-  left: -60px;
-  transform: rotate(-60deg);
+  top: 57px;
+  left: -67px;
+  transform: rotate(-65deg);
 }
 @media (max-width: 400px) {
   .container {
