@@ -15,10 +15,10 @@
       'Hermanos Bolivianos, Pullman Bus dispone de buses para ciudadanos bolivianos'
     ]"
     :links="[
-      'https://www.viajaenbus.cl/',
-      'https://www.pullmanbus.cl/portalWAR/paginas/contenido/pass.jsf',
-      'https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header',
-      'https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header'
+      'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664',
+      'https://www.facebook.com/teletrece/videos/241244087072392',
+      'https://diariotv.cl/dudas-sobre-venta-de-pasajes-y-terminales-debuta-robot-que-responde-por-whatsapp/',
+      'https://www.cooperativa.cl/noticias/sociedad/salud/coronavirus/bolivianos-varados-ya-comenzaron-a-viajar-hacia-iquique-para-retornar-a/2020-04-29/002450.html'
     ]"
     :images="[
       'Noticia1-1.png',

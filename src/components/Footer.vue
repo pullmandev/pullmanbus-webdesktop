@@ -74,11 +74,19 @@
                   <v-list-item v-for="(item, i) in links" :key="i">
                     <v-list-item-title
                       ><a
+                        v-if="item.link"
                         style="text-decoration: none; color: black;"
                         :href="item.link"
                         target="_blank"
                         >{{ item.title }}</a
                       >
+                      <router-link
+                        v-else
+                        :to="{ name: item.route }"
+                        style="text-decoration: none; color: black; font-size: .9rem"
+                      >
+                        {{ item.title }}
+                      </router-link>
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>

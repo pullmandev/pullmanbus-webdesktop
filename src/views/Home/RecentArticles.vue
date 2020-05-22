@@ -30,13 +30,7 @@
           'Infórmate sobre el 18/Sept',
           'Te compartimos las mejores recetas'
         ]"
-        :links="[
-          'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664',
-          'https://www.cooperativa.cl/noticias/sociedad/salud/coronavirus/bolivianos-varados-ya-comenzaron-a-viajar-hacia-iquique-para-retornar-a/2020-04-29/002450.html',
-          'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664',
-          'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664',
-          'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664'
-        ]"
+        :links="[link, link, link, link, link]"
         :images="[
           'article1.png',
           'article2.jpg',
@@ -53,6 +47,11 @@ import BannerImageList from '@/components/BannerImageBKGList'
 export default {
   components: {
     BannerImageList
+  },
+  data() {
+    return {
+      link: 'blog.pullman.cl'
+    }
   },
   computed: {
     applyTitleStyle() {
