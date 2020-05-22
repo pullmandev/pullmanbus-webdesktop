@@ -72,20 +72,15 @@
                 <td>
                   <h3>${{ props.item.precio }}</h3>
                 </td>
-                <td>
-                  <v-btn
-                    text
-                    color="error"
-                    @click="deleteSelected(props.item)"
-                    :disabled="deleting"
-                  >
-                    <v-icon>delete</v-icon>
-                  </v-btn>
-                </td>
               </tr>
             </template>
           </v-data-table>
-          <h3 class="headline ml-3 mt-12 mb-6">Boletos por confirmar</h3>
+          <h3
+            class="headline ml-3 mt-12 mb-6"
+            v-if="seatsWithPromoNotSelected.length > 0"
+          >
+            Boletos por confirmar
+          </h3>
           <div v-for="(item, i) in seatsWithPromoNotSelected" :key="i">
             <v-data-table
               :headers="headers"
@@ -161,7 +156,7 @@
           <v-btn
             color="orange"
             class="white--text mr-5"
-            @click="routeWithScroll('#paymentStepper', 'Payment')"
+            @click="routeWithScroll('#paymentStepper', 'ServicesPaymentData')"
             >{{ $t('continue') }}</v-btn
           >
         </v-card-actions>
@@ -171,44 +166,25 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import deleteSeat from '@/helpers/deleteSeat'
 import routeWithScroll from '@/helpers/routeWithScroll'
+import confirmationAmount from '@/helpers/updateConfirmationTicket'
 
 export default {
   data() {
     return {
       name: '',
       rut: '',
-      email: '',
-      deleting: false
+      email: ''
     }
   },
   methods: {
     routeWithScroll,
-    async deleteSelected(item) {
-      try {
-        this.deleting = true
-        const index = this.findSeatIndex(item.id)
-        if (index > -1) {
-          await deleteSeat(index)
-        }
-      } catch (err) {
-        console.error(err)
-      } finally {
-        this.deleting = false
-      }
-    },
-    findSeatIndex(id) {
-      const index = this.selectedSeats.findIndex(
-        item => id === item.servicio + item.piso + item.asiento
-      )
-      return index
-    }
+    confirmationAmount
   },
   computed: {
     ...mapGetters({
       seatsWithPromoNotSelected: ['seatsWithPromoNotSelected'],
-      selectedSeats: ['seats'],
+      selectedSeats: ['seatsWithPromo'],
       payment_info: ['payment_info'],
       userData: ['userData'],
       searching: ['getSearching']
