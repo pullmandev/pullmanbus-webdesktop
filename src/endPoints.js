@@ -8,6 +8,7 @@ const basePago = `${base}/integrador-web/rest/pago`
 const sesion = `${base}/srv-privado-web/rest/usuario`
 const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
+const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
 const serviciosVenta = `${baseServ}/serviciosVenta/rest/Servicios`
 const administracion = `${base}/administracion-web/rest`
 export default {
@@ -31,6 +32,7 @@ export default {
   buscarBoletoCode: `${compra}/obtenerBoleto`,
   guardarSolicitudServicio: `${compra}/guardarSolicitudServicio`,
   buscarBoleto: `${compra}/buscarBoleto`,
+  buscarBoletoConfirmacion: `${confirmacion}/buscarBoleto`,
   validarBoletoCanje: `${compra}/validarBoletoCanje`,
   canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
   cancel: `${baseVenta}/anularVenta`,

@@ -71,7 +71,7 @@
                   <v-btn
                     class="white--text"
                     :disabled="!validForm"
-                    :loading="loadingServices"
+                    :loading="loadingServices || loading"
                     color="blue_dark"
                     @click="validateSearch"
                   >
@@ -91,6 +91,8 @@
 // Base components
 import moment from 'moment'
 import { mapGetters } from 'vuex'
+import API from '@/services/api/confirmationTicket'
+
 export default {
   props: ['type'],
   data() {
@@ -98,6 +100,7 @@ export default {
       pickerMenu: false,
       validForm: false,
       ticket: '',
+      loading: false,
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },
@@ -134,11 +137,36 @@ export default {
       return moment(date).diff(limit, 'days') < 0
     },
     validateSearch() {
-      this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
-        ticket: this.ticket,
-        type: 'ticket'
+      this.loading = true
+      this.$notify({
+        group: 'load',
+        title: 'Validando boleto',
+        type: 'info'
       })
-      this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
+      API.validateTicket({ boleto: this.ticket })
+        .then(response => {
+          const data = response.data
+          console.log(data)
+          if (!data.resultado.exito) {
+            this.$notify({
+              group: 'error',
+              title: data.resultado.mensaje,
+              type: 'error'
+            })
+            return
+          }
+          this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
+            ticket: this.ticket,
+            type: 'ticket'
+          })
+          this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
+        })
+        .catch(err => {
+          console.error(err)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }

@@ -13,8 +13,13 @@
             <v-col cols="12" md="12" lg="12">
               <h1>{{ $t('congratulations') }}</h1>
             </v-col>
-            <v-col cols="12" class="text-center">
-              <p>Su compra ha sido realizada con éxito</p>
+            <v-col cols="12" class="d-flex justify-center">
+              <div style="max-width: 600px" class="text-center">
+                <p>
+                  Su compra ha sido realizada con éxito, se ha enviado un mail a
+                  su correo con el comprobante de compra
+                </p>
+              </div>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
               <v-card
@@ -23,13 +28,11 @@
                 class="elevation-0 rounded"
                 color="orange"
               >
-                <v-card-text>
-                  <p class="white--text">
-                    Para viasualizar la informacion de su boleto por confirmar
-                    ve a la barra de informacion
-                  </p>
-                  <p class="white--text">o</p>
-                  <p><a class="blue_dark--text">Haz click aqui</a></p>
+                <v-card-text class="pt-6 text-center">
+                  <h3 class="white--text headline">
+                    Visualizar detalle de boleto
+                  </h3>
+                  <a class="white--text body-1">Haz click aqui</a>
                 </v-card-text>
               </v-card>
             </v-col>
