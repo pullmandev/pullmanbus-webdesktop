@@ -32,7 +32,9 @@
                   <h3 class="white--text headline">
                     Visualizar detalle de boleto
                   </h3>
-                  <a class="white--text body-1">Haz click aqui</a>
+                  <a class="white--text body-1" @click="gettingTickets"
+                    >Haz click aqui</a
+                  >
                 </v-card-text>
               </v-card>
             </v-col>
@@ -50,10 +52,90 @@
   </div>
 </template>
 <script>
+import API from '@/services/api/confirmationTicket'
 import Promotions from '@/components/PromotionBanner'
 export default {
   components: {
     Promotions
+  },
+  methods: {
+    gettingTickets() {
+      this.$notify({
+        group: 'load',
+        title: this.$t('get_ticket'),
+        type: 'info'
+      })
+      API.confirmTicket({
+        boleto: 'INT00073721',
+        clase: 'SAL08',
+        empresa: '01',
+        asiento: '4',
+        idServicio: 'BU547',
+        fechaServicio: '20200524',
+        fechaSalida: '202005240830',
+        idOrigen: 'MA',
+        idDestino: 'D3',
+        piso: '1',
+        email: 'romulocg25@gmail.com'
+      })
+        .then(response => {
+          const data = response.data
+          console.log(data)
+          if (!data.resultado.exito) {
+            this.$notify({
+              group: 'error',
+              title: data.resultado.mensaje,
+              type: 'error'
+            })
+            return
+          }
+          this.toPDF(data.archivo)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    toPDF(response) {
+      // create a download anchor tag
+      const tipo = response.tipo.toLowerCase()
+      let downloadLink = document.createElement('a')
+      downloadLink.target = '_blank'
+      downloadLink.download = response.nombre
+
+      // convert downloaded data to a Blob
+      const blob = new Blob([this.toUint8Array(response.archivo)], {
+        type: `application/${tipo}`
+      })
+
+      // create an object URL from the Blob
+      let URL = window.URL || window.webkitURL
+      const downloadUrl = URL.createObjectURL(blob)
+
+      // set object URL as the anchor's href
+      downloadLink.href = downloadUrl
+
+      // append the anchor to document body
+      document.body.append(downloadLink)
+
+      // fire a click event on the anchor
+      downloadLink.click()
+
+      // cleanup: remove element and revoke object URL
+      document.body.removeChild(downloadLink)
+      URL.revokeObjectURL(downloadUrl)
+    },
+    toUint8Array(archivo) {
+      const binary = atob(archivo)
+      const length = binary.length
+      const arrayBuffer = new ArrayBuffer(length)
+      const uintArray = new Uint8Array(arrayBuffer)
+
+      for (let i = 0; i < length; i++) {
+        uintArray[i] = binary.charCodeAt(i)
+      }
+
+      return uintArray
+    }
   }
 }
 </script>

@@ -33,6 +33,7 @@ export default {
   guardarSolicitudServicio: `${compra}/guardarSolicitudServicio`,
   buscarBoleto: `${compra}/buscarBoleto`,
   buscarBoletoConfirmacion: `${confirmacion}/buscarBoleto`,
+  confirmarBoleto: `${confirmacion}/confirmarBoleto`,
   validarBoletoCanje: `${compra}/validarBoletoCanje`,
   canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
   cancel: `${baseVenta}/anularVenta`,
