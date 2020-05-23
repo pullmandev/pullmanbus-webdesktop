@@ -70,7 +70,13 @@
                   </h3>
                 </td>
                 <td>
-                  <h3>${{ props.item.precio }}</h3>
+                  <h3>
+                    ${{
+                      props.item.tomadoPromo
+                        ? props.item.totalPromo
+                        : item.precio
+                    }}
+                  </h3>
                 </td>
               </tr>
             </template>

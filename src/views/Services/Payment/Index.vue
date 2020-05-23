@@ -266,7 +266,8 @@ export default {
     totalAmount() {
       let totalAmount = 0
       this.selectedSeats.forEach(item => {
-        totalAmount += parseInt(item.tarifa.split('.').join('')) // totalAmount += 10
+        const tarifa = item.tomadoPromo ? item.totalPromo : item.tarifa
+        totalAmount += parseInt(tarifa.split('.').join('')) // totalAmount += 10
       })
       return totalAmount
     },
@@ -378,7 +379,7 @@ export default {
           'bus',
           'integrador'
         ])
-        if (seat.tomadoPromo) {
+        if (!seat.tomadoPromo) {
           params.monto = parseInt(seat.monto.split('.').join(''))
           params.precio = parseInt(seat.tarifa.split('.').join(''))
         } else {
