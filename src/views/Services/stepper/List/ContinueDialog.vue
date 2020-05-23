@@ -12,9 +12,6 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="orange white--text" @click.native="closeDialog(false)">
-          Reservar {{ type ? 'vuelta' : 'ida' }}</v-btn
-        >
         <v-btn
           color="white"
           class="orange--text"
@@ -22,6 +19,9 @@
         >
           {{ $t('proceed') }}
         </v-btn>
+        <v-btn color="orange white--text" @click.native="closeDialog(false)">
+          Reservar {{ type ? 'vuelta' : 'ida' }}</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>

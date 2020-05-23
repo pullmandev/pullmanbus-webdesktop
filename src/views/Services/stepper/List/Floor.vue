@@ -371,14 +371,10 @@ export default {
       )
       return index
     },
-    closeDialog({ ok, type }) {
+    closeDialog({ ok }) {
       this.dialog = false
       if (ok) {
         this.$emit('confirm')
-      } else {
-        const tab = type ? 'tab-Vuelta' : 'tab-Ida'
-        this.$store.dispatch('SET_SERVICE_TAB', { tab })
-        scrollAnimation('#serviceToolbar')
       }
     },
     showModal() {
@@ -386,11 +382,21 @@ export default {
         const hasBackServices = this.seatsByTravel(true).length > 0
         const hasGoServices = this.seatsByTravel().length > 0
         if (!hasBackServices && hasGoServices) {
-          this.messageType = true
-          this.dialog = true
+          if (this.$store.state.services.tab === 'tab-Vuelta') {
+            this.messageType = true
+            this.dialog = true
+          } else {
+            this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Vuelta' })
+            scrollAnimation('#serviceToolbar')
+          }
         } else if (hasBackServices && !hasGoServices) {
-          this.messageType = false
-          this.dialog = true
+          if (this.$store.state.services.tab === 'tab-Ida') {
+            this.messageType = false
+            this.dialog = true
+          } else {
+            this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Ida' })
+            scrollAnimation('#serviceToolbar')
+          }
         } else {
           this.$emit('confirm')
         }

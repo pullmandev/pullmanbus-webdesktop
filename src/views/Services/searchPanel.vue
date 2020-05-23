@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     validateSearch() {
-      this.$store.dispatch('LOAD_SERVICES_LIST')
+      this.$store.dispatch('LOAD_SERVICES_LIST', {})
     }
   }
 }
