@@ -13,16 +13,19 @@
 <script>
 import SearchPanel from '@/views/Services/searchPanel'
 import Filters from '@/views/Services/filters/Index'
+import { mapGetters } from 'vuex'
 // import Stepper from '@/views/Services/stepper/Index'
 export default {
   components: {
     SearchPanel,
     Filters
   },
+  computed: mapGetters({ getHistory: ['getHistory'] }),
   mounted() {
     const { fromFail } = localStorage
-    if (fromFail) {
-      localStorage.removeItem('fromFail')
+    const fromRouteName = this.getHistory.from.name
+    if (fromFail || fromRouteName === 'Payment') {
+      if (fromFail) localStorage.removeItem('fromFail')
     } else if (this.$store.state.services.data.length < 1) {
       this.$store.dispatch('LOAD_SERVICES_LIST', {})
     } else {
