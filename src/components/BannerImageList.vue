@@ -25,16 +25,20 @@
               >
               </v-img>
             </a>
-            <v-card-text>
-              <div class="d-block">
-                <strong style="font-size: 0.9rem">{{
-                  itemTitle[index]
-                }}</strong>
-                <p class="body-2">
-                  {{ itemContent[index] }}
-                </p>
-              </div>
-            </v-card-text>
+            <div class="content-text-container">
+              <v-card-text
+                style="background-color: white; position: absolute; bottom: 0"
+              >
+                <div class="d-block">
+                  <strong style="font-size: 0.9rem">{{
+                    itemTitle[index]
+                  }}</strong>
+                  <p class="body-2">
+                    {{ itemContent[index] }}
+                  </p>
+                </div>
+              </v-card-text>
+            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -54,12 +58,22 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .destinies-type-container {
   width: 100vw;
   min-height: 80vh;
 }
 .body-1 {
   word-break: break-word;
+}
+.content-text-container {
+  height: 132px;
+  position: relative;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  & div {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
 }
 </style>
