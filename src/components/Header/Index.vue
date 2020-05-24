@@ -8,7 +8,7 @@
         class="pb-12"
         @click="$router.push({ path: '/' })"
       >
-        <div style="width: 300px" class="mb-12">
+        <div style="width: 300px" class="mt-12">
           <v-img
             src="../../../static/logos/pullman bus_blanco.png"
             height="50"
