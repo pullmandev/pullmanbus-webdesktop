@@ -46,21 +46,9 @@ export default {
     };
   },
   mounted () {
-    const { fromConfirmationTicketFail } = localStorage
-    if (fromConfirmationTicketFail) {
-      localStorage.removeItem('fromFail')
-    }else if (this.$store.state.confirmationServices.data.length < 1) {
+    if (this.$store.state.confirmationServices.data.length < 1) {
       this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
     } else {
-    //  this.$store.dispatch('SET_PAYMENT_INFO', {
-    //    payment_info: {
-    //      name: '',
-    //      rut: '',
-    //      email: '',
-    //      movil: '',
-    //      completeName: ''
-    //    }
-    //  })
      this.$store.dispatch('DELETE_ALL_CONFIRMATION_SEAT')
     }
     this.$nextTick(() => {

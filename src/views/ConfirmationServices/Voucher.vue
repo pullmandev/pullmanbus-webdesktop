@@ -6,7 +6,72 @@
         <p class="display-2">Hasta 40% de descuento</p>
       </template>
     </Promotions>
-    <v-container class="center">
+    <v-row>
+      <v-col cols="12" sm="12" md="8" offset-md="2">
+        <v-card class="mt-12">
+          <v-toolbar
+            dense
+            class="elevation-0"
+            dark
+            color="blue_light"
+            id="serviceToolbar"
+          >
+            <v-toolbar-title>
+              <span class="title ml-3">
+                Servicio por confirmar:
+              </span>
+            </v-toolbar-title>
+          </v-toolbar>
+          <v-card-text>
+            <v-container>
+              <v-form v-model="validForm">
+                <v-row>
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      filled
+                      outlined
+                      dense
+                      v-model="email"
+                      :rules="emailRules"
+                      :label="$t('email')"
+                      outline-1
+                      color="blue"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-text-field
+                      filled
+                      outlined
+                      dense
+                      v-model="confirmemail"
+                      :rules="emailconfirmRules"
+                      :label="$t('confirm_email')"
+                      @paste.prevent
+                      outline-1
+                      color="blue"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-btn
+                      class="white--text"
+                      :disabled="!validForm"
+                      :loading="loadingTicket"
+                      color="blue_dark"
+                      @click="gettingTickets"
+                    >
+                      <span>Continuar</span>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-container>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-container v-if="succeed" class="center" id="congrats">
       <v-card class="elevation-10 pt-5 pb-5 elevation-0">
         <v-container fluid>
           <v-row class="confirmation-title blue_dark--text">
@@ -54,13 +119,43 @@
 <script>
 import API from '@/services/api/confirmationTicket'
 import Promotions from '@/components/PromotionBanner'
+import validations from '@/helpers/fieldsValidation'
+import scrollAnimation from '@/helpers/scrollAnimation'
+
 export default {
   components: {
     Promotions
   },
+  data() {
+    return {
+      validForm: false,
+      email: '',
+      confirmemail: '',
+      loadingTicket: false,
+      generalRules: [v => !!v || 'Este campo es requerido'],
+      emailRules: [
+        v => !!v || 'E-mail es requerido',
+        validations.emailValidation
+      ],
+      emailconfirmRules: [
+        v => (v && this.email === v) || 'E-mails no coinciden'
+      ],
+      succeed: false
+    }
+  },
   methods: {
+    scrollAnimation,
     async gettingTickets() {
       try {
+        if (!this.validForm) {
+          this.$notify({
+            group: 'error',
+            title: 'Debe confirmar correo primero',
+            type: 'error'
+          })
+          return
+        }
+        this.loadingTicket = true
         this.$notify({
           group: 'load',
           title: this.$t('get_ticket'),
@@ -84,7 +179,7 @@ export default {
           idOrigen: seat.origen,
           idDestino: seat.destino,
           piso: seat.piso + 1,
-          email: 'romulocg25@gmail.com'
+          email: this.email
         })
         const data = response.data
         console.log(data)
@@ -96,9 +191,15 @@ export default {
           })
           return
         }
+        this.succeed = true
+        setTimeout(() => {
+          this.scrollAnimation('#congrats')
+        }, 200)
         this.toPDF(data.archivo)
       } catch (err) {
         console.error(err)
+      } finally {
+        this.loadingTicket = false
       }
     },
     toPDF(response) {
