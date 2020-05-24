@@ -59,41 +59,47 @@ export default {
     Promotions
   },
   methods: {
-    gettingTickets() {
-      this.$notify({
-        group: 'load',
-        title: this.$t('get_ticket'),
-        type: 'info'
-      })
-      API.confirmTicket({
-        boleto: 'INT00073721',
-        clase: 'SAL08',
-        empresa: '01',
-        asiento: '4',
-        idServicio: 'BU547',
-        fechaServicio: '20200524',
-        fechaSalida: '202005240830',
-        idOrigen: 'MA',
-        idDestino: 'D3',
-        piso: '1',
-        email: 'romulocg25@gmail.com'
-      })
-        .then(response => {
-          const data = response.data
-          console.log(data)
-          if (!data.resultado.exito) {
-            this.$notify({
-              group: 'error',
-              title: data.resultado.mensaje,
-              type: 'error'
-            })
-            return
-          }
-          this.toPDF(data.archivo)
+    async gettingTickets() {
+      try {
+        this.$notify({
+          group: 'load',
+          title: this.$t('get_ticket'),
+          type: 'info'
         })
-        .catch(err => {
-          console.error(err)
+        const seat = this.$store.state.confirmationServices.seats[0]
+        const ticket = this.$store.state.searchingConfirmation.ticket
+        const fechaServicio = this.formatDate(seat.fechaServicio)
+        const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)
+        const response = await API.confirmTicket({
+          boleto: ticket.boleto,
+          clase: seat.clase,
+          empresa: seat.empresa,
+          asiento:
+            seat.piso === 1
+              ? (parseInt(seat.asiento) + 20).toString()
+              : seat.asiento,
+          idServicio: seat.servicio,
+          fechaServicio,
+          fechaSalida,
+          idOrigen: seat.origen,
+          idDestino: seat.destino,
+          piso: seat.piso + 1,
+          email: 'romulocg25@gmail.com'
         })
+        const data = response.data
+        console.log(data)
+        if (!data.resultado.exito) {
+          this.$notify({
+            group: 'error',
+            title: data.resultado.mensaje,
+            type: 'error'
+          })
+          return
+        }
+        this.toPDF(data.archivo)
+      } catch (err) {
+        console.error(err)
+      }
     },
     toPDF(response) {
       // create a download anchor tag
@@ -135,6 +141,16 @@ export default {
       }
 
       return uintArray
+    },
+    formatDate(fecha, hour) {
+      const fechaItems = fecha.split('/')
+      let result = fechaItems[2] + fechaItems[1] + fechaItems[0]
+      if (hour) {
+        const formatedHour = hour.split(':').join('')
+        result += formatedHour
+      }
+      console.log(result)
+      return result
     }
   }
 }

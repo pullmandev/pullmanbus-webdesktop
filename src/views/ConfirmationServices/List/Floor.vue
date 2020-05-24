@@ -24,12 +24,6 @@
             :class="{ 'left-border': selectedFloor > 0 }"
             class="pa-0"
           >
-            <div
-              v-if="data.pisos[selectedFloor].confirmation.idaVuelta"
-              class="white--text text-center my-3 ml-7 pt-1 orange promotion-advice-floor"
-            >
-              <span class="ml-8 body-1">Servicio en promocion!</span>
-            </div>
             <div>
               <h2 class="text-center mb-1">
                 {{ $t('floor') }} {{ data.pisos[selectedFloor].piso + 1 }}
@@ -361,10 +355,10 @@ export default {
       }
     },
     async takeSeat(params, indexes) {
-      if (this.selectedSeats.length > 3) {
+      if (this.selectedSeats.length > 0) {
         this.$notify({
           group: 'error',
-          title: this.$t('seats_max'),
+          title: 'Máximo de 1 asiento',
           type: 'error'
         })
         return

@@ -315,7 +315,7 @@ const store = new Vuex.Store({
       }
     },
     SET_CONFIRMATION_SEAT ({commit, getters}, payload) {
-      if (getters.confirmationSeats.length < 4) {
+      if (getters.confirmationSeats.length < 1) {
         commit('SET_CONFIRMATION_SEAT', {seat: payload.seat})
       }
     },
@@ -546,10 +546,10 @@ const store = new Vuex.Store({
       const {empresa, clase} = state.searchingConfirmation.ticket
       let byCompany = state.confirmationServices.data.filter(item => item.empresa === empresa)
       const servicesFiltered = byCompany.map(service => {
-        let filter1 = service.idClaseBusPisoUno === clase
+        let filter1 = service.idClaseBusPisoUno.substr(0, 3) === clase.substr(0, 3)
         let newItem = {...service, filter1}
         if (service.busPiso2 != null) {
-          let filter2 = service.idClaseBusPisoDos === clase
+          let filter2 = service.idClaseBusPisoDos.substr(0, 3) === clase.substr(0, 3)
           newItem = {...newItem, filter2}
         }
         return newItem
