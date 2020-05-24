@@ -50,10 +50,10 @@ export default {
   props: {
     title: String,
     subTitle: String,
-    itemTitle: [String],
-    itemContent: [String],
-    images: [String],
-    links: [String],
+    itemTitle: Array,
+    itemContent: Array,
+    images: Array,
+    links: Array,
     text: String
   }
 }

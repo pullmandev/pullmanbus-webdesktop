@@ -28,7 +28,7 @@ const store = new Vuex.Store({
       to_date: null
     },
     searchingConfirmation: {
-      ticket: '',
+      ticket: {},
       date: null
     },
     services: {
@@ -206,8 +206,6 @@ const store = new Vuex.Store({
       let errorMessage = null
       if (state.searchingConfirmation.date == null || state.searchingConfirmation.date === '') {
         errorMessage = this.$tc('no_going_date')
-      } else if(state.searchingConfirmation.ticket == null || state.searchingConfirmation.ticket === '' ) {
-        errorMessage = 'Debe ingresar boleto por confirmar'
       }
       if (errorMessage !== null) {
         Vue.notify({
@@ -221,8 +219,8 @@ const store = new Vuex.Store({
       }
       dispatch('SET_LOADING_CONFIRMATION_SERVICE', {loading: true})
       APIService.get({
-        origen: state.searching.from_city.codigo,
-        destino: state.searching.to_city.codigo,
+        origen: state.searchingConfirmation.ticket.ciudadOrigen,
+        destino: state.searchingConfirmation.ticket.ciudadDestino,
         fecha: state.searchingConfirmation.date.replace(/-/g, ''),
         hora: '0000',
         idSistema: 7
@@ -544,6 +542,20 @@ const store = new Vuex.Store({
       })
       return servicesByPrice
     },
+    getConfirmationServiceFiltered: state => {
+      const {empresa, clase} = state.searchingConfirmation.ticket
+      let byCompany = state.confirmationServices.data.filter(item => item.empresa === empresa)
+      const servicesFiltered = byCompany.map(service => {
+        let filter1 = service.idClaseBusPisoUno === clase
+        let newItem = {...service, filter1}
+        if (service.busPiso2 != null) {
+          let filter2 = service.idClaseBusPisoDos === clase
+          newItem = {...newItem, filter2}
+        }
+        return newItem
+      })
+      return servicesFiltered
+    },
     getServiceList: (state, getters) => (vuelta) =>{
       let servicesTemp = []
       let services = []
@@ -607,32 +619,34 @@ const store = new Vuex.Store({
       })
       return servicesTemp
     },
-    getConfirmationServiceList: state => {
+    getConfirmationServiceList: (state, getters) => {
       let servicesTemp = []
-      state.confirmationServices.data.forEach(item => {
+      getters.getConfirmationServiceFiltered.forEach(item => {
         const pisos = []
         const pisoUno = {}
         const pisoDos = {}
-        pisoUno.piso = 0
-        pisoUno.pisoText = '01'
-        pisoUno.servicio = item.servicioPrimerPiso
-        pisoUno.tarifa = item.tarifaPrimerPiso
-        pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
-        pisoUno.clase = item.idClaseBusPisoUno
-        pisoUno.busPiso = item.busPiso1
-        pisoUno.busOtroPiso = item.busPiso2
-        pisoUno.fechaSalida = item.fechaSalida
-        pisoUno.horaSalida = item.horaSalida
-        pisoUno.terminalSalida = item.terminalSalida
-        pisoUno.horaLlegada = item.horaLlegada
-        pisoUno.fechaLlegada = item.fechaLlegada
-        pisoUno.terminaLlegada = item.terminaLlegada
-        pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
-        if (pisoUno.confirmation.idaVuelta) {
-          pisoUno.confirmation.tomado = false
+        if (item.filter1) {
+          pisoUno.piso = 0
+          pisoUno.pisoText = '01'
+          pisoUno.servicio = item.servicioPrimerPiso
+          pisoUno.tarifa = item.tarifaPrimerPiso
+          pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
+          pisoUno.clase = item.idClaseBusPisoUno
+          pisoUno.busPiso = item.busPiso1
+          pisoUno.busOtroPiso = item.busPiso2
+          pisoUno.fechaSalida = item.fechaSalida
+          pisoUno.horaSalida = item.horaSalida
+          pisoUno.terminalSalida = item.terminalSalida
+          pisoUno.horaLlegada = item.horaLlegada
+          pisoUno.fechaLlegada = item.fechaLlegada
+          pisoUno.terminaLlegada = item.terminaLlegada
+          pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
+          if (pisoUno.confirmation.idaVuelta) {
+            pisoUno.confirmation.tomado = false
+          }
+          pisos.push(pisoUno)
         }
-        pisos.push(pisoUno)
-        if (item.busPiso2 != null) {
+        if (item.filter2) {
           pisoDos.piso = 1
           pisoDos.pisoText = '02'
           pisoDos.servicio = item.servicioSegundoPiso

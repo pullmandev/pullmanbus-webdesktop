@@ -92,6 +92,7 @@
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import API from '@/services/api/confirmationTicket'
+import _ from 'lodash'
 
 export default {
   props: ['type'],
@@ -146,7 +147,7 @@ export default {
       API.validateTicket({ boleto: this.ticket })
         .then(response => {
           const data = response.data
-          console.log(data)
+          console.log('ticket', data)
           if (!data.resultado.exito) {
             this.$notify({
               group: 'error',
@@ -155,8 +156,15 @@ export default {
             })
             return
           }
+          const ticket = _.pick(data, [
+            'boleto',
+            'ciudadDestino',
+            'ciudadOrigen',
+            'clase',
+            'empresa'
+          ])
           this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
-            ticket: this.ticket,
+            ticket,
             type: 'ticket'
           })
           this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
