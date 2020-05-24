@@ -34,6 +34,11 @@
                       v-model="email"
                       :rules="emailRules"
                       :label="$t('email')"
+                      @input="
+                        v => {
+                          this.emailconfirmError = this.confirmemail !== v
+                        }
+                      "
                       outline-1
                       color="blue"
                       required
@@ -44,8 +49,14 @@
                       filled
                       outlined
                       dense
+                      :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
+                      :error="emailconfirmError"
+                      @input="
+                        v => {
+                          this.emailconfirmError = this.email !== v
+                        }
+                      "
                       v-model="confirmemail"
-                      :rules="emailconfirmRules"
                       :label="$t('confirm_email')"
                       @paste.prevent
                       outline-1
@@ -137,9 +148,7 @@ export default {
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
-      emailconfirmRules: [
-        v => (v && this.email === v) || 'E-mails no coinciden'
-      ],
+      emailconfirmError: false,
       succeed: false
     }
   },
@@ -161,7 +170,7 @@ export default {
           title: this.$t('get_ticket'),
           type: 'info'
         })
-        const seat = this.$store.state.confirmationServices.seats[0]
+        const seat = this.$store.state.confirmationSeats[0]
         const ticket = this.$store.state.searchingConfirmation.ticket
         const fechaServicio = this.formatDate(seat.fechaServicio)
         const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)

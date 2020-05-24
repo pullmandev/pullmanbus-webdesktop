@@ -81,7 +81,6 @@
           }}</v-btn>
           <v-btn
             color="orange"
-            :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
             @click="validateRoute"
             >{{ $t('continue') }}</v-btn

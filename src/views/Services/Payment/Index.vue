@@ -120,6 +120,11 @@
                 outline-1
                 color="blue"
                 :rules="emailRules"
+                @input="
+                  v => {
+                    this.emailconfirmError = this.confirmemail !== v
+                  }
+                "
                 required
               ></v-text-field>
             </v-col>
@@ -134,7 +139,13 @@
                 outline-1
                 color="blue"
                 required
-                :rules="emailconfirmRules"
+                :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
+                :error="emailconfirmError"
+                @input="
+                  v => {
+                    this.emailconfirmError = this.email !== v
+                  }
+                "
               ></v-text-field>
             </v-col>
           </v-row>
@@ -253,9 +264,7 @@ export default {
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
-      emailconfirmRules: [
-        v => (!!v && this.email === v) || 'E-mails no coinciden'
-      ]
+      emailconfirmError: false
     }
   },
   computed: {

@@ -12,7 +12,7 @@ import moment from 'moment'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   plugins: [createPersistedState({
-    paths: ['language', 'searching', 'searchingConfirmation', 'cities', 'seats', 'step', 'payment_info', 'userData']
+    paths: ['language', 'searching', 'searchingConfirmation', 'cities', 'seats','confirmationSeats', 'step', 'payment_info', 'userData']
   })],
   state: {
     language: 'es',
@@ -41,8 +41,8 @@ const store = new Vuex.Store({
     confirmationServices: {
       data: [],
       loading: false,
-      seats: []
     },
+    confirmationSeats: [],
     serviceFilters: {
       class: [],
       selectedClass: 'Todos',
@@ -462,10 +462,10 @@ const store = new Vuex.Store({
       state.seats[seat].tomadoPromo = tomado
     },
     SET_CONFIRMATION_SEAT: (state, {seat}) => {
-      state.confirmationServices.seats.push(seat)
+      state.confirmationSeats.push(seat)
     },
     DELETE_CONFIRMATION_SEAT: (state, {seat}) => {
-      state.confirmationServices.seats.splice(seat, 1)
+      state.confirmationSeats.splice(seat, 1)
     },
     DELETE_SEAT: (state, {seat}) => {
       state.seats.splice(seat, 1)
@@ -474,7 +474,7 @@ const store = new Vuex.Store({
       state.seats = []
     },
     DELETE_ALL_CONFIRMATION_SEAT: (state) => {
-      state.confirmationServices.seats = []
+      state.confirmationSeats = []
     },
     SET_PAYMENT_INFO (state, {payment_info}) {
       state.payment_info = payment_info
@@ -739,7 +739,7 @@ const store = new Vuex.Store({
       )
     },
     confirmationSeats: state => {
-      return state.confirmationServices.seats
+      return state.confirmationSeats
     },
 
     seatsTotalAmount: (state, getters) => {

@@ -473,6 +473,7 @@ export default {
           })
           return newRow
         })
+        map[key].reverse()
         grilla.push({ floor: key, grid: map[key] })
       })
       console.log('grilla', grilla)

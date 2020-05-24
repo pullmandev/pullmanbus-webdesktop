@@ -34,6 +34,7 @@ import List from "@/views/ConfirmationServices/List/ElementList";
 import Promotions from '@/components/PromotionBanner'
 import moment from "moment";
 import _ from 'lodash'
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -45,8 +46,12 @@ export default {
       windowSize: { x: window.innerWidth, y: window.innerHeight }
     };
   },
+  computed: mapGetters({getHistory: ['getHistory']}),
   mounted () {
-    if (this.$store.state.confirmationServices.data.length < 1) {
+    const {from} = this.getHistory
+    if (from && from.name === 'ConfirmationServiceSucceed') {
+      this.$router.go(-1)
+    } else if (this.$store.state.confirmationServices.data.length < 1) {
       this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
     } else {
      this.$store.dispatch('DELETE_ALL_CONFIRMATION_SEAT')

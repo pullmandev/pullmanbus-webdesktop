@@ -115,6 +115,11 @@
               filled
               outlined
               dense
+              @input="
+                v => {
+                  this.emailconfirmError = this.confirmemail !== v
+                }
+              "
               v-model="email"
               :rules="emailRules"
               :label="$t('email')"
@@ -129,7 +134,13 @@
               outlined
               dense
               v-model="confirmemail"
-              :rules="emailconfirmRules"
+              :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
+              :error="emailconfirmError"
+              @input="
+                v => {
+                  this.emailconfirmError = this.email !== v
+                }
+              "
               :label="$t('confirm_email')"
               @paste.prevent
               outline-1
@@ -194,9 +205,7 @@ export default {
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
-      emailconfirmRules: [
-        v => (v && this.email === v) || 'E-mails no coinciden'
-      ],
+      emailconfirmError: false,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
       generalRules: [v => !!v || 'Este campo es requerido'],
       dateRules: [v => !!v || '']
