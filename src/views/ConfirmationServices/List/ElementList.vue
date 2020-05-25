@@ -38,7 +38,7 @@
                   </span>
                 </v-col>
                 <v-col cols="2">
-                  <span class="body-2 d-block">{{ service.fechaSalida }}</span>
+                  <span class="body-2 d-block">{{ fechaSubida }}</span>
                   <span
                     class="headline d-block"
                     style="font-size: 1rem !important;"
@@ -47,7 +47,7 @@
                   </span>
                   <span class="body-2 d-block"><b>Salida:</b></span>
                   <span class="body-2 d-block">{{
-                    service.terminalSalida
+                    service.terminalOrigen
                   }}</span>
                 </v-col>
                 <v-col cols="2" class="pr-12 text-center">
@@ -149,6 +149,7 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      fechaSubida: '',
       serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
@@ -162,6 +163,9 @@ export default {
     Dialog
   },
   mounted() {
+    const searchingDate = this.$store.state.searchingConfirmation.date
+    const dateItems = searchingDate.split('-')
+    this.fechaSubida = `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
@@ -204,7 +208,7 @@ export default {
   },
   methods: {
     hoursDifference(service) {
-      const from = service.fechaSalida + 'T' + service.horaSalida
+      const from = this.fechaSubida + 'T' + service.horaSalida
       const to = service.fechaLlegada + 'T' + service.horaLlegada
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)
