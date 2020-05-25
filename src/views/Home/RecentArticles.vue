@@ -2,14 +2,14 @@
   <div>
     <div :class="applyTitleStyle ? 'bannerTitle' : ''">
       <h3
-        class="display-3 text-center"
-        style="font-family: 'Satisfy-Regular' !important; color: var(--var-blue_dark); font-size: 3rem !important;"
+        class="display-3 text-center blue_dark--text"
+        style="font-family: 'Satisfy-Regular' !important; font-size: 3rem !important;"
       >
         Artículos recientes
       </h3>
       <h4
-        class="headline text-center satisfyFont"
-        style="font-family: 'Satisfy-Regular' !important; color: var(--var-blue_light); font-size: 2rem !important;"
+        class="headline text-center satisfyFont blue_light--text"
+        style="font-family: 'Satisfy-Regular' !important; font-size: 2rem !important;"
       >
         Infórmate sobre las últimas noticias relacionadas
       </h4>

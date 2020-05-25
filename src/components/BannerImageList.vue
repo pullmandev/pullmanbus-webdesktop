@@ -1,14 +1,14 @@
 <template>
   <div class="destinies-type-container pt-5">
     <h3
-      class="display-3 text-center"
-      style="color: var(--var-blue_dark); font-size: 2rem !important;"
+      class="display-3 text-center blue_dark--text"
+      style="font-size: 2rem !important;"
     >
       {{ title }}
     </h3>
     <h4
-      class="headline text-center "
-      style="color: var(--var-blue_light); font-size: 1.5rem !important;"
+      class="headline text-center blue_light--text"
+      style="font-size: 1.5rem !important;"
     >
       {{ subTitle }}
     </h4>

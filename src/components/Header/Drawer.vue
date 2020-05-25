@@ -13,27 +13,16 @@
         :key="item.title"
         link
         style="margin: 0 0"
+        :href="item.link"
+        :to="item.route ? { name: item.route } : undefined"
+        :target="item.link ? '_blank' : undefined"
       >
         <v-list-item-icon style="margin: 10px 0">
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
-
         <v-list-item-content>
           <v-list-item-title>
-            <a
-              style="text-decoration: none; color: white; font-size: .9rem"
-              :href="item.link"
-              v-if="item.link"
-              target="_blank"
-              >{{ item.title }}</a
-            >
-            <router-link
-              v-else
-              :to="{ name: item.route }"
-              style="text-decoration: none; color: white; font-size: .9rem"
-            >
-              {{ item.title }}
-            </router-link>
+            {{ item.title }}
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
