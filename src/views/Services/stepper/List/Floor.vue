@@ -182,7 +182,11 @@
                           :key="index"
                           v-for="(seat, index) in selectedSeats"
                           class="d-block"
-                          >{{ seat.servicioNombre }} -
+                          >{{ seat.servicioNombre }}
+                          <span class="caption mx-1" v-if="seat.tomadoPromo">{{
+                            '(CON PROMO)'
+                          }}</span
+                          >-
                           <strong
                             >${{
                               seat.tomadoPromo ? seat.totalPromo : seat.tarifa
@@ -205,7 +209,11 @@
                         <hr v-if="i === 0" />
                         <span class="d-block body-2">
                           Boleto por confirmar piso {{ seat.piso + 1 }} asiento
-                          {{ seat.asiento }}
+                          {{
+                            seat.piso > 0
+                              ? parseInt(seat.asiento) + 20
+                              : seat.asiento
+                          }}
                           <strong class="d-block">
                             ${{ seat.totalPromo }}
                           </strong>

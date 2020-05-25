@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative;">
     <Carousel />
-    <Promotions class="displayNoneSm" />
+    <Promotions class="displayNoneSm" v-if="searching.to_city != null" />
     <v-container class="search_container">
       <div :style="{ marginTop: breakPoint.margin }" />
       <v-card
@@ -62,7 +62,8 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      loadingServices: ['getLoadingService']
+      loadingServices: ['getLoadingService'],
+      searching: ['getSearching']
     }),
     breakPoint() {
       switch (this.$vuetify.breakpoint.name) {
