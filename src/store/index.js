@@ -335,7 +335,9 @@ const store = new Vuex.Store({
     DELETE_ALL_CONFIRMATION_SEAT: ({commit}) => {
       commit('DELETE_ALL_CONFIRMATION_SEAT', {})
     },
-
+    SET_TICKET_CONFIRMATION: ({commit}, payload) => {
+      commit('SET_TICKET_CONFIRMATION', {confirmation: payload.confirmation})
+    },
     SET_PAYMENT_INFO ({commit}, payload) {
       commit('SET_PAYMENT_INFO', {payment_info: payload.payment_info})
     },
@@ -475,6 +477,9 @@ const store = new Vuex.Store({
     },
     DELETE_ALL_CONFIRMATION_SEAT: (state) => {
       state.confirmationSeats = []
+    },
+    SET_TICKET_CONFIRMATION: (state, {confirmation}) => {
+      state.searchingConfirmation.ticket.confirmation = confirmation
     },
     SET_PAYMENT_INFO (state, {payment_info}) {
       state.payment_info = payment_info
@@ -741,7 +746,9 @@ const store = new Vuex.Store({
     confirmationSeats: state => {
       return state.confirmationSeats
     },
-
+    getSearchingConfirmation: state => {
+      return state.searchingConfirmation
+    },
     seatsTotalAmount: (state, getters) => {
       let totalAmount = 0
       getters.seats.forEach(item => {

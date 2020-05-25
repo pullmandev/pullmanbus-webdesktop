@@ -174,7 +174,7 @@ export default {
         const ticket = this.$store.state.searchingConfirmation.ticket
         const fechaServicio = this.formatDate(seat.fechaServicio)
         const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)
-        const response = await API.confirmTicket({
+        const params = {
           boleto: ticket.boleto,
           clase: seat.clase,
           empresa: seat.empresa,
@@ -189,7 +189,9 @@ export default {
           idDestino: seat.destino,
           piso: seat.piso + 1,
           email: this.email
-        })
+        }
+        console.log(params)
+        const response = await API.confirmTicket(params)
         const data = response.data
         console.log(data)
         if (!data.resultado.exito) {
@@ -200,6 +202,7 @@ export default {
           })
           return
         }
+        this.$store.dispatch('SET_TICKET_CONFIRMATION', { confirmation: true })
         this.succeed = true
         setTimeout(() => {
           this.scrollAnimation('#congrats')

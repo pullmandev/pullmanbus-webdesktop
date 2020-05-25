@@ -91,11 +91,11 @@
                 <td>
                   <v-btn
                     text
-                    color="error"
+                    color="orange"
                     @click="deleteSelected(props.item)"
                     :disabled="deleting"
                   >
-                    <v-icon>delete</v-icon>
+                    <v-icon>clear</v-icon>
                   </v-btn>
                 </td>
                 <td>
@@ -106,6 +106,7 @@
                         !hasVuelta
                     "
                     text
+                    @load="props.expand(true)"
                     @click="props.expand(!props.isExpanded)"
                   >
                     <v-icon>mdi-chevron-right</v-icon>

@@ -156,13 +156,14 @@ export default {
             })
             return
           }
-          const ticket = _.pick(data, [
+          let ticket = _.pick(data, [
             'boleto',
             'ciudadDestino',
             'ciudadOrigen',
             'clase',
             'empresa'
           ])
+          ticket.confirmation = false
           this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
             ticket,
             type: 'ticket'

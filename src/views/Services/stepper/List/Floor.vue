@@ -41,11 +41,16 @@
             </div>
             <div>
               <h2 class="text-center mb-1">
-                {{ $t('floor') }} {{ data.pisos[selectedFloor].piso + 1 }}
+                {{
+                  data.pisos[selectedFloor].piso > 0
+                    ? 'segundo piso'
+                    : 'primer piso'
+                }}
               </h2>
               <h4 class="text-center mb-3 subheading">
-                {{ data.pisos[selectedFloor].servicio }} -
-                {{ data.pisos[selectedFloor].tarifaInternet }}
+                {{ data.pisos[selectedFloor].servicio }} - ${{
+                  data.pisos[selectedFloor].tarifaInternet
+                }}
               </h4>
               <v-row justify="center" dense>
                 <v-col
@@ -198,22 +203,22 @@
                       </div>
                     </template>
                     <template v-if="confirmationSeats.length > 0 && !hasVuelta">
-                      <strong class="d-block orange--text">
-                        Compra tu pasaje por confirmar
-                      </strong>
                       <div
                         class="text-right"
                         v-for="(seat, i) in confirmationSeats"
                         :key="i"
                       >
+                        <strong class="d-block orange--text">
+                          Agrega tu boleto por
+                          {{
+                            (parseInt(seat.totalPromo.split('.').join('')) -
+                              parseInt(seat.tarifa.split('.').join('')))
+                              | currency
+                          }}
+                        </strong>
                         <hr v-if="i === 0" />
                         <span class="d-block body-2">
-                          Boleto por confirmar piso {{ seat.piso + 1 }} asiento
-                          {{
-                            seat.piso > 0
-                              ? parseInt(seat.asiento) + 20
-                              : seat.asiento
-                          }}
+                          Total a pagar
                           <strong class="d-block">
                             ${{ seat.totalPromo }}
                           </strong>
