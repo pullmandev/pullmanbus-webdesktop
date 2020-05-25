@@ -2,13 +2,8 @@
   <div>
     <v-app-bar color="orange" fixed dark style="overflow: hidden;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-btn
-        text
-        color="orange"
-        class="pb-12"
-        @click="$router.push({ path: '/' })"
-      >
-        <div style="width: 300px" class="mt-12">
+      <v-btn text @click="$router.push({ path: '/' })" style="height: 100%">
+        <div style="width: 300px">
           <v-img
             src="../../../static/logos/pullman bus_blanco.png"
             height="50"
