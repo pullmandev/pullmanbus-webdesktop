@@ -26,11 +26,16 @@
           >
             <div>
               <h2 class="text-center mb-1">
-                {{ $t('floor') }} {{ data.pisos[selectedFloor].piso + 1 }}
+                {{
+                  data.pisos[selectedFloor].piso > 0
+                    ? 'Segundo piso'
+                    : 'Primer piso'
+                }}
               </h2>
               <h4 class="text-center mb-3 subheading">
-                {{ data.pisos[selectedFloor].servicio }} -
-                {{ data.pisos[selectedFloor].tarifaInternet }}
+                {{ data.pisos[selectedFloor].servicio }} - ${{
+                  data.pisos[selectedFloor].tarifaInternet
+                }}
               </h4>
               <v-row justify="center" dense>
                 <v-col
@@ -159,40 +164,6 @@
                         {{ $t(item.text) }}
                       </h3>
                     </div>
-                    <template v-if="selectedSeats.length > 0">
-                      <strong class="d-block">Total</strong>
-                      <div class="text-right">
-                        <template v-if="confirmationSeats.length > 0">
-                          <hr />
-
-                          <strong class="d-block orange--text"
-                            >Servicio en promocion</strong
-                          >
-                          <div class="text-right py-1">
-                            <span
-                              class="d-block body-2"
-                              :key="index"
-                              v-for="(seat, index) in confirmationSeats"
-                            >
-                              Boleto por confirmar piso {{ seat.piso + 1 }} -
-                              <strong>
-                                ${{ seat.confirmation.tarifaVuelta }}
-                              </strong>
-                            </span>
-                          </div>
-                        </template>
-                        <hr />
-                        <span
-                          :key="index"
-                          v-for="(seat, index) in selectedSeats"
-                          class="d-block"
-                          >{{ seat.servicioNombre }} -
-                          <strong>${{ seat.tarifa }}</strong></span
-                        >
-                        <hr />
-                        <strong>{{ totalAmount | currency }}</strong>
-                      </div>
-                    </template>
                   </div>
                 </v-col>
               </v-row>

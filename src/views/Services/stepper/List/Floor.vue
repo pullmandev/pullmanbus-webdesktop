@@ -43,8 +43,8 @@
               <h2 class="text-center mb-1">
                 {{
                   data.pisos[selectedFloor].piso > 0
-                    ? 'segundo piso'
-                    : 'primer piso'
+                    ? 'Segundo piso'
+                    : 'Primer piso'
                 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
