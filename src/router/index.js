@@ -7,7 +7,6 @@ import Home from '../views/Home/Index.vue'
 import ServicesContainer from '@/views/Services/Index.vue'
 import ListContainer from '@/views/Services/Services.vue'
 import Data from '@/views/Services/stepper/ConfirmationPaymentData'
-import DataDiscount from '@/views/Services/stepper/ConfirmationTicketDiscount'
 import DataConfirmation from '@/views/Services/stepper/ConfirmationTicketPayment'
 import List from '@/views/Services/stepper/List/Index'
 import Payment from '@/views/Services/Payment/Index.vue'
@@ -99,11 +98,6 @@ const routes = [
             path: 'servicesDataConfirmation',
             name: 'ServicesDataConfirmation',
             component: DataConfirmation
-          },
-          {
-            path: 'servicesPaymentDiscount',
-            name: 'ServicesPaymentDiscount',
-            component: DataDiscount
           },
           {
             path: 'servicesPaymentData',

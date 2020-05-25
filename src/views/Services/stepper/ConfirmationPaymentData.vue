@@ -3,6 +3,12 @@
     <v-container fluid>
       <!-- Card date passenger -->
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
+        <div
+          v-if="!hasVuelta"
+          class="white--text text-left orange confirmation-promotion-advice"
+        >
+          <span class="ml-8 caption">Servicio con dcto %!</span>
+        </div>
         <v-card-text>
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
@@ -80,6 +86,9 @@
                         : props.item.precio
                     }}
                   </h3>
+                </td>
+                <td v-if="!hasVuelta" class="text-center">
+                  {{ props.item.tomadoPromo ? 'Si' : 'No' }}
                 </td>
                 <td>
                   <v-btn
@@ -179,7 +188,7 @@ export default {
       }
     },
     headers() {
-      return [
+      const result = [
         { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
@@ -199,10 +208,28 @@ export default {
         },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
         { text: this.$t('floor'), value: 'piso', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false },
-        { text: '', value: '', sortable: false }
+        { text: this.$t('price'), value: 'precio', sortable: false }
       ]
+      if (this.hasVuelta) {
+        result.push({ text: '', value: '', sortable: false })
+      } else {
+        result.push({
+          text: 'Con vuelta',
+          value: 'tomadoPromo',
+          sortable: false
+        })
+        result.push({ text: '', value: '', sortable: false })
+      }
+      return result
     }
   }
 }
 </script>
+<style>
+.confirmation-promotion-advice {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: -100px;
+  transform: rotate(-60deg);
+}
+</style>

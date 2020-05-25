@@ -151,11 +151,7 @@ export default {
     confirmationAmount,
     routeWithScroll,
     validateRoute() {
-      if (this.seatsWithPromo.length > 0) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
-      } else {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
-      }
+      routeWithScroll('#paymentStepper', 'ServicesPaymentData')
     }
   }
 }

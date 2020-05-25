@@ -277,7 +277,7 @@ export default {
         return
       }
       if (this.seatsWithPromo.length > 0) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
+        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
       } else if (this.seatsWithPromoNotSelected.length > 0) {
         routeWithScroll('#paymentStepper', 'ServicesDataConfirmation')
       } else {

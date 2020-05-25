@@ -176,14 +176,14 @@ const store = new Vuex.Store({
             const secondService = item.servicioSegundoPiso
             if (classes.length < 1) {
               classes.push(firstService)
-              if (firstService !== secondService && secondService !== null) {
+              if (firstService !== secondService && secondService != null) {
                 classes.push(secondService)
               }
             } else {
               if (classes.filter(clas => clas === firstService).length < 1) {
                 classes.push(firstService)
               }
-              if (secondService !== null && classes.filter(clas => clas === secondService).length < 1) {
+              if (secondService != null && classes.filter(clas => clas === secondService).length < 1) {
                 classes.push(secondService)
               }
             }
