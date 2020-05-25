@@ -3,12 +3,6 @@
     <v-container fluid>
       <!-- Card date passenger -->
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
-        <div
-          v-if="!hasVuelta"
-          class="white--text text-left orange confirmation-promotion-advice"
-        >
-          <span class="ml-8 caption">Servicio con dcto %!</span>
-        </div>
         <v-card-text>
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
@@ -45,10 +39,17 @@
             :items="getSeatWithId"
             item-key="id"
             class="elevation-0"
+            show-expand
             hide-default-footer
           >
             <template slot="item" slot-scope="props">
               <tr>
+                <td style="overflow: hidden; max-width: 70px" class="pa-0">
+                  <div
+                    v-if="props.item.tomadoPromo"
+                    class="orange confirmation-promotion-advice"
+                  />
+                </td>
                 <td>
                   <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
                 </td>
@@ -87,9 +88,6 @@
                     }}
                   </h3>
                 </td>
-                <td v-if="!hasVuelta" class="text-center">
-                  {{ props.item.tomadoPromo ? 'Si' : 'No' }}
-                </td>
                 <td>
                   <v-btn
                     text
@@ -100,7 +98,48 @@
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </td>
+                <td>
+                  <v-btn
+                    v-if="
+                      props.item.hasPromo &&
+                        !props.item.tomadoPromo &&
+                        !hasVuelta
+                    "
+                    text
+                    @click="props.expand(!props.isExpanded)"
+                  >
+                    <v-icon>mdi-chevron-right</v-icon>
+                  </v-btn>
+                </td>
               </tr>
+            </template>
+
+            <template v-slot:expanded-item="props">
+              <td
+                :colspan="props.headers.length"
+                v-if="!props.item.tomadoPromo"
+              >
+                <div class="text-left mt-5">
+                  <strong class="d-block orange--text">
+                    Compra tu pasaje por confirmar
+                  </strong>
+                  <hr />
+                  <div class="d-flex justify-space-between align-center">
+                    <span class="d-block body-2 ml-6">
+                      Boleto por confirmar
+                      <strong> ${{ props.item.totalPromo }} </strong>
+                    </span>
+                    <v-btn
+                      color="orange"
+                      small
+                      class="white--text my-3"
+                      @click="confirmationAmount(props.item)"
+                    >
+                      Agregar
+                    </v-btn>
+                  </div>
+                </div>
+              </td>
             </template>
           </v-data-table>
         </v-card-text>
@@ -128,6 +167,7 @@
 import { mapGetters } from 'vuex'
 import deleteSeat from '@/helpers/deleteSeat'
 import routeWithScroll from '@/helpers/routeWithScroll'
+import confirmationAmount from '@/helpers/updateConfirmationTicket'
 
 export default {
   data() {
@@ -140,6 +180,7 @@ export default {
   },
   methods: {
     routeWithScroll,
+    confirmationAmount,
     async deleteSelected(item) {
       this.deleting = true
       const index = this.findSeatIndex(item.id)
@@ -157,6 +198,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      seatsWithPromoNotSelected: ['seatsWithPromoNotSelected'],
       selectedSeats: ['seats'],
       payment_info: ['payment_info'],
       userData: ['userData'],
@@ -188,7 +230,7 @@ export default {
       }
     },
     headers() {
-      const result = [
+      return [
         { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
@@ -208,28 +250,18 @@ export default {
         },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
         { text: this.$t('floor'), value: 'piso', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false }
+        { text: this.$t('price'), value: 'precio', sortable: false },
+        { text: '', value: '', sortable: false },
+        { text: '', value: '', sortable: false }
       ]
-      if (this.hasVuelta) {
-        result.push({ text: '', value: '', sortable: false })
-      } else {
-        result.push({
-          text: 'Con vuelta',
-          value: 'tomadoPromo',
-          sortable: false
-        })
-        result.push({ text: '', value: '', sortable: false })
-      }
-      return result
     }
   }
 }
 </script>
 <style>
 .confirmation-promotion-advice {
-  width: 300px;
-  margin-top: 10px;
-  margin-left: -100px;
+  width: 90px;
+  height: 10px;
   transform: rotate(-60deg);
 }
 </style>

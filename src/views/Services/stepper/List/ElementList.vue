@@ -272,17 +272,7 @@ export default {
       this.dialog = true
     },
     goToPayment() {
-      if (this.hasVuelta) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
-        return
-      }
-      if (this.seatsWithPromo.length > 0) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
-      } else if (this.seatsWithPromoNotSelected.length > 0) {
-        routeWithScroll('#paymentStepper', 'ServicesDataConfirmation')
-      } else {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
-      }
+      routeWithScroll('#paymentStepper', 'ServicesPaymentData')
     }
   }
 }
