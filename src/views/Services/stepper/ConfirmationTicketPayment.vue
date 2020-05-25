@@ -104,17 +104,6 @@ export default {
       deleting: false
     }
   },
-  methods: {
-    confirmationAmount,
-    routeWithScroll,
-    validateRoute() {
-      if (this.seatsWithPromo.length > 0) {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
-      } else {
-        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
-      }
-    }
-  },
   computed: {
     ...mapGetters({
       selectedSeats: ['seatsWithPromoNotSelected'],
@@ -149,6 +138,24 @@ export default {
         { text: this.$t('floor'), value: 'piso', sortable: false },
         { text: this.$t('price'), value: 'precio', sortable: false }
       ]
+    }
+  },
+  watch: {
+    selectedSeats(value) {
+      if (value.length < 1) {
+        this.validateRoute()
+      }
+    }
+  },
+  methods: {
+    confirmationAmount,
+    routeWithScroll,
+    validateRoute() {
+      if (this.seatsWithPromo.length > 0) {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentDiscount')
+      } else {
+        routeWithScroll('#paymentStepper', 'ServicesPaymentData')
+      }
     }
   }
 }
