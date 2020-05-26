@@ -10,7 +10,7 @@
     <v-carousel-item v-for="(item, i) in homeBanners" :key="i">
       <v-card color="white" style="color: black;" :min-height="height">
         <div class="d-flex flex-no-wrap justify-space-between">
-          <v-img width="280" :src="item.urlImagen" cover></v-img>
+          <v-img :height="height" :src="item.urlImagen" width="280"></v-img>
           <div
             class="text-center d-flex justify-center align-center flex-column"
             style="width: 100%"
