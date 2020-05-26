@@ -293,6 +293,9 @@ export default {
             title: 'El boleto se canjeo con exito',
             type: 'info'
           })
+          this.email = ''
+          this.rut = ''
+          this.$router.go(-1)
         } else {
           const { mensaje } = response.data
           const text = mensaje || 'Se genero un error al canjear boleto'
@@ -316,7 +319,6 @@ export default {
         const response = await API.validateTicket({
           boleto: this.ticket.boleto
         })
-        console.log(response.data)
         if (!response.data.exito) {
           const { mensaje } = response.data
           const text = mensaje || 'Se genero un error al canjear boleto'
@@ -334,8 +336,6 @@ export default {
             title: 'El boleto es apto para canje',
             type: 'info'
           })
-          this.ticket = response.data
-          console.log(this.ticket)
         }
       } catch (err) {
         console.error(err)
