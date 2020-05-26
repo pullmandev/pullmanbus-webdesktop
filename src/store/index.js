@@ -653,34 +653,32 @@ const store = new Vuex.Store({
       })
       return servicesTemp
     },
-    getConfirmationServiceList: (state, getters) => {
+    getConfirmationServiceList: (state) => {
       let servicesTemp = []
-      getters.getConfirmationServiceFiltered.forEach(item => {
+      state.confirmationServices.data.forEach(item => {
         const pisos = []
         const pisoUno = {}
         const pisoDos = {}
-        if (item.filter1) {
-          pisoUno.piso = 0
-          pisoUno.pisoText = '01'
-          pisoUno.servicio = item.servicioPrimerPiso
-          pisoUno.tarifa = item.tarifaPrimerPiso
-          pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
-          pisoUno.clase = item.idClaseBusPisoUno
-          pisoUno.busPiso = item.busPiso1
-          pisoUno.busOtroPiso = item.busPiso2
-          pisoUno.fechaSalida = item.fechaSalida
-          pisoUno.horaSalida = item.horaSalida
-          pisoUno.terminalSalida = item.terminalSalida
-          pisoUno.horaLlegada = item.horaLlegada
-          pisoUno.fechaLlegada = item.fechaLlegada
-          pisoUno.terminaLlegada = item.terminaLlegada
-          pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
-          if (pisoUno.confirmation.idaVuelta) {
-            pisoUno.confirmation.tomado = false
-          }
-          pisos.push(pisoUno)
+        pisoUno.piso = 0
+        pisoUno.pisoText = '01'
+        pisoUno.servicio = item.servicioPrimerPiso
+        pisoUno.tarifa = item.tarifaPrimerPiso
+        pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
+        pisoUno.clase = item.idClaseBusPisoUno
+        pisoUno.busPiso = item.busPiso1
+        pisoUno.busOtroPiso = item.busPiso2
+        pisoUno.fechaSalida = item.fechaSalida
+        pisoUno.horaSalida = item.horaSalida
+        pisoUno.terminalSalida = item.terminalSalida
+        pisoUno.horaLlegada = item.horaLlegada
+        pisoUno.fechaLlegada = item.fechaLlegada
+        pisoUno.terminaLlegada = item.terminaLlegada
+        pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
+        if (pisoUno.confirmation.idaVuelta) {
+          pisoUno.confirmation.tomado = false
         }
-        if (item.filter2) {
+        pisos.push(pisoUno)
+        if (item.busPiso2 != null) {
           pisoDos.piso = 1
           pisoDos.pisoText = '02'
           pisoDos.servicio = item.servicioSegundoPiso

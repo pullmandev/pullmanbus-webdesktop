@@ -81,18 +81,6 @@
                   v-for="(piso, index) in service.pisos"
                   :key="index"
                 >
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
-                  >
-                    $ {{ piso.tarifaInternet }}
-                  </span>
-                  <span
-                    class="body-2 d-block"
-                    style="text-decoration: line-through"
-                    ><b>$ {{ piso.tarifa }}</b></span
-                  >
-                  <span class="caption d-block"><b>Promoción internet</b></span>
                   <span class="caption d-block"
                     ><b>Piso {{ piso.piso + 1 }}</b></span
                   >

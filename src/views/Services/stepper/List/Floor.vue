@@ -209,7 +209,9 @@
                         :key="i"
                       >
                         <strong class="d-block orange--text">
-                          Agrega tu boleto por
+                          <span class="d-block"
+                            >Agrega tu boleto de regreso por</span
+                          >
                           {{
                             (parseInt(seat.totalPromo.split('.').join('')) -
                               parseInt(seat.tarifa.split('.').join('')))

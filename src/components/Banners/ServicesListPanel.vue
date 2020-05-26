@@ -38,11 +38,20 @@
                 </p>
               </v-col>
               <v-col cols="12" class="d-flex justify-space-around align-center">
-                <v-btn outlined color="black" @click="promotion = false"
-                  >Cancelar</v-btn
+                <v-btn
+                  outlined
+                  color="black"
+                  @click="promotion = false"
+                  min-width="100"
+                  >No</v-btn
                 >
-                <v-btn color="orange" class="white--text" @click="accept">
-                  Aceptar
+                <v-btn
+                  color="orange"
+                  class="white--text"
+                  @click="accept"
+                  min-width="100"
+                >
+                  Si
                 </v-btn>
               </v-col>
             </v-row>
