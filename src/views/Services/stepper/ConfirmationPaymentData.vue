@@ -53,19 +53,19 @@
                 <td>
                   <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
                 </td>
-                <td>
-                  <h3>{{ props.item.terminalSalida }}</h3>
+                <td class="px-2">
+                  <span style="0.7rem">{{ props.item.terminalSalida }}</span>
+                </td>
+                <td class="px-2">
+                  <span style="0.7rem">{{ props.item.terminalLlegada }}</span>
                 </td>
                 <td>
-                  <h3>{{ props.item.terminalLlegada }}</h3>
+                  <span style="0.7rem">{{ props.item.fecha }}</span>
                 </td>
-                <td>
-                  <h3>{{ props.item.fecha }}</h3>
+                <td class="text-center">
+                  <span style="0.7rem">{{ props.item.horaSalida }}</span>
                 </td>
-                <td>
-                  <h3>{{ props.item.horaSalida }}</h3>
-                </td>
-                <td>
+                <td class="text-center">
                   <h3>
                     {{
                       props.item.piso > 0
@@ -77,6 +77,11 @@
                 <td>
                   <h3>
                     {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
+                  </h3>
+                </td>
+                <td v-if="!hasVuelta" class="text-center">
+                  <h3>
+                    {{ props.item.tomadoPromo ? 'Si' : 'No' }}
                   </h3>
                 </td>
                 <td>
@@ -106,7 +111,6 @@
                         !hasVuelta
                     "
                     text
-                    @load="props.expand(true)"
                     @click="props.expand(!props.isExpanded)"
                   >
                     <v-icon>mdi-chevron-right</v-icon>
@@ -231,7 +235,7 @@ export default {
       }
     },
     headers() {
-      return [
+      let result = [
         { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
@@ -255,6 +259,14 @@ export default {
         { text: '', value: '', sortable: false },
         { text: '', value: '', sortable: false }
       ]
+      if (!this.hasVuelta) {
+        result.splice(7, 0, {
+          text: 'Promoción',
+          value: 'tomadoPromo',
+          sortable: true
+        })
+      }
+      return result
     }
   }
 }
