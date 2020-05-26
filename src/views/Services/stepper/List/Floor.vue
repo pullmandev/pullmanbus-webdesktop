@@ -369,6 +369,7 @@ export default {
         destino: this.data.idTerminalDestino,
         integrador: this.data.integrador,
         terminalLlegada: this.data.terminaLlegada,
+        terminalDestino: this.data.terminalDestino,
         terminalSalida: this.data.terminalSalida,
         pisos: this.data.pisos
       }

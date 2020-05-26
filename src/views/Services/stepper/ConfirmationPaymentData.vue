@@ -37,10 +37,12 @@
           <v-data-table
             :headers="headers"
             :items="getSeatWithId"
+            :expanded="getSeatWithId"
             item-key="id"
             class="elevation-0"
             show-expand
             hide-default-footer
+            :single-expand="false"
           >
             <template slot="item" slot-scope="props">
               <tr>
@@ -57,7 +59,7 @@
                   <span style="0.7rem">{{ props.item.terminalSalida }}</span>
                 </td>
                 <td class="px-2">
-                  <span style="0.7rem">{{ props.item.terminalLlegada }}</span>
+                  <span style="0.7rem">{{ props.item.terminalDestino }}</span>
                 </td>
                 <td>
                   <span style="0.7rem">{{ props.item.fecha }}</span>
@@ -122,7 +124,7 @@
             <template v-slot:expanded-item="props">
               <td
                 :colspan="props.headers.length"
-                v-if="!props.item.tomadoPromo"
+                v-if="!props.item.tomadoPromo && props.item.hasPromo"
               >
                 <div class="text-left mt-5">
                   <strong class="d-block orange--text">
