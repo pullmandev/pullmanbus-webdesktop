@@ -9,9 +9,12 @@
           antes de la salida del servicio.
         </p>
         <form>
-          <v-row align="center">
-            <v-col cols="12" sm="6" md="6" class="pl-3 pr-3">
+          <v-row>
+            <v-col cols="12" sm="6" md="6" class="pl-3 pr-3 d-flex">
               <v-text-field
+                filled
+                outlined
+                dense
                 label="Orden"
                 v-model="code"
                 :disabled="!search"
@@ -22,18 +25,10 @@
               <v-btn
                 @click="getTicket"
                 color="blue"
-                :disabled="loading"
+                :loading="loading"
                 class="white--text"
               >
-                <template v-if="loading">
-                  <v-progress-circular
-                    indeterminate
-                    color="blue"
-                  ></v-progress-circular>
-                </template>
-                <template v-else>
-                  <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
-                </template>
+                <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -86,6 +81,9 @@
           <v-row align="center" class="mt-5">
             <v-col cols="12" md="6" class="pl-3 pr-3">
               <v-text-field
+                filled
+                outlined
+                dense
                 label="Boleto"
                 v-model="selectedTicket"
                 :rules="generalRules"
@@ -93,16 +91,21 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" class="pl-3 pr-3">
-              <v-select
+              <v-autocomplete
+                filled
+                outlined
+                dense
                 label="Tipo de compra"
                 :items="purchaseTypes"
                 v-model="selectedPurchase"
-                autocomplete
-              ></v-select>
+              ></v-autocomplete>
             </v-col>
             <template v-if="selectedPurchase === 'Debito'">
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Rut solicitante"
                   v-model="rutApplicant"
                   :rules="rutApplicantRules"
@@ -111,6 +114,9 @@
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Usuario"
                   v-model="name"
                   :rules="emailRules"
@@ -119,6 +125,9 @@
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="RUT de titular de cuenta"
                   v-model="rutHolder"
                   :rules="rutRules"
@@ -126,20 +135,25 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
-                <v-select
+                <v-autocomplete
+                  filled
+                  outlined
+                  dense
                   label="Tipo de cuenta"
                   :items="accountTypes"
                   v-model="selectedAccountType"
                   item-text="nombre"
                   item-value="codigo"
                   clearable
-                  autocomplete
                   :rules="generalRules"
                   required
-                ></v-select>
+                ></v-autocomplete>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Numero de cuenta"
                   v-model="accountNumber"
                   :rules="generalRules"
@@ -147,7 +161,10 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
-                <v-select
+                <v-autocomplete
+                  filled
+                  outlined
+                  dense
                   label="Banco"
                   :items="banks"
                   v-model="selectedBank"
@@ -157,24 +174,17 @@
                   autocomplete
                   :rules="generalRules"
                   required
-                ></v-select>
+                ></v-autocomplete>
               </v-col>
             </template>
           </v-row>
           <v-btn
             @click="submit"
             color="blue_dark"
-            :disabled="!validForm || code === '' || loadingCancel"
+            :disabled="!validForm || code === ''"
+            :loading="loadingCancel"
           >
-            <template v-if="loadingCancel">
-              <v-progress-circular
-                indeterminate
-                color="blue_dark"
-              ></v-progress-circular>
-            </template>
-            <template v-else>
-              <span>Anular</span>
-            </template>
+            Anular
           </v-btn>
         </v-form>
       </v-card-text>
@@ -280,30 +290,38 @@ export default {
       this.banks = banksRes.data
     },
     async getTicket() {
-      if (this.search) {
-        this.loading = true
-        const params = { codigo: this.code, email: this.userData.usuario.email }
-        const response = await API.searchTicket(params)
-        this.tickets = response.data.map(item => {
-          const { fechaHoraSalida } = item.imprimeVoucher
-          const dateNumber = fechaHoraSalida.slice(0, 8)
-          const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
-          const date = moment(dateNumber).format('DD/MM/YYYY')
-          const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
-          item.fechaHoraSalida = date + ' ' + hour
-          item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
-          item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
-          item.asiento = item.imprimeVoucher.asiento
-          item.total = item.imprimeVoucher.total
-          item.codigoTransaccion = item.imprimeVoucher.codigoTransaccion
-          return item
-        })
-        if (this.tickets.length > 0) {
-          this.search = false
+      try {
+        if (this.search) {
+          this.loading = true
+          const params = {
+            codigo: this.code
+          }
+          const response = await API.searchTicket(params)
+          this.tickets = response.data.map(item => {
+            const { fechaHoraSalida } = item.imprimeVoucher
+            const dateNumber = fechaHoraSalida.slice(0, 8)
+            const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
+            const date = moment(dateNumber).format('DD/MM/YYYY')
+            const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
+            item.fechaHoraSalida = date + ' ' + hour
+            item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
+            item.nombreTerminalDestino =
+              item.imprimeVoucher.nombreTerminalDestino
+            item.asiento = item.imprimeVoucher.asiento
+            item.total = item.imprimeVoucher.total
+            item.codigoTransaccion = item.imprimeVoucher.codigoTransaccion
+            return item
+          })
+          if (this.tickets.length > 0) {
+            this.search = false
+          }
+        } else {
+          this.clearTicketData()
         }
+      } catch (err) {
+        console.error(err)
+      } finally {
         this.loading = false
-      } else {
-        this.clearTicketData()
       }
     },
     getTicketInfo(code) {
@@ -343,7 +361,6 @@ export default {
       this.loadingCancel = true
       let params = {
         boleto: this.selectedTicket,
-        codigoTransaccion: this.code,
         integrador: ticket.integrador
       }
       if (this.selectedPurchase === 'Debito') {
