@@ -33,9 +33,7 @@
                 }}
               </h2>
               <h4 class="text-center mb-3 subheading">
-                {{ data.pisos[selectedFloor].servicio }} - ${{
-                  data.pisos[selectedFloor].tarifaInternet
-                }}
+                {{ data.pisos[selectedFloor].servicio }}
               </h4>
               <v-row justify="center" dense>
                 <v-col
