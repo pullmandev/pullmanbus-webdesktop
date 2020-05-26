@@ -126,16 +126,18 @@
                 :colspan="props.headers.length"
                 v-if="!props.item.tomadoPromo && props.item.hasPromo"
               >
-                <div class="text-left mt-5">
-                  <strong class="d-block orange--text">
-                    Compra tu pasaje por confirmar
-                  </strong>
-                  <hr />
-                  <div class="d-flex justify-space-between align-center">
-                    <span class="d-block body-2 ml-6">
-                      Boleto por confirmar
-                      <strong> ${{ props.item.totalPromo }} </strong>
-                    </span>
+                <v-row>
+                  <v-col cols="8" md="8" sm="12">
+                    <strong class="orange--text">
+                      {{ setBannerText(props.item) }}
+                    </strong>
+                  </v-col>
+                  <v-col
+                    cols="4"
+                    md="4"
+                    sm="12"
+                    class="pt-0 d-flex justify-end"
+                  >
                     <v-btn
                       color="orange"
                       small
@@ -144,8 +146,8 @@
                     >
                       Agregar
                     </v-btn>
-                  </div>
-                </div>
+                  </v-col>
+                </v-row>
               </td>
             </template>
           </v-data-table>
@@ -185,6 +187,7 @@ export default {
       deleting: false
     }
   },
+
   methods: {
     routeWithScroll,
     confirmationAmount,
@@ -195,6 +198,18 @@ export default {
         await deleteSeat(index)
       }
       this.deleting = false
+    },
+    setBannerText(seat) {
+      const content = this.floorBanner[0].contenido
+      const price =
+        parseInt(seat.totalPromo.split('.').join('')) -
+        parseInt(seat.tarifa.split('.').join(''))
+      const priceText = this.$filters.currency(price)
+      let result = content
+      if (content.includes('${1}')) {
+        result = content.replace('${1}', priceText)
+      }
+      return result
     },
     findSeatIndex(id) {
       const index = this.selectedSeats.findIndex(
@@ -210,7 +225,8 @@ export default {
       payment_info: ['payment_info'],
       userData: ['userData'],
       searching: ['getSearching'],
-      hasVuelta: ['hasVuelta']
+      hasVuelta: ['hasVuelta'],
+      floorBanner: ['getServiceFloorBanners']
     }),
     getSeatWithId() {
       const result = this.selectedSeats.map(seat => {
