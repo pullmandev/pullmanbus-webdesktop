@@ -28,9 +28,15 @@
           'Álvaro López',
           'Maravillate con Temuco',
           'Infórmate sobre el 18/Sept',
-          'Te compartimos las mejores recetas'
+          'Las mejores recetas'
         ]"
-        :links="[link, link, link, link, link]"
+        :links="[
+          'http://blog.pullmanbus.cl/?cat=26',
+          'http://blog.pullmanbus.cl/?cat=27',
+          'http://blog.pullmanbus.cl/?cat=28',
+          'http://blog.pullmanbus.cl/?cat=29',
+          'http://blog.pullmanbus.cl/?cat=30'
+        ]"
         :images="[
           'article1.png',
           'article2.jpg',
@@ -47,11 +53,6 @@ import BannerImageList from '@/components/BannerImageBKGList'
 export default {
   components: {
     BannerImageList
-  },
-  data() {
-    return {
-      link: 'blog.pullman.cl'
-    }
   },
   computed: {
     applyTitleStyle() {
