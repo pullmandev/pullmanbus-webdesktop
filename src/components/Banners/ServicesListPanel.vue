@@ -6,39 +6,58 @@
     content-class="rounded-dialog-banner"
     persistent
   >
-    <v-card color="white">
-      <div class="d-flex flex-no-wrap justify-space-between">
-        <div style="width: 350px">
-          <v-img
-            src="../../../static/images/Imagen-descuento.png"
-            height="350px"
-          ></v-img>
-        </div>
-        <v-row no-gutters>
-          <v-col
-            cols="12"
-            class="d-flex flex-column justify-end align-center text-center"
-          >
-            <p class="headline d-block">Promocion</p>
-            <p class="title px-3">
-              Compra tu pasaje por confirmar a un precio preferente ${{ price }}
-            </p>
-          </v-col>
-          <v-col cols="12" class="d-flex justify-space-around align-center">
-            <v-btn outlined @click="promotion = false">Cancelar</v-btn>
-            <v-btn color="orange" class="white--text" @click="accept">
-              Aceptar
-            </v-btn>
-          </v-col>
-        </v-row>
-      </div>
-    </v-card>
+    <v-carousel cycle hide-delimiters :show-arrows="false" height="auto">
+      <v-carousel-item v-for="(item, i) in getServiceBanners" :key="i">
+        <v-card color="white">
+          <div class="d-flex flex-no-wrap justify-space-between">
+            <v-img
+              :src="item.urlImagen"
+              height="350px"
+              width="350px"
+              cover
+            ></v-img>
+            <v-row no-gutters>
+              <v-col
+                cols="12"
+                class="d-flex flex-column justify-end align-center text-center"
+              >
+                <p class="headline d-block black--text">
+                  {{ item.titulo }}
+                </p>
+                <p class="title px-3 black--text">
+                  {{ item.contenido }}
+                </p>
+                <p
+                  class="headline px-3"
+                  :style="{ backgroundColor: item.fondoTarifa }"
+                  style="border-radius: 10px"
+                >
+                  <span :style="{ color: item.colorTarifa }"
+                    >${{ item.tarifas }}</span
+                  >
+                </p>
+              </v-col>
+              <v-col cols="12" class="d-flex justify-space-around align-center">
+                <v-btn outlined color="black" @click="promotion = false"
+                  >Cancelar</v-btn
+                >
+                <v-btn color="orange" class="white--text" @click="accept">
+                  Aceptar
+                </v-btn>
+              </v-col>
+            </v-row>
+          </div>
+        </v-card>
+      </v-carousel-item>
+    </v-carousel>
   </v-dialog>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: ['open', 'price'],
   computed: {
+    ...mapGetters(['getServiceBanners']),
     promotion: {
       get() {
         return this.open

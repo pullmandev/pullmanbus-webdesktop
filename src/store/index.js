@@ -36,8 +36,9 @@ const store = new Vuex.Store({
       loading: false,
       selected: false,
       showResume: false,
-      tab: 'Ida'
-    },
+      tab: 'Ida',
+      banners: []
+  },
     confirmationServices: {
       data: [],
       loading: false,
@@ -198,6 +199,7 @@ const store = new Vuex.Store({
       })
       .catch(err => console.log(err))
       .finally(() => {
+        dispatch('SET_SERVICE_BANNERS', {filter: [], type: 'class'})
         Vue.notify({ group: 'stuck-load', clean: true })
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
@@ -373,6 +375,30 @@ const store = new Vuex.Store({
           })
       }
     },
+    SET_SERVICE_BANNERS ({commit, state}) {
+      const { from_city, to_city, from_date } = state.searching
+      if (from_city != null && to_city != null && from_date != null) {
+        const params = {
+          origen: from_city.codigo,
+          destino: to_city.codigo,
+          fechaSalida: from_date.replace(/-/g, ''),
+          etapa: 2
+        }
+        APIBanners.searchBanner(params)
+          .then(response => {
+            const data = response.data
+            let banners = []
+            data.forEach(item => {
+              const params = _.pick(item, ['urlImagen', 'contenido', 'titulo', 'tarifas', 'colorTarifa', 'fondoTarifa'])
+              banners.push(params)
+            })
+            commit('SET_SERVICE_BANNERS', {banners})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    },
     SET_HISTORY({commit}, payload) {
       commit('SET_HISTORY', {from: payload.from, to: payload.to})
     }
@@ -500,6 +526,9 @@ const store = new Vuex.Store({
     },
     SET_HOME_BANNERS (state, {banners}) {
       state.homeBanners = banners
+    },
+    SET_SERVICE_BANNERS (state, {banners}) {
+      state.services.banners = banners
     },
     SET_HISTORY(state, history) {
       state.history = history
@@ -699,6 +728,9 @@ const store = new Vuex.Store({
         return state.serviceFilters.class
       }
       return []
+    },
+    getServiceBanners: state => {
+      return state.services.banners
     },
     // getUserCompanyFilter: state => {
     //   if (state.serviceFilters.companies) {
