@@ -25,7 +25,7 @@
                   {{ item.titulo }}
                 </p>
                 <p class="title px-3 black--text">
-                  {{ item.contenido }}
+                  {{ getContent(item.contenido) }}
                 </p>
                 <p
                   class="headline px-3"
@@ -64,7 +64,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  props: ['open', 'price'],
+  props: ['open', 'seat'],
   computed: {
     ...mapGetters(['getServiceBanners']),
     promotion: {
@@ -80,6 +80,20 @@ export default {
     accept() {
       this.$emit('accept')
       this.promotion = false
+    },
+    getContent(content) {
+      if (Object.keys(this.seat).length <= 0) {
+        return ''
+      }
+      const price =
+        parseInt(this.seat.totalPromo.split('.').join('')) -
+        parseInt(this.seat.tarifa.split('.').join(''))
+      const priceText = this.$filters.currency(price)
+      let result = content
+      if (content.includes('${1}')) {
+        result = content.replace('${1}', priceText)
+      }
+      return result
     }
   }
 }

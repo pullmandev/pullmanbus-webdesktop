@@ -38,14 +38,21 @@
                         />
                         <v-btn
                           text
-                          large
+                          :small="windowSize.x <= 1100"
+                          :large="windowSize.x > 1100"
                           @click.stop="
                             serviceForItinerary = service
                             dialog = true
                           "
                         >
                           <v-icon color="orange">mdi-plus</v-icon>
-                          <span class="capitalize body-1">itinerario</span>
+                          <span
+                            class="capitalize body-1"
+                            :class="
+                              windowSize.x <= 1100 ? 'displayNone' : 'body-2'
+                            "
+                            >itinerario</span
+                          >
                         </v-btn>
                       </span>
                     </v-col>

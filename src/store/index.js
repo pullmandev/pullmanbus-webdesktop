@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import APIService from '@/services/api/services'
 import APICities from '@/services/api/cities'
-import APIBanners from '@/services/api/banners'
+import createBanners from '@/helpers/createBanners'
 import router from '../router'
 import moment from 'moment'
 // import companiesList from '../../companies.json'
@@ -37,7 +37,8 @@ const store = new Vuex.Store({
       selected: false,
       showResume: false,
       tab: 'Ida',
-      banners: []
+      banners: [],
+      floorBanners: []
   },
     confirmationServices: {
       data: [],
@@ -199,7 +200,8 @@ const store = new Vuex.Store({
       })
       .catch(err => console.log(err))
       .finally(() => {
-        dispatch('SET_SERVICE_BANNERS', {filter: [], type: 'class'})
+        dispatch('SET_SERVICE_BANNERS')
+        dispatch('SET_FLOOR_BANNERS')
         Vue.notify({ group: 'stuck-load', clean: true })
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
@@ -352,52 +354,13 @@ const store = new Vuex.Store({
       commit('DELETE_USER')
     },
     SET_HOME_BANNERS ({commit, state}) {
-      const { from_city, to_city, from_date } = state.searching
-      if (from_city != null && to_city != null && from_date != null) {
-        const params = {
-          origen: from_city.codigo,
-          destino: to_city.codigo,
-          fechaSalida: from_date.replace(/-/g, ''),
-          etapa: 1
-        }
-        APIBanners.searchBanner(params)
-          .then(response => {
-            const data = response.data
-            let banners = []
-            data.forEach(item => {
-              const params = _.pick(item, ['urlImagen', 'contenido', 'titulo', 'tarifas', 'colorTarifa', 'fondoTarifa'])
-              banners.push(params)
-            })
-            commit('SET_HOME_BANNERS', {banners})
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
+      createBanners(state.searching, 1)
     },
     SET_SERVICE_BANNERS ({commit, state}) {
-      const { from_city, to_city, from_date } = state.searching
-      if (from_city != null && to_city != null && from_date != null) {
-        const params = {
-          origen: from_city.codigo,
-          destino: to_city.codigo,
-          fechaSalida: from_date.replace(/-/g, ''),
-          etapa: 2
-        }
-        APIBanners.searchBanner(params)
-          .then(response => {
-            const data = response.data
-            let banners = []
-            data.forEach(item => {
-              const params = _.pick(item, ['urlImagen', 'contenido', 'titulo', 'tarifas', 'colorTarifa', 'fondoTarifa'])
-              banners.push(params)
-            })
-            commit('SET_SERVICE_BANNERS', {banners})
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
+      createBanners(state.searching, 2)
+    },
+    SET_FLOOR_BANNERS ({commit, state}) {
+      createBanners(state.searching, 3)
     },
     SET_HISTORY({commit}, payload) {
       commit('SET_HISTORY', {from: payload.from, to: payload.to})
@@ -529,6 +492,9 @@ const store = new Vuex.Store({
     },
     SET_SERVICE_BANNERS (state, {banners}) {
       state.services.banners = banners
+    },
+    SET_FLOOR_BANNERS (state, {banners}) {
+      state.services.floorBanners = banners
     },
     SET_HISTORY(state, history) {
       state.history = history
@@ -729,6 +695,9 @@ const store = new Vuex.Store({
     },
     getServiceBanners: state => {
       return state.services.banners
+    },
+    getServiceFloorBanners: state => {
+      return state.services.floorBanners
     },
     // getUserCompanyFilter: state => {
     //   if (state.serviceFilters.companies) {

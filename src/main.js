@@ -18,6 +18,7 @@ Vue.use(VueCurrencyFilter, {
   symbolPosition: 'front',
   symbolSpacing: true
 })
+Vue.prototype.$filters = Vue.options.filters
 Vue.config.productionTip = false
 
 const app = new Vue({

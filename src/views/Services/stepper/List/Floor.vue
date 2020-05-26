@@ -2,7 +2,7 @@
   <div>
     <ServicesListPanel
       :open.sync="confirmTicketDialog"
-      :price="addedSeat.totalPromo"
+      :seat="addedSeat"
       @accept="confirmationAmountFromDialog"
     />
     <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
@@ -209,14 +209,7 @@
                         :key="i"
                       >
                         <strong class="d-block orange--text">
-                          <span class="d-block"
-                            >Agrega tu boleto de regreso por</span
-                          >
-                          {{
-                            (parseInt(seat.totalPromo.split('.').join('')) -
-                              parseInt(seat.tarifa.split('.').join('')))
-                              | currency
-                          }}
+                          {{ setBannerText(seat) }}
                         </strong>
                         <hr v-if="i === 0" />
                         <span class="d-block body-2">
@@ -307,9 +300,6 @@ export default {
     }
   },
   components: {
-    ...mapGetters({
-      hasVuelta: ['hasVuelta']
-    }),
     seat,
     Dialog,
     ServicesListPanel
@@ -329,7 +319,8 @@ export default {
       confirmationSeats: ['seatsWithPromoNotSelected'],
       totalAmount: ['seatsTotalAmount'],
       seatsByTravel: ['seatsByTravel'],
-      hasVuelta: ['hasVuelta']
+      hasVuelta: ['hasVuelta'],
+      floorBanner: ['getServiceFloorBanners']
     }),
     getSelectedFloor() {
       const pisos = this.data.pisos
@@ -351,6 +342,18 @@ export default {
       for (let index = lenght; index >= 0; index--) {
         await deleteSeat(index)
       }
+    },
+    setBannerText(seat) {
+      const content = this.floorBanner[0].contenido
+      const price =
+        parseInt(seat.totalPromo.split('.').join('')) -
+        parseInt(seat.tarifa.split('.').join(''))
+      const priceText = this.$filters.currency(price)
+      let result = content
+      if (content.includes('${1}')) {
+        result = content.replace('${1}', priceText)
+      }
+      return result
     },
     createDataForRequest() {
       this.serviceData = {
@@ -480,8 +483,8 @@ export default {
         const seat = Object.assign({ vuelta: this.back }, params)
         this.$store.dispatch('SET_SEAT', { seat })
         if (seat.hasPromo && !seat.tomadoPromo && !this.hasVuelta) {
-          this.confirmTicketDialog = true
           this.addedSeat = seat
+          this.confirmTicketDialog = true
         }
       }
     },
