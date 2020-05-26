@@ -25,16 +25,18 @@
                   {{ item.titulo }}
                 </p>
                 <p class="title px-3 black--text">
-                  {{ getContent(item.contenido) }}
-                </p>
-                <p
-                  class="headline px-3"
-                  :style="{ backgroundColor: item.fondoTarifa }"
-                  style="border-radius: 10px"
-                >
-                  <span :style="{ color: item.colorTarifa }"
-                    >${{ item.tarifas }}</span
+                  {{ getContent(item.contenido)[0] }}
+                  <span
+                    class="pl-1 mr-1"
+                    :style="{
+                      color: item.colorTarifa,
+                      backgroundColor: item.fondoTarifa
+                    }"
+                    style="border-radius: 10px"
                   >
+                    {{ getContent(item.contenido)[1] }}
+                  </span>
+                  {{ getContent(item.contenido)[2] }}
                 </p>
               </v-col>
               <v-col cols="12" class="d-flex justify-space-around align-center">
@@ -83,7 +85,7 @@ export default {
     },
     getContent(content) {
       if (Object.keys(this.seat).length <= 0) {
-        return ''
+        return ['', '', '']
       }
       const price =
         parseInt(this.seat.totalPromo.split('.').join('')) -
@@ -91,7 +93,9 @@ export default {
       const priceText = this.$filters.currency(price)
       let result = content
       if (content.includes('${1}')) {
-        result = content.replace('${1}', priceText)
+        const contentItems = content.split('${1}')
+        contentItems.splice(1, 0, priceText)
+        result = contentItems
       }
       return result
     }
