@@ -1,6 +1,7 @@
 <template>
   <v-navigation-drawer
     v-model="drawer"
+    width="280"
     class="orange_dark"
     dark
     fixed

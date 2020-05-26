@@ -200,7 +200,7 @@ export default {
       this.deleting = false
     },
     setBannerText(seat) {
-      const content = this.floorBanner[0].contenido
+      const content = this.banner[0].contenido
       const price =
         parseInt(seat.totalPromo.split('.').join('')) -
         parseInt(seat.tarifa.split('.').join(''))
@@ -226,7 +226,7 @@ export default {
       userData: ['userData'],
       searching: ['getSearching'],
       hasVuelta: ['hasVuelta'],
-      floorBanner: ['getServiceFloorBanners']
+      banner: ['getServicePaymentBanners']
     }),
     getSeatWithId() {
       const result = this.selectedSeats.map(seat => {

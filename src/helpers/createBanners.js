@@ -1,8 +1,7 @@
 import APIBanners from '@/services/api/banners'
-import store from '@/store'
 import _ from 'lodash'
 
-function createBanners(searching, type) {
+function createBanners(searching, type, commit) {
   const { from_city, to_city, from_date } = searching
   if (from_city != null && to_city != null && from_date != null) {
     const params = {
@@ -33,10 +32,12 @@ function createBanners(searching, type) {
           commitTo = 'SET_HOME_BANNERS'
         } else if (type === 2) {
           commitTo = 'SET_SERVICE_BANNERS'
-        } else {
+        } else if (type === 3) {
           commitTo = 'SET_FLOOR_BANNERS'
+        } else {
+          commitTo = 'SET_PAYMENT_BANNERS'
         }
-        store.commit(commitTo, { banners })
+        commit(commitTo, { banners })
       })
       .catch(err => {
         console.log(err)

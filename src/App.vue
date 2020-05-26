@@ -82,7 +82,7 @@ export default {
             'https://www.pullmanbus.cl/portalWAR/paginas/contenido/contacto.jsf'
         },
         {
-          title: 'Servicio por confirmar',
+          title: 'CONFIRMACION DE REGRESO',
           icon: 'mdi-chevron-right',
           route: 'ConfirmationServicesPanel'
         }

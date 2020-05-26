@@ -38,7 +38,8 @@ const store = new Vuex.Store({
       showResume: false,
       tab: 'Ida',
       banners: [],
-      floorBanners: []
+      floorBanners: [],
+      paymentBanners: []
   },
     confirmationServices: {
       data: [],
@@ -202,6 +203,7 @@ const store = new Vuex.Store({
       .finally(() => {
         dispatch('SET_SERVICE_BANNERS')
         dispatch('SET_FLOOR_BANNERS')
+        dispatch('SET_PAYMENT_BANNERS')
         Vue.notify({ group: 'stuck-load', clean: true })
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
@@ -354,13 +356,16 @@ const store = new Vuex.Store({
       commit('DELETE_USER')
     },
     SET_HOME_BANNERS ({commit, state}) {
-      createBanners(state.searching, 1)
+      createBanners(state.searching, 1, commit)
     },
     SET_SERVICE_BANNERS ({commit, state}) {
-      createBanners(state.searching, 2)
+      createBanners(state.searching, 2, commit)
     },
     SET_FLOOR_BANNERS ({commit, state}) {
-      createBanners(state.searching, 3)
+      createBanners(state.searching, 3, commit)
+    },
+    SET_PAYMENT_BANNERS ({commit, state}) {
+      createBanners(state.searching, 4, commit)
     },
     SET_HISTORY({commit}, payload) {
       commit('SET_HISTORY', {from: payload.from, to: payload.to})
@@ -496,6 +501,9 @@ const store = new Vuex.Store({
     SET_FLOOR_BANNERS (state, {banners}) {
       state.services.floorBanners = banners
     },
+    SET_PAYMENT_BANNERS (state, {banners}) {
+      state.services.paymentBanners = banners
+    },
     SET_HISTORY(state, history) {
       state.history = history
     }
@@ -543,9 +551,8 @@ const store = new Vuex.Store({
       return servicesByPrice
     },
     getConfirmationServiceFiltered: state => {
-      const {empresa, clase} = state.searchingConfirmation.ticket
-      let byCompany = state.confirmationServices.data.filter(item => item.empresa === empresa)
-      const servicesFiltered = byCompany.map(service => {
+      const {clase} = state.searchingConfirmation.ticket
+      const servicesFiltered = state.confirmationServices.data.map(service => {
         let filter1 = service.idClaseBusPisoUno.substr(0, 3) === clase.substr(0, 3)
         let newItem = {...service, filter1}
         if (service.busPiso2 != null) {
@@ -619,32 +626,34 @@ const store = new Vuex.Store({
       })
       return servicesTemp
     },
-    getConfirmationServiceList: (state) => {
+    getConfirmationServiceList: (state, getters) => {
       let servicesTemp = []
-      state.confirmationServices.data.forEach(item => {
+      getters.getConfirmationServiceFiltered.forEach(item => {
         const pisos = []
         const pisoUno = {}
         const pisoDos = {}
-        pisoUno.piso = 0
-        pisoUno.pisoText = '01'
-        pisoUno.servicio = item.servicioPrimerPiso
-        pisoUno.tarifa = item.tarifaPrimerPiso
-        pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
-        pisoUno.clase = item.idClaseBusPisoUno
-        pisoUno.busPiso = item.busPiso1
-        pisoUno.busOtroPiso = item.busPiso2
-        pisoUno.fechaSalida = item.fechaSalida
-        pisoUno.horaSalida = item.horaSalida
-        pisoUno.terminalSalida = item.terminalSalida
-        pisoUno.horaLlegada = item.horaLlegada
-        pisoUno.fechaLlegada = item.fechaLlegada
-        pisoUno.terminaLlegada = item.terminaLlegada
-        pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
-        if (pisoUno.confirmation.idaVuelta) {
-          pisoUno.confirmation.tomado = false
+        if (item.filter1) {
+          pisoUno.piso = 0
+          pisoUno.pisoText = '01'
+          pisoUno.servicio = item.servicioPrimerPiso
+          pisoUno.tarifa = item.tarifaPrimerPiso
+          pisoUno.tarifaInternet = item.tarifaPrimerPisoInternet
+          pisoUno.clase = item.idClaseBusPisoUno
+          pisoUno.busPiso = item.busPiso1
+          pisoUno.busOtroPiso = item.busPiso2
+          pisoUno.fechaSalida = item.fechaSalida
+          pisoUno.horaSalida = item.horaSalida
+          pisoUno.terminalSalida = item.terminalSalida
+          pisoUno.horaLlegada = item.horaLlegada
+          pisoUno.fechaLlegada = item.fechaLlegada
+          pisoUno.terminaLlegada = item.terminaLlegada
+          pisoUno.confirmation = item.idaVueltaPisoUno || { idaVuelta: false }
+          if (pisoUno.confirmation.idaVuelta) {
+            pisoUno.confirmation.tomado = false
+          }
+          pisos.push(pisoUno)
         }
-        pisos.push(pisoUno)
-        if (item.busPiso2 != null) {
+        if (item.filter2) {
           pisoDos.piso = 1
           pisoDos.pisoText = '02'
           pisoDos.servicio = item.servicioSegundoPiso
@@ -698,6 +707,9 @@ const store = new Vuex.Store({
     },
     getServiceFloorBanners: state => {
       return state.services.floorBanners
+    },
+    getServicePaymentBanners: state => {
+      return state.services.paymentBanners
     },
     // getUserCompanyFilter: state => {
     //   if (state.serviceFilters.companies) {
