@@ -1,11 +1,14 @@
 import axios from 'axios'
 import endPoints from '@/endPoints'
 
-const buscarBoletoCode = endPoints.buscarBoletoCode
-const buscarTransEmail = endPoints.buscarTransEmail
-const cancel = endPoints.cancel
-const tipoCuenta = endPoints.tipoCuenta
-const bancos = endPoints.bancos
+const {
+  buscarBoletoCode,
+  buscarTransEmail,
+  enviarMailAnulacion,
+  cancel,
+  tipoCuenta,
+  bancos
+} = endPoints
 
 export default {
   searchTicket(params) {
@@ -20,6 +23,11 @@ export default {
   },
   cancel(params) {
     return axios.post(cancel, params, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+  },
+  sendEmail(params) {
+    return axios.post(enviarMailAnulacion, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },

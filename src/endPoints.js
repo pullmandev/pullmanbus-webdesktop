@@ -10,6 +10,7 @@ const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
 const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
 const serviciosVenta = `${baseServ}/serviciosVenta/rest/Servicios`
+const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
 export default {
   cities: `${baseVenta}/buscaCiudades`,
@@ -37,6 +38,7 @@ export default {
   validarBoletoCanje: `${compra}/validarBoletoCanje`,
   canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
   cancel: `${baseVenta}/anularVenta`,
+  enviarMailAnulacion: `${anular}/enviarMailAnulacion`,
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
   bancos: `${parametros}/obtenerBanco`,
   itinerario: `${parametros}/buscarItinerario`,

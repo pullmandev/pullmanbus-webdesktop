@@ -80,6 +80,16 @@
         <v-form v-model="validForm">
           <v-row align="center" class="mt-5">
             <v-col cols="12" md="6" class="pl-3 pr-3">
+              <v-autocomplete
+                filled
+                outlined
+                dense
+                label="Tipo de compra"
+                :items="purchaseTypes"
+                v-model="selectedPurchase"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" md="6" class="pl-3 pr-3">
               <v-text-field
                 filled
                 outlined
@@ -95,9 +105,14 @@
                 filled
                 outlined
                 dense
-                label="Tipo de compra"
-                :items="purchaseTypes"
-                v-model="selectedPurchase"
+                label="Tipo de cuenta"
+                :items="accountTypes"
+                v-model="selectedAccountType"
+                item-text="nombre"
+                item-value="codigo"
+                clearable
+                :rules="generalRules"
+                required
               ></v-autocomplete>
             </v-col>
             <template v-if="selectedPurchase === 'Debito'">
@@ -134,21 +149,7 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" md="6" class="pl-3 pr-3">
-                <v-autocomplete
-                  filled
-                  outlined
-                  dense
-                  label="Tipo de cuenta"
-                  :items="accountTypes"
-                  v-model="selectedAccountType"
-                  item-text="nombre"
-                  item-value="codigo"
-                  clearable
-                  :rules="generalRules"
-                  required
-                ></v-autocomplete>
-              </v-col>
+
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
                   filled
@@ -212,7 +213,8 @@ export default {
       rutHolder: '',
       rutApplicant: '',
       tickets: [],
-      accountTypes: [],
+      accountCreditTypes: [],
+      accountDebitTypes: [],
       banks: [],
       purchaseTypes: ['Credito', 'Debito'],
       selectedTicket: '',
@@ -277,17 +279,28 @@ export default {
       ]
     }
   },
-  mounted() {
+  created() {
     this.getParameters()
   },
-  computed: mapGetters({
-    userData: ['userData']
-  }),
+  computed: {
+    ...mapGetters({
+      userData: ['userData']
+    }),
+    accountTypes() {
+      if (this.selectedPurchase === 'Debito') {
+        return this.accountDebitTypes
+      } else {
+        return this.accountCreditTypes
+      }
+    }
+  },
   methods: {
     async getParameters() {
-      const accountTypesRes = await API.tipoCuenta({ codigo: 'VD' })
+      const accountCreditTypesRes = await API.tipoCuenta({ codigo: 'VC' })
+      const accountDebitTypesRes = await API.tipoCuenta({ codigo: 'VD' })
       const banksRes = await API.bancos()
-      this.accountTypes = accountTypesRes.data
+      this.accountCreditTypes = accountCreditTypesRes.data
+      this.accountDebitTypes = accountDebitTypesRes.data
       this.banks = banksRes.data
     },
     async getTicket() {
@@ -362,18 +375,22 @@ export default {
       this.loadingCancel = true
       let params = {
         boleto: this.selectedTicket,
+        codigoTransaccion: this.code,
         integrador: ticket.integrador,
-        codigoTransaccion: this.code
+        tipoCuenta: this.selectedAccountType,
+        banco: '',
+        numeroCuenta: '',
+        rutTitular: '',
+        rutSolicitante: '',
+        usuario: ''
       }
       if (this.selectedPurchase === 'Debito') {
         params.rutSolicitante = this.rutApplicant
         params.usuario = this.name
         params.banco = this.selectedBank
-        params.tipoCuenta = this.selectedAccountType
         params.numeroCuenta = this.accountNumber
         params.rutTitular = this.rutHolder
       }
-      console.log(params)
       const response = await API.cancel(params)
       this.loadingCancel = false
       if (response.data.exito) {
@@ -382,16 +399,22 @@ export default {
           title: this.$t('cancellations_success'),
           type: 'info'
         })
+        await API.sendEmail({
+          email: this.userData.usuario.email
+        })
         this.clearData()
       } else {
+        const text =
+          response.data.mensaje != null
+            ? response.data.mensaje
+            : this.$t('cancellations_error')
         this.$notify({
           group: 'error',
           title: this.$t('cancellation'),
           type: 'error',
-          text: this.$t('cancellations_error')
+          text
         })
       }
-      console.log('boletos', response.data)
     },
     validateTicketDate(date) {
       const ticketHour = moment(date, 'YYYY-MM-DD HH:mm')
