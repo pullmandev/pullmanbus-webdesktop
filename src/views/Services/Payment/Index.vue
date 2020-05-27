@@ -58,7 +58,9 @@
           </h2>
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-title> Nombre del convenio: {{ selectedConvenioName }} </v-card-title>
+      <v-card-title>
+        Nombre del convenio: {{ selectedConvenioName }}
+      </v-card-title>
       <v-card-text>
         <v-form v-model="validForm">
           <v-row cols="12" sm="12" md="8" lg="7">
@@ -246,7 +248,7 @@ export default {
       loadingRutValidation: false,
       loadingPayAction: false,
       selectedConvenio: '',
-      selectedConvenioName:'',
+      selectedConvenioName: '',
       listaCovenios: [],
       selectedSeats: this.$store.state.seats,
       rut: '',
@@ -458,7 +460,7 @@ export default {
       data.forEach(convenio => {
         this.listaCovenios.push({
           img: convenio.imagenCarrusel,
-          value : convenio.idConvenio,          
+          value: convenio.idConvenio,
           alt: convenio.convenio.descripcion
         })
       })
@@ -478,14 +480,14 @@ export default {
     },
     selectedConvenio: function(newConvenio) {
       this.rut = ''
-      this.selectedConvenioName=''
+      this.selectedConvenioName = ''
       this.selectedSeats.forEach(seat => {
         console.log(seat)
         seat.tarifa = seat.precio
       })
-      this.listaCovenios.forEach(conv=>{
-        if(conv.value==newConvenio){
-          this.selectedConvenioName=conv.alt
+      this.listaCovenios.forEach(conv => {
+        if (conv.value == newConvenio) {
+          this.selectedConvenioName = conv.alt
         }
       })
       if (newConvenio != 'BCNSD') {

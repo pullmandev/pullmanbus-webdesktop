@@ -12,6 +12,10 @@
         </div>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn text :to="{ name: 'ConfirmationServicesPanel' }">
+        <v-icon>mdi-chevron-right</v-icon>
+        CONFIRMACION DE REGRESO
+      </v-btn>
       <v-menu
         bottom
         offset-y
