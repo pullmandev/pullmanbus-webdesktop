@@ -24,6 +24,16 @@ export default {
     Banner
   },
   mounted() {
+    this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
+      date: null
+    })
+    this.$store.dispatch('SET_NEW_USER_SEARCHING_CITY', {
+      date: null
+    })
+    this.$store.dispatch('SET_NEW_USER_SEARCHING_CITY', {
+      direction: 'from',
+      date: null
+    })
     scrollAnimation('#idHome')
   }
 }

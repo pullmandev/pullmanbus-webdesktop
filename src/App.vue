@@ -97,7 +97,6 @@ export default {
         .split('T')[0],
       direction: 'from'
     })
-    this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', { date: null })
   }
 }
 </script>

@@ -24,10 +24,8 @@
           </template>
           <v-date-picker
             min="2017-01-24"
-            @change="setDate"
             v-model="userCalendar"
             :allowed-dates="enableToDate"
-            @input="setDate($event)"
             color="blue_dark"
             :locale="localeChange"
             :first-day-of-week="firstDayOfweek"

@@ -57,9 +57,7 @@
                       </span>
                     </v-col>
                     <v-col cols="2">
-                      <span class="body-2 d-block">{{
-                        service.fechaSalida
-                      }}</span>
+                      <span class="body-2 d-block">{{ fechaSubida }}</span>
                       <span
                         class="headline d-block"
                         style="font-size: 1rem !important;"
@@ -135,6 +133,7 @@
                   :item="service"
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
+                  :fechaSubida="fechaSubida"
                   @confirm="goToPayment"
                 />
                 <v-alert
@@ -178,6 +177,8 @@ export default {
   props: ['search', 'back'],
   data() {
     return {
+      fechaSubidaIda: this.$store.state.searching.from_date,
+      fechaSubidaVuelta: this.$store.state.searching.to_date,
       serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
@@ -208,8 +209,18 @@ export default {
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
       payment_info: ['payment_info'],
-      hasVuelta: ['hasVuelta']
+      hasVuelta: ['hasVuelta'],
+      selectedTab: ['getServicesTab']
     }),
+    fechaSubida() {
+      const dateFromStore =
+        this.selectedTab === 'tab-Vuelta'
+          ? this.fechaSubidaVuelta
+          : this.fechaSubidaIda
+      const dateItems = dateFromStore.split('-')
+      const fechaSubida = `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
+      return fechaSubida
+    },
     langSearch() {
       return this.$t('search')
     },
@@ -241,9 +252,17 @@ export default {
       return pages[this.page - 1]
     }
   },
+  watch: {
+    loadingServices(value) {
+      if (value) {
+        this.fechaSubidaIda = this.$store.state.searching.from_date
+        this.fechaSubidaVuelta = this.$store.state.searching.to_date
+      }
+    }
+  },
   methods: {
     hoursDifference(service) {
-      const from = service.fechaSalida + 'T' + service.horaSalida
+      const from = this.fechaSubida + 'T' + service.horaSalida
       const to = service.fechaLlegada + 'T' + service.horaLlegada
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)

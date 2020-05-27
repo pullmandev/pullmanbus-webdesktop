@@ -400,8 +400,8 @@ const store = new Vuex.Store({
       state.searching.to_city = city
     },
     SET_USER_SEARCHING_FROM_DATE: (state, {date}) => {
-      const diff = moment(state.searching.to_date).diff(state.searching.from_date)
-      if (diff > -1) {
+      const diff = moment(state.searching.to_date).diff(date, 'days')
+      if (diff <= -1 || date == null) {
         state.searching.to_date = null
       }
       state.searching.from_date = date
@@ -779,7 +779,9 @@ const store = new Vuex.Store({
       const services = getters.getServiceList(true)
       return services.length > 0
     },
-
+    getServicesTab (state) {
+      return state.services.tab
+    },
     seatsByTravel: state => (vuelta) => {
       return state.seats.filter(item => {
         return item.vuelta === vuelta
