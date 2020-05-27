@@ -181,6 +181,7 @@
           <v-btn
             @click="submit"
             color="blue_dark"
+            class="white--text"
             :disabled="!validForm || code === ''"
             :loading="loadingCancel"
           >
@@ -361,7 +362,8 @@ export default {
       this.loadingCancel = true
       let params = {
         boleto: this.selectedTicket,
-        integrador: ticket.integrador
+        integrador: ticket.integrador,
+        codigoTransaccion: this.code
       }
       if (this.selectedPurchase === 'Debito') {
         params.rutSolicitante = this.rutApplicant
