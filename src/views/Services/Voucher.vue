@@ -68,6 +68,7 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      download: '',
       data: {},
       headers: [
         { text: 'Orden de Compra', sortable: false },
@@ -83,6 +84,11 @@ export default {
     }
   },
   mounted() {
+    this.download = localStorage.permission
+    console.log('before', localStorage.permission)
+    localStorage.setItem('permission', 'false')
+    console.log('after', localStorage.permission)
+    console.log(this.download)
     this.gettingTickets()
   },
   computed: {
@@ -94,6 +100,9 @@ export default {
   },
   methods: {
     gettingTickets() {
+      if (this.download == 'false') {
+        return
+      }
       this.$notify({
         group: 'load',
         title: this.$t('get_ticket'),

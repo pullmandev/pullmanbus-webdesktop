@@ -368,6 +368,25 @@ export default {
     async pay() {
       this.loadingPayAction = true
       this.makeTransaccion()
+        .then(data => {
+          localStorage.setItem('permission', 'true')
+          const { url, token } = data
+          // localStorage.url = url
+          // localStorage.token = token
+          // window.open('http://localhost:8081/wbpay', '_blank')
+          let f = document.createElement('form')
+          f.setAttribute('method', 'post')
+          f.setAttribute('action', url)
+          let i = document.createElement('input')
+          i.setAttribute('type', 'text')
+          i.setAttribute('name', 'TBK_TOKEN')
+          i.setAttribute('value', token)
+          f.appendChild(i.cloneNode())
+          f.style.display = 'none'
+          document.body.appendChild(f)
+          f.submit()
+          document.body.removeChild(f)
+        })
         .catch(err => {
           console.log(err)
         })
@@ -422,22 +441,7 @@ export default {
       console.log('transactionParams', transactionParams)
       const response = await APITransaction.post(transactionParams)
       console.log(response.data)
-      const { url, token } = response.data
-      // localStorage.url = url
-      // localStorage.token = token
-      // window.open('http://localhost:8081/wbpay', '_blank')
-      let f = document.createElement('form')
-      f.setAttribute('method', 'post')
-      f.setAttribute('action', url)
-      let i = document.createElement('input')
-      i.setAttribute('type', 'text')
-      i.setAttribute('name', 'TBK_TOKEN')
-      i.setAttribute('value', token)
-      f.appendChild(i.cloneNode())
-      f.style.display = 'none'
-      document.body.appendChild(f)
-      f.submit()
-      document.body.removeChild(f)
+      return response.data
     }
   },
   created: function() {
