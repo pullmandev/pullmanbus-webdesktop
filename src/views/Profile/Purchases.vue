@@ -47,7 +47,7 @@
           <td class="text-xs-left">{{ props.item.nombreTerminalOrigen }}</td>
           <td class="text-xs-left">{{ props.item.nombreTerminalDestino }}</td>
           <td class="text-xs-center">{{ props.item.asiento }}</td>
-          <td class="text-xs-left">{{ props.item.total | currency }}</td>
+          <td class="text-xs-left">{{ props.item.total }}</td>
         </tr>
       </template>
     </v-data-table>
@@ -191,7 +191,9 @@ export default {
         item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
         item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
         item.asiento = item.imprimeVoucher.asiento
-        item.total = item.imprimeVoucher.total
+        item.total = item.imprimeVoucher.total.includes('.')
+          ? `$ ${item.imprimeVoucher.total}`
+          : this.$filters.currency(item.imprimeVoucher.total)
         return item
       })
       console.log(this.tickets)
