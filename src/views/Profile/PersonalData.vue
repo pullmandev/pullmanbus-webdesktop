@@ -15,8 +15,8 @@
             class="d-flex flex-column text-left title"
             style="line-height: 20px"
           >
-            {{ name + ' ' + f_lastname }}
-            <span class="body-2">{{ email }}</span>
+            {{ formTitle }}
+            <span v-if="name" class="body-2">{{ email }}</span>
           </h2>
         </v-toolbar-title>
       </v-toolbar>
@@ -225,6 +225,13 @@ export default {
     ...mapGetters({
       userData: ['userData']
     }),
+    formTitle() {
+      let title = this.f_lastname
+        ? `${this.name} ${this.f_lastname}`
+        : this.name
+      title = title || this.email
+      return title
+    },
     formatedDate() {
       moment.locale(this.$i18n.locale)
       return moment(this.date).format('LL')

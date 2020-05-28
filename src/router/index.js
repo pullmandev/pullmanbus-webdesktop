@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store'
+import redirectToMyProfile from '@/helpers/redirectToMyProfile'
+
+//Home
 import Home from '../views/Home/Index.vue'
 
 //Services
@@ -173,17 +176,26 @@ const routes = [
       {
         name: 'purchases',
         path: 'purchases',
-        component: Purchases
+        component: Purchases,
+        beforeEnter(to, from, next) {
+          redirectToMyProfile(store, next)
+        }
       },
       {
         name: 'cancel_purchase',
         path: 'cancel_purchase',
-        component: CancelPurchase
+        component: CancelPurchase,
+        beforeEnter(to, from, next) {
+          redirectToMyProfile(store, next)
+        }
       },
       {
         name: 'profile_pass',
         path: 'password',
-        component: ProfilePassword
+        component: ProfilePassword,
+        beforeEnter(to, from, next) {
+          redirectToMyProfile(store, next)
+        }
       }
     ]
   },

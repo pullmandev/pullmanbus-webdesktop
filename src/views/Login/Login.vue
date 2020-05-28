@@ -163,6 +163,9 @@ export default {
               active: true
             }
           })
+          if (data.usuario.rut == null) {
+            this.$router.push({ name: 'my_profile' })
+          }
           this.$store.dispatch('SET_SESSION_DIALOG', {
             type: 'open',
             open: false
