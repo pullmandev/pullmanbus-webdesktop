@@ -296,6 +296,14 @@ export default {
             codigo: this.code.trim()
           }
           const response = await API.searchTicket(params)
+          if (response.data.length <= 0) {
+            this.$notify({
+              group: 'error',
+              title: 'No se encontraron tickets',
+              type: 'error',
+              text: 'Verifique el codigo e intentelo de nuevo'
+            })
+          }
           this.tickets = response.data.map(item => {
             const { fechaHoraSalida } = item.imprimeVoucher
             const dateNumber = fechaHoraSalida.slice(0, 8)
