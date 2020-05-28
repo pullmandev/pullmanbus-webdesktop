@@ -121,16 +121,16 @@ export default {
         type: 'info'
       })
       const codigo = this.$route.params.id
-      API.postHeader({ orden: codigo }).then(response => {
+      API.postHeader({ orden: codigo }).then(async response => {
         this.data = response.data
         const boletos = this.data.boletos
-        boletos.forEach(async item => {
-          const response = await API.postVoucher({
+        for (let item of boletos) {
+          const responseTicket = await API.postVoucher({
             boleto: item.boleto,
             codigo
           })
-          this.toPDF(response.data)
-        })
+          this.toPDF(responseTicket.data)
+        }
       })
     },
     toPDF(response) {

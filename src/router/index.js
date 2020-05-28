@@ -149,7 +149,8 @@ const routes = [
       {
         path: 'confirmationServiceSucceed',
         name: 'ConfirmationServiceSucceed',
-        component: ConfirmationServiceSucceed
+        component: ConfirmationServiceSucceed,
+        props: route => ({ data: route.query })
       }
     ]
   },

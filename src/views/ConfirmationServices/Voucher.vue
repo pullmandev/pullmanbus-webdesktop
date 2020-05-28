@@ -52,62 +52,19 @@
   </div>
 </template>
 <script>
-import API from '@/services/api/confirmationTicket'
 import Promotions from '@/components/PromotionBanner'
 
 export default {
+  props: ['data'],
   components: {
     Promotions
   },
   mounted() {
-    this.gettingTickets()
+    this.$store.dispatch('SET_TICKET_CONFIRMATION', { confirmation: true })
+    console.log(this.data)
+    this.toPDF(this.data.archivo)
   },
   methods: {
-    async gettingTickets() {
-      try {
-        this.$notify({
-          group: 'load',
-          title: this.$t('get_ticket'),
-          type: 'info'
-        })
-        const seat = this.$store.state.confirmationSeats[0]
-        const ticket = this.$store.state.searchingConfirmation.ticket
-        const fechaServicio = this.formatDate(seat.fechaServicio)
-        const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)
-        const params = {
-          boleto: ticket.boleto,
-          clase: seat.clase,
-          empresa: seat.empresa,
-          asiento:
-            seat.piso === 1
-              ? (parseInt(seat.asiento) + 20).toString()
-              : seat.asiento,
-          idServicio: seat.servicio,
-          fechaServicio,
-          fechaSalida,
-          idOrigen: seat.origen,
-          idDestino: seat.destino,
-          piso: seat.piso + 1,
-          email: ticket.email
-        }
-        console.log('Confirm', params)
-        const response = await API.confirmTicket(params)
-        const data = response.data
-        console.log(data)
-        if (!data.resultado.exito) {
-          this.$notify({
-            group: 'error',
-            title: data.resultado.mensaje,
-            type: 'error'
-          })
-          return
-        }
-        this.$store.dispatch('SET_TICKET_CONFIRMATION', { confirmation: true })
-        this.toPDF(data.archivo)
-      } catch (err) {
-        console.error(err)
-      }
-    },
     toPDF(response) {
       // create a download anchor tag
       const tipo = response.tipo.toLowerCase()
@@ -148,16 +105,6 @@ export default {
       }
 
       return uintArray
-    },
-    formatDate(fecha, hour) {
-      const fechaItems = fecha.split('/')
-      let result = fechaItems[2] + fechaItems[1] + fechaItems[0]
-      if (hour) {
-        const formatedHour = hour.split(':').join('')
-        result += formatedHour
-      }
-      console.log(result)
-      return result
     }
   }
 }

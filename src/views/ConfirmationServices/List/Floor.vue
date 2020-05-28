@@ -177,9 +177,7 @@
                   </v-col>
                   <v-col class="d-flex align-end justify-end">
                     <v-btn
-                      @click="
-                        $router.push({ name: 'ConfirmationServiceSucceed' })
-                      "
+                      @click="gettingTickets"
                       class="white--text"
                       color="orange"
                       :disabled="!selectedSeats.length > 0"
@@ -201,6 +199,7 @@ import seat from '@/views/ConfirmationServices/List/Seat'
 import { mapGetters } from 'vuex'
 import deleteSeat from '@/helpers/deleteSeat'
 import API from '@/services/api/seats'
+import APIConfirmation from '@/services/api/confirmationTicket'
 import _ from 'lodash'
 // import moment from 'moment'
 
@@ -258,6 +257,56 @@ export default {
     }
   },
   methods: {
+    async gettingTickets() {
+      try {
+        this.$notify({
+          group: 'load',
+          title: this.$t('get_ticket'),
+          type: 'info'
+        })
+        const seat = this.selectedSeats[0]
+        const ticket = this.$store.state.searchingConfirmation.ticket
+        const fechaServicio = this.formatDate(seat.fechaServicio)
+        const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)
+        const params = {
+          boleto: ticket.boleto,
+          clase: seat.clase,
+          empresa: seat.empresa,
+          asiento:
+            seat.piso === 1
+              ? (parseInt(seat.asiento) + 20).toString()
+              : seat.asiento,
+          idServicio: seat.servicio,
+          fechaServicio,
+          fechaSalida,
+          idOrigen: seat.origen,
+          idDestino: seat.destino,
+          piso: seat.piso + 1,
+          email: ticket.email
+        }
+        const response = await APIConfirmation.confirmTicket(params)
+        const { resultado } = response.data
+        if (!resultado.exito) {
+          const text =
+            resultado.mensaje ||
+            'Se genero un error inesperado al confirmar boleto'
+          this.$notify({
+            group: 'error',
+            title: 'Error al confirmar boleto',
+            text,
+            type: 'error'
+          })
+          return
+        }
+        console.log(response.data)
+        this.$router.push({
+          name: 'ConfirmationServiceSucceed',
+          query: response.data
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    },
     async deleteSeats() {
       const lenght = this.selectedSeats.length - 1
       for (let index = lenght; index >= 0; index--) {
@@ -453,6 +502,16 @@ export default {
       this.loadingSeats = true
       this.selectedFloor = floor
       await this.getAvailability()
+    },
+    formatDate(fecha, hour) {
+      const fechaItems = fecha.split('/')
+      let result = fechaItems[2] + fechaItems[1] + fechaItems[0]
+      if (hour) {
+        const formatedHour = hour.split(':').join('')
+        result += formatedHour
+      }
+      console.log(result)
+      return result
     }
   }
 }
