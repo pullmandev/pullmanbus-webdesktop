@@ -85,7 +85,17 @@ export default {
   },
   mounted() {
     this.download = this.$store.state.canDownload
-    this.$store.dispatch('SET_CAN_DOWNLOAD', { permission: 'FALSE' })
+    if (this.$store.state.canDownload.permission === 'OK') {
+      this.$store.dispatch('SET_CAN_DOWNLOAD', {
+        permission: 'FALSE',
+        type: 'permission'
+      })
+      this.$store.dispatch('SET_CAN_DOWNLOAD', {
+        code: this.$route.params.id,
+        type: 'code'
+      })
+    }
+
     console.log(this.download)
     this.gettingTickets()
   },
@@ -98,9 +108,13 @@ export default {
   },
   methods: {
     gettingTickets() {
-      if (this.download !== 'OK') {
+      if (
+        this.download !== 'OK' &&
+        this.download.code !== this.$route.params.id
+      ) {
         return
       }
+
       this.$notify({
         group: 'load',
         title: this.$t('get_ticket'),

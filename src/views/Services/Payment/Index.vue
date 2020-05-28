@@ -369,23 +369,25 @@ export default {
       this.loadingPayAction = true
       this.makeTransaccion()
         .then(data => {
-          this.$store.dispatch('SET_CAN_DOWNLOAD', { permission: 'OK' })
-          const { url, token } = data
-          // localStorage.url = url
-          // localStorage.token = token
-          // window.open('http://localhost:8081/wbpay', '_blank')
-          let f = document.createElement('form')
-          f.setAttribute('method', 'post')
-          f.setAttribute('action', url)
-          let i = document.createElement('input')
-          i.setAttribute('type', 'text')
-          i.setAttribute('name', 'TBK_TOKEN')
-          i.setAttribute('value', token)
-          f.appendChild(i.cloneNode())
-          f.style.display = 'none'
-          document.body.appendChild(f)
-          f.submit()
-          document.body.removeChild(f)
+          this.$store.dispatch('SET_CAN_DOWNLOAD', {
+            permission: 'OK',
+            type: 'permission'
+          })
+          setTimeout(() => {
+            const { url, token } = data
+            let f = document.createElement('form')
+            f.setAttribute('method', 'post')
+            f.setAttribute('action', url)
+            let i = document.createElement('input')
+            i.setAttribute('type', 'text')
+            i.setAttribute('name', 'TBK_TOKEN')
+            i.setAttribute('value', token)
+            f.appendChild(i.cloneNode())
+            f.style.display = 'none'
+            document.body.appendChild(f)
+            f.submit()
+            document.body.removeChild(f)
+          }, 500)
         })
         .catch(err => {
           console.log(err)

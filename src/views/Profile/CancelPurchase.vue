@@ -257,10 +257,6 @@ export default {
   created() {
     this.getParameters()
   },
-  mounted() {
-    this.name = this.userData.usuario.email
-    this.rutApplicant = this.userData.usuario.rut
-  },
   computed: {
     ...mapGetters({
       userData: ['userData']
@@ -297,7 +293,7 @@ export default {
         if (this.search) {
           this.loading = true
           const params = {
-            codigo: this.code
+            codigo: this.code.trim()
           }
           const response = await API.searchTicket(params)
           this.tickets = response.data.map(item => {
@@ -318,6 +314,8 @@ export default {
             item.anular = false
             return item
           })
+          this.name = this.userData.usuario.email
+          this.rutApplicant = this.userData.usuario.rut
           if (this.tickets.length > 0) {
             this.search = false
           }
@@ -335,20 +333,21 @@ export default {
       this.code = ''
       this.tickets = []
       this.search = true
+      this.clearData()
     },
     clearData() {
-      this.clearTicketData()
-      this.name = ''
       this.accountNumber = ''
       this.rutHolder = ''
-      this.rutApplicant = ''
       this.selectedAccountType = ''
       this.selectedBank = ''
     },
     async submit() {
       try {
         this.loadingCancel = true
+        let cancelledItems = []
+        let index = -1
         for (let item of this.tickets) {
+          index++
           if (!item.anular) {
             continue
           }
@@ -357,7 +356,7 @@ export default {
           }
           let params = {
             boleto: item.boleto,
-            codigoTransaccion: this.code,
+            codigoTransaccion: this.code.trim(),
             integrador: item.integrador,
             tipoCuenta: this.selectedAccountType,
             banco: '',
@@ -382,6 +381,7 @@ export default {
               title: this.$t('cancellations_success'),
               type: 'info'
             })
+            cancelledItems.push(index)
           } else {
             const text =
               response.data.mensaje != null
@@ -395,6 +395,9 @@ export default {
             })
           }
         }
+        cancelledItems.forEach(item => {
+          this.tickets[item].puedeImprimir = false
+        })
         await API.sendEmail({
           email: this.userData.usuario.email
         })

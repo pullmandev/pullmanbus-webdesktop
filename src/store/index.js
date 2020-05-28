@@ -84,7 +84,10 @@ const store = new Vuex.Store({
       to: '',
       from: ''
     },
-    canDownload: 'FALSE'
+    canDownload: {
+      permission: 'FALSE',
+      code: ''
+    }
   },
   
   actions: {
@@ -268,7 +271,11 @@ const store = new Vuex.Store({
       commit('SET_SERVICE_TAB', {tab: payload.tab})
     },
     SET_CAN_DOWNLOAD ({commit}, payload) {
-      commit('SET_CAN_DOWNLOAD', {permission: payload.permission})
+      if (payload.type === 'permission') {
+        commit('SET_CAN_DOWNLOAD_PERMISSION', {permission: payload.permission})
+      } else {
+        commit('SET_CAN_DOWNLOAD_CODE', {code: payload.code})
+      }
     },
     SET_NEW_USER_SEARCHING_CITY ({commit}, payload) {
       if (payload.direction === 'from') {
@@ -449,8 +456,11 @@ const store = new Vuex.Store({
     SET_SERVICE_TAB: (state, {tab}) => {
       state.services.tab = tab
     },
-    SET_CAN_DOWNLOAD: (state, {permission}) => {
-      state.canDownload = permission
+    SET_CAN_DOWNLOAD_CODE: (state, {code}) => {
+      state.canDownload.code = code
+    },
+    SET_CAN_DOWNLOAD_PERMISSION: (state, {permission}) => {
+      state.canDownload.permission = permission
     },
     SHOW_RESUME: (state, {showResume}) => {
       state.services.showResume = showResume
