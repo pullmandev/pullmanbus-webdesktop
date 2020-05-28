@@ -16,7 +16,9 @@
             style="line-height: 20px"
           >
             {{ formTitle }}
-            <span v-if="name" class="body-2">{{ email }}</span>
+            <span v-if="userData.usuario.nombre" class="body-2">{{
+              email
+            }}</span>
           </h2>
         </v-toolbar-title>
       </v-toolbar>
@@ -226,11 +228,15 @@ export default {
       userData: ['userData']
     }),
     formTitle() {
-      let title = this.f_lastname
-        ? `${this.name} ${this.f_lastname}`
-        : this.name
-      title = title || this.email
-      return title
+      let { nombre, apellidoPaterno } = this.userData.usuario
+      let title = null
+      if (nombre) {
+        title = nombre
+        if (apellidoPaterno) {
+          title += ' ' + apellidoPaterno
+        }
+      }
+      return title != null ? title : this.email
     },
     formatedDate() {
       moment.locale(this.$i18n.locale)
