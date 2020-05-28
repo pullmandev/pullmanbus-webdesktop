@@ -74,6 +74,7 @@
                           class="seatWidth"
                         />
                         <v-btn
+                          :disabled="loadingPdf"
                           v-else-if="
                             seatIsInshoppingCart(
                               seat,
@@ -113,6 +114,7 @@
                         </v-btn>
                         <v-btn
                           v-else
+                          :disabled="loadingPdf"
                           fab
                           text
                           small
@@ -170,7 +172,7 @@
                   <v-col class="d-flex align-end justify-end">
                     <v-btn
                       outlined
-                      :disabled="!selectedSeats.length > 0"
+                      :disabled="!selectedSeats.length > 0 || loadingPdf"
                       @click="deleteSeats"
                       >{{ $t('cancel') }}</v-btn
                     >
@@ -180,7 +182,7 @@
                       @click="gettingTickets"
                       class="white--text"
                       color="orange"
-                      :disabled="!selectedSeats.length > 0"
+                      :disabled="!selectedSeats.length > 0 || loadingPdf"
                       >{{ $t('continue') }}</v-btn
                     >
                   </v-col>
@@ -207,6 +209,7 @@ export default {
   props: ['item', 'isXs', 'back'],
   data() {
     return {
+      loadingPdf: false,
       seatImageBase: '../../../../../static/logos/seats/',
       seatsImg: [
         { text: 'available_seats', number: '28' },
@@ -259,6 +262,7 @@ export default {
   methods: {
     async gettingTickets() {
       try {
+        this.loadingPdf = true
         this.$notify({
           group: 'load',
           title: this.$t('get_ticket'),
@@ -286,7 +290,9 @@ export default {
         }
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data
+        let nameRoute = 'ConfirmationServiceSucceed'
         if (!resultado.exito) {
+          nameRoute = 'ConfirmationServiceFail'
           const text =
             resultado.mensaje ||
             'Se genero un error inesperado al confirmar boleto'
@@ -296,15 +302,15 @@ export default {
             text,
             type: 'error'
           })
-          return
         }
-        console.log(response.data)
         this.$router.push({
-          name: 'ConfirmationServiceSucceed',
+          name: nameRoute,
           query: response.data
         })
       } catch (err) {
         console.error(err)
+      } finally {
+        this.loadingPdf = false
       }
     },
     async deleteSeats() {

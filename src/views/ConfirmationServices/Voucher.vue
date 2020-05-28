@@ -32,7 +32,7 @@
                   <h3 class="white--text headline">
                     Visualizar detalle de boleto
                   </h3>
-                  <a class="white--text body-1" @click="gettingTickets"
+                  <a class="white--text body-1" @click="toPDF(data.archivo)"
                     >Haz click aqui</a
                   >
                 </v-card-text>

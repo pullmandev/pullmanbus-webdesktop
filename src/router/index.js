@@ -16,6 +16,7 @@ import ConfirmationServicesContainer from '@/views/ConfirmationServices/Index.vu
 import ConfirmationSearchPanel from '@/views/ConfirmationServices/SearchPanel.vue'
 import ConfirmationServicesList from '@/views/ConfirmationServices/List/Index.vue'
 import ConfirmationServiceSucceed from '@/views/ConfirmationServices/Voucher.vue'
+import ConfirmationServiceFail from '@/views/ConfirmationServices/Fail.vue'
 
 // Profile
 import Profile from '@/views/Profile/Index'
@@ -150,6 +151,12 @@ const routes = [
         path: 'confirmationServiceSucceed',
         name: 'ConfirmationServiceSucceed',
         component: ConfirmationServiceSucceed,
+        props: route => ({ data: route.query })
+      },
+      {
+        path: 'confirmationServiceFail',
+        name: 'ConfirmationServiceFail',
+        component: ConfirmationServiceFail,
         props: route => ({ data: route.query })
       }
     ]
