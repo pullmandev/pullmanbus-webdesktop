@@ -369,7 +369,7 @@ export default {
       this.loadingPayAction = true
       this.makeTransaccion()
         .then(data => {
-          localStorage.setItem('permission', 'true')
+          this.$store.dispatch('SET_CAN_DOWNLOAD', { permission: 'OK' })
           const { url, token } = data
           // localStorage.url = url
           // localStorage.token = token

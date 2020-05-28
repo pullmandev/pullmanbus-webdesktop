@@ -1,5 +1,5 @@
 <template>
-  <div class="ProfileBackground">
+  <div class="ProfileBackground" id="profile">
     <router-view></router-view>
   </div>
 </template>

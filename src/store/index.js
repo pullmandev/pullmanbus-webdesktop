@@ -12,7 +12,7 @@ import moment from 'moment'
 Vue.use(Vuex)
 const store = new Vuex.Store({
   plugins: [createPersistedState({
-    paths: ['language', 'searching', 'searchingConfirmation', 'cities', 'seats','confirmationSeats', 'step', 'payment_info', 'userData']
+    paths: ['language', 'searching', 'canDownload', 'searchingConfirmation', 'cities', 'seats','confirmationSeats', 'step', 'payment_info', 'userData']
   })],
   state: {
     language: 'es',
@@ -40,7 +40,7 @@ const store = new Vuex.Store({
       banners: [],
       floorBanners: [],
       paymentBanners: []
-  },
+    },
     confirmationServices: {
       data: [],
       loading: false,
@@ -83,9 +83,10 @@ const store = new Vuex.Store({
     history: {
       to: '',
       from: ''
-    }
+    },
+    canDownload: 'FALSE'
   },
-
+  
   actions: {
     SET_SESSION_DIALOG ({commit}, payload) {
       if (payload.type === 'dialogType') commit('SET_SESSION_DIALOG_TYPE', {dialogType: payload.dialogType})
@@ -266,6 +267,9 @@ const store = new Vuex.Store({
     SET_SERVICE_TAB ({commit}, payload) {
       commit('SET_SERVICE_TAB', {tab: payload.tab})
     },
+    SET_CAN_DOWNLOAD ({commit}, payload) {
+      commit('SET_CAN_DOWNLOAD', {permission: payload.permission})
+    },
     SET_NEW_USER_SEARCHING_CITY ({commit}, payload) {
       if (payload.direction === 'from') {
         commit('SET_USER_SEARCHING_FROM_CITY', {city: payload.city})
@@ -444,6 +448,9 @@ const store = new Vuex.Store({
     },
     SET_SERVICE_TAB: (state, {tab}) => {
       state.services.tab = tab
+    },
+    SET_CAN_DOWNLOAD: (state, {permission}) => {
+      state.canDownload = permission
     },
     SHOW_RESUME: (state, {showResume}) => {
       state.services.showResume = showResume

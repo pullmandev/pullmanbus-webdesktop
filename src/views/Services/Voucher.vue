@@ -84,10 +84,8 @@ export default {
     }
   },
   mounted() {
-    this.download = localStorage.permission
-    console.log('before', localStorage.permission)
-    localStorage.setItem('permission', 'false')
-    console.log('after', localStorage.permission)
+    this.download = this.$store.state.canDownload
+    this.$store.dispatch('SET_CAN_DOWNLOAD', { permission: 'FALSE' })
     console.log(this.download)
     this.gettingTickets()
   },
@@ -100,7 +98,7 @@ export default {
   },
   methods: {
     gettingTickets() {
-      if (this.download == 'false') {
+      if (this.download !== 'OK') {
         return
       }
       this.$notify({
