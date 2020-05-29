@@ -1,5 +1,4 @@
 const base = 'https://pullman.cl' // prod
-const baseServ = 'https://servicios.pullmanbus.cl' // prod
 // const base = 'https://pullmanapi.pasajeschile.cl' // dev
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
@@ -8,7 +7,6 @@ const sesion = `${base}/srv-privado-web/rest/usuario`
 const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
 const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
-const serviciosVenta = `${baseServ}/serviciosVenta/rest/Servicios`
 const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
 export default {
@@ -42,8 +40,8 @@ export default {
   bancos: `${parametros}/obtenerBanco`,
   itinerario: `${parametros}/buscarItinerario`,
   obtenerFaq: `${parametros}/obtenerFaq`,
-  botonPago: `${serviciosVenta}/GetConvenio`,
-  validarConvenio: `${serviciosVenta}/GetDescuentoConvenio`,
+  botonPago: `${administracion}/private/convenio/getConvenio`,
+  validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
   buscarCaluga: `${administracion}/private/contenido/buscarCaluga`
 }
