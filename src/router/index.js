@@ -88,12 +88,12 @@ const routes = [
     component: ServicesContainer,
     children: [
       {
-        path: '',
+        path: '/',
         name: 'Services',
         component: ListContainer,
         children: [
           {
-            path: '',
+            path: '/',
             name: 'List',
             component: List
           },
