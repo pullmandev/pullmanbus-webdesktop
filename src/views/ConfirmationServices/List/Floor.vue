@@ -270,8 +270,10 @@ export default {
         })
         const seat = this.selectedSeats[0]
         const ticket = this.$store.state.searchingConfirmation.ticket
+        const fechaSubida = this.$store.state.searchingConfirmation.date
         const fechaServicio = this.formatDate(seat.fechaServicio)
-        const fechaSalida = this.formatDate(seat.fecha, seat.horaSalida)
+        const fechaSalida =
+          fechaSubida.split('-').join('') + seat.horaSalida.split(':').join('')
         const params = {
           boleto: ticket.boleto,
           clase: seat.clase,
