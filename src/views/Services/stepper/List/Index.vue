@@ -85,6 +85,7 @@ export default {
     };
   },
   mounted () {
+    this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Ida' })
     scrollAnimation('#paymentStepper')
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);

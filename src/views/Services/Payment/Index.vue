@@ -1,5 +1,6 @@
 <template>
   <v-container class="my-2">
+    <InvalidConvenio :open.sync="convDialog" @accept="validate" />
     <h1 class="blue_dark--text">{{ $t('payment_methods') }}</h1>
     <v-card class="elevation-2 my-12 rounded-search-box">
       <v-toolbar dense color="orange" class="white--text elevation-0">
@@ -82,7 +83,7 @@
                 color="orange"
                 :loading="loadingRutValidation"
                 class="white--text"
-                @click="validate"
+                @click="showDialogOrValidate"
               >
                 Validar
               </v-btn>
@@ -232,6 +233,7 @@
   </v-container>
 </template>
 <script>
+import InvalidConvenio from '@/views/Services/stepper/InvalidConvenioDiscount'
 import Terms from '@/views/Services/Payment/Terms'
 import { mapGetters } from 'vuex'
 import APITransaction from '@/services/api/transaction'
@@ -241,10 +243,12 @@ import _ from 'lodash'
 
 export default {
   components: {
-    Terms
+    Terms,
+    InvalidConvenio
   },
   data() {
     return {
+      convDialog: false,
       loadingRutValidation: false,
       loadingPayAction: false,
       selectedConvenio: '',
@@ -294,6 +298,14 @@ export default {
     }
   },
   methods: {
+    showDialogOrValidate() {
+      const withPromo = this.selectedSeats.filter(item => item.tomadoPromo)
+      if (withPromo.length > 0) {
+        this.convDialog = true
+      } else {
+        this.validate()
+      }
+    },
     toServices() {
       localStorage.fromFail = true
       this.$router.push({ name: 'ServicesPaymentData' })
