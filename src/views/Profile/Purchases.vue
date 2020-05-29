@@ -15,7 +15,7 @@
         <tr>
           <td class="text-xs-left">{{ props.item.codigo }}</td>
           <td class="text-xs-left">{{ props.item.estado }}</td>
-          <td class="text-xs-left">{{ props.item.fechacompra }}</td>
+          <td class="text-xs-left">{{ props.item.fechaCompraFormato }}</td>
           <td class="text-xs-left">{{ props.item.monto | currency }}</td>
           <td class="text-xs-left">
             <v-btn
@@ -160,12 +160,8 @@ export default {
     console.log('Mis compras', email)
     API.searchTransaction({ email })
       .then(response => {
-        console.log('Mis compras', response)
-        const data = response.data.map(item => {
-          item.fechacompra = moment(item.fechacompra).format('DD/MM/YYYY')
-          return item
-        })
-        this.transactions = data
+        console.log('Mis compras', response.data)
+        this.transactions = response.data
       })
       .catch(err => {
         console.err(err)
