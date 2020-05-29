@@ -56,7 +56,7 @@
                   <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
                 </td>
                 <td class="px-2">
-                  <span style="0.7rem">{{ props.item.terminalSalida }}</span>
+                  <span style="0.7rem">{{ props.item.terminalOrigen }}</span>
                 </td>
                 <td class="px-2">
                   <span style="0.7rem">{{ props.item.terminalDestino }}</span>
@@ -124,7 +124,9 @@
             <template v-slot:expanded-item="props">
               <td
                 :colspan="props.headers.length"
-                v-if="!props.item.tomadoPromo && props.item.hasPromo"
+                v-if="
+                  !props.item.tomadoPromo && props.item.hasPromo && !hasVuelta
+                "
               >
                 <v-row>
                   <v-col cols="8" md="8" sm="12">
@@ -222,23 +224,6 @@ export default {
       hasVuelta: ['hasVuelta'],
       banner: ['getServicePaymentBanners']
     }),
-    getSeatInfo() {
-      let seatsList = ''
-      this.selectedSeats.forEach((seat, index) => {
-        const seatByFloor = seat.piso > 0 ? `${seat.asiento}P2` : seat.asiento
-        const dot = index === 0 ? '' : '-'
-        seatsList = `${seatsList} ${dot} ${seatByFloor}`
-      })
-      return {
-        fromCity: this.searching.from_city.nombre,
-        toCity: this.searching.to_city.nombre,
-        fecha: this.selectedSeats[0].fecha,
-        hora: this.selectedSeats[0].horaSalida,
-        terminalSalida: this.selectedSeats[0].terminalSalida,
-        terminalLlegada: this.selectedSeats[0].terminalLlegada,
-        seats: seatsList
-      }
-    },
     headers() {
       let result = [
         { text: 'Tipo de viaje', value: 'vuelta' },
