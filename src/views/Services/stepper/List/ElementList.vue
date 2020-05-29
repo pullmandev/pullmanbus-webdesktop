@@ -214,7 +214,7 @@ export default {
     }),
     fechaSubida() {
       const dateFromStore =
-        this.selectedTab === 'tab-Vuelta'
+        this.selectedTab === 'tab-Vuelta' && this.hasVuelta
           ? this.fechaSubidaVuelta
           : this.fechaSubidaIda
       const dateItems = dateFromStore.split('-')
