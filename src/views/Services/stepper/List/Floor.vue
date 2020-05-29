@@ -283,7 +283,7 @@ import _ from 'lodash'
 // import moment from 'moment'
 
 export default {
-  props: ['item', 'isXs', 'back'],
+  props: ['item', 'isXs', 'back', 'fechaSubida'],
   data() {
     return {
       //confirmationSeats: [],
@@ -460,6 +460,7 @@ export default {
         hasPromo: this.serviceData.pisos[index].confirmation.idaVuelta,
         totalPromo: this.serviceData.pisos[index].confirmation.tarifaTotal,
         tomadoPromo: false,
+        fechaSubida: this.fechaSubida,
         descuento: 0
         // fechaTomada: moment.now()
       }

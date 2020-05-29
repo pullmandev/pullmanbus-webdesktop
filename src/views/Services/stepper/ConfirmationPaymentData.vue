@@ -62,7 +62,7 @@
                   <span style="0.7rem">{{ props.item.terminalDestino }}</span>
                 </td>
                 <td>
-                  <span style="0.7rem">{{ props.item.fecha }}</span>
+                  <span style="0.7rem">{{ props.item.fechaSubida }}</span>
                 </td>
                 <td class="text-center">
                   <span style="0.7rem">{{ props.item.horaSalida }}</span>
@@ -229,7 +229,7 @@ export default {
         { text: 'Tipo de viaje', value: 'vuelta' },
         {
           text: this.$t('from_city2'),
-          value: 'terminalSalida',
+          value: 'terminalOrigen',
           sortable: false
         },
         {
@@ -237,7 +237,7 @@ export default {
           value: 'terminalLlegada',
           sortable: false
         },
-        { text: this.$t('from_date2'), value: 'fecha', sortable: false },
+        { text: this.$t('from_date2'), value: 'fechaSubida', sortable: false },
         {
           text: this.$t('departure_hour'),
           value: 'horaSalida',
