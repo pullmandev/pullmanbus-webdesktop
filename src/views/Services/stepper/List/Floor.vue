@@ -184,20 +184,29 @@
                       <div class="text-right">
                         <hr />
                         <span
-                          :key="index"
+                          :key="seat.id + index"
                           v-for="(seat, index) in selectedSeats"
-                          class="d-block"
+                          class="d-flex align-center justify-end"
                           >{{ seat.servicioNombre }}
-                          <span class="caption mx-1" v-if="seat.tomadoPromo">{{
-                            '(CON PROMO)'
-                          }}</span
+                          <span
+                            class="caption mx-1 d-block"
+                            v-if="seat.tomadoPromo"
+                            >{{ '(PROMO)' }}</span
                           >-
-                          <strong
+                          <strong class="mx-1"
                             >${{
                               seat.tomadoPromo ? seat.totalPromo : seat.tarifa
                             }}</strong
-                          ></span
-                        >
+                          >
+                          <v-btn
+                            icon
+                            color="orange"
+                            @click="deleteSelectedSeat(seat)"
+                          >
+                            <v-icon>clear</v-icon>
+                          </v-btn>
+                        </span>
+
                         <hr />
                         <strong>{{ totalAmount | currency }}</strong>
                       </div>
@@ -337,6 +346,17 @@ export default {
     confirmationAmountFromDialog() {
       confirmationAmount(this.addedSeat)
     },
+    async deleteSelectedSeat(seat) {
+      try {
+        this.deleting = true
+        const index = this.selectedSeats.findIndex(item => item.id === seat.id)
+        if (index > -1) {
+          await deleteSeat(index)
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
     async deleteSeats() {
       const lenght = this.selectedSeats.length - 1
       for (let index = lenght; index >= 0; index--) {
@@ -359,6 +379,7 @@ export default {
       this.serviceData = {
         empresa: this.data.empresa,
         servicio: this.data.idServicio,
+        elementId: this.data.id,
         fecha: this.data.fechaSalida,
         fechaLlegada: this.data.fechaLlegada,
         fechaPasada: this.data.fechaSalida,
@@ -482,6 +503,7 @@ export default {
         this.$forceUpdate()
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
+        seat.id = seat.elementId + seat.piso + seat.asiento
         this.$store.dispatch('SET_SEAT', { seat })
         if (seat.hasPromo && !seat.tomadoPromo && !this.hasVuelta) {
           this.addedSeat = seat

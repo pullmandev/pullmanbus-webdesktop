@@ -7,7 +7,7 @@
     height="auto"
     v-if="showBanner"
   >
-    <v-carousel-item v-for="(item, i) in homeBanners" :key="i">
+    <v-carousel-item v-for="(item, i) in homeBanners.data" :key="i">
       <v-card color="white" style="color: black;" :min-height="height">
         <div class="d-flex flex-no-wrap justify-space-between">
           <v-img :height="height" :src="item.urlImagen" width="280"></v-img>
@@ -52,7 +52,7 @@ export default {
   computed: {
     ...mapState(['homeBanners']),
     showBanner() {
-      return this.homeBanners.length > 0
+      return this.homeBanners.data.length > 0 && !this.homeBanners.loading
     }
   }
 }

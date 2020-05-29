@@ -79,7 +79,10 @@ const store = new Vuex.Store({
       usuario: {},
       active: false
     },
-    homeBanners: [],
+    homeBanners: {
+      data: [],
+      loading: false
+    },
     history: {
       to: '',
       from: ''
@@ -366,8 +369,11 @@ const store = new Vuex.Store({
     DELETE_USER ({commit}) {
       commit('DELETE_USER')
     },
-    SET_HOME_BANNERS ({commit, state}) {
-      createBanners(state.searching, 1, commit)
+    SET_HOME_BANNERS ({commit, dispatch, state}) {
+      createBanners(state.searching, 1, commit, dispatch)
+    },
+    SET_HOME_BANNERS_LOADING ({commit}, payload) {
+      commit('SET_HOME_BANNERS_LOADING', {loading: payload.loading})
     },
     SET_SERVICE_BANNERS ({commit, state}) {
       createBanners(state.searching, 2, commit)
@@ -510,7 +516,10 @@ const store = new Vuex.Store({
       state.userData = userData
     },
     SET_HOME_BANNERS (state, {banners}) {
-      state.homeBanners = banners
+      state.homeBanners.data = banners
+    },
+    SET_HOME_BANNERS_LOADING (state, {loading}) {
+      state.homeBanners.loading = loading
     },
     SET_SERVICE_BANNERS (state, {banners}) {
       state.services.banners = banners

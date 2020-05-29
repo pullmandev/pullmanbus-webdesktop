@@ -36,8 +36,8 @@
           </v-card-text>
           <v-data-table
             :headers="headers"
-            :items="getSeatWithId"
-            :expanded="getSeatWithId"
+            :items="selectedSeats"
+            :expanded="selectedSeats"
             item-key="id"
             class="elevation-0"
             show-expand
@@ -191,9 +191,9 @@ export default {
   methods: {
     routeWithScroll,
     confirmationAmount,
-    async deleteSelected(item) {
+    async deleteSelected(seat) {
       this.deleting = true
-      const index = this.findSeatIndex(item.id)
+      const index = this.selectedSeats.findIndex(item => item.id === seat.id)
       if (index > -1) {
         await deleteSeat(index)
       }
@@ -210,12 +210,6 @@ export default {
         result = content.replace('${1}', priceText)
       }
       return result
-    },
-    findSeatIndex(id) {
-      const index = this.selectedSeats.findIndex(
-        item => id === item.servicio + item.piso + item.asiento
-      )
-      return index
     }
   },
   computed: {
@@ -228,13 +222,6 @@ export default {
       hasVuelta: ['hasVuelta'],
       banner: ['getServicePaymentBanners']
     }),
-    getSeatWithId() {
-      const result = this.selectedSeats.map(seat => {
-        const id = seat.servicio + seat.piso + seat.asiento
-        return { ...seat, id }
-      })
-      return result
-    },
     getSeatInfo() {
       let seatsList = ''
       this.selectedSeats.forEach((seat, index) => {

@@ -17,7 +17,7 @@ function createDefaultObject(type) {
   }
   return result
 }
-function createBanners(searching, type, commit) {
+function createBanners(searching, type, commit, dispatch) {
   const { from_city, to_city, from_date } = searching
   if (from_city != null && to_city != null && from_date != null) {
     const params = {
@@ -26,6 +26,7 @@ function createBanners(searching, type, commit) {
       fechaSalida: from_date.replace(/-/g, ''),
       etapa: type
     }
+    if (dispatch) dispatch('SET_HOME_BANNERS_LOADING', { loading: true })
     APIBanners.searchBanner(params)
       .then(response => {
         const data = response.data
@@ -60,6 +61,9 @@ function createBanners(searching, type, commit) {
       })
       .catch(err => {
         console.log(err)
+      })
+      .finally(() => {
+        if (dispatch) dispatch('SET_HOME_BANNERS_LOADING', { loading: false })
       })
   }
 }
