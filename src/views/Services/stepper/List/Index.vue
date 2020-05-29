@@ -15,7 +15,7 @@
                   class="title ml-3"
                   :class="{ 'body-1': windowSize.x <= 960 }"
                 >
-                  <template v-if="selectedTab === 'tab-Vuelta'">
+                  <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
                     Fecha de vuelta: {{ formatDate(searching.to_date) }}
                   </template>
                   <template v-else>
@@ -67,7 +67,8 @@
 </template>
 <script>
 /* eslint-disable */
-import List from "@/views/Services/stepper/List/ElementList";
+import List from "@/views/Services/stepper/List/ElementList"
+import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from "vuex";
 import moment from "moment";
 import _ from 'lodash'
@@ -84,6 +85,7 @@ export default {
     };
   },
   mounted () {
+    scrollAnimation('#paymentStepper')
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
     })

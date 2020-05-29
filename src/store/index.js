@@ -171,6 +171,8 @@ const store = new Vuex.Store({
         }
         if (payload.goTo) {
           router.push('/services')
+        } else if (router.currentRoute.name === 'ServicesPaymentData') {
+          router.go(-1)
         }
         if (resultData) {
           commit('SET_SERVICES_LIST', {list: resultData})
