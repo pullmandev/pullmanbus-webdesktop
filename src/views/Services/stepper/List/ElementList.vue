@@ -134,6 +134,10 @@
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
                   :fechaSubida="fechaSubida"
+                  :fechaIda="fechaSubidaIda"
+                  :fechaVuelta="fechaSubidaVuelta"
+                  :ciudadOrigen="ciudadOrigen"
+                  :ciudadDestino="ciudadDestino"
                   @confirm="goToPayment"
                 />
                 <v-alert
@@ -179,6 +183,8 @@ export default {
     return {
       fechaSubidaIda: this.$store.state.searching.from_date,
       fechaSubidaVuelta: this.$store.state.searching.to_date,
+      ciudadOrigen: this.$store.state.searching.from_city.codigo,
+      ciudadDestino: this.$store.state.searching.to_city.codigo,
       serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },

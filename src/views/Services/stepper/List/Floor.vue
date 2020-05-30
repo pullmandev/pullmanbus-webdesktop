@@ -283,7 +283,16 @@ import _ from 'lodash'
 // import moment from 'moment'
 
 export default {
-  props: ['item', 'isXs', 'back', 'fechaSubida'],
+  props: [
+    'item',
+    'isXs',
+    'back',
+    'fechaSubida',
+    'fechaIda',
+    'fechaVuelta',
+    'ciudadOrigen',
+    'ciudadDestino'
+  ],
   data() {
     return {
       //confirmationSeats: [],
@@ -418,11 +427,30 @@ export default {
         this.$emit('confirm')
       }
     },
+    searchSeats(type) {
+      const result = this.seatsByTravel(type).filter(item => {
+        return (
+          item.fechaIda === this.fechaIda &&
+          item.fechaVuelta === this.fechaVuelta &&
+          item.ciudadOrigen === this.ciudadOrigen &&
+          item.ciudadDestino === this.ciudadDestino
+        )
+      })
+      return result.length > 0
+    },
     showModal() {
       if (this.hasVuelta) {
-        const hasBackServices = this.seatsByTravel(true).length > 0
-        const hasGoServices = this.seatsByTravel().length > 0
-        if (!hasBackServices && hasGoServices) {
+        const hasBackServices = this.searchSeats(true)
+        const hasGoServices = this.searchSeats()
+        console.log(hasBackServices, hasGoServices)
+        if (!hasBackServices && !hasGoServices) {
+          if (this.$store.state.services.tab === 'tab-Vuelta') {
+            this.$emit('confirm')
+          } else {
+            this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Vuelta' })
+            scrollAnimation('#serviceToolbar')
+          }
+        } else if (!hasBackServices && hasGoServices) {
           if (this.$store.state.services.tab === 'tab-Vuelta') {
             this.messageType = true
             this.dialog = true
@@ -461,6 +489,10 @@ export default {
         totalPromo: this.serviceData.pisos[index].confirmation.tarifaTotal,
         tomadoPromo: false,
         fechaSubida: this.fechaSubida,
+        ciudadOrigen: this.ciudadOrigen,
+        ciudadDestino: this.ciudadDestino,
+        fechaIda: this.fechaIda,
+        fechaVuelta: this.fechaVuelta,
         descuento: 0
         // fechaTomada: moment.now()
       }
