@@ -29,8 +29,8 @@
                 class="body-1 d-block"
                 :class="{
                   'orange--text textMatch subtitle-1':
-                    city.cityId === searching.from_city.codigo ||
-                    city.cityId === searching.to_city.codigo
+                    city.cityId === searching.ticket.ciudadOrigen ||
+                    city.cityId === searching.ticket.ciudadDestino
                 }"
                 v-for="(city, i) in cities"
                 :key="i"
@@ -43,8 +43,8 @@
                 class="body-1 d-block"
                 :class="{
                   'orange--text textMatch subtitle-1':
-                    terminal.cityId === searching.from_city.codigo ||
-                    terminal.cityId === searching.to_city.codigo
+                    terminal.cityId === searching.ticket.ciudadOrigen ||
+                    terminal.cityId === searching.ticket.ciudadDestino
                 }"
                 v-for="(terminal, i) in terminals"
                 :key="i"
@@ -57,8 +57,8 @@
                 class="body-1 d-block"
                 :class="{
                   'orange--text textMatch subtitle-1':
-                    hour.cityId === searching.from_city.codigo ||
-                    hour.cityId === searching.to_city.codigo
+                    hour.cityId === searching.ticket.ciudadOrigen ||
+                    hour.cityId === searching.ticket.ciudadDestino
                 }"
                 v-for="(hour, i) in hours"
                 :key="i"
@@ -91,7 +91,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      searching: ['getSearching']
+      searching: ['getSearchingConfirmation']
     }),
     itinerary: {
       get() {
