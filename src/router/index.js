@@ -74,7 +74,7 @@ const routes = [
         path: '/changeTicket',
         name: 'ChangeTicket',
         component: ChangeTicket,
-        props: route => ({ ticketParam: route.query })
+        props: route => ({ params: route.query })
       },
       {
         path: '/searchTicket',

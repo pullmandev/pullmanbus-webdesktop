@@ -82,11 +82,11 @@ export default {
       try {
         this.loading = true
         const response = await API.searchTicket({ boleto: this.ticket })
-        console.log(response.data)
-        if (!response.data.valorFormateado === '') {
+        if (response.data.valorFormateado === '') {
           this.$notify({
             group: 'error',
             title: 'Error al solicitar datos de boleto',
+            text: 'Verifique el boleto e intentelo de nuevo',
             type: 'error'
           })
         } else {
@@ -95,7 +95,10 @@ export default {
             title: 'Datos de boleto entregados',
             type: 'info'
           })
-          this.$router.push({ name: 'ChangeTicket', query: response.data })
+          this.$router.push({
+            name: 'ChangeTicket',
+            query: { data: response.data, ticket: this.ticket }
+          })
         }
       } catch (err) {
         console.error(err)

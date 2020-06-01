@@ -16,14 +16,14 @@
                 outlined
                 dense
                 v-model="code"
-                :disabled="!search"
+                :disabled="search"
                 :rules="generalRules"
                 required
               ></v-text-field>
             </v-col>
             <v-col cols="6" md="6">
               <v-btn
-                @click="Consult"
+                @click="consultAndFillTable"
                 color="blue"
                 :loading="loading"
                 :disabled="!validCodeForm"
@@ -32,12 +32,12 @@
                 <span>Consultar</span>
               </v-btn>
               <v-btn
-                @click="code = ''"
+                @click="clear"
                 text
                 :disabled="!validCodeForm"
                 class="ml-3"
               >
-                <span>Borrar</span>
+                <span>{{ search ? 'Buscar' : 'Borrar' }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -61,10 +61,10 @@
               <td class="text-left pa-1">
                 {{ props.item.destinoNombre }}
               </td>
-              <td class="text-center">
+              <td class="text-left">
                 {{ props.item.estadoActualDescripcion }}
               </td>
-              <td class="text-center">{{ props.item.horaEmbarcacion }}</td>
+              <td class="text-left">{{ props.item.horaEmbarcacion }}</td>
               <td class="text-center">{{ props.item.asiento }}</td>
             </tr>
           </template>
@@ -194,12 +194,12 @@ import { mapGetters } from 'vuex'
 import validations from '@/helpers/fieldsValidation'
 
 export default {
-  props: ['ticketParam'],
+  props: ['params'],
   data() {
     return {
       loading: false,
       loadingExchange: false,
-      search: true,
+      search: false,
       validTicket: false,
       validForm: false,
       validCodeForm: false,
@@ -209,8 +209,8 @@ export default {
       email: '',
       date: null,
       hour: null,
-      ticket: this.ticketParam,
-      code: this.ticketParam.boleto,
+      ticket: this.params.data,
+      code: this.params.ticket,
       generalRules: [v => !!v || 'Este campo es requerido'],
       emailRules: [
         v => !!v || 'E-mail es requerido',
@@ -264,7 +264,7 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted', this.ticket)
+    console.log('mounted', this.params)
     this.Consult()
   },
   computed: {
@@ -277,6 +277,63 @@ export default {
     }
   },
   methods: {
+    async consultAndFillTable() {
+      this.searchTicket()
+      this.Consult()
+    },
+    async searchTicket() {
+      try {
+        this.loading = true
+        const response = await API.searchTicket({ boleto: this.code })
+        console.log('Searching', response.data)
+        if (response.data.valorFormateado === '') {
+          this.$notify({
+            group: 'error',
+            title: 'Error al solicitar datos de boleto',
+            text: 'Verifique el boleto e intentelo de nuevo',
+            type: 'error'
+          })
+        } else {
+          this.ticket = response.data
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loading = false
+      }
+    },
+    async Consult() {
+      try {
+        this.loading = true
+        const response = await API.validateTicket({
+          boleto: this.code
+        })
+        console.log('Apto?', response.data)
+        if (!response.data.exito) {
+          const { mensaje } = response.data
+          const text = mensaje || 'Se genero un error al canjear boleto'
+          this.validTicket = false
+          this.$notify({
+            group: 'error',
+            title: 'Error al validar boleto',
+            type: 'error',
+            text
+          })
+        } else {
+          this.validTicket = true
+          this.$notify({
+            group: 'info',
+            title: 'El boleto es apto para canje',
+            type: 'info'
+          })
+          this.search = true
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loading = false
+      }
+    },
     async submit() {
       try {
         const params = {
@@ -287,6 +344,7 @@ export default {
         }
         this.loadingExchange = true
         const response = await API.exchangeTicket(params)
+        console.log(response.data)
         if (response.data.exito) {
           this.$notify({
             group: 'info',
@@ -313,36 +371,6 @@ export default {
         this.loadingExchange = false
       }
     },
-    async Consult() {
-      try {
-        this.loading = true
-        const response = await API.validateTicket({
-          boleto: this.ticket.boleto
-        })
-        if (!response.data.exito) {
-          const { mensaje } = response.data
-          const text = mensaje || 'Se genero un error al canjear boleto'
-          this.validTicket = false
-          this.$notify({
-            group: 'error',
-            title: 'Error al validar boleto',
-            type: 'error',
-            text
-          })
-        } else {
-          this.validTicket = true
-          this.$notify({
-            group: 'info',
-            title: 'El boleto es apto para canje',
-            type: 'info'
-          })
-        }
-      } catch (err) {
-        console.error(err)
-      } finally {
-        this.loading = false
-      }
-    },
     validateTicketDate(date) {
       const ticketHour = moment(date, 'YYYY-MM-DD HH:mm')
       const today = moment()
@@ -356,6 +384,13 @@ export default {
         })
       }
       return result
+    },
+    clear() {
+      this.search = false
+      this.code = ''
+      this.validTicket = false
+      this.email = ''
+      this.rut = ''
     }
   }
 }
