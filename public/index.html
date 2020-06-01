@@ -7,12 +7,48 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.jpeg">
     <link rel="shortcut icon" type="image/png" href="/img/icon/favicon.png">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta name="description" content="Bienvenido a Pullman Bus. Somos una de las grandes empresas de transporte terrestre en Chile, con más de 74 años de experiencia en el rubro"/>
+    <meta name="keywords" content="Pasajes en Bus, Pullman Bus, Pasajes Bus, Pasajes online"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Organization",
+        "name": "Pullman Bus",
+        "url": "https://www.pullmanbus.cl",
+        "logo": "https://www.pullmanbus.cl/img/pullman%20bus_blanco.601f027d.png",
+        "description": "Bienvenido a Pullman Bus. Somos una de las grandes empresas de transporte terrestre en Chile, con más de 74 años de experiencia en el rubro",
+        "sameAs" : [
+          "https://www.facebook.com/Pullman.cl/",
+          "https://twitter.com/pullmanbus",
+          "https://www.instagram.com/pullman.cl/"
+        ],
+        "contactPoint" : [
+          {
+            "@type" : "ContactPoint",
+            "telephone": "600 600 0018",
+            "email" : "info@pullmanbus.cl",
+            "url": "https://www.pullmanbus.cl/contact",
+            "contactType" : "customer support",
+            "availableLanguage": ["English", "Spanish"],
+            "sameAs": [ "https://www.pullmanbus.cl/contacto" ]
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "Website",
+        "name": "pullman.cl",
+        "url": "https://www.pullmanbus.cl"
+      }
+    </script>
   </head>
   <body>
     <noscript>
