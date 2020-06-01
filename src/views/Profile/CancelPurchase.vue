@@ -359,9 +359,6 @@ export default {
           if (!item.anular) {
             continue
           }
-          if (!this.validateTicketDate(item.imprimeVoucher.fechaHoraSalida)) {
-            continue
-          }
           let params = {
             boleto: item.boleto,
             codigoTransaccion: this.code.trim(),
@@ -416,20 +413,6 @@ export default {
         scrollAnimation('#profile')
         this.loadingCancel = false
       }
-    },
-    validateTicketDate(date) {
-      const ticketHour = moment(date, 'YYYY-MM-DD HH:mm')
-      const today = moment()
-      const diff = ticketHour.diff(today, 'seconds')
-      const result = diff > 3600 * 4
-      if (!result) {
-        this.$notify({
-          group: 'error',
-          title: 'Pasaje fuera del plazo para anular',
-          type: 'error'
-        })
-      }
-      return result
     }
   }
 }
