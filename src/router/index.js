@@ -38,6 +38,7 @@ import MenuForm from '@/views/Menu/Form'
 import MenuContainer from '@/views/Menu/Index'
 import ChangeTicket from '@/views/Menu/ChangeTicket/ChangeTicket'
 import SearchTicket from '@/views/Menu/ChangeTicket/SearchTicket'
+import Contact from '@/views/Menu/Contact'
 
 //Docs
 import Docs from '@/views/Docs/Index'
@@ -80,6 +81,11 @@ const routes = [
         path: '/searchTicket',
         name: 'SearchTicket',
         component: SearchTicket
+      },
+      {
+        path: '/contact',
+        name: 'Contact',
+        component: Contact
       }
     ]
   },

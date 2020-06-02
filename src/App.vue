@@ -78,8 +78,7 @@ export default {
         {
           title: 'Contacto',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/contacto.jsf'
+          route: 'Contact'
         },
         {
           title: 'CONFIRMACION DE REGRESO',
@@ -117,4 +116,8 @@ $themeColor: var(--var-orange);
 @include track('.v-menu__content');
 @include scrollbar('.v-menu__content');
 @include thumb('.v-menu__content', var(--var-blue));
+
+@include track('textarea');
+@include scrollbar('textarea');
+@include thumb('textarea', var(--var-blue));
 </style>
