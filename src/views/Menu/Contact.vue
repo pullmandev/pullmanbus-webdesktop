@@ -26,7 +26,7 @@
         <v-container class="pt-0">
           <v-form v-model="validForm">
             <v-row>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
                   outlined
@@ -38,7 +38,7 @@
                   :rules="rutRules"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
                   outlined
@@ -51,7 +51,7 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
                   outlined
@@ -62,7 +62,7 @@
                   color="blue"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
                   outlined
@@ -73,7 +73,7 @@
                   color="blue"
                 ></v-text-field>
               </v-col>
-              <v-col lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
                   outlined
@@ -86,7 +86,7 @@
                   required
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   :value="homePhone"
                   @input="homePhoneInput"
@@ -101,7 +101,7 @@
                   class="phone"
                 />
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   :value="phone"
                   @input="phoneInput"
@@ -118,8 +118,9 @@
                   class="phone"
                 />
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
+                  maxLength="9"
                   filled
                   outlined
                   dense
@@ -129,7 +130,7 @@
                   color="blue"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-autocomplete
                   v-model="motivo"
                   :items="motivos"
@@ -138,6 +139,10 @@
                   dense
                   label="Motivo de contacto"
                   color="blue"
+                  item-text="nombre"
+                  item-value="codigo"
+                  required
+                  :rules="generalRules"
                 />
               </v-col>
               <v-col cols="12" class="ml-3 mr-3">
@@ -208,7 +213,8 @@ export default {
   created() {
     APIParams.getMotivoContacto()
       .then(response => {
-        this.motivo = response.data
+        this.motivos = response.data
+        console.log(response.data)
       })
       .catch(err => console.error(err))
   },
@@ -239,12 +245,14 @@ export default {
           apellidoMaterno: this.m_lastname,
           email: this.email,
           telefono: this.homePhone,
-          celular: this.phone,
+          celular: '+569' + this.phone,
           boleto: this.ticket,
           motivo: this.motivo,
           nota: this.note
         }
+        console.log(params)
         const response = await APIUser.sendContact(params)
+        console.log(response.data)
         if (!response.data.exito) {
           this.$notify({
             group: 'error',
