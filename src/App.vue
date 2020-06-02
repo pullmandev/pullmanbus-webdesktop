@@ -45,11 +45,6 @@ export default {
             'https://www.pullmanbus.cl/portalWAR/paginas/contenido/agencias.jsf#header'
         },
         {
-          title: 'Pullman Pass',
-          icon: 'mdi-chevron-right',
-          link: 'https://www.pullmanbus.cl/portalWAR/paginas/contenido/pass.jsf'
-        },
-        {
           title: 'Viajes Especiales',
           icon: 'mdi-chevron-right',
           route: 'Trip'
@@ -79,6 +74,11 @@ export default {
           title: 'Contacto',
           icon: 'mdi-chevron-right',
           route: 'Contact'
+        },
+        {
+          title: 'Pullman Pass',
+          icon: 'mdi-chevron-right',
+          route: 'PullmanPass'
         },
         {
           title: 'CONFIRMACION DE REGRESO',

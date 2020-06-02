@@ -46,6 +46,7 @@ import Terms from '@/views/Docs/Terms'
 import Rights from '@/views/Docs/Rights'
 import FAQs from '@/views/Docs/FAQs'
 import Privacy from '@/views/Docs/Privacy'
+import PullmanPass from '@/views/Docs/PullmanPass'
 
 Vue.use(VueRouter)
 
@@ -228,6 +229,11 @@ const routes = [
         path: 'privacy',
         name: 'privacy',
         component: Privacy
+      },
+      {
+        path: 'pullmanPass',
+        name: 'PullmanPass',
+        component: PullmanPass
       }
     ]
   },
