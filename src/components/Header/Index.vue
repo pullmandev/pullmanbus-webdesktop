@@ -12,6 +12,17 @@
         </div>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn text>
+        <v-icon>mdi-chevron-right</v-icon>
+        <a
+          href="http://ventasctacte.pullman.cl/odp"
+          class="white--text"
+          style="text-decoration: none"
+          target="_blank"
+        >
+          CUENTA CORRIENTE
+        </a>
+      </v-btn>
       <v-btn text :to="{ name: 'ConfirmationServicesPanel' }">
         <v-icon>mdi-chevron-right</v-icon>
         CONFIRMACION DE REGRESO
@@ -74,7 +85,7 @@
             height="30"
             width="30"
           />
-          Iniciar sesion
+          Inicio sesión
         </v-btn>
       </template>
       <template v-else>

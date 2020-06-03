@@ -41,24 +41,22 @@ export default {
         {
           title: 'Agencias',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/agencias.jsf#header'
+          route: 'Agencies'
         },
         {
           title: 'Viajes Especiales',
           icon: 'mdi-chevron-right',
           route: 'Trip'
         },
-        {
-          title: 'Cuenta Corriente',
-          icon: 'mdi-chevron-right',
-          route: 'CurrentAccount'
-        },
+        // {
+        //   title: 'Cuenta Corriente',
+        //   icon: 'mdi-chevron-right',
+        //   route: 'CurrentAccount'
+        // },
         {
           title: 'Convenio',
           icon: 'mdi-chevron-right',
-          link:
-            'https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header'
+          route: 'Convenios'
         },
         {
           title: 'Cambio boleto',

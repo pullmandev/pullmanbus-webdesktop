@@ -3,6 +3,11 @@
     <v-container fluid>
       <!-- Card date passenger -->
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
+        <div class="white--text text-left orange passenger-data-advice">
+          <span class="ml-10">
+            Horario en promoción
+          </span>
+        </div>
         <v-card-text>
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
@@ -38,6 +43,8 @@
             :headers="headers"
             :items="selectedSeats"
             :expanded="selectedSeats"
+            :sort-by="['fechaSubida', 'horaSalida']"
+            :sort-desc="[false, false]"
             item-key="id"
             class="elevation-0"
             show-expand
@@ -266,5 +273,13 @@ export default {
   width: 90px;
   height: 10px;
   transform: rotate(-60deg);
+}
+
+.passenger-data-advice {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: -100px;
+  transform: rotate(-58deg);
+  font-size: 0.7rem !important;
 }
 </style>

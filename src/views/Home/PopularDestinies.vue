@@ -4,7 +4,7 @@
     subTitle="Infórmate sobre nuestros servicios, convenios y otros"
     :itemTitle="[
       'Pullman Bus en Teletrece',
-      'Instalaión túnel sanatizador',
+      'Instalación túnel sanitizador',
       'Tecnologías de Pullman Bus para pasajes y terminales',
       'Hermanos Bolivianos'
     ]"

@@ -250,9 +250,7 @@ export default {
           motivo: this.motivo,
           nota: this.note
         }
-        console.log(params)
         const response = await APIUser.sendContact(params)
-        console.log(response.data)
         if (!response.data.exito) {
           this.$notify({
             group: 'error',
@@ -266,12 +264,25 @@ export default {
             title: 'Solicitud enviada exitosamente',
             type: 'info'
           })
+          this.clear()
         }
       } catch (err) {
         console.error(err)
       } finally {
         this.loading = false
       }
+    },
+    clear() {
+      this.name = ''
+      this.f_lastname = ''
+      this.m_lastname = ''
+      this.email = ''
+      this.rut = ''
+      this.note = ''
+      this.phone = ''
+      this.homePhone = ''
+      this.motivo = ''
+      this.ticket = ''
     }
   }
 }
