@@ -1,12 +1,19 @@
 <template>
-  <v-container fluid>
-    <v-card max-width="300">
-      <v-img :src="img" class="white--text align-end" contain height="260px">
-      </v-img>
-      <div class="content-text-container">
-        <v-card-text
-          style="background-color: white; position: absolute; bottom: 0"
+  <v-container fluid class="d-flex justify-center">
+    <v-card width="300" height="400" class="d-flex flex-column justify-center">
+      <div class="d-flex justify-center">
+        <v-img
+          :src="img"
+          class="white--text align-end"
+          contain
+          height="200px"
+          max-width="250px"
+          position="center center"
         >
+        </v-img>
+      </div>
+      <div class="content-text-container">
+        <v-card-text>
           <div class="d-block">
             <strong style="font-size: 0.9rem">{{ title }}</strong>
             <p class="body-2">
@@ -36,7 +43,6 @@ export default {
   word-break: break-word;
 }
 .content-text-container {
-  height: 132px;
   position: relative;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
