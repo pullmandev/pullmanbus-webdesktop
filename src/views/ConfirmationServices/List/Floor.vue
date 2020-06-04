@@ -270,10 +270,10 @@ export default {
         })
         const seat = this.selectedSeats[0]
         const ticket = this.$store.state.searchingConfirmation.ticket
-        const fechaSubida = this.$store.state.searchingConfirmation.date
         const fechaServicio = this.formatDate(seat.fechaServicio)
         const fechaSalida =
-          fechaSubida.split('-').join('') + seat.horaSalida.split(':').join('')
+          seat.fechaSubida.split('-').join('') +
+          seat.horaSalida.split(':').join('')
         const params = {
           boleto: ticket.boleto,
           clase: seat.clase,
@@ -290,6 +290,7 @@ export default {
           piso: seat.piso + 1,
           email: ticket.email
         }
+        console.log('params', params)
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data
         let nameRoute = 'ConfirmationServiceSucceed'
@@ -329,6 +330,7 @@ export default {
         fechaLlegada: this.data.fechaLlegada,
         fechaPasada: this.data.fechaSalida,
         fechaServicio: this.data.fechaServicio,
+        fechaSubida: this.data.fechaSubida,
         horaSalida: this.data.horaSalida,
         horaLlegada: this.data.horaLlegada,
         origen: this.data.idTerminalOrigen,

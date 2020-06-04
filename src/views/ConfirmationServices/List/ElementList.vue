@@ -38,7 +38,9 @@
                   </span>
                 </v-col>
                 <v-col cols="2">
-                  <span class="body-2 d-block">{{ fechaSubida }}</span>
+                  <span class="body-2 d-block">{{
+                    formatDate(service.fechaSubida)
+                  }}</span>
                   <span
                     class="headline d-block"
                     style="font-size: 1rem !important;"
@@ -151,9 +153,6 @@ export default {
     Dialog
   },
   mounted() {
-    const searchingDate = this.$store.state.searchingConfirmation.date
-    const dateItems = searchingDate.split('-')
-    this.fechaSubida = `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
@@ -195,8 +194,13 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      const dateItems = date.split('-')
+      return `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
+    },
     hoursDifference(service) {
-      const from = this.fechaSubida + 'T' + service.horaSalida
+      const from =
+        this.formatDate(service.fechaSubida) + 'T' + service.horaSalida
       const to = service.fechaLlegada + 'T' + service.horaLlegada
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)
