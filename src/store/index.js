@@ -207,9 +207,9 @@ const store = new Vuex.Store({
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
     },
-    LOAD_CONFIRMATION_SERVICES_LIST ({commit, dispatch, state}) {
+    LOAD_CONFIRMATION_SERVICES_LIST ({commit, dispatch, state}, payload) {
       let errorMessage = null
-      if (state.searchingConfirmation.date == null || state.searchingConfirmation.date === '') {
+      if (payload.date == null || payload.date === '') {
         errorMessage = this.$tc('no_going_date')
       }
       if (errorMessage !== null) {
@@ -226,12 +226,12 @@ const store = new Vuex.Store({
       APIService.get({
         origen: state.searchingConfirmation.ticket.ciudadOrigen,
         destino: state.searchingConfirmation.ticket.ciudadDestino,
-        fecha: state.searchingConfirmation.date.replace(/-/g, ''),
+        fecha: payload.date.replace(/-/g, ''),
         hora: '0000',
         idSistema: 7
       }).then(response => {
         const resultData = response.data.map(item => {
-          return {...item, fechaSubida: state.searchingConfirmation.date}
+          return {...item, fechaSubida: payload.date}
         })
         console.log('resultData', resultData)
         if (resultData.length <= 0) {

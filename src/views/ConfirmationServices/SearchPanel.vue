@@ -21,39 +21,7 @@
               <v-form v-model="validForm">
                 <v-row>
                   <v-col cols="12" md="4">
-                    <v-menu
-                      v-model="pickerMenu"
-                      :close-on-content-click="false"
-                      transition="scale-transition"
-                      color="blue-dark"
-                      max-width="290px"
-                      min-width="290px"
-                    >
-                      <template v-slot:activator="{ on }">
-                        <v-text-field
-                          filled
-                          outlined
-                          dense
-                          label="Fecha"
-                          v-on="on"
-                          color="grey lighten-4"
-                          v-model="formatedDate"
-                          readonly
-                          :rules="generalRules"
-                        >
-                        </v-text-field>
-                      </template>
-                      <v-date-picker
-                        min="1920-01-01"
-                        v-model="date"
-                        color="blue_dark"
-                        :allowed-dates="enableToDate"
-                        @input="pickerMenu = false"
-                        :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
-                        :locale="$t('locale')"
-                      >
-                      </v-date-picker>
-                    </v-menu>
+                    <ConfirmDatePicker v-model="date" :rules="generalRules" />
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field
@@ -131,6 +99,7 @@
 <script>
 // Base components
 import moment from 'moment'
+import ConfirmDatePicker from '@/views/ConfirmationServices/ConfirmDatePicker'
 import { mapGetters } from 'vuex'
 import API from '@/services/api/confirmationTicket'
 import scrollAnimation from '@/helpers/scrollAnimation'
@@ -139,13 +108,16 @@ import _ from 'lodash'
 
 export default {
   props: ['type'],
+  components: {
+    ConfirmDatePicker
+  },
   data() {
     return {
       loading: false,
-      pickerMenu: false,
       validForm: false,
       ticket: '',
       email: '',
+      date: null,
       confirmemail: '',
       emailRules: [
         v => !!v || 'E-mail es requerido',
@@ -158,38 +130,16 @@ export default {
   computed: {
     ...mapGetters({
       loadingServices: ['getConfirmationLoadingService']
-    }),
-    date: {
-      get() {
-        return this.$store.state.searchingConfirmation.date
-      },
-      set(value) {
-        this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
-          date: value,
-          type: 'date'
-        })
-      }
-    },
-    formatedDate() {
-      moment.locale(this.$i18n.locale)
-      return this.date != null ? moment(this.date).format('LL') : null
-    },
-    enableToDate() {
-      const fromDate = moment().subtract(1, 'days')
-      return date => {
-        const diff = moment(date).diff(fromDate) > -1 && this.lessThan45(date)
-        return diff
-      }
-    }
+    })
   },
   mounted() {
     scrollAnimation('#idSearchConfirm')
+    this.date = moment()
+      .format()
+      .split(':')[0]
+      .split('T')[0]
   },
   methods: {
-    lessThan45(date) {
-      const limit = moment().add(45, 'days')
-      return moment(date).diff(limit, 'days') < 0
-    },
     validateSearch() {
       this.loading = true
       this.$notify({
@@ -222,7 +172,13 @@ export default {
             ticket,
             type: 'ticket'
           })
-          this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
+          this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST', {
+            date: this.date
+          })
+          this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
+            date: this.date,
+            type: 'date'
+          })
         })
         .catch(err => {
           console.error(err)
