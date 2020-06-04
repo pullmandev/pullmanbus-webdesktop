@@ -68,7 +68,18 @@ export default {
   },
   methods: {
     validateSearch() {
-      this.$store.dispatch('LOAD_SERVICES_LIST', {})
+      const {
+        from_date,
+        to_date,
+        from_city,
+        to_city
+      } = this.$store.state.searching
+      this.$store.dispatch('LOAD_SERVICES_LIST', {
+        fromDate: from_date,
+        toDate: to_date,
+        fromCity: from_city,
+        toCity: to_city
+      })
     }
   }
 }

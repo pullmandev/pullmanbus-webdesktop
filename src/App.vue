@@ -21,7 +21,6 @@ import ErrorAlert from '@/components/Notifications/ErrorAlert'
 import LoadServiceAlert from '@/components/Notifications/LoadServiceAlert'
 import LoadAlert from '@/components/Notifications/LoadAlert'
 import SessionDialog from '@/views/Login/Index'
-import moment from 'moment'
 
 export default {
   name: 'App',
@@ -85,15 +84,6 @@ export default {
         }
       ]
     }
-  },
-  mounted() {
-    this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
-      date: moment()
-        .format()
-        .split(':')[0]
-        .split('T')[0],
-      direction: 'from'
-    })
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div style="position: relative;">
     <Carousel />
-    <Promotions class="displayNoneSm" v-if="searching.to_city != null" />
+    <Promotions class="displayNoneSm" v-if="toCity != null" />
     <v-container class="search_container">
       <div :style="{ marginTop: breakPoint.margin }" />
       <v-card
@@ -15,16 +15,16 @@
         >
         <v-row>
           <v-col md="6" cols="12" class="py-0">
-            <cities-list direction="from" />
+            <cities-list direction="from" v-model="fromCity" />
           </v-col>
           <v-col md="6" cols="12" class="py-0">
-            <cities-list direction="to" />
+            <cities-list direction="to" v-model="toCity" />
           </v-col>
           <v-col md="6" cols="12" class="py-0">
-            <calendar :fromHome="true" direction="from" />
+            <calendar direction="from" v-model="fromDate" />
           </v-col>
           <v-col md="6" cols="12" class="py-0">
-            <calendar :fromHome="true" direction="to" />
+            <calendar direction="to" v-model="toDate" :fromDate="fromDate" />
           </v-col>
           <v-col md="4" cols="12" offset-md="4">
             <v-btn
@@ -45,9 +45,10 @@
 
 <script>
 import Carousel from '@/components/Carousel'
-import CitiesList from '@/components/Cities'
-import Calendar from '@/components/Calendar'
 import Promotions from '@/components/Banners/SearchPanelBanner'
+import CitiesList from '@/views/Home/SearchPanel/Cities'
+import Calendar from '@/views/Home/SearchPanel/Calendar'
+import moment from 'moment'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -58,7 +59,11 @@ export default {
     Promotions
   },
   data: () => ({
-    row: null
+    row: null,
+    fromDate: null,
+    toDate: null,
+    fromCity: null,
+    toCity: null
   }),
   computed: {
     ...mapGetters({
@@ -81,6 +86,34 @@ export default {
       }
     }
   },
+  watch: {
+    fromDate(value) {
+      const diff = moment(this.toDate).diff(value, 'days')
+      if (diff <= -1 || value == null) {
+        this.toDate = null
+      }
+      this.$store.dispatch('SET_HOME_BANNERS', {
+        from_date: value,
+        from_city: this.fromCity,
+        to_city: this.toCity
+      })
+    },
+
+    fromCity(value) {
+      this.$store.dispatch('SET_HOME_BANNERS', {
+        from_date: this.fromDate,
+        from_city: value,
+        toCity: this.toCity
+      })
+    },
+    toCity(value) {
+      this.$store.dispatch('SET_HOME_BANNERS', {
+        from_date: this.fromDate,
+        from_city: this.fromCity,
+        to_city: value
+      })
+    }
+  },
   methods: {
     validateSearch() {
       this.$notify({
@@ -92,11 +125,40 @@ export default {
       if (fromFail) {
         localStorage.removeItem('fromFail')
       }
-      this.$store.dispatch('LOAD_SERVICES_LIST', { goTo: true })
+      this.setUserSearchingData()
+      this.$store.dispatch('LOAD_SERVICES_LIST', {
+        goTo: true,
+        fromDate: this.fromDate,
+        toDate: this.toDate,
+        fromCity: this.fromCity,
+        toCity: this.toCity
+      })
+    },
+    setUserSearchingData() {
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
+        date: this.fromDate,
+        direction: 'from'
+      })
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
+        date: this.toDate,
+        direction: 'to'
+      })
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_CITY', {
+        city: this.fromCity,
+        direction: 'from'
+      })
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_CITY', {
+        city: this.toCity,
+        direction: 'to'
+      })
     }
   },
   mounted() {
     this.$store.dispatch('LOAD_CITIES_LIST')
+    this.fromDate = moment()
+      .format()
+      .split(':')[0]
+      .split('T')[0]
   }
 }
 </script>

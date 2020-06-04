@@ -27,7 +27,7 @@ export default {
     if (fromFail || fromRouteName === 'Payment') {
       if (fromFail) localStorage.removeItem('fromFail')
     } else if (this.$store.state.services.data.length < 1) {
-      this.$store.dispatch('LOAD_SERVICES_LIST', {})
+      this.setServices()
     } else {
       this.$store.dispatch('SET_PAYMENT_INFO', {
         payment_info: {
@@ -40,6 +40,22 @@ export default {
       })
       this.$store.dispatch('DELETE_ALL_SEAT')
       this.$store.dispatch('SET_STEP', { step: 1 })
+    }
+  },
+  methods: {
+    setServices() {
+      const {
+        from_date,
+        to_date,
+        from_city,
+        to_city
+      } = this.$store.state.searching
+      this.$store.dispatch('LOAD_SERVICES_LIST', {
+        fromDate: from_date,
+        toDate: to_date,
+        fromCity: from_city,
+        toCity: to_city
+      })
     }
   }
 }
