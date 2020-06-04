@@ -165,7 +165,6 @@ const store = new Vuex.Store({
             text: this.$i18n.t('no_av_services')
           })
           commit('SET_SERVICES_LIST', {list: []})
-          // dispatch('SET_USER_FILTER', {filter: [], type: 'companies'})
           dispatch('SET_USER_FILTER', {filter: [], type: 'class'})
           return
         }
@@ -176,14 +175,8 @@ const store = new Vuex.Store({
         }
         if (resultData) {
           commit('SET_SERVICES_LIST', {list: resultData})
-          // const companies = []
           const classes = []
           resultData.forEach(item => {
-            // if (companies.length < 1) {
-            //   companies.push(item.empresa)
-            // } else if (companies.filter(company => company === item.empresa).length < 1) {
-            //   companies.push(item.empresa)
-            // }
             const firstService = item.servicioPrimerPiso
             const secondService = item.servicioSegundoPiso
             if (classes.length < 1) {
@@ -200,9 +193,6 @@ const store = new Vuex.Store({
               }
             }
           })
-          // companies.push('Todos')
-          // dispatch('SET_USER_FILTER', {filter: companies, type: 'companies'})
-          // dispatch('SET_USER_FILTER', {filter: 'Todos', type: 'selectedCompany'})
           classes.push('Todos')
           dispatch('SET_USER_FILTER', {filter: classes, type: 'class'})
           dispatch('SET_USER_FILTER', {filter: 'Todos', type: 'selectedClass'})
@@ -240,7 +230,9 @@ const store = new Vuex.Store({
         hora: '0000',
         idSistema: 7
       }).then(response => {
-        const resultData = response.data
+        const resultData = response.data.map(item => {
+          return {...item, fechaSubida: state.searchingConfirmation.date}
+        })
         console.log('resultData', resultData)
         if (resultData.length <= 0) {
           Vue.notify({
