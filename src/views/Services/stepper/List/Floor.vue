@@ -6,6 +6,7 @@
       @accept="confirmationAmountFromDialog"
     />
     <Dialog :open="dialog" :type="messageType" @close="closeDialog" />
+    <SeatDetail :open.sync="seatDetail" :seat="seatForDetail" />
     <v-card flat class="hideAsientos mt-3">
       <!-- Grilla de asientos -->
       <div v-if="loadingSeats" style="text-align: center">
@@ -159,10 +160,10 @@
             <div class="d-flex flex-column" style="height: 100%">
               <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
               <v-row justify="center">
-                <v-col md="9">
+                <v-col cols="10">
                   <div>
                     <div
-                      class="d-flex justify-start ma-4"
+                      class="d-flex justify-start my-4 mx-12"
                       v-for="(item, index) in seatsImg"
                       :key="index"
                     >
@@ -187,17 +188,24 @@
                           :key="seat.id + index"
                           v-for="(seat, index) in selectedSeats"
                           class="d-flex align-center justify-end"
-                          >{{ seat.servicioNombre }}
-                          <span
-                            class="caption mx-1 d-block"
-                            v-if="seat.tomadoPromo"
-                            >{{ '(PROMO)' }}</span
+                        >
+                          <span class="mr-1">{{ seat.servicioNombre }}</span
                           >-
-                          <strong class="mx-1"
+                          <strong class="ml-1"
                             >${{
                               seat.tomadoPromo ? seat.totalPromo : seat.tarifa
                             }}</strong
                           >
+                          <v-btn
+                            icon
+                            color="blue"
+                            @click="
+                              seatForDetail = seat
+                              seatDetail = true
+                            "
+                          >
+                            <v-icon>mdi-eye</v-icon>
+                          </v-btn>
                           <v-btn
                             icon
                             color="orange"
@@ -272,6 +280,7 @@
 </template>
 <script>
 import Dialog from '@/views/Services/stepper/List/ContinueDialog'
+import SeatDetail from '@/views/Services/stepper/List/SeatDetail'
 import ServicesListPanel from '@/components/Banners/ServicesListPanel'
 import seat from '@/views/Services/stepper/List/Seat'
 import scrollAnimation from '@/helpers/scrollAnimation'
@@ -296,6 +305,8 @@ export default {
   data() {
     return {
       //confirmationSeats: [],
+      seatDetail: false,
+      seatForDetail: {},
       seatImageBase: '../../../../../static/logos/seats/',
       seatsImg: [
         { text: 'available_seats', number: '28' },
@@ -320,6 +331,7 @@ export default {
   components: {
     seat,
     Dialog,
+    SeatDetail,
     ServicesListPanel
   },
   mounted() {

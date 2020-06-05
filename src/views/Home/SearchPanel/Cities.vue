@@ -9,7 +9,11 @@
       color="grey lighten-4"
       item-text="nombre"
       item-value="codigo"
-      :menu-props="{ bottom: true }"
+      :menu-props="{
+        bottom: true,
+        overflowY: true,
+        maxHeight: this.windowHeight > 650 ? 300 : 200
+      }"
       return-object
       clearable
       v-model="userCity"
@@ -31,8 +35,16 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['direction', 'value'],
+  props: ['direction', 'value', 'windowHeight'],
   name: 'CitiesList',
+  data() {
+    return {
+      windowSize: {
+        x: window.innerWidth,
+        y: window.innerHeight
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       cities: ['getCitiesList']
@@ -43,7 +55,6 @@ export default {
       },
       set(value) {
         this.$emit('input', value)
-        // this.$store.dispatch('SET_HOME_BANNERS')
       }
     },
     languageChange() {

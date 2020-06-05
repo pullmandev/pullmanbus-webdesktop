@@ -1,12 +1,14 @@
 <template>
-  <v-carousel cycle hide-delimiters :show-arrows="false" height="100vh">
-    <v-carousel-item
-      v-for="(item, i) in items"
-      :key="i"
-      :src="require(`../../static/images/${item.src}`)"
-      transition="fade-carousel"
-    ></v-carousel-item>
-  </v-carousel>
+  <div style="min-height: 630px; height: 100vh">
+    <v-carousel cycle hide-delimiters :show-arrows="false" height="100%">
+      <v-carousel-item
+        v-for="(item, i) in items"
+        :key="i"
+        :src="require(`../../static/images/${item.src}`)"
+        transition="fade-carousel"
+      ></v-carousel-item>
+    </v-carousel>
+  </div>
 </template>
 <script>
 export default {

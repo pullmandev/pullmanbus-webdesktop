@@ -15,10 +15,18 @@
         >
         <v-row>
           <v-col md="6" cols="12" class="py-0">
-            <cities-list direction="from" v-model="fromCity" />
+            <cities-list
+              direction="from"
+              v-model="fromCity"
+              :windowHeight="windowSize.y"
+            />
           </v-col>
           <v-col md="6" cols="12" class="py-0">
-            <cities-list direction="to" v-model="toCity" />
+            <cities-list
+              direction="to"
+              v-model="toCity"
+              :windowHeight="windowSize.y"
+            />
           </v-col>
           <v-col md="6" cols="12" class="py-0">
             <calendar direction="from" v-model="fromDate" />
@@ -63,7 +71,8 @@ export default {
     fromDate: null,
     toDate: null,
     fromCity: null,
-    toCity: null
+    toCity: null,
+    windowSize: { x: window.innerWidth, y: window.innerHeight }
   }),
   computed: {
     ...mapGetters({
@@ -115,6 +124,9 @@ export default {
     }
   },
   methods: {
+    onResize() {
+      this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+    },
     validateSearch() {
       this.$notify({
         group: 'stuck-load',
@@ -154,6 +166,9 @@ export default {
     }
   },
   mounted() {
+    this.$nextTick(() => {
+      window.addEventListener('resize', this.onResize)
+    })
     this.$store.dispatch('LOAD_CITIES_LIST')
     this.fromDate = moment()
       .format()
