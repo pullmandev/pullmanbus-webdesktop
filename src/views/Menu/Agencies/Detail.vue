@@ -10,8 +10,8 @@
     <v-container v-else>
       <v-row>
         <v-col>
-          <div style="max-height: 400px; overflowY: scroll">
-            <div v-for="(item, i) in data" :key="i" class="my-4">
+          <div style="max-height: 400px; overflowY: scroll" id="agencyList">
+            <div v-for="(item, i) in data" :key="i" style="width: 100%">
               <h3 class="capitalize blue--text mt-4 mb-3">
                 {{ item.Descripcion }}
               </h3>
@@ -30,18 +30,16 @@
                 <v-icon>mdi-map-search</v-icon>
                 Ver en mapa
               </v-btn>
+              <v-divider v-if="i < data.length - 1"></v-divider>
             </div>
           </div>
-          <v-btn class="white--text mt-5 blue_dark" @click="$router.go(-1)">{{
-            $t('back')
-          }}</v-btn>
         </v-col>
-        <v-col>
+        <v-col class="d-flex justify-center">
           <gmap-map
             :center="{ lat: 10, lng: 10 }"
             :zoom="7"
             map-type-id="terrain"
-            style="width: 500px; height: 300px"
+            style="width: 600px; height: 400px"
             ref="mapRef"
           >
             <gmap-marker
@@ -55,6 +53,9 @@
           </gmap-map>
         </v-col>
       </v-row>
+      <v-btn class="white--text mt-5 blue_dark" @click="$router.go(-1)">{{
+        $t('back')
+      }}</v-btn>
     </v-container>
     <div style="height: 50vh;"></div>
   </section>
@@ -107,6 +108,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/sass/mixins.scss';
+
+@include track('#agencyList');
+@include scrollbar('#agencyList');
+@include thumb('#agencyList');
+
 li {
   list-style: none;
 }
