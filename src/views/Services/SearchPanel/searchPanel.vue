@@ -10,6 +10,11 @@
             <v-col cols="12">
               <cities-list direction="from" v-model="fromCity" />
             </v-col>
+            <v-col cols="12" class="pa-0 d-flex justify-center align-center">
+              <v-btn icon color="white" @click="exchangeCities">
+                <v-icon>autorenew</v-icon>
+              </v-btn>
+            </v-col>
             <v-col cols="12">
               <cities-list direction="to" v-model="toCity" />
             </v-col>
@@ -108,6 +113,11 @@ export default {
         city: this.toCity,
         direction: 'to'
       })
+    },
+    exchangeCities() {
+      const fromCity = this.fromCity
+      this.fromCity = this.toCity
+      this.toCity = fromCity
     }
   }
 }

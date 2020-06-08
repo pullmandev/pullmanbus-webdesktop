@@ -5,6 +5,7 @@
       :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
       dark
       outlined
+      hide-details
       :label="languageChange"
       :items="cities"
       color="grey lighten-4"

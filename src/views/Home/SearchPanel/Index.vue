@@ -14,19 +14,32 @@
           </h2></v-card-text
         >
         <v-row>
-          <v-col md="6" cols="12" class="py-0">
-            <cities-list
-              direction="from"
-              v-model="fromCity"
-              :windowHeight="windowSize.y"
-            />
-          </v-col>
-          <v-col md="6" cols="12" class="py-0">
-            <cities-list
-              direction="to"
-              v-model="toCity"
-              :windowHeight="windowSize.y"
-            />
+          <v-col cols="12" class="py-0">
+            <v-row>
+              <v-col class="py-0">
+                <cities-list
+                  direction="from"
+                  v-model="fromCity"
+                  :windowHeight="windowSize.y"
+                />
+              </v-col>
+              <v-col
+                md="1"
+                cols="12"
+                class="py-0 d-flex justify-center align-center"
+              >
+                <v-btn icon color="white" @click="exchangeCities">
+                  <v-icon>sync_alt</v-icon>
+                </v-btn>
+              </v-col>
+              <v-col class="py-0">
+                <cities-list
+                  direction="to"
+                  v-model="toCity"
+                  :windowHeight="windowSize.y"
+                />
+              </v-col>
+            </v-row>
           </v-col>
           <v-col md="6" cols="12" class="py-0">
             <calendar direction="from" v-model="fromDate" />
@@ -67,7 +80,6 @@ export default {
     Promotions
   },
   data: () => ({
-    row: null,
     fromDate: null,
     toDate: null,
     fromCity: null,
@@ -126,6 +138,11 @@ export default {
   methods: {
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+    },
+    exchangeCities() {
+      const fromCity = this.fromCity
+      this.fromCity = this.toCity
+      this.toCity = fromCity
     },
     validateSearch() {
       this.$notify({
