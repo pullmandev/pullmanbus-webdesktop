@@ -52,12 +52,12 @@
             adecuado.
           </li>
           <li>
-            Es también su deber mantener el mobiliario de la unidad que lo
-            transporta, no debe rayar o destruir asientos, vidrios y cortinas
-            del bus, tampoco pegar chicles u otros de carácter adhesivo. El baño
-            debe ser usado solo para orinar y en atención a que lo utilizarán
-            también otros pasajeros. Está prohibido a los pasajeros fumar y
-            beber alcohol dentro del bus.
+            Es también su deber mantener en buen estado el mobiliario de la
+            unidad que lo transporta, no debe rayar o destruir asientos, vidrios
+            y cortinas del bus, tampoco pegar chicles u otros de carácter
+            adhesivo. El baño debe ser usado solo para orinar, teniendo en
+            consideración que lo utilizarán también otros pasajeros. Está
+            prohibido a los pasajeros fumar y beber alcohol dentro del bus.
           </li>
           <li>
             Ponga por escrito sus comentarios en el libro de reclamos de la
