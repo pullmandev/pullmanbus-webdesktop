@@ -51,6 +51,7 @@ export default {
   from_city2: 'Origin',
   to_city2: 'Destiny',
   from_date2: 'Departure date',
+  from_date3: 'Departure',
   to_date2: 'Return (optional)',
   to_date3: 'Return',
   locale: 'en-EN',

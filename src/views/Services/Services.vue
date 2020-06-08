@@ -11,7 +11,7 @@
   </v-row>
 </template>
 <script>
-import SearchPanel from '@/views/Services/searchPanel'
+import SearchPanel from '@/views/Services/SearchPanel/searchPanel'
 import Filters from '@/views/Services/filters/Index'
 import { mapGetters } from 'vuex'
 // import Stepper from '@/views/Services/stepper/Index'

@@ -91,10 +91,19 @@
               <span class="body-1 d-block text-center">
                 Búscanos en
               </span>
-              <span class="d-block mt-5 text-center">
-                <v-icon size="40" dark>mdi-facebook</v-icon>
-                <v-icon size="40" dark class="mx-5">mdi-instagram</v-icon>
-                <v-icon size="40" dark>mdi-youtube</v-icon>
+              <span class="d-block mt-5 text-center px-6">
+                <a
+                  href="https://www.facebook.com/Pullman.cl"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-facebook</v-icon></a
+                >
+                <a
+                  href="https://www.instagram.com/pullman.cl/"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-instagram</v-icon></a
+                >
               </span>
             </v-col>
           </v-row>
