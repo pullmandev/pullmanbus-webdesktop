@@ -98,6 +98,19 @@
               </v-col>
             </v-row>
           </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+            <h3 class="title  my-0">Tipo de documento</h3>
+            <v-radio-group
+              class="my-0"
+              v-model="doc_type"
+              :mandatory="true"
+              dense
+              row
+            >
+              <v-radio value="RUT" label="Chileno" color="blue" />
+              <v-radio value="OTHER" label="Otro" color="blue" />
+            </v-radio-group>
+          </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
               filled
@@ -107,7 +120,7 @@
               :label="'Nº ' + $t('document')"
               outline-1
               color="blue"
-              :rules="rutRules"
+              :rules="doc_type === 'RUT' ? rutRules : otherRules"
             ></v-text-field>
           </v-col>
           <v-col xs12 lg="5" class="ml-3 mr-3">
@@ -192,7 +205,7 @@ export default {
       years: Array.from({ length: 100 }, (v, k) => k + 1920),
       f_lastname: '',
       gender: 'F',
-      doc_type: '',
+      doc_type: 'RUT',
       email: '',
       confirmemail: '',
       password: '',
@@ -207,6 +220,10 @@ export default {
       ],
       emailconfirmError: false,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      otherRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.otherDocValidation
+      ],
       generalRules: [v => !!v || 'Este campo es requerido'],
       dateRules: [v => !!v || '']
     }

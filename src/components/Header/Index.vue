@@ -14,7 +14,7 @@
       <v-spacer></v-spacer>
       <v-btn text :to="{ name: 'CurrentAccount' }">
         <v-icon>mdi-chevron-right</v-icon>
-        CUENTA CORRIENTE
+        SOLICITUD CTA. CTE
       </v-btn>
       <v-btn text :to="{ name: 'ConfirmationServicesPanel' }">
         <v-icon>mdi-chevron-right</v-icon>

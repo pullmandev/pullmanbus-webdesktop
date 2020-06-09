@@ -3,7 +3,7 @@ function emailValidation(v) {
 }
 
 function numberValidation(v) {
-  return v.length === 9 || 'Número debe ser de 9 dígitos'
+  return v.length === 8 || 'Número debe ser de 8 dígitos'
 }
 
 function otherDocValidation(v) {

@@ -26,6 +26,21 @@
         <v-container class="pt-0">
           <v-form v-model="validForm">
             <v-row>
+              <v-col cols="12" lg="5" class="ml-3 mr-3 py-0 d-flex justify-end">
+                <div>
+                  <h3 class="title  my-0">Tipo de documento</h3>
+                  <v-radio-group
+                    class="my-0"
+                    v-model="doc_type"
+                    :mandatory="true"
+                    dense
+                    row
+                  >
+                    <v-radio value="RUT" label="Chileno" color="blue" />
+                    <v-radio value="OTHER" label="Otro" color="blue" />
+                  </v-radio-group>
+                </div>
+              </v-col>
               <v-col cols="12" md="5" class="ml-3 mr-3">
                 <v-text-field
                   filled
@@ -35,7 +50,7 @@
                   :label="'Nº ' + $t('document')"
                   outline-1
                   color="blue"
-                  :rules="rutRules"
+                  :rules="doc_type === 'RUT' ? rutRules : otherRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="5" class="ml-3 mr-3">
@@ -106,7 +121,7 @@
                   :value="phone"
                   @input="phoneInput"
                   ref="phone"
-                  maxLength="9"
+                  maxLength="8"
                   color="blue"
                   filled
                   outlined
@@ -203,11 +218,16 @@ export default {
       homePhone: '',
       rut: '',
       note: '',
+      doc_type: 'RUT',
       emailRules: [
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      otherRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.otherDocValidation
+      ],
       phoneRules: [
         v => !!v || 'Este campo es requerido',
         validations.numberValidation
