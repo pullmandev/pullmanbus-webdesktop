@@ -125,17 +125,25 @@
 
       <v-divider></v-divider>
       <div class="orange_dark px-5">
-        <v-card-text class="white--text">
-          Todos los derechos reservados, {{ new Date().getFullYear() }}
-          <span :class="breakPoints">
-            Desarrollada por Wit innovación y tecnología spa
-          </span>
+        <v-card-text class="white--text pb-1">
+          <div :class="{ 'd-flex justify-space-between': !breakPoints }">
+            <span
+              >Todos los derechos reservados,
+              {{ new Date().getFullYear() }}</span
+            >
+            <span :class="{ 'd-block': breakPoints }">
+              Desarrollada por Wit innovación y tecnología spa
+            </span>
+          </div>
+
+          <span class="caption">Version: {{ version }}</span>
         </v-card-text>
       </div>
     </v-card>
   </v-footer>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: ['links'],
   data: () => ({
@@ -145,13 +153,14 @@ export default {
     variant: 'default'
   }),
   computed: {
+    ...mapGetters({ version: ['appVersion'] }),
     breakPoints() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
         case 'sm':
-          return 'd-block'
+          return true
         default:
-          return 'float-right'
+          return false
       }
     }
   }

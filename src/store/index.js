@@ -90,7 +90,8 @@ const store = new Vuex.Store({
     canDownload: {
       permission: 'FALSE',
       code: ''
-    }
+    },
+    packageVersion: process.env.PACKAGE_VERSION || '0'
   },
   
   actions: {
@@ -821,6 +822,9 @@ const store = new Vuex.Store({
     },
     getHistory: state => {
       return state.history
+    },
+    appVersion: (state) => {
+      return state.packageVersion
     }
   }
 })
