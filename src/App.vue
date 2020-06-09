@@ -48,7 +48,7 @@ export default {
           route: 'Trip'
         },
         {
-          title: 'Cuenta Corriente',
+          title: 'Solicitud cta. cte',
           icon: 'mdi-chevron-right',
           route: 'CurrentAccount'
         },
