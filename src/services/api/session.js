@@ -6,7 +6,8 @@ const {
   registro,
   recuperarPassword,
   guardarUsuario,
-  cambioPassowrd
+  cambioPassowrd,
+  enviarContacto
 } = endPoints
 export default {
   auth(params) {
@@ -31,6 +32,11 @@ export default {
   },
   updatePassword(params) {
     return axios.post(cambioPassowrd, params, {
+      headers: { 'Content-Type': 'application/json' }
+    })
+  },
+  sendContact(params) {
+    return axios.post(enviarContacto, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   }

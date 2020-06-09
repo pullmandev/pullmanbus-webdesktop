@@ -25,11 +25,11 @@
           </li>
           <li>
             La compra de Pasajes por Internet aceptará como medio de pago las
-            tarjetas de crédito bancarias emitidas en Chile y se hará a través
-            del servicio WEB PAY de Transbank S.A. que incorpora elementos de
-            seguridad provistos por Transbank S.A. Se limita la cantidad de
-            compras diarias con tarjetas de crédito bancarias y de casas
-            comerciales por razones de seguridad para nuestros clientes.
+            tarjetas de crédito bancarias emitidas en Chile y se realizará a
+            través del servicio WEB PAY de Transbank S.A. que incorpora
+            elementos de seguridad provistos por Transbank S.A. Se limita la
+            cantidad de compras diarias con tarjetas de crédito bancarias y/o de
+            casas comerciales por razones de seguridad para nuestros clientes.
           </li>
           <li>
             Las tarjetas de crédito emitidas en Chile serán cargadas en pesos
@@ -51,22 +51,23 @@
             de registrarse para efectuar compras por internet.
           </li>
           <li>
-            Las compras de pasajes en www.pullmanbus.com, son válidas para la
+            Las compras de pasajes en www.pullmanbus.com son válidas para la
             fecha y hora del servicio seleccionado por el cliente al momento de
-            efectuar la compra; por lo tanto, no habrá canjes o cambios para las
-            compras realizadas vía internet.
+            efectuar la compra, por lo tanto, no se realizarán canjes o cambios
+            para las compras realizadas vía internet.
           </li>
         </ol>
 
         <h3>II.- BENEFICIOS</h3>
 
         <p class="my-6">
-          Para los clientes socios de Pullman Pass acumulación de un 10% del
-          valor de la compra, en puntos, los que se harán efectivos luego de
-          realizado el servicio. Estos puntos podrán ser utilizados para canjear
-          pasajes. Nota: Los beneficios o descuentos se podrán modificar o dejar
-          sin efecto unilateralmente por la empresa, sin previo aviso. Los
-          beneficios no son acumulables con otras promociones o convenios.
+          Los clientes socios de Pullman Pass obtendrán como beneficio la
+          acumulación de un 10% del valor de la compra en puntos, los que se
+          harán efectivos luego de realizado el servicio. Estos puntos podrán
+          ser utilizados para canjear pasajes. Nota: Los beneficios o descuentos
+          se podrán modificar o dejar sin efecto unilateralmente por la empresa,
+          sin previo aviso. Los beneficios no son acumulables con otras
+          promociones o convenios.
         </p>
 
         <h3>

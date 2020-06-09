@@ -9,7 +9,7 @@
 
 <script>
 // @ is an alias to /src
-import SearchPanel from '@/views/Home/SearchPanel'
+import SearchPanel from '@/views/Home/SearchPanel/Index'
 import PopularDestinies from '@/views/Home/PopularDestinies'
 import RecentArticles from '@/views/Home/RecentArticles'
 import Banner from '@/views/Home/HomeBanner'

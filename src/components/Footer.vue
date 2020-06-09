@@ -91,10 +91,19 @@
               <span class="body-1 d-block text-center">
                 Búscanos en
               </span>
-              <span class="d-block mt-5 text-center">
-                <v-icon size="40" dark>mdi-facebook</v-icon>
-                <v-icon size="40" dark class="mx-5">mdi-instagram</v-icon>
-                <v-icon size="40" dark>mdi-youtube</v-icon>
+              <span class="d-block mt-5 text-center px-6">
+                <a
+                  href="https://www.facebook.com/Pullman.cl"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-facebook</v-icon></a
+                >
+                <a
+                  href="https://www.instagram.com/pullman.cl/"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-instagram</v-icon></a
+                >
               </span>
             </v-col>
           </v-row>
@@ -116,17 +125,25 @@
 
       <v-divider></v-divider>
       <div class="orange_dark px-5">
-        <v-card-text class="white--text">
-          Todos los derechos reservados, {{ new Date().getFullYear() }}
-          <span :class="breakPoints">
-            Desarrollada por Wit innovación y tecnología spa
-          </span>
+        <v-card-text class="white--text pb-1">
+          <div :class="{ 'd-flex justify-space-between': !breakPoints }">
+            <span
+              >Todos los derechos reservados,
+              {{ new Date().getFullYear() }}</span
+            >
+            <span :class="{ 'd-block': breakPoints }">
+              Desarrollada por Wit innovación y tecnología spa
+            </span>
+          </div>
+
+          <span class="caption">Version: {{ version }}</span>
         </v-card-text>
       </div>
     </v-card>
   </v-footer>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: ['links'],
   data: () => ({
@@ -136,13 +153,14 @@ export default {
     variant: 'default'
   }),
   computed: {
+    ...mapGetters({ version: ['appVersion'] }),
     breakPoints() {
       switch (this.$vuetify.breakpoint.name) {
         case 'xs':
         case 'sm':
-          return 'd-block'
+          return true
         default:
-          return 'float-right'
+          return false
       }
     }
   }

@@ -46,9 +46,6 @@ export default {
     },
     banner: Boolean
   },
-  created() {
-    this.$store.dispatch('SET_HOME_BANNERS')
-  },
   computed: {
     ...mapState(['homeBanners']),
     showBanner() {

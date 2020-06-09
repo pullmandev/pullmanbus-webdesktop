@@ -2,6 +2,14 @@ function emailValidation(v) {
   return /^.+@.+\..+$/.test(v) || 'E-mail debe ser valido'
 }
 
+function numberValidation(v) {
+  return v.length === 8 || 'Número debe ser de 8 dígitos'
+}
+
+function otherDocValidation(v) {
+  return !isNaN(v) || 'Nº de Documento no debe tener letras'
+}
+
 function passwordValidation(v) {
   return /^[A-Za-z0-9]{8,}$/.test(v) || 'Contraseña debe ser valida'
 }
@@ -29,6 +37,8 @@ function dv(T) {
 
 export default {
   emailValidation,
+  numberValidation,
+  otherDocValidation,
   passwordValidation,
   rutValidation
 }

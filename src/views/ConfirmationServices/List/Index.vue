@@ -10,7 +10,6 @@
       <v-col cols="12" sm="12" md="10" offset-md="1">
         <div class="mt-1 service-container-background">
           <v-toolbar
-            dense
             class="elevation-0"
             dark
             color="blue_light"
@@ -21,6 +20,8 @@
                 Servicio por confirmar:
               </span>
             </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <ConfirmDatePicker :automatic="automatic" />
           </v-toolbar>
           <List />
         </div>
@@ -31,6 +32,7 @@
 <script>
 /* eslint-disable */
 import List from "@/views/ConfirmationServices/List/ElementList";
+import ConfirmDatePicker from "@/views/ConfirmationServices/ConfirmDatePicker";
 import Promotions from '@/components/PromotionBanner'
 import moment from "moment";
 import _ from 'lodash'
@@ -38,16 +40,18 @@ import _ from 'lodash'
 export default {
   components: {
     List,
-    Promotions
+    Promotions,
+    ConfirmDatePicker
   },
   data() {
     return {
-      windowSize: { x: window.innerWidth, y: window.innerHeight }
+      windowSize: { x: window.innerWidth, y: window.innerHeight },
+      automatic: true
     };
   },
   mounted () {
     if (this.$store.state.confirmationServices.data.length < 1) {
-      this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST')
+      this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST', {date: this.$store.state.searchingConfirmation.date})
     } else {
      this.$store.dispatch('DELETE_ALL_CONFIRMATION_SEAT')
     }

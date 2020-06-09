@@ -89,7 +89,8 @@
                         </v-text-field>
                       </template>
                       <v-date-picker
-                        min="1920-01-01"
+                        :min="minDate"
+                        :max="maxDate"
                         v-model="date"
                         color="blue_dark"
                         @input="pickerMenu = false"
@@ -177,6 +178,8 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      maxDate: undefined,
+      minDate: undefined,
       pickerMenu: false,
       loading: false,
       validForm: false,
@@ -216,12 +219,8 @@ export default {
     }
   },
   mounted() {
+    this.enableDate()
     this.clear()
-  },
-  watch: {
-    date(value) {
-      console.log(value)
-    }
   },
   computed: {
     ...mapGetters({
@@ -295,6 +294,12 @@ export default {
       this.confirmemail = usuario.email
       this.rut = usuario.rut
       this.gender = usuario.gender
+    },
+    enableDate() {
+      const max = moment().subtract(14, 'years')
+      const min = moment().subtract(100, 'years')
+      this.maxDate = max.format()
+      this.minDate = min.format()
     }
   }
 }

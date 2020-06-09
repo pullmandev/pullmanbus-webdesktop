@@ -1,7 +1,13 @@
 import axios from 'axios'
 import endPoints from '@/endPoints'
 
-const { itinerario, obtenerFaq } = endPoints
+const {
+  itinerario,
+  obtenerFaq,
+  buscarMotivoContacto,
+  obtenerCiudades,
+  obtenerRegiones
+} = endPoints
 
 export default {
   getItinerario(idServicio) {
@@ -9,5 +15,14 @@ export default {
   },
   getFaqs() {
     return axios.get(obtenerFaq)
+  },
+  getMotivoContacto() {
+    return axios.get(buscarMotivoContacto)
+  },
+  getCities(params) {
+    return axios.post(obtenerCiudades, params)
+  },
+  getRegions() {
+    return axios.post(obtenerRegiones)
   }
 }

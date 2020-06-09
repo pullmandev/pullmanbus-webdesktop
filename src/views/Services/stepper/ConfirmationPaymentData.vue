@@ -3,6 +3,14 @@
     <v-container fluid>
       <!-- Card date passenger -->
       <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
+        <div
+          class="white--text text-left orange passenger-data-advice"
+          v-if="!hasVuelta"
+        >
+          <span class="ml-10">
+            Horario en promoción
+          </span>
+        </div>
         <v-card-text>
           <v-card-text>
             <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
@@ -38,6 +46,8 @@
             :headers="headers"
             :items="selectedSeats"
             :expanded="selectedSeats"
+            :sort-by="['fechaSubida', 'horaSalida']"
+            :sort-desc="[false, false]"
             item-key="id"
             class="elevation-0"
             show-expand
@@ -64,8 +74,13 @@
                 <td>
                   <span style="0.7rem">{{ props.item.fechaSubida }}</span>
                 </td>
-                <td class="text-center">
+                <td>
                   <span style="0.7rem">{{ props.item.horaSalida }}</span>
+                </td>
+                <td>
+                  <span>
+                    {{ props.item.servicioNombre }}
+                  </span>
                 </td>
                 <td class="text-center">
                   <h3>
@@ -74,11 +89,6 @@
                         ? parseInt(props.item.asiento) + 20
                         : props.item.asiento
                     }}
-                  </h3>
-                </td>
-                <td>
-                  <h3>
-                    {{ '0' + (parseInt(props.item.piso) + 1).toString() }}
                   </h3>
                 </td>
                 <td v-if="!hasVuelta" class="text-center">
@@ -243,8 +253,8 @@ export default {
           value: 'horaSalida',
           sortable: false
         },
+        { text: this.$t('service'), value: 'servicioNombre', sortable: false },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
-        { text: this.$t('floor'), value: 'piso', sortable: false },
         { text: this.$t('price'), value: 'precio', sortable: false },
         { text: '', value: '', sortable: false },
         { text: '', value: '', sortable: false }
@@ -266,5 +276,13 @@ export default {
   width: 90px;
   height: 10px;
   transform: rotate(-60deg);
+}
+
+.passenger-data-advice {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: -100px;
+  transform: rotate(-58deg);
+  font-size: 0.7rem !important;
 }
 </style>

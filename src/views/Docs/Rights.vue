@@ -52,12 +52,12 @@
             adecuado.
           </li>
           <li>
-            Es también su deber mantener el mobiliario de la unidad que lo
-            transporta, no debe rayar o destruir asientos, vidrios y cortinas
-            del bus, tampoco pegar chicles u otros de carácter adhesivo. El baño
-            debe ser usado solo para orinar y en atención a que lo utilizarán
-            también otros pasajeros. Está prohibido a los pasajeros fumar y
-            beber alcohol dentro del bus.
+            Es también su deber mantener en buen estado el mobiliario de la
+            unidad que lo transporta, no debe rayar o destruir asientos, vidrios
+            y cortinas del bus, tampoco pegar chicles u otros de carácter
+            adhesivo. El baño debe ser usado solo para orinar, teniendo en
+            consideración que lo utilizarán también otros pasajeros. Está
+            prohibido a los pasajeros fumar y beber alcohol dentro del bus.
           </li>
           <li>
             Ponga por escrito sus comentarios en el libro de reclamos de la
@@ -71,9 +71,9 @@
         <ul class="my-6">
           <li>
             Ley del Consumidor (<a
-              href="http://www.gobiernodechile.cl/consumidor/ley.asp"
+              href="https://www.leychile.cl/Navegar?idNorma=61438"
               target="_blank"
-              >http://www.gobiernodechile.cl/consumidor/ley.asp</a
+              >https://www.leychile.cl/Navegar?idNorma=61438</a
             >)
           </li>
           <li>
@@ -86,9 +86,9 @@
           </li>
           <li>
             Fiscalización de Transportes (<a
-              href="http://www.mttfiscalizacion.cl"
+              href="http://www.fiscalizacion.cl/"
               target="_blank"
-              >http://www.mttfiscalizacion.cl</a
+              >http://www.fiscalizacion.cl/</a
             >)
           </li>
           <li>
@@ -113,8 +113,8 @@
             >)
           </li>
           <li>
-            Fenabus (<a href="http://www.fenabus.cl" target="_blank"
-              >http://www.fenabus.cl</a
+            Fenabus (<a href="http://fenabuschile.cl/sitio/" target="_blank"
+              >http://fenabuschile.cl/sitio/</a
             >)
           </li>
         </ul>

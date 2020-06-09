@@ -7,7 +7,16 @@ import vuetify from './plugins/vuetify'
 import i18n from './plugins/vueI18n'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
+import * as VueGoogleMaps from 'vue2-google-maps'
 import('./assets/base.css')
+
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDQB3QcRFQSQFoJSubx4AvoQl5_QYohIkg',
+    libraries: 'places, drawing, geometry, visualization'
+  },
+  installComponents: true
+})
 
 Vue.use(Notifications)
 Vue.use(VueCurrencyFilter, {

@@ -38,6 +38,7 @@ import MenuForm from '@/views/Menu/Form'
 import MenuContainer from '@/views/Menu/Index'
 import ChangeTicket from '@/views/Menu/ChangeTicket/ChangeTicket'
 import SearchTicket from '@/views/Menu/ChangeTicket/SearchTicket'
+import Contact from '@/views/Menu/Contact'
 
 //Docs
 import Docs from '@/views/Docs/Index'
@@ -45,6 +46,10 @@ import Terms from '@/views/Docs/Terms'
 import Rights from '@/views/Docs/Rights'
 import FAQs from '@/views/Docs/FAQs'
 import Privacy from '@/views/Docs/Privacy'
+import PullmanPass from '@/views/Docs/PullmanPass'
+import Convenios from '@/views/Docs/Convenios/Index'
+import AgencyList from '@/views/Menu/Agencies/List'
+import Agency from '@/views/Menu/Agencies/Detail'
 
 Vue.use(VueRouter)
 
@@ -53,6 +58,23 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/agencies',
+    component: Docs,
+    children: [
+      {
+        path: '/',
+        name: 'Agencies',
+        component: AgencyList
+      },
+      {
+        props: route => ({ agency: route.query }),
+        path: 'city',
+        name: 'AgencyCity',
+        component: Agency
+      }
+    ]
   },
   {
     component: MenuContainer,
@@ -74,12 +96,17 @@ const routes = [
         path: '/changeTicket',
         name: 'ChangeTicket',
         component: ChangeTicket,
-        props: route => ({ ticketParam: route.query })
+        props: route => ({ params: route.query })
       },
       {
         path: '/searchTicket',
         name: 'SearchTicket',
         component: SearchTicket
+      },
+      {
+        path: '/contact',
+        name: 'Contact',
+        component: Contact
       }
     ]
   },
@@ -222,6 +249,16 @@ const routes = [
         path: 'privacy',
         name: 'privacy',
         component: Privacy
+      },
+      {
+        path: 'pullmanPass',
+        name: 'PullmanPass',
+        component: PullmanPass
+      },
+      {
+        path: 'convenios',
+        name: 'Convenios',
+        component: Convenios
       }
     ]
   },

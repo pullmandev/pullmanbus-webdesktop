@@ -90,7 +90,8 @@ const store = new Vuex.Store({
     canDownload: {
       permission: 'FALSE',
       code: ''
-    }
+    },
+    packageVersion: process.env.PACKAGE_VERSION || '0'
   },
   
   actions: {
@@ -109,7 +110,11 @@ const store = new Vuex.Store({
     },
 
     LOAD_SERVICES_LIST ({commit, dispatch, state}, payload) {
-      if (state.searching.from_date == null || state.searching.from_date === '') {
+      const {fromDate,
+      toDate,
+      fromCity,
+      toCity} = payload
+      if (fromDate == null || fromDate === '') {
         Vue.notify({
           group: 'error',
           title: this.$tc('services'),
@@ -121,18 +126,18 @@ const store = new Vuex.Store({
         return
       }
       const requestGoing = APIService.get({
-        origen: state.searching.from_city.codigo,
-        destino: state.searching.to_city.codigo,
-        fecha: state.searching.from_date.replace(/-/g, ''),
+        origen: fromCity.codigo,
+        destino: toCity.codigo,
+        fecha: fromDate.replace(/-/g, ''),
         hora: '0000',
         idSistema: 7
       })
       let requestReturn
-      if (state.searching.to_date != null) {
+      if (toDate != null) {
         requestReturn = APIService.get({
-          origen: state.searching.to_city.codigo,
-          destino: state.searching.from_city.codigo,
-          fecha: state.searching.to_date.replace(/-/g, ''),
+          origen: toCity.codigo,
+          destino: fromCity.codigo,
+          fecha: toDate.replace(/-/g, ''),
           hora: '0000',
           idSistema: 7
         }) 
@@ -143,16 +148,14 @@ const store = new Vuex.Store({
         console.log('responses', responses)
         const data = responses[0].data
           .map(item => {
-            item.vuelta = false
-            return item
+            return {...item, vuelta: false}
           })
         let dataReturn = []
         console.log('first', data)
         if (responses[1]) {
           dataReturn = responses[1].data
             .map(item => {
-              item.vuelta = true
-              return item
+              return {...item, vuelta: true}
             })
           console.log('second', dataReturn)
         }
@@ -168,6 +171,7 @@ const store = new Vuex.Store({
           dispatch('SET_USER_FILTER', {filter: [], type: 'class'})
           return
         }
+        console.log('route', router.currentRoute)
         if (payload.goTo) {
           router.push('/services')
         } else if (router.currentRoute.name === 'ServicesPaymentData') {
@@ -207,9 +211,9 @@ const store = new Vuex.Store({
         dispatch('SET_LOADING_SERVICE', {loading: false})
       })
     },
-    LOAD_CONFIRMATION_SERVICES_LIST ({commit, dispatch, state}) {
+    LOAD_CONFIRMATION_SERVICES_LIST ({commit, dispatch, state}, payload) {
       let errorMessage = null
-      if (state.searchingConfirmation.date == null || state.searchingConfirmation.date === '') {
+      if (payload.date == null || payload.date === '') {
         errorMessage = this.$tc('no_going_date')
       }
       if (errorMessage !== null) {
@@ -226,12 +230,12 @@ const store = new Vuex.Store({
       APIService.get({
         origen: state.searchingConfirmation.ticket.ciudadOrigen,
         destino: state.searchingConfirmation.ticket.ciudadDestino,
-        fecha: state.searchingConfirmation.date.replace(/-/g, ''),
+        fecha: payload.date.replace(/-/g, ''),
         hora: '0000',
         idSistema: 7
       }).then(response => {
         const resultData = response.data.map(item => {
-          return {...item, fechaSubida: state.searchingConfirmation.date}
+          return {...item, fechaSubida: payload.date}
         })
         console.log('resultData', resultData)
         if (resultData.length <= 0) {
@@ -301,8 +305,6 @@ const store = new Vuex.Store({
     SET_USER_FILTER ({commit}, payload) {
       if (payload.type === 'class') commit('SET_CLASS_FILTER', {filter: payload.filter})
       if (payload.type === 'selectedClass') commit('SET_SELECTED_CLASS_FILTER', {filter: payload.filter})
-      // if (payload.type === 'companies') commit('SET_COMPANIE_FILTER', {filter: payload.filter})
-      // if (payload.type === 'selectedCompany') commit('SET_SELECTED_COMPANY_FILTER', {filter: payload.filter})
       if (payload.type === 'prices') commit('SET_PRICE_FILTER', {filter: payload.filter})
       if (payload.type === 'hours') commit('SET_HOUR_FILTER', {filter: payload.filter})
     },
@@ -363,8 +365,8 @@ const store = new Vuex.Store({
     DELETE_USER ({commit}) {
       commit('DELETE_USER')
     },
-    SET_HOME_BANNERS ({commit, dispatch, state}) {
-      createBanners(state.searching, 1, commit, dispatch)
+    SET_HOME_BANNERS ({commit, dispatch}, payload) {
+      createBanners(payload, 1, commit, dispatch)
     },
     SET_HOME_BANNERS_LOADING ({commit}, payload) {
       commit('SET_HOME_BANNERS_LOADING', {loading: payload.loading})
@@ -820,6 +822,9 @@ const store = new Vuex.Store({
     },
     getHistory: state => {
       return state.history
+    },
+    appVersion: (state) => {
+      return state.packageVersion
     }
   }
 })

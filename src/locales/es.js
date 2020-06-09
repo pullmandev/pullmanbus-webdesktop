@@ -51,6 +51,7 @@ export default {
   from_city2: 'Origen',
   to_city2: 'Destino',
   from_date2: 'Fecha salida',
+  from_date3: 'Salida',
   to_date2: 'Regreso (opcional)',
   to_date3: 'Regreso',
   locale: 'es-ES',
