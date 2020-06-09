@@ -246,7 +246,7 @@ export default {
   },
   methods: {
     noteInput(value) {
-      this.errorNote = value.length > 500 || value.length < 80
+      this.errorNote = value.length > 500
     },
     phoneInput(value) {
       this.validatePhone(value, 'phone')
