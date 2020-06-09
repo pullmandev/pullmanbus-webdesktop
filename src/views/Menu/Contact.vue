@@ -170,6 +170,7 @@
                   label="Nota"
                   v-model="note"
                   counter="500"
+                  :rules="generalRules"
                   :error="errorNote"
                   @input="noteInput"
                   :class="{ 'error-note': errorNote }"
