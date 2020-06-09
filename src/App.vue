@@ -47,11 +47,11 @@ export default {
           icon: 'mdi-chevron-right',
           route: 'Trip'
         },
-        // {
-        //   title: 'Cuenta Corriente',
-        //   icon: 'mdi-chevron-right',
-        //   route: 'CurrentAccount'
-        // },
+        {
+          title: 'Cuenta Corriente',
+          icon: 'mdi-chevron-right',
+          route: 'CurrentAccount'
+        },
         {
           title: 'Convenio',
           icon: 'mdi-chevron-right',

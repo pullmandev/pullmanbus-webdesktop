@@ -39,8 +39,8 @@
                 dense
                 row
               >
-                <v-radio value="F" label="Chileno" color="blue" />
-                <v-radio value="M" label="Otro" color="blue" />
+                <v-radio value="RUT" label="Chileno" color="blue" />
+                <v-radio value="OTHER" label="Otro" color="blue" />
               </v-radio-group>
             </v-col>
             <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -57,7 +57,7 @@
                 clearable
                 :placeholder="$t('mobile')"
                 :hint="$t('insert_mobile')"
-                :rules="generalRules"
+                :rules="phoneRules"
                 class="phone"
               />
             </v-col>
@@ -70,7 +70,7 @@
                 :label="'Nº ' + $t('document')"
                 outline-1
                 color="blue"
-                :rules="rutRules"
+                :rules="doc_type === 'RUT' ? rutRules : otherRules"
               ></v-text-field>
             </v-col>
             <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -139,7 +139,7 @@ export default {
       loading: false,
       validForm: false,
       name: '',
-      doc_type: 'f',
+      doc_type: 'RUT',
       email: '',
       movil: '',
       movil_last: '',
@@ -150,6 +150,14 @@ export default {
         validations.emailValidation
       ],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      otherRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.otherDocValidation
+      ],
+      phoneRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.numberValidation
+      ],
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },

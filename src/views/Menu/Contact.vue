@@ -112,6 +112,7 @@
                   outlined
                   dense
                   prefix="+569"
+                  :rules="phoneRules"
                   clearable
                   :placeholder="$t('mobile')"
                   :hint="$t('insert_mobile')"
@@ -207,6 +208,10 @@ export default {
         validations.emailValidation
       ],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      phoneRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.numberValidation
+      ],
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },
@@ -220,7 +225,7 @@ export default {
   },
   methods: {
     noteInput(value) {
-      this.errorNote = value.length > 500
+      this.errorNote = value.length > 500 || value.length < 80
     },
     phoneInput(value) {
       this.validatePhone(value, 'phone')

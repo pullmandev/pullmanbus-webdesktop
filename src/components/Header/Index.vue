@@ -12,16 +12,9 @@
         </div>
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn text>
+      <v-btn text :to="{ name: 'CurrentAccount' }">
         <v-icon>mdi-chevron-right</v-icon>
-        <a
-          href="http://ventasctacte.pullman.cl/odp"
-          class="white--text"
-          style="text-decoration: none"
-          target="_blank"
-        >
-          CUENTA CORRIENTE
-        </a>
+        CUENTA CORRIENTE
       </v-btn>
       <v-btn text :to="{ name: 'ConfirmationServicesPanel' }">
         <v-icon>mdi-chevron-right</v-icon>

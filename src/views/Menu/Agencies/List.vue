@@ -25,9 +25,9 @@
                 <v-expansion-panel-content class="pa-6">
                   <ul>
                     <li v-for="(item, index) in info.cities" :key="index">
-                      <router-link :to="{ name: 'AgencyCity', query: item }">{{
-                        item.nombre
-                      }}</router-link>
+                      <router-link :to="{ name: 'AgencyCity', query: item }">
+                        {{ item.nombre }}
+                      </router-link>
                     </li>
                   </ul>
                 </v-expansion-panel-content>
