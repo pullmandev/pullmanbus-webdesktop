@@ -78,33 +78,33 @@ const routes = [
   },
   {
     component: MenuContainer,
-    path: '/requestTrip',
+    path: '/request',
     children: [
       {
-        path: '',
+        path: 'trip',
         name: 'Trip',
         component: MenuForm,
         props: { type: 'Trip' }
       },
       {
-        path: '/requestCurrentAccount',
+        path: 'currentAccount',
         name: 'CurrentAccount',
         component: MenuForm,
         props: { type: 'CurrentAccount' }
       },
       {
-        path: '/changeTicket',
+        path: 'changeTicket',
         name: 'ChangeTicket',
         component: ChangeTicket,
         props: route => ({ params: route.query })
       },
       {
-        path: '/searchTicket',
+        path: 'searchTicket',
         name: 'SearchTicket',
         component: SearchTicket
       },
       {
-        path: '/contact',
+        path: 'contact',
         name: 'Contact',
         component: Contact
       }
