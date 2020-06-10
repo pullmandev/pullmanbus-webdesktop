@@ -90,20 +90,7 @@ export default {
         const regions = regionsResp.data
         console.log(regions)
         regions.forEach(region => {
-          API.getCities({ codigo: region.ordenGeografico })
-            .then(resp => {
-              const cities = resp.data
-              const dataItem = {
-                region,
-                cities
-              }
-              const unorderedList = this.regions
-              unorderedList.push(dataItem)
-              this.regions = unorderedList.sort(
-                (a, b) => a.region.codigo - b.region.codigo
-              )
-            })
-            .catch(err => console.error(err))
+          this.getCities(region)
         })
 
         this.loading = true
@@ -112,6 +99,23 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    getCities(region) {
+      const codigo = region.codigo
+      API.getCities({ codigo })
+        .then(resp => {
+          const cities = resp.data
+          const dataItem = {
+            region,
+            cities
+          }
+          const unorderedList = this.regions
+          unorderedList.push(dataItem)
+          this.regions = unorderedList.sort(
+            (a, b) => a.region.codigo - b.region.codigo
+          )
+        })
+        .catch(err => console.error(err))
     }
   }
 }

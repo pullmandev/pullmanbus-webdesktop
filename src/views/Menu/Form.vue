@@ -48,7 +48,7 @@
                 :value="movil"
                 @input="phoneInput"
                 ref="phone"
-                maxLength="9"
+                maxLength="8"
                 color="blue"
                 filled
                 outlined
@@ -129,7 +129,6 @@
 // Base components
 import API from '@/services/api/request'
 import validations from '@/helpers/fieldsValidation'
-import { mapGetters } from 'vuex'
 import moment from 'moment'
 
 export default {
@@ -142,7 +141,6 @@ export default {
       doc_type: 'RUT',
       email: '',
       movil: '',
-      movil_last: '',
       rut: '',
       description: '',
       emailRules: [
@@ -165,13 +163,6 @@ export default {
     this.clear()
   },
   computed: {
-    ...mapGetters({
-      userData: ['userData']
-    }),
-    formatedDate() {
-      moment.locale(this.$i18n.locale)
-      return moment(this.date).format('LL')
-    },
     requestType() {
       const defaultObj = { text: 'VIAJE ESPECIAL', id: 1 }
       switch (this.type) {
@@ -182,6 +173,11 @@ export default {
         default:
           return defaultObj
       }
+    }
+  },
+  watch: {
+    type() {
+      this.clear()
     }
   },
   methods: {
@@ -231,13 +227,9 @@ export default {
       }
     },
     clear() {
-      const { usuario } = this.userData
-      this.date = moment(usuario.fechaNacimiento, 'DD-MM-YYYY').format(
-        'YYYY-MM-DD'
-      )
       this.name = ''
       this.movil = ''
-      this.doc_type = ''
+      this.doc_type = 'RUT'
       this.rut = ''
       this.email = ''
       this.description = ''
