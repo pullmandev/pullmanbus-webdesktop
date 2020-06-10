@@ -8,8 +8,13 @@ import i18n from './plugins/vueI18n'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import IdleVue from 'idle-vue'
 import('./assets/base.css')
 
+Vue.use(IdleVue, {
+  eventEmitter: new Vue(),
+  idleTime: 60000 * 15
+})
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDQB3QcRFQSQFoJSubx4AvoQl5_QYohIkg',
