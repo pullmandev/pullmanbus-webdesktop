@@ -15,44 +15,21 @@
       </h4>
     </div>
     <v-img src="../../../static/images/home/Fondo.png">
-      <BannerImageList
-        :itemTitle="[
-          'Flora y Fauna',
-          'Chilenos notables',
-          'Destinos',
-          'Mambos nacioanles',
-          'Picadas para el bajón'
-        ]"
-        :itemContent="[
-          'Conoce Frutillar',
-          'Álvaro López',
-          'Maravillate con Temuco',
-          'Infórmate sobre el 18/Sept',
-          'Las mejores recetas'
-        ]"
-        :links="[
-          'http://blog.pullmanbus.cl/?cat=26',
-          'http://blog.pullmanbus.cl/?cat=27',
-          'http://blog.pullmanbus.cl/?cat=28',
-          'http://blog.pullmanbus.cl/?cat=29',
-          'http://blog.pullmanbus.cl/?cat=30'
-        ]"
-        :images="[
-          'article1.png',
-          'article2.jpg',
-          'article3.png',
-          'article4.jpg',
-          'article5.jpg'
-        ]"
-      />
+      <BannerImageList :items="articles" />
     </v-img>
   </div>
 </template>
 <script>
-import BannerImageList from '@/components/BannerImageBKGList'
+import BannerImageList from '@/components/ArticleList'
+import API from '@/services/api/posts'
 export default {
   components: {
     BannerImageList
+  },
+  data() {
+    return {
+      articles: []
+    }
   },
   computed: {
     applyTitleStyle() {
@@ -65,6 +42,20 @@ export default {
           return true
       }
     }
+  },
+  async mounted() {
+    const response = await API.getPosts()
+    response.data.forEach(item => {
+      API.getImage(item._links['wp:featuredmedia'][0].href).then(response => {
+        const img = response.data.media_details.sizes.medium_large.source_url
+        this.articles.push({
+          title: item.title.rendered,
+          content: item.excerpt.rendered,
+          link: item.link,
+          img
+        })
+      })
+    })
   }
 }
 </script>
