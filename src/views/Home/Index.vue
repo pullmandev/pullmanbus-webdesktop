@@ -8,7 +8,7 @@
       <v-col cols="6" class="d-flex justify-center">
         <div
           class="fb-page my-12"
-          data-href="https://www.facebook.com/Pullman.cl/"
+          data-href="https://www.facebook.com/pullman.cl/"
           data-tabs="timeline"
           data-width=""
           data-height=""
@@ -18,10 +18,10 @@
           data-show-facepile="true"
         >
           <blockquote
-            cite="https://www.facebook.com/Pullman.cl/"
+            cite="https://www.facebook.com/pullman.cl/"
             class="fb-xfbml-parse-ignore"
           >
-            <a href="https://www.facebook.com/Pullman.cl/">Pullman Bus</a>
+            <a href="https://www.facebook.com/pullman.cl/">Pullman Bus</a>
           </blockquote>
         </div>
       </v-col>
