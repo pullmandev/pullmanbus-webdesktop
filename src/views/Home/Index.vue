@@ -2,7 +2,7 @@
   <div class="home" id="idHome">
     <SearchPanel />
     <PopularDestinies />
-    <Banner class="mb-12" />
+    <Banner class="my-12" />
     <RecentArticles />
   </div>
 </template>

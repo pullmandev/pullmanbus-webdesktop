@@ -50,6 +50,8 @@
             <v-row no-gutters>
               <v-col>
                 <v-autocomplete
+                  ref="date-1"
+                  @input="dateInput(1)"
                   maxLength="2"
                   class="body-1"
                   append-icon=""
@@ -66,6 +68,8 @@
               </v-col>
               <v-col>
                 <v-autocomplete
+                  ref="date-2"
+                  @input="dateInput(2)"
                   maxLength="2"
                   class="body-1"
                   append-icon=""
@@ -82,6 +86,8 @@
               </v-col>
               <v-col>
                 <v-autocomplete
+                  ref="date-3"
+                  @input="dateInput(3)"
                   maxLength="4"
                   class="body-1"
                   append-icon=""
@@ -280,6 +286,21 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    dateInput(id) {
+      this.$nextTick(() => {
+        const nextId = id + 1
+        if (nextId >= 4) {
+          return
+        }
+        const theElement = this.$refs[`date-${nextId}`].$el
+        const input = theElement.querySelector('input:not([type=hidden])')
+        if (input) {
+          setTimeout(() => {
+            input.focus()
+          }, 0)
+        }
+      })
     }
   }
 }

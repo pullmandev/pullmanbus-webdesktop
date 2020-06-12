@@ -58,6 +58,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
+  },
+  onIdle() {
+    this.$router.push('/')
   }
 }
 </script>
