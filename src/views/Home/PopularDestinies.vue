@@ -2,37 +2,34 @@
   <BannerImageList
     title="Temas de interés"
     subTitle="Infórmate sobre nuestros servicios, convenios y otros"
-    :itemTitle="[
-      'Pullman Bus en Teletrece',
-      'Instalación túnel sanitizador',
-      'Tecnologías de Pullman Bus para pasajes y terminales',
-      'Hermanos Bolivianos'
-    ]"
-    :itemContent="[
-      'Pullman bus comprometidos con sus clientes - Buses de todos sus servicios garantizando un viaje seguro',
-      'Túnel sanitizador. Ministra Florida Hutt, informó iniciativa a cargo de empresa Pullman',
-      'Debido a la contingencia nacional del Covid-19, Pullman Bus te invita a conversar con Tío Pullman.',
-      'Hermanos Bolivianos, Pullman Bus dispone de buses para ciudadanos bolivianos'
-    ]"
-    :links="[
-      'https://www.24horas.cl/coronavirus/pullman-inaugura-tunel-sanitizador-en-terminal-de-buses-de-estacion-central-4103664',
-      'https://www.facebook.com/teletrece/videos/241244087072392',
-      'https://diariotv.cl/dudas-sobre-venta-de-pasajes-y-terminales-debuta-robot-que-responde-por-whatsapp/',
-      'https://www.cooperativa.cl/noticias/sociedad/salud/coronavirus/bolivianos-varados-ya-comenzaron-a-viajar-hacia-iquique-para-retornar-a/2020-04-29/002450.html'
-    ]"
-    :images="[
-      'Noticia1-1.png',
-      'Noticia3-1.png',
-      'Tecnologia-Tio-Pullman.jpg',
-      'Noticia2-1.png'
-    ]"
+    :items="articles"
   />
 </template>
 <script>
-import BannerImageList from '@/components/BannerImageList'
+import BannerImageList from '@/components/NewsList'
+import API from '@/services/api/posts'
 export default {
   components: {
     BannerImageList
+  },
+  data() {
+    return {
+      articles: []
+    }
+  },
+  async mounted() {
+    const response = await API.getPosts()
+    response.data.forEach(item => {
+      API.getImage(item._links['wp:featuredmedia'][0].href).then(response => {
+        const img = response.data.media_details.sizes.medium_large.source_url
+        this.articles.push({
+          title: item.title.rendered,
+          content: item.excerpt.rendered,
+          link: item.link,
+          img
+        })
+      })
+    })
   }
 }
 </script>
