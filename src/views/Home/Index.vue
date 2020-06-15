@@ -13,7 +13,7 @@
 import SearchPanel from '@/views/Home/SearchPanel/Index'
 import PopularDestinies from '@/views/Home/PopularDestinies'
 import RecentArticles from '@/views/Home/RecentArticles'
-import SocialMedia from '@/views/Home/SocialMedia'
+import SocialMedia from '@/views/Home/SocialMedia/Index'
 import Banner from '@/views/Home/HomeBanner'
 import scrollAnimation from '@/helpers/scrollAnimation'
 

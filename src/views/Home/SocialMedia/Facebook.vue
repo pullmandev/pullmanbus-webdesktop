@@ -1,16 +1,10 @@
 <template>
   <div>
-    <h3
-      class="display-3 text-center blue_dark--text"
-      style="font-size: 2rem !important;"
-    >
-      Redes
-    </h3>
     <h4
-      class="headline text-center blue_light--text"
+      class="headline text-center blue_light--text my-6"
       style="font-size: 1.5rem !important;"
     >
-      Revisa nuestras últimas actividades
+      Facebook
     </h4>
     <div
       class="fb-page mb-12 mt-6 d-flex justify-center"
