@@ -69,7 +69,6 @@ export default {
 </script>
 <style scoped>
 .destinies-type-container {
-  height: 0px;
   width: 100vw;
   min-height: 80vh;
   margin: auto;
