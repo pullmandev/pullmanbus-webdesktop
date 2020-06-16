@@ -4,7 +4,7 @@
       class="display-3 text-center blue_dark--text"
       style="font-size: 2rem !important;"
     >
-      Redes
+      Redes Sociales
     </h3>
     <Facebook />
     <Instagram />
