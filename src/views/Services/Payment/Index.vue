@@ -256,6 +256,7 @@ export default {
       listaCovenios: [],
       selectedSeats: this.$store.state.seats,
       rut: '',
+      personalRut: this.$store.getters.payment_info.rut,
       payMethod: 'WBPAY',
       payments: [],
       terms: false,
@@ -443,7 +444,7 @@ export default {
       })
       const paymentInfo = {
         email: this.email,
-        rut: this.rut,
+        rut: this.personalRut,
         medioDePago: this.payMethod,
         puntoVenta: 'PUL',
         montoTotal: this.totalAmount,
