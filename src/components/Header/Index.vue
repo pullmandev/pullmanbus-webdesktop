@@ -3,13 +3,11 @@
     <v-app-bar color="orange" fixed dark style="overflow: hidden;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-btn text @click="$router.push({ path: '/' })" style="height: 100%">
-        <div style="width: 300px">
-          <v-img
-            src="../../../static/logos/pullman bus_blanco.png"
-            height="50"
-            contain
-          />
-        </div>
+        <v-img
+          src="../../../static/logos/pullmanbus_blanco.png"
+          height="70"
+          width="240"
+        />
       </v-btn>
       <v-spacer></v-spacer>
       <v-btn text>

@@ -7,12 +7,12 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        blue_dark: '#1110AD',
-        blue: '#1715E6',
+        blue_dark: '#0078DB',
+        blue: '#0078DB',
         blue_light: '#2069E0',
         blue_variant: '#4AC2CE',
         yellow: '#FFA71A',
-        orange: '#FF5500',
+        orange: '#FF5000',
         orange_dark: '#EA4006',
         light: '#F7F7F7'
       },
