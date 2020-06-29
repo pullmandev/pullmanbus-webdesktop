@@ -5,13 +5,14 @@
         class="display-3 text-center blue_dark--text"
         style="font-family: 'Satisfy-Regular' !important; font-size: 3rem !important;"
       >
-        Artículos recientes
+        Viajando por Chile
       </h3>
       <h4
         class="headline text-center satisfyFont blue_light--text"
         style="font-family: 'Satisfy-Regular' !important; font-size: 2rem !important;"
       >
-        Infórmate sobre las últimas noticias relacionadas
+        Conoce lugares, especies, eventos, comida y personajes de nuestro largo
+        y hermoso país.
       </h4>
     </div>
     <v-img src="../../../static/images/home/Fondo.png">
