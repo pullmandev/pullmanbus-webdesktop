@@ -5,8 +5,8 @@
       <v-btn text @click="$router.push({ path: '/' })" style="height: 100%">
         <v-img
           src="../../../static/logos/pullmanbus_blanco.png"
-          height="70"
-          width="240"
+          height="60"
+          width="206"
         />
       </v-btn>
       <v-spacer></v-spacer>
