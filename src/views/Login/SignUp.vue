@@ -208,7 +208,10 @@ export default {
       month: '',
       months: Array.from({ length: 12 }, (v, k) => k + 1),
       year: '',
-      years: Array.from({ length: 100 }, (v, k) => k + 1920),
+      years: Array.from(
+        { length: 87 },
+        (v, k) => k + moment().get('year') - 100
+      ),
       f_lastname: '',
       gender: 'F',
       doc_type: 'RUT',
