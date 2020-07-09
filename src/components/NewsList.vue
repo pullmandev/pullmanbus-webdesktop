@@ -83,7 +83,8 @@ export default {
       return [
         [1400, lg],
         [1000, md],
-        [960, sm]
+        [700, sm],
+        [0, 1]
       ]
     }
   }
