@@ -154,16 +154,21 @@ function getContent(data) {
   }
   return result
 }
+
 export default async function getFeedInfo() {
   try {
     const response = await API.getInstaPost()
     const text = response.data
       .split('window._sharedData = ')[1]
       .split('</script>')[0]
+
     let data = JSON.parse(text.substr(0, text.length - 1))
+
     data = data.entry_data.ProfilePage || data.entry_data.TagPage
     data = data[0].graphql.user || data[0].graphql.hashtag
+
     console.log(data)
+
     return getContent(data)
   } catch (err) {
     console.error(err)
