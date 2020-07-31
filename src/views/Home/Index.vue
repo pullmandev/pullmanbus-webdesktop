@@ -2,8 +2,9 @@
   <div class="home" id="idHome">
     <SearchPanel />
     <PopularDestinies />
-    <Banner class="my-12" />
+    <Banner class="my-6" />
     <RecentArticles />
+    <SocialMedia />
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import SearchPanel from '@/views/Home/SearchPanel/Index'
 import PopularDestinies from '@/views/Home/PopularDestinies'
 import RecentArticles from '@/views/Home/RecentArticles'
+import SocialMedia from '@/views/Home/SocialMedia/Index'
 import Banner from '@/views/Home/HomeBanner'
 import scrollAnimation from '@/helpers/scrollAnimation'
 
@@ -21,6 +23,7 @@ export default {
     SearchPanel,
     PopularDestinies,
     RecentArticles,
+    SocialMedia,
     Banner
   },
   mounted() {

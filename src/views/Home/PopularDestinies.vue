@@ -1,16 +1,16 @@
 <template>
-  <BannerImageList
-    title="Temas de interés"
+  <NewsList
+    title="Noticias y actualidad"
     subTitle="Infórmate sobre nuestros servicios, convenios y otros"
     :items="articles"
   />
 </template>
 <script>
-import BannerImageList from '@/components/NewsList'
+import NewsList from '@/components/NewsList'
 import API from '@/services/api/posts'
 export default {
   components: {
-    BannerImageList
+    NewsList
   },
   data() {
     return {

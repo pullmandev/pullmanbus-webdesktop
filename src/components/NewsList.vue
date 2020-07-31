@@ -14,11 +14,7 @@
     </h4>
     <v-container fluid>
       <carousel
-        :per-page-custom="[
-          [1400, 4],
-          [1000, 3],
-          [960, 2]
-        ]"
+        :per-page-custom="corrouselItemsPerPage"
         :mouse-drag="true"
         loop
         autoplay
@@ -78,6 +74,18 @@ export default {
         default:
           return true
       }
+    },
+    corrouselItemsPerPage() {
+      const length = this.items.length
+      const lg = length < 4 ? length : 4
+      const md = length < 3 ? length : 3
+      const sm = length < 2 ? length : 2
+      return [
+        [1400, lg],
+        [1000, md],
+        [700, sm],
+        [0, 1]
+      ]
     }
   }
 }

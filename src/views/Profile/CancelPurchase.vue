@@ -89,6 +89,7 @@
                 clearable
                 :rules="generalRules"
                 required
+                :disabled="loadingCancel"
               ></v-autocomplete>
             </v-col>
             <template v-if="tickets[0].tipoCompra === 'VD'">
@@ -101,6 +102,7 @@
                   v-model="rutApplicant"
                   :rules="rutApplicantRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
@@ -112,6 +114,7 @@
                   v-model="name"
                   :rules="emailRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
@@ -123,6 +126,7 @@
                   v-model="rutHolder"
                   :rules="rutRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
 
@@ -135,6 +139,7 @@
                   v-model="accountNumber"
                   :rules="generalRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
@@ -151,6 +156,7 @@
                   autocomplete
                   :rules="generalRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-autocomplete>
               </v-col>
             </template>
@@ -159,7 +165,7 @@
             @click="submit"
             color="blue_dark"
             class="white--text"
-            :disabled="!validForm || code === ''"
+            :disabled="!validForm || code === '' || !hasNullable"
             :loading="loadingCancel"
           >
             Anular
@@ -268,6 +274,13 @@ export default {
       const puedeImprimir = this.tickets.filter(item => item.puedeImprimir)
       return puedeImprimir.length > 0
     },
+    hasNullable() {
+      if (this.tickets.length <= 0) {
+        return false
+      }
+      const nullable = this.tickets.filter(item => item.anular)
+      return nullable.length > 0
+    },
     accountTypes() {
       if (this.tickets.length <= 0) {
         return []
@@ -351,18 +364,20 @@ export default {
     },
     async submit() {
       try {
+        if (this.loadingCancel) {
+          return
+        }
         this.loadingCancel = true
-        let cancelledItems = []
-        let index = -1
-        for (let item of this.tickets) {
-          index++
-          if (!item.anular) {
+        this.loadingCancel = true
+        const length = this.tickets.length
+        for (let index = 0; index < length; index++) {
+          if (!this.tickets[index].anular) {
             continue
           }
           let params = {
-            boleto: item.boleto,
+            boleto: this.tickets[index].boleto,
             codigoTransaccion: this.code.trim(),
-            integrador: item.integrador,
+            integrador: this.tickets[index].integrador,
             tipoCuenta: this.selectedAccountType,
             banco: '',
             numeroCuenta: '',
@@ -370,14 +385,14 @@ export default {
             rutSolicitante: '',
             usuario: ''
           }
-          console.log(params)
-          if (item.tipoCompra === 'VD') {
+          if (this.tickets[index].tipoCompra === 'VD') {
             params.rutSolicitante = this.rutApplicant
             params.usuario = this.name
             params.banco = this.selectedBank
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder
           }
+          console.log(params)
           const response = await API.cancel(params)
           console.log(response.data)
           if (response.data.exito) {
@@ -386,7 +401,7 @@ export default {
               title: this.$t('cancellations_success'),
               type: 'info'
             })
-            cancelledItems.push(index)
+            this.tickets[index].puedeImprimir = false
           } else {
             const text =
               response.data.mensaje != null
@@ -400,9 +415,6 @@ export default {
             })
           }
         }
-        cancelledItems.forEach(item => {
-          this.tickets[item].puedeImprimir = false
-        })
         await API.sendEmail({
           email: this.userData.usuario.email
         })

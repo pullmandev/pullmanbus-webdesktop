@@ -31,7 +31,7 @@ export default {
         case 'md':
           return 300
         default:
-          return '57vh'
+          return null
       }
     }
   }
