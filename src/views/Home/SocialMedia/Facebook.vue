@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container fluid class="my-12 px-0">
     <h4
       class="headline text-center blue_light--text my-6"
       style="font-size: 1.5rem !important;"
@@ -9,14 +9,14 @@
 
     <v-img
       src="../../../assets/images/home/networks/slide-1.jpg"
-      class="d-flex justify-center align-center text-center white--text"
+      class="d-flex justify-center align-center text-center white--text py-2"
     >
       <v-row>
         <v-col cols="7" />
 
         <v-col cols="4">
           <div
-            class="fb-page mb-12 mt-6 d-flex justify-center"
+            class="fb-page d-flex justify-center"
             data-href="https://www.facebook.com/pullman.cl/"
             data-tabs="timeline"
             data-width="500"
@@ -40,5 +40,5 @@
         <v-col cols="1" />
       </v-row>
     </v-img>
-  </div>
+  </v-container>
 </template>
