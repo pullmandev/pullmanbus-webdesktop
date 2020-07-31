@@ -9,7 +9,7 @@
 
     <v-img
       src="../../../../assets/images/home/networks/slide-2.jpg"
-      class="d-flex justify-center align-center text-center white--text "
+      class="d-flex justify-center align-center text-center white--text py-1"
     >
       <v-row>
         <v-col cols="1" />
@@ -17,12 +17,11 @@
         <v-col cols="4">
           <carousel
             :per-page="1"
-            :mouse-drag="true"
+            mouse-drag
             loop
-            autoplay
-            :autoplayTimeout="2500"
-            :centerMode="true"
-            :navigationEnabled="true"
+            :autoplay="false"
+            centerMode
+            navigationEnabled
             :paginationEnabled="false"
           >
             <slide
@@ -111,11 +110,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.body-1 {
-  word-break: break-word;
-}
-
+<style lang="scss">
 .instagram-text-container {
   height: 132px;
   width: 100%;
@@ -126,6 +121,37 @@ export default {
   & div {
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
+  }
+}
+
+.VueCarousel {
+  .VueCarousel-navigation {
+    button.VueCarousel-navigation-button {
+      color: #ffff !important;
+      font-size: 25px;
+      opacity: 0.6;
+      transition: all 0.1s ease;
+
+      &.VueCarousel-navigation-prev {
+        &:active {
+          padding-right: 14px !important;
+        }
+      }
+
+      &.VueCarousel-navigation-next {
+        &:active {
+          padding-left: 14px !important;
+        }
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 }
 </style>
