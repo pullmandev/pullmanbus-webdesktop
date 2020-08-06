@@ -21,7 +21,7 @@
           ref="slider"
           v-model="value"
           v-bind="options"
-          process="#FFF"
+          :process="true"
         />
       </v-card-text>
     </v-card>
