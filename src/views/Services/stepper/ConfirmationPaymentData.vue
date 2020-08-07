@@ -86,7 +86,7 @@
                   <h3>
                     {{
                       props.item.piso > 0
-                        ? parseInt(props.item.asiento) + 20
+                        ? parseInt(props.item.asiento)
                         : props.item.asiento
                     }}
                   </h3>

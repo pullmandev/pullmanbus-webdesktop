@@ -65,7 +65,7 @@ export default {
       console.log('detail', seat)
       this.items = []
       let text = 'Asiento'
-      let value = seat.piso > 0 ? parseInt(seat.asiento) + 20 : seat.asiento
+      let value = seat.piso > 0 ? parseInt(seat.asiento) : seat.asiento
       this.items.push({ text, value, icon: 'mdi-seat' })
       text = 'Piso'
       value = seat.piso + 1

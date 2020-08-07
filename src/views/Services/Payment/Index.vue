@@ -436,7 +436,7 @@ export default {
         params.piso = seat.piso + 1
         params.asiento =
           seat.piso === 1
-            ? (parseInt(seat.asiento) + 20).toString()
+            ? (parseInt(seat.asiento)).toString()
             : seat.asiento
         params.datoConvenio = this.rut
         params.convenio = this.selectedConvenio
