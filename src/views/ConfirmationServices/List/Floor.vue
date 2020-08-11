@@ -265,7 +265,7 @@ export default {
         this.loadingPdf = true
         this.$notify({
           group: 'load',
-          title: this.$t('get_ticket'),
+          title: this.$t('get_tickets'),
           type: 'info'
         })
         const seat = this.selectedSeats[0]

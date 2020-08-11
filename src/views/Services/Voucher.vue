@@ -20,30 +20,30 @@
           </v-col>
 
           <v-col cols="12" md="12" lg="12">
-            <h3 class="mb-2">Datos de la compra:</h3>
+            <h3 class="mb-2 ml-2">Datos de la compra:</h3>
 
             <v-data-table
               class="elevation-1"
-              :headers="headers"
-              :items="[data]"
+              :headers="buyHeaders"
+              :items="[buyData]"
               item-key="name"
             >
               <template slot="item" slot-scope="props">
-                <td class="text-left">{{ codigo }}</td>
-                <td class="text-left">Pullman bus</td>
-                <td class="text-left">Peso Chileno</td>
-                <td class="text-left">
+                <td class="text-center">{{ code }}</td>
+                <td class="text-center">Pullman bus</td>
+                <td class="text-center">Peso Chileno</td>
+                <td class="text-center">
                   {{ props.item.montoFormateado }}
                 </td>
-                <td class="text-left">
+                <td class="text-center">
                   {{ props.item.codigoTransbank }}
                 </td>
-                <td class="text-left">{{ fechaFormateada }}</td>
-                <td class="text-left">
+                <td class="text-center">{{ fechaFormateada }}</td>
+                <td class="text-center">
                   {{ props.item.tipoPagoFormateado }}
                 </td>
-                <td class="text-left">{{ props.item.numeroCuota }}</td>
-                <td class="text-left">{{ props.item.numeroTarjeta }}</td>
+                <td class="text-center">{{ props.item.numeroCuota }}</td>
+                <td class="text-center">{{ props.item.numeroTarjeta }}</td>
               </template>
             </v-data-table>
           </v-col>
@@ -51,7 +51,7 @@
           <v-col v-if="download" cols="12" md="12" lg="12">
             <v-data-table
               class="elevation-1 my-5 rounded-search-box"
-              :headers="ticketsHeaders"
+              :headers="ticketHeaders"
               :items="tickets"
               :footer-props="{
                 showFirstLastPage: true,
@@ -110,7 +110,7 @@
             <v-btn
               class="download white--text mt-5 ml-3"
               color="blue_dark"
-              @click="getTickets()"
+              @click="download = true"
               :disabled="download"
             >
               {{ $t('download') }}
@@ -124,8 +124,8 @@
 
 <script>
 import apiTransaction from '@SERVICES/api/transaction'
-import apiCancel from '@SERVICES/api/cancel'
 import { getPdf } from '@SERVICES/getPdf'
+import { OK } from 'http-status-codes'
 import moment from 'moment'
 
 export default {
@@ -134,26 +134,26 @@ export default {
   data() {
     return {
       download: false,
+      buyData: {},
       tickets: [],
-      codigo: '',
-      data: {},
-      headers: [
-        { text: 'Orden de Compra', sortable: false },
-        { text: 'Comercio', sortable: false },
-        { text: 'Moneda', sortable: false },
-        { text: 'Monto', sortable: false },
-        { text: 'Código Transacción', sortable: false },
-        { text: 'Fecha', sortable: false },
-        { text: 'Tipo de pago', sortable: false },
-        { text: 'Cuotas', sortable: false },
-        { text: 'N. Tarjeta', sortable: false }
+      code: '',
+      buyHeaders: [
+        { text: 'Orden de Compra', align: 'center', sortable: false },
+        { text: 'Comercio', align: 'center', sortable: false },
+        { text: 'Moneda', align: 'center', sortable: false },
+        { text: 'Monto', align: 'center', sortable: false },
+        { text: 'Código Transacción', align: 'center', sortable: false },
+        { text: 'Fecha', align: 'center', sortable: false },
+        { text: 'Tipo de pago', align: 'center', sortable: false },
+        { text: 'Cuotas', align: 'center', sortable: false },
+        { text: 'N. Tarjeta', align: 'center', sortable: false }
       ],
-      ticketsHeaders: [
+      ticketHeaders: [
         {
           text: this.$t('ticket'),
           align: 'center',
-          sortable: false,
           value: 'boleto',
+          sortable: false,
           class: 'purchase-table-header'
         },
         {
@@ -203,80 +203,90 @@ export default {
   },
 
   mounted() {
-    this.codigo = this.$route.params.id
+    this.code = this.$route.params.id
     this.getTransaction()
   },
 
   computed: {
     fechaFormateada() {
       moment.locale(this.$i18n.locale)
-      return moment(this.data.fechaCompra).format('L')
+      return moment(this.buyData.fechaCompra).format('L')
     }
   },
 
   methods: {
     async getTransaction() {
-      const { data } = await apiTransaction.postHeader({ orden: this.codigo })
-      console.log(data)
-      this.data = data
-    },
-
-    async getTickets() {
-      this.download = true
-
-      this.$notify({
-        group: 'load',
-        title: this.$t('get_ticket'),
-        type: 'info'
-      })
-
       try {
-        const { data } = await apiCancel.searchTicket({ codigo: this.codigo })
-        console.log(data)
-        this.tickets = data.map(item => {
-          const { fechaHoraSalida } = item.imprimeVoucher
-          const dateNumber = fechaHoraSalida.slice(0, 8)
-          const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
-          const date = moment(dateNumber).format('DD/MM/YYYY')
-          const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
-
-          item.fechaHoraSalida = date + ' ' + hour
-          item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
-          item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
-          item.asiento = item.imprimeVoucher.asiento
-          item.total = item.imprimeVoucher.total.includes('.')
-            ? `$ ${item.imprimeVoucher.total}`
-            : this.$filters.currency(item.imprimeVoucher.total)
-
-          return item
+        const { status, data } = await apiTransaction.postHeader({
+          orden: this.code
         })
+
+        if (status === OK) {
+          this.buyData = data
+          this.formatTickets(data.boletos)
+
+          this.$notify({
+            group: 'load',
+            title: this.$t('success_buy'),
+            type: 'info'
+          })
+        }
       } catch (error) {
         console.error('ERROR-GET-TICKETS ->', error.message)
 
         this.$notify({
-          group: 'load',
-          title: this.$t('get_ticket'),
-          type: 'warn'
+          group: 'error',
+          title: 'Error al cargar los datos',
+          text: 'Actualice la pagina por favor',
+          type: 'error'
         })
       }
+    },
+
+    formatTickets(tickets) {
+      this.tickets = tickets.map(ticket => {
+        const { fechaHoraSalida } = ticket.imprimeVoucher
+        const dateNumber = fechaHoraSalida.slice(0, 8)
+        const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
+        const date = moment(dateNumber).format('DD/MM/YYYY')
+        const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
+
+        ticket.fechaHoraSalida = date + ' ' + hour
+        ticket.nombreTerminalOrigen = ticket.imprimeVoucher.nombreTerminalOrigen
+        ticket.nombreTerminalDestino =
+          ticket.imprimeVoucher.nombreTerminalDestino
+        ticket.asiento = ticket.imprimeVoucher.asiento
+        ticket.total = ticket.imprimeVoucher.total.includes('.')
+          ? `$ ${ticket.imprimeVoucher.total}`
+          : this.$filters.currency(ticket.imprimeVoucher.total)
+
+        return ticket
+      })
     },
 
     async downloaderTicket(nroTicket) {
       this.$notify({
         group: 'load',
-        title: this.$t('get_ticket'),
+        title: this.$t('downloading_tickets'),
         type: 'info'
       })
 
       try {
         const { data } = await apiTransaction.postVoucher({
           boleto: nroTicket,
-          codigo: this.codigo
+          codigo: this.code
         })
-        console.log(data)
+
         getPdf(data)
       } catch (error) {
         console.error('ERROR-DOWNLOAD-TICKET ->', error.message)
+
+        this.$notify({
+          group: 'error',
+          title: 'Error al descargar boleto',
+          text: 'Intente nuevamente por favor',
+          type: 'error'
+        })
       }
     }
   }

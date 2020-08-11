@@ -67,10 +67,11 @@
 </template>
 
 <script>
-import API from '@/services/api/cancel'
-import APITransaction from '@/services/api/transaction'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
+import API from '@/services/api/cancel'
+import APITransaction from '@/services/api/transaction'
+import { getPdf } from '@SERVICES/getPdf'
 
 export default {
   data() {
@@ -192,7 +193,7 @@ export default {
     async getTicket(codigo) {
       this.$notify({
         group: 'load',
-        title: this.$t('get_ticket'),
+        title: this.$t('get_tickets'),
         type: 'info'
       })
       const response = await API.searchTicket({
@@ -219,7 +220,7 @@ export default {
     downloadTickets(codigo) {
       this.$notify({
         group: 'load',
-        title: this.$t('get_ticket'),
+        title: this.$t('get_tickets'),
         type: 'info'
       })
 
@@ -233,9 +234,7 @@ export default {
             codigo
           })
 
-          console.log(responseTicket.data)
-
-          // this.toPDF(responseTicket.data)
+          getPdf(responseTicket.data)
         }
       })
     }

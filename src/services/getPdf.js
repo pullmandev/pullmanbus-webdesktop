@@ -1,5 +1,5 @@
-const toUint8Array = archivo => {
-  const binary = atob(archivo)
+const toUint8Array = file => {
+  const binary = atob(file)
   const length = binary.length
   const arrayBuffer = new ArrayBuffer(length)
   const uintArray = new Uint8Array(arrayBuffer)
