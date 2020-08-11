@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <h1 class="blue--text mb-6">{{ $t('my_purchases') }}</h1>
+
     <v-data-table
       :headers="transactionHeaders"
       :items="transactions"
@@ -40,6 +41,7 @@
         </tr>
       </template>
     </v-data-table>
+
     <v-data-table
       v-bind:headers="ticketsHeaders"
       :items="tickets"
@@ -63,6 +65,7 @@
     </v-data-table>
   </v-container>
 </template>
+
 <script>
 import API from '@/services/api/cancel'
 import APITransaction from '@/services/api/transaction'
@@ -212,68 +215,34 @@ export default {
       })
       console.log(this.tickets)
     },
+
     downloadTickets(codigo) {
       this.$notify({
         group: 'load',
         title: this.$t('get_ticket'),
         type: 'info'
       })
+
       APITransaction.postHeader({ orden: codigo }).then(async response => {
         const data = response.data
         const boletos = data.boletos
+
         for (let item of boletos) {
           const responseTicket = await APITransaction.postVoucher({
             boleto: item.boleto,
             codigo
           })
-          this.toPDF(responseTicket.data)
+
+          console.log(responseTicket.data)
+
+          // this.toPDF(responseTicket.data)
         }
       })
-    },
-    toPDF(response) {
-      // create a download anchor tag
-      const tipo = response.tipo.toLowerCase()
-      let downloadLink = document.createElement('a')
-      downloadLink.target = '_blank'
-      downloadLink.download = response.nombre
-
-      // convert downloaded data to a Blob
-      const blob = new Blob([this.toUint8Array(response.archivo)], {
-        type: `application/${tipo}`
-      })
-
-      // create an object URL from the Blob
-      let URL = window.URL || window.webkitURL
-      const downloadUrl = URL.createObjectURL(blob)
-
-      // set object URL as the anchor's href
-      downloadLink.href = downloadUrl
-
-      // append the anchor to document body
-      document.body.append(downloadLink)
-
-      // fire a click event on the anchor
-      downloadLink.click()
-
-      // cleanup: remove element and revoke object URL
-      document.body.removeChild(downloadLink)
-      URL.revokeObjectURL(downloadUrl)
-    },
-    toUint8Array(archivo) {
-      const binary = atob(archivo)
-      const length = binary.length
-      const arrayBuffer = new ArrayBuffer(length)
-      const uintArray = new Uint8Array(arrayBuffer)
-
-      for (let i = 0; i < length; i++) {
-        uintArray[i] = binary.charCodeAt(i)
-      }
-
-      return uintArray
     }
   }
 }
 </script>
+
 <style>
 .purchase-table-header {
   background-color: var(--var-orange);

@@ -9,6 +9,7 @@ const parametros = `${base}/srv-privado-web/rest/parametros`
 const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
 const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
+
 export default {
   cities: `${baseVenta}/buscaCiudades`,
   services: `${baseVenta}/obtenerServicio`,

@@ -1,74 +1,141 @@
 <template>
-  <div>
-    <v-container class="center">
-      <v-card class="elevation-10 pt-5 pb-5">
-        <v-container fluid>
-          <v-row class="confirmation-title blue_dark--text">
-            <v-col cols="12" md="12" lg="12">
-              <h1>{{ $t('congratulations') }}</h1>
-            </v-col>
-            <v-col cols="12" md="12" lg="12">
-              <p>{{ $t('success_buy') }}</p>
-            </v-col>
-            <v-col cols="12" class="d-flex justify-center">
-              <div
-                class="page-icon text-center d-flex align-center justify-center"
-              >
-                <v-icon size="70" class="white--text">check</v-icon>
-              </div>
-            </v-col>
-            <v-col cols="12" md="12" lg="12">
-              <h3 class="mb-2">Datos de la compra:</h3>
-              <v-data-table
-                :headers="headers"
-                :items="[data]"
-                hide-actions
-                class="elevation-1"
-              >
-                <template slot="item" slot-scope="props">
-                  <td class="text-left">{{ $route.params.id }}</td>
-                  <td class="text-left">Pullman bus</td>
-                  <td class="text-left">Peso Chileno</td>
-                  <td class="text-left">
-                    {{ props.item.montoFormateado }}
+  <v-container class="center">
+    <v-card class="elevation-10 pt-5 pb-5">
+      <v-container fluid>
+        <v-row class="confirmation-title blue_dark--text">
+          <v-col cols="12" md="12" lg="12">
+            <h1>{{ $t('congratulations') }}</h1>
+          </v-col>
+
+          <v-col cols="12" md="12" lg="12">
+            <p>{{ $t('success_buy') }}</p>
+          </v-col>
+
+          <v-col cols="12" class="d-flex justify-center">
+            <div
+              class="page-icon text-center d-flex align-center justify-center"
+            >
+              <v-icon size="70" class="white--text">check</v-icon>
+            </div>
+          </v-col>
+
+          <v-col cols="12" md="12" lg="12">
+            <h3 class="mb-2">Datos de la compra:</h3>
+
+            <v-data-table
+              class="elevation-1"
+              :headers="headers"
+              :items="[data]"
+              item-key="name"
+            >
+              <template slot="item" slot-scope="props">
+                <td class="text-left">{{ codigo }}</td>
+                <td class="text-left">Pullman bus</td>
+                <td class="text-left">Peso Chileno</td>
+                <td class="text-left">
+                  {{ props.item.montoFormateado }}
+                </td>
+                <td class="text-left">
+                  {{ props.item.codigoTransbank }}
+                </td>
+                <td class="text-left">{{ fechaFormateada }}</td>
+                <td class="text-left">
+                  {{ props.item.tipoPagoFormateado }}
+                </td>
+                <td class="text-left">{{ props.item.numeroCuota }}</td>
+                <td class="text-left">{{ props.item.numeroTarjeta }}</td>
+              </template>
+            </v-data-table>
+          </v-col>
+
+          <v-col v-if="download" cols="12" md="12" lg="12">
+            <v-data-table
+              class="elevation-1 my-5 rounded-search-box"
+              :headers="ticketsHeaders"
+              :items="tickets"
+              :footer-props="{
+                showFirstLastPage: true,
+                firstIcon: 'mdi-chevron-double-left',
+                lastIcon: 'mdi-chevron-double-right'
+              }"
+              :loading="tickets.length === 0"
+              :loading-text="$t('Loading... Please wait')"
+            >
+              <template slot="item" slot-scope="props">
+                <tr>
+                  <td class="text-center">{{ props.item.boleto }}</td>
+                  <td class="text-center">
+                    {{ props.item.fechaHoraSalida }}
                   </td>
                   <td class="text-center">
-                    {{ props.item.codigoTransbank }}
+                    {{ props.item.nombreTerminalOrigen }}
                   </td>
-                  <td class="text-left">{{ fechaFormateada }}</td>
-                  <td class="text-left">
-                    {{ props.item.tipoPagoFormateado }}
+                  <td class="text-center">
+                    {{ props.item.nombreTerminalDestino }}
                   </td>
-                  <td class="text-left">{{ props.item.numeroCuota }}</td>
-                  <td class="text-left">{{ props.item.numeroTarjeta }}</td>
-                </template>
-              </v-data-table>
-            </v-col>
-            <v-col class="d-flex justify-end">
-              <v-btn outlined class="mt-5" @click="$router.push({ path: '/' })"
-                >{{ $t('back') }}
-              </v-btn>
-              <v-btn
-                color="blue_dark"
-                class="white--text mt-5 ml-3"
-                @click="gettingTickets"
-                >{{ $t('download') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-container>
-  </div>
+                  <td class="text-center">{{ props.item.asiento }}</td>
+                  <td class="text-center">{{ props.item.total }}</td>
+                  <td class="text-center">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          text
+                          icon
+                          dark
+                          color="blue_dark"
+                          v-bind="attrs"
+                          v-on="on"
+                          @click="downloaderTicket(props.item.boleto)"
+                        >
+                          <i class="material-icons">get_app</i>
+                        </v-btn>
+                      </template>
+                      <span>{{ $t('download') }}</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </template>
+            </v-data-table>
+          </v-col>
+
+          <v-col class="d-flex justify-end">
+            <v-btn
+              class="mt-5"
+              outlined
+              @click="$router.push({ name: 'home' })"
+            >
+              {{ $t('back') }}
+            </v-btn>
+
+            <v-btn
+              class="download white--text mt-5 ml-3"
+              color="blue_dark"
+              @click="getTickets()"
+              :disabled="download"
+            >
+              {{ $t('download') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+  </v-container>
 </template>
+
 <script>
-import API from '@/services/api/transaction'
+import apiTransaction from '@SERVICES/api/transaction'
+import apiCancel from '@SERVICES/api/cancel'
+import { getPdf } from '@SERVICES/getPdf'
 import moment from 'moment'
 
 export default {
+  name: 'Voucher',
+
   data() {
     return {
-      download: '',
+      download: false,
+      tickets: [],
+      codigo: '',
       data: {},
       headers: [
         { text: 'Orden de Compra', sortable: false },
@@ -80,103 +147,142 @@ export default {
         { text: 'Tipo de pago', sortable: false },
         { text: 'Cuotas', sortable: false },
         { text: 'N. Tarjeta', sortable: false }
+      ],
+      ticketsHeaders: [
+        {
+          text: this.$t('ticket'),
+          align: 'center',
+          sortable: false,
+          value: 'boleto',
+          class: 'purchase-table-header'
+        },
+        {
+          text: this.$t('date'),
+          value: 'fechaHoraSalida',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+        {
+          text: this.$t('from_city2'),
+          value: 'nombreTerminalOrigen',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+        {
+          text: this.$t('to_city2'),
+          value: 'nombreTerminalDestino',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+        {
+          text: this.$t('seat'),
+          value: 'asiento',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+        {
+          text: this.$t('value'),
+          value: 'total',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+        {
+          text: '',
+          value: 'actions',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        }
       ]
     }
   },
-  mounted() {
-    this.download = this.$store.state.canDownload
-    if (this.$store.state.canDownload.permission === 'OK') {
-      this.$store.dispatch('SET_CAN_DOWNLOAD', {
-        permission: 'FALSE',
-        type: 'permission'
-      })
-      this.$store.dispatch('SET_CAN_DOWNLOAD', {
-        code: this.$route.params.id,
-        type: 'code'
-      })
-    }
 
-    console.log(this.download)
-    this.gettingTickets()
+  mounted() {
+    this.codigo = this.$route.params.id
+    this.getTransaction()
   },
+
   computed: {
     fechaFormateada() {
-      console.log(this.$i18n.locale)
       moment.locale(this.$i18n.locale)
       return moment(this.data.fechaCompra).format('L')
     }
   },
+
   methods: {
-    gettingTickets() {
-      if (
-        this.download !== 'OK' &&
-        this.download.code !== this.$route.params.id
-      ) {
-        return
-      }
+    async getTransaction() {
+      const { data } = await apiTransaction.postHeader({ orden: this.codigo })
+      console.log(data)
+      this.data = data
+    },
+
+    async getTickets() {
+      this.download = true
 
       this.$notify({
         group: 'load',
         title: this.$t('get_ticket'),
         type: 'info'
       })
-      const codigo = this.$route.params.id
-      API.postHeader({ orden: codigo }).then(async response => {
-        this.data = response.data
-        const boletos = this.data.boletos
-        for (let item of boletos) {
-          const responseTicket = await API.postVoucher({
-            boleto: item.boleto,
-            codigo
-          })
-          this.toPDF(responseTicket.data)
-        }
-      })
-    },
-    toPDF(response) {
-      // create a download anchor tag
-      const tipo = response.tipo.toLowerCase()
-      let downloadLink = document.createElement('a')
-      downloadLink.target = '_blank'
-      downloadLink.download = response.nombre
 
-      // convert downloaded data to a Blob
-      const blob = new Blob([this.toUint8Array(response.archivo)], {
-        type: `application/${tipo}`
-      })
+      try {
+        const { data } = await apiCancel.searchTicket({ codigo: this.codigo })
+        console.log(data)
+        this.tickets = data.map(item => {
+          const { fechaHoraSalida } = item.imprimeVoucher
+          const dateNumber = fechaHoraSalida.slice(0, 8)
+          const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
+          const date = moment(dateNumber).format('DD/MM/YYYY')
+          const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
 
-      // create an object URL from the Blob
-      let URL = window.URL || window.webkitURL
-      const downloadUrl = URL.createObjectURL(blob)
+          item.fechaHoraSalida = date + ' ' + hour
+          item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
+          item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
+          item.asiento = item.imprimeVoucher.asiento
+          item.total = item.imprimeVoucher.total.includes('.')
+            ? `$ ${item.imprimeVoucher.total}`
+            : this.$filters.currency(item.imprimeVoucher.total)
 
-      // set object URL as the anchor's href
-      downloadLink.href = downloadUrl
+          return item
+        })
+      } catch (error) {
+        console.error('ERROR-GET-TICKETS ->', error.message)
 
-      // append the anchor to document body
-      document.body.append(downloadLink)
-
-      // fire a click event on the anchor
-      downloadLink.click()
-
-      // cleanup: remove element and revoke object URL
-      document.body.removeChild(downloadLink)
-      URL.revokeObjectURL(downloadUrl)
-    },
-    toUint8Array(archivo) {
-      const binary = atob(archivo)
-      const length = binary.length
-      const arrayBuffer = new ArrayBuffer(length)
-      const uintArray = new Uint8Array(arrayBuffer)
-
-      for (let i = 0; i < length; i++) {
-        uintArray[i] = binary.charCodeAt(i)
+        this.$notify({
+          group: 'load',
+          title: this.$t('get_ticket'),
+          type: 'warn'
+        })
       }
+    },
 
-      return uintArray
+    async downloaderTicket(nroTicket) {
+      this.$notify({
+        group: 'load',
+        title: this.$t('get_ticket'),
+        type: 'info'
+      })
+
+      try {
+        const { data } = await apiTransaction.postVoucher({
+          boleto: nroTicket,
+          codigo: this.codigo
+        })
+        console.log(data)
+        getPdf(data)
+      } catch (error) {
+        console.error('ERROR-DOWNLOAD-TICKET ->', error.message)
+      }
     }
   }
 }
 </script>
+
 <style scoped>
 .page-icon {
   border-radius: 50%;
@@ -184,26 +290,32 @@ export default {
   height: 125px;
   background-color: var(--var-orange);
 }
+
 .center {
   margin-top: 8vh !important;
 }
+
 .confirmation-title h1 {
   text-align: center;
   font-weight: bold !important;
 }
+
 .confirmation-title h1 {
   line-height: 4rem !important;
   font-size: 44px;
 }
+
 .confirmation-title p {
   font-size: 20px;
   color: #a0a0a0;
   text-align: center;
 }
+
 table {
   width: 100%;
   background-color: lightgray;
 }
+
 table td {
   color: grey;
   text-align: center;
