@@ -1,5 +1,6 @@
 // const base = 'https://pullman.cl' // prod
-const base = 'https://pullmanapi.pasajeschile.cl' // dev
+//const base = 'https://pullmanapi.pasajeschile.cl' // dev
+const base = 'https://pullmanapi.viajaenbus.cl/' // dev
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
