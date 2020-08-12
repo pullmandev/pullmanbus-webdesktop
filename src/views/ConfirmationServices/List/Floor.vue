@@ -265,7 +265,7 @@ export default {
         this.loadingPdf = true
         this.$notify({
           group: 'load',
-          title: this.$t('get_ticket'),
+          title: this.$t('get_tickets'),
           type: 'info'
         })
         const seat = this.selectedSeats[0]
@@ -279,9 +279,7 @@ export default {
           clase: seat.clase,
           empresa: seat.empresa,
           asiento:
-            seat.piso === 1
-              ? (parseInt(seat.asiento)).toString()
-              : seat.asiento,
+            seat.piso === 1 ? parseInt(seat.asiento).toString() : seat.asiento,
           idServicio: seat.servicio,
           fechaServicio,
           fechaSalida,
@@ -435,9 +433,7 @@ export default {
         'asiento'
       ])
       requestParams.asiento =
-        params.piso > 0
-          ? (parseInt(params.asiento)).toString()
-          : params.asiento
+        params.piso > 0 ? parseInt(params.asiento).toString() : params.asiento
       return requestParams
     },
     async getSeats(item) {
@@ -477,21 +473,21 @@ export default {
       console.log('map', this.map)
       console.log('floors', floors)
       let grilla = []
-      let indice = 0;  
+      let indice = 0
       const map = JSON.parse(JSON.stringify(this.map))
-      if(map[2] != undefined){
-        for(let j = 0; j < this.map[2][0].length; j++){
-          for(let i = 5; i >= 0; i--){
-            if(this.map[2][i][j] != null){
-              indice = parseInt(this.map[2][i][j]) - 1;
-              
-              break;
+      if (map[2] != undefined) {
+        for (let j = 0; j < this.map[2][0].length; j++) {
+          for (let i = 5; i >= 0; i--) {
+            if (this.map[2][i][j] != null) {
+              indice = parseInt(this.map[2][i][j]) - 1
+
+              break
             }
           }
-          if(indice != 0)break
+          if (indice != 0) break
         }
       }
-      console.log(indice);      
+      console.log(indice)
       floors.forEach((key, iFloor) => {
         map[key] = this.map[key].map(row => {
           const newRow = row.map(olditem => {
@@ -508,11 +504,11 @@ export default {
             ) {
               seat = []
               seat.push(item)
-              let index = 0;
-              if(iFloor == 0){
+              let index = 0
+              if (iFloor == 0) {
                 index = parseInt(item)
-              }else if(iFloor==1){
-                index = parseInt(item) - parseInt(indice);
+              } else if (iFloor == 1) {
+                index = parseInt(item) - parseInt(indice)
               }
               seat.push(availability[iFloor].substring(index - 1, index))
             }

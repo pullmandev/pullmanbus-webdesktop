@@ -9,9 +9,11 @@ export default {
   post(params) {
     return axios.post(transaction, params)
   },
+
   postHeader(params) {
     return axios.post(searchHeader, params)
   },
+
   postVoucher(params) {
     return axios.post(generateVoucher, params, {
       headers: {

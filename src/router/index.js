@@ -29,7 +29,7 @@ import CancelPurchase from '@/views/Profile/CancelPurchase'
 import ProfilePassword from '@/views/Profile/ProfilePassword'
 
 //Payment response
-import Voucher from '@/views/Services/Voucher.vue'
+import Voucher from '@/views/Services/Voucher'
 import Fail from '@/views/Services/Fail.vue'
 import Error404 from '@/views/ErrorPages/Error404.vue'
 

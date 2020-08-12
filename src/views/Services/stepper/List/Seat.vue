@@ -21,7 +21,7 @@ export default {
     seatNumberToShow() {
       let number = this.seatNumber.toString()
       if (this.floor > 0) {
-        number = (parseInt(number)).toString()
+        number = parseInt(number).toString()
       }
       return number
     },

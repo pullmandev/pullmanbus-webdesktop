@@ -1,9 +1,7 @@
-<template>
-</template>
 <script>
 export default {
-  mounted () {
-    const {url, token} = localStorage
+  mounted() {
+    const { url, token } = localStorage
     var f = document.createElement('form')
     f.setAttribute('method', 'post')
     f.setAttribute('action', url)
@@ -21,4 +19,3 @@ export default {
   }
 }
 </script>
-
