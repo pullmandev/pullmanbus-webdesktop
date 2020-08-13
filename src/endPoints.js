@@ -50,5 +50,6 @@ export default {
   botonPago: `${administracion}/private/convenio/getConvenio`,
   validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
-  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`
+  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`,
+  mapVertical: `${baseVenta}/buscarPlantillaVertical`
 }

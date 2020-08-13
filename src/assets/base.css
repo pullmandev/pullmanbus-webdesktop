@@ -223,3 +223,11 @@
   .phone input[type='number'] {
     -moz-appearance: textfield;
   }
+
+  .leftText {
+    text-align: left;
+  }
+
+  .rightText {
+    text-align: right;
+  }

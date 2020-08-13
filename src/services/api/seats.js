@@ -9,6 +9,7 @@ const availability = endPoints.availability
 const validateSeat = endPoints.validateSeat
 const takeSeat = endPoints.takeSeat
 const freeSeat = endPoints.freeSeat
+const mapVertical = endPoints.mapVertical
 /**
  * Export
  */
@@ -46,6 +47,13 @@ export default {
       return axios.post(freeSeat, params)
     } else {
       return axios.post(freeSeat)
+    }
+  },
+  getMapVertical(params) {
+    if (params) {
+      return axios.post(mapVertical, params)
+    } else {
+      return axios.post(mapVertical)
     }
   }
 }

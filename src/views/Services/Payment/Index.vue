@@ -435,7 +435,9 @@ export default {
         params.idaVuelta = seat.tomadoPromo
         params.piso = seat.piso + 1
         params.asiento =
-          seat.piso === 1 ? parseInt(seat.asiento).toString() : seat.asiento
+          seat.piso === 1
+            ? (parseInt(seat.asiento)).toString()
+            : seat.asiento
         params.datoConvenio = this.rut
         params.convenio = this.selectedConvenio
         listaCarrito.push(params)
