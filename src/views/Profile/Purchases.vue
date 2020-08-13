@@ -3,14 +3,16 @@
     <h1 class="blue--text mb-6">{{ $t('my_purchases') }}</h1>
 
     <v-data-table
+      class="elevation-1 mb-5 rounded-search-box"
       :headers="transactionHeaders"
       :items="transactions"
-      class="elevation-1 mb-5 rounded-search-box"
       :footer-props="{
         showFirstLastPage: true,
         firstIcon: 'mdi-chevron-double-left',
         lastIcon: 'mdi-chevron-double-right'
       }"
+      :loading="loading"
+      :loading-text="$t('Loading... Please wait')"
     >
       <template slot="item" slot-scope="props">
         <tr>
@@ -18,7 +20,7 @@
           <td>{{ props.item.estado }}</td>
           <td>{{ props.item.fechaCompraFormato }}</td>
           <td>{{ props.item.monto | currency }}</td>
-          <td class="text-left">
+          <td class="text-center">
             <v-btn
               text
               icon
@@ -28,7 +30,7 @@
               <i class="material-icons">search</i>
             </v-btn>
           </td>
-          <td class="text-left">
+          <td class="text-center">
             <v-btn
               text
               icon
@@ -42,207 +44,145 @@
       </template>
     </v-data-table>
 
-    <v-data-table
-      v-bind:headers="ticketsHeaders"
-      :items="tickets"
-      class="elevation-1 my-5 rounded-search-box"
-      :footer-props="{
-        showFirstLastPage: true,
-        firstIcon: 'mdi-chevron-double-left',
-        lastIcon: 'mdi-chevron-double-right'
-      }"
-    >
-      <template slot="item" slot-scope="props">
-        <tr>
-          <td class="text-xs-left">{{ props.item.boleto }}</td>
-          <td class="text-xs-left">{{ props.item.fechaHoraSalida }}</td>
-          <td class="text-xs-left">{{ props.item.nombreTerminalOrigen }}</td>
-          <td class="text-xs-left">{{ props.item.nombreTerminalDestino }}</td>
-          <td class="text-xs-center">{{ props.item.asiento }}</td>
-          <td class="text-xs-left">{{ props.item.total }}</td>
-        </tr>
-      </template>
-    </v-data-table>
+    <TicketsTable :tickets="ticketsData" :loading="loadingTicket" />
   </v-container>
 </template>
 
 <script>
-import moment from 'moment'
 import { mapGetters } from 'vuex'
-import API from '@/services/api/cancel'
-import APITransaction from '@/services/api/transaction'
-import { getPdf } from '@SERVICES/getPdf'
+import { OK } from 'http-status-codes'
+import TicketsTable from '@COMPONENTS/Tables/TicketsTable.component'
+import apiCancel from '@SERVICES/api/cancel'
 
 export default {
+  name: 'Purchases',
+
+  components: {
+    TicketsTable
+  },
+
   data() {
     return {
+      loadingTicket: false,
+      loading: true,
       transactions: [],
-      tickets: []
-    }
-  },
-  computed: {
-    ...mapGetters({
-      userData: ['userData']
-    }),
-    transactionHeaders() {
-      return [
+      ticketsData: [],
+      transactionHeaders: [
         {
           text: this.$t('transaction_code'),
-          align: 'left',
-          sortable: false,
           value: 'codigo',
+          align: 'center',
+          sortable: false,
           class: 'purchase-table-header'
         },
         {
           text: this.$t('state'),
           value: 'estado',
-          align: 'left',
+          align: 'center',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
           text: this.$t('purchase_date'),
           value: 'fechacompra',
-          align: 'left',
+          align: 'center',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
           text: 'Total',
           value: 'monto',
-          align: 'left',
+          align: 'center',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
           text: '',
           value: '',
-          align: 'left',
+          align: 'center',
           sortable: false,
           class: 'purchase-table-header'
         },
         {
           text: '',
           value: '',
-          align: 'left',
-          sortable: false,
-          class: 'purchase-table-header'
-        }
-      ]
-    },
-    ticketsHeaders() {
-      return [
-        {
-          text: this.$t('ticket'),
-          align: 'left',
-          sortable: false,
-          value: 'boleto',
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('date'),
-          value: 'fechaHoraSalida',
-          align: 'left',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('from_city2'),
-          value: 'nombreTerminalOrigen',
-          align: 'left',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('to_city2'),
-          value: 'nombreTerminalDestino',
-          align: 'left',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('seat'),
-          value: 'asiento',
-          align: 'left',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('value'),
-          value: 'total',
-          align: 'left',
+          align: 'center',
           sortable: false,
           class: 'purchase-table-header'
         }
       ]
     }
   },
-  mounted() {
-    const { email } = this.$store.getters.userData.usuario
-    console.log('Mis compras', email)
-    API.searchTransaction({ email })
-      .then(response => {
-        console.log('Mis compras', response.data)
-        this.transactions = response.data
-      })
-      .catch(err => {
-        console.err(err)
-      })
+
+  computed: {
+    ...mapGetters({
+      userData: ['userData']
+    })
   },
+
+  mounted() {
+    this.getTransactions()
+  },
+
   methods: {
-    async getTicket(codigo) {
-      this.$notify({
-        group: 'load',
-        title: this.$t('get_tickets'),
-        type: 'info'
-      })
-      const response = await API.searchTicket({
-        codigo
-      })
-      this.tickets = response.data.map(item => {
-        const { fechaHoraSalida } = item.imprimeVoucher
-        const dateNumber = fechaHoraSalida.slice(0, 8)
-        const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
-        const date = moment(dateNumber).format('DD/MM/YYYY')
-        const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
-        item.fechaHoraSalida = date + ' ' + hour
-        item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
-        item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
-        item.asiento = item.imprimeVoucher.asiento
-        item.total = item.imprimeVoucher.total.includes('.')
-          ? `$ ${item.imprimeVoucher.total}`
-          : this.$filters.currency(item.imprimeVoucher.total)
-        return item
-      })
-      console.log(this.tickets)
+    async getTransactions() {
+      const { email } = this.$store.getters.userData.usuario
+
+      try {
+        const { status, data } = await apiCancel.searchTransaction({
+          email
+        })
+
+        if (status === OK) {
+          // console.log('Mis compras', data)
+          this.loading = false
+          this.transactions = data
+        }
+      } catch (error) {
+        console.error('ERROR-TRANSACTIONS ->', error.message)
+
+        this.loading = false
+        this.$notify({
+          group: 'error',
+          title: 'Error al cargar los datos',
+          type: 'error'
+        })
+      }
     },
 
-    downloadTickets(codigo) {
+    async getTicket(code) {
       this.$notify({
         group: 'load',
         title: this.$t('get_tickets'),
         type: 'info'
       })
 
-      APITransaction.postHeader({ orden: codigo }).then(async response => {
-        const data = response.data
-        const boletos = data.boletos
+      this.loadingTicket = true
+      try {
+        const { status, data } = await apiCancel.searchTicket({
+          codigo: code
+        })
 
-        for (let item of boletos) {
-          const responseTicket = await APITransaction.postVoucher({
-            boleto: item.boleto,
-            codigo
-          })
-
-          getPdf(responseTicket.data)
+        if (status === OK) {
+          this.loadingTicket = false
+          this.ticketsData = data
         }
-      })
+      } catch (error) {
+        console.error('ERROR-GET-TICKET ->', error.message)
+
+        this.loadingTicket = false
+        this.$notify({
+          group: 'error',
+          title: 'Error al cargar los datos',
+          type: 'error'
+        })
+      }
     }
   }
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 .purchase-table-header {
   background-color: var(--var-orange);
   color: white !important;

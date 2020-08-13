@@ -120,7 +120,7 @@ export default {
   search_services: 'Buscando servicios',
   taking_seat: 'Tomando asiento',
   get_tickets: 'Obteniendo boletos',
-  downloading_tickets: 'Descargando boletos',
+  downloading_ticket: 'Descargando boleto',
   error_404: 'No hemos encontrado la página que estas buscando',
   terms: 'Términos de uso.',
   your_rights: 'Conoce tus derechos',

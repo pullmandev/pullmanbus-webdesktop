@@ -120,7 +120,7 @@ export default {
   search_services: 'Looking for services',
   taking_seat: 'Taking seat',
   get_tickets: 'Getting tickets',
-  downloading_ticket: 'Downloading tickets',
+  downloading_ticket: 'Downloading ticket',
   error_404: "This is not the page you're looking for",
   terms: 'Terms of use.',
   your_rights: 'Know your rights',

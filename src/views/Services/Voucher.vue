@@ -24,24 +24,19 @@
 
             <v-data-table
               class="elevation-1"
-              :headers="buyHeaders"
-              :items="[buyData]"
-              item-key="name"
+              :headers="transactionHeaders"
+              :items="transaction"
+              :loading="loading"
+              :loading-text="$t('Loading... Please wait')"
             >
               <template slot="item" slot-scope="props">
-                <td class="text-center">{{ code }}</td>
+                <td class="text-center">{{ props.item.codigo }}</td>
                 <td class="text-center">Pullman bus</td>
                 <td class="text-center">Peso Chileno</td>
-                <td class="text-center">
-                  {{ props.item.montoFormateado }}
-                </td>
-                <td class="text-center">
-                  {{ props.item.codigoTransbank }}
-                </td>
+                <td class="text-center">{{ props.item.montoFormateado }}</td>
+                <td class="text-center">{{ props.item.codigoTransbank }}</td>
                 <td class="text-center">{{ fechaFormateada }}</td>
-                <td class="text-center">
-                  {{ props.item.tipoPagoFormateado }}
-                </td>
+                <td class="text-center">{{ props.item.tipoPagoFormateado }}</td>
                 <td class="text-center">{{ props.item.numeroCuota }}</td>
                 <td class="text-center">{{ props.item.numeroTarjeta }}</td>
               </template>
@@ -49,53 +44,7 @@
           </v-col>
 
           <v-col v-if="download" cols="12" md="12" lg="12">
-            <v-data-table
-              class="elevation-1 my-5 rounded-search-box"
-              :headers="ticketHeaders"
-              :items="tickets"
-              :footer-props="{
-                showFirstLastPage: true,
-                firstIcon: 'mdi-chevron-double-left',
-                lastIcon: 'mdi-chevron-double-right'
-              }"
-              :loading="tickets.length === 0"
-              :loading-text="$t('Loading... Please wait')"
-            >
-              <template slot="item" slot-scope="props">
-                <tr>
-                  <td class="text-center">{{ props.item.boleto }}</td>
-                  <td class="text-center">
-                    {{ props.item.fechaHoraSalida }}
-                  </td>
-                  <td class="text-center">
-                    {{ props.item.nombreTerminalOrigen }}
-                  </td>
-                  <td class="text-center">
-                    {{ props.item.nombreTerminalDestino }}
-                  </td>
-                  <td class="text-center">{{ props.item.asiento }}</td>
-                  <td class="text-center">{{ props.item.total }}</td>
-                  <td class="text-center">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          text
-                          icon
-                          dark
-                          color="blue_dark"
-                          v-bind="attrs"
-                          v-on="on"
-                          @click="downloaderTicket(props.item.boleto)"
-                        >
-                          <i class="material-icons">get_app</i>
-                        </v-btn>
-                      </template>
-                      <span>{{ $t('download') }}</span>
-                    </v-tooltip>
-                  </td>
-                </tr>
-              </template>
-            </v-data-table>
+            <TicketsTable :tickets="ticketsData" />
           </v-col>
 
           <v-col class="d-flex justify-end">
@@ -123,21 +72,25 @@
 </template>
 
 <script>
-import apiTransaction from '@SERVICES/api/transaction'
-import { getPdf } from '@SERVICES/getPdf'
-import { OK } from 'http-status-codes'
 import moment from 'moment'
+import { OK } from 'http-status-codes'
+import TicketsTable from '@COMPONENTS/Tables/TicketsTable.component'
+import apiTransaction from '@SERVICES/api/transaction'
 
 export default {
   name: 'Voucher',
 
+  components: {
+    TicketsTable
+  },
+
   data() {
     return {
+      loading: true,
       download: false,
-      buyData: {},
-      tickets: [],
-      code: '',
-      buyHeaders: [
+      transaction: [],
+      ticketsData: [],
+      transactionHeaders: [
         { text: 'Orden de Compra', align: 'center', sortable: false },
         { text: 'Comercio', align: 'center', sortable: false },
         { text: 'Moneda', align: 'center', sortable: false },
@@ -147,144 +100,48 @@ export default {
         { text: 'Tipo de pago', align: 'center', sortable: false },
         { text: 'Cuotas', align: 'center', sortable: false },
         { text: 'N. Tarjeta', align: 'center', sortable: false }
-      ],
-      ticketHeaders: [
-        {
-          text: this.$t('ticket'),
-          align: 'center',
-          value: 'boleto',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('date'),
-          value: 'fechaHoraSalida',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('from_city2'),
-          value: 'nombreTerminalOrigen',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('to_city2'),
-          value: 'nombreTerminalDestino',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('seat'),
-          value: 'asiento',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: this.$t('value'),
-          value: 'total',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        },
-        {
-          text: '',
-          value: 'actions',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
-        }
       ]
     }
   },
 
   mounted() {
-    this.code = this.$route.params.id
     this.getTransaction()
   },
 
   computed: {
     fechaFormateada() {
       moment.locale(this.$i18n.locale)
-      return moment(this.buyData.fechaCompra).format('L')
+      return moment(this.transaction[0].fechaCompra).format('L')
     }
   },
 
   methods: {
     async getTransaction() {
+      this.$notify({
+        group: 'load',
+        title: this.$t('success_buy'),
+        type: 'info'
+      })
+
+      const code = this.$route.params.id
       try {
         const { status, data } = await apiTransaction.postHeader({
-          orden: this.code
+          orden: code
         })
 
         if (status === OK) {
-          this.buyData = data
-          this.formatTickets(data.boletos)
+          this.loading = false
 
-          this.$notify({
-            group: 'load',
-            title: this.$t('success_buy'),
-            type: 'info'
-          })
+          this.transaction.push(data)
+          this.ticketsData = data.boletos
         }
       } catch (error) {
         console.error('ERROR-GET-TICKETS ->', error.message)
 
+        this.loading = false
         this.$notify({
           group: 'error',
           title: 'Error al cargar los datos',
-          text: 'Actualice la pagina por favor',
-          type: 'error'
-        })
-      }
-    },
-
-    formatTickets(tickets) {
-      this.tickets = tickets.map(ticket => {
-        const { fechaHoraSalida } = ticket.imprimeVoucher
-        const dateNumber = fechaHoraSalida.slice(0, 8)
-        const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
-        const date = moment(dateNumber).format('DD/MM/YYYY')
-        const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
-
-        ticket.fechaHoraSalida = date + ' ' + hour
-        ticket.nombreTerminalOrigen = ticket.imprimeVoucher.nombreTerminalOrigen
-        ticket.nombreTerminalDestino =
-          ticket.imprimeVoucher.nombreTerminalDestino
-        ticket.asiento = ticket.imprimeVoucher.asiento
-        ticket.total = ticket.imprimeVoucher.total.includes('.')
-          ? `$ ${ticket.imprimeVoucher.total}`
-          : this.$filters.currency(ticket.imprimeVoucher.total)
-
-        return ticket
-      })
-    },
-
-    async downloaderTicket(nroTicket) {
-      this.$notify({
-        group: 'load',
-        title: this.$t('downloading_tickets'),
-        type: 'info'
-      })
-
-      try {
-        const { data } = await apiTransaction.postVoucher({
-          boleto: nroTicket,
-          codigo: this.code
-        })
-
-        getPdf(data)
-      } catch (error) {
-        console.error('ERROR-DOWNLOAD-TICKET ->', error.message)
-
-        this.$notify({
-          group: 'error',
-          title: 'Error al descargar boleto',
-          text: 'Intente nuevamente por favor',
           type: 'error'
         })
       }
@@ -293,7 +150,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.center {
+  margin-top: 8vh !important;
+}
+
+.confirmation-title {
+  h1 {
+    text-align: center;
+    line-height: 4rem !important;
+    font-size: 44px;
+    font-weight: bold !important;
+  }
+
+  p {
+    font-size: 20px;
+    color: #a0a0a0;
+    text-align: center;
+  }
+}
+
 .page-icon {
   border-radius: 50%;
   width: 125px;
@@ -301,33 +177,12 @@ export default {
   background-color: var(--var-orange);
 }
 
-.center {
-  margin-top: 8vh !important;
-}
-
-.confirmation-title h1 {
-  text-align: center;
-  font-weight: bold !important;
-}
-
-.confirmation-title h1 {
-  line-height: 4rem !important;
-  font-size: 44px;
-}
-
-.confirmation-title p {
-  font-size: 20px;
-  color: #a0a0a0;
-  text-align: center;
-}
-
 table {
   width: 100%;
-  background-color: lightgray;
-}
 
-table td {
-  color: grey;
-  text-align: center;
+  td {
+    color: grey;
+    text-align: center;
+  }
 }
 </style>

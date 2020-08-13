@@ -6,7 +6,9 @@ const { resolve } = require('path')
 
 module.exports = {
   chainWebpack: config => {
-    config.resolve.alias.set('@SERVICES', resolve(__dirname, 'src', 'services'))
+    config.resolve.alias
+      .set('@SERVICES', resolve(__dirname, 'src', 'services'))
+      .set('@COMPONENTS', resolve(__dirname, 'src', 'components'))
   },
   configureWebpack: {
     plugins: [
