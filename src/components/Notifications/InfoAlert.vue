@@ -10,7 +10,7 @@
     <template slot="body" slot-scope="props">
       <div class="custom-template font">
         <div class="custom-template-icon displayNoneTiny">
-          <v-icon large color="blue_light"> error_outline </v-icon>
+          <v-icon large color="light"> error_outline </v-icon>
         </div>
         <div class="custom-template-content">
           <div class="custom-template-title">

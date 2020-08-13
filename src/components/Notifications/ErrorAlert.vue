@@ -45,7 +45,8 @@ export default {
 }
 </script>
 <style>
-.custom-template {
+.custom-template,
+.custom-template.displayNoneTiny {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
