@@ -13,7 +13,7 @@
           <v-progress-circular
             indeterminate
             :size="30"
-            color="blue_light"
+            color="light"
           ></v-progress-circular>
         </div>
         <div class="custom-template-content">

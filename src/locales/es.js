@@ -121,6 +121,7 @@ export default {
   taking_seat: 'Tomando asiento',
   get_tickets: 'Obteniendo boletos',
   downloading_ticket: 'Descargando boleto',
+  email_sent: 'Los boletos fueron enviados a su correo',
   error_404: 'No hemos encontrado la página que estas buscando',
   terms: 'Términos de uso.',
   your_rights: 'Conoce tus derechos',

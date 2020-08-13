@@ -117,10 +117,12 @@ export default {
 
   methods: {
     async getTransaction() {
+      const { email } = this.$store.getters.userData.usuario
       this.$notify({
-        group: 'load',
+        group: 'info',
         title: this.$t('success_buy'),
-        type: 'info'
+        text: this.$t('email_sent') + `: ${email}`,
+        duration: -1
       })
 
       const code = this.$route.params.id
@@ -141,8 +143,7 @@ export default {
         this.loading = false
         this.$notify({
           group: 'error',
-          title: 'Error al cargar los datos',
-          type: 'error'
+          title: 'Error al cargar los datos'
         })
       }
     }

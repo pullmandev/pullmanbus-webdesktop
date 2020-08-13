@@ -144,8 +144,7 @@ export default {
         this.loading = false
         this.$notify({
           group: 'error',
-          title: 'Error al cargar los datos',
-          type: 'error'
+          title: 'Error al cargar los datos'
         })
       }
     },
@@ -153,8 +152,7 @@ export default {
     async getTicket(code) {
       this.$notify({
         group: 'load',
-        title: this.$t('get_tickets'),
-        type: 'info'
+        title: this.$t('get_tickets')
       })
 
       this.loadingTicket = true
@@ -173,8 +171,7 @@ export default {
         this.loadingTicket = false
         this.$notify({
           group: 'error',
-          title: 'Error al cargar los datos',
-          type: 'error'
+          title: 'Error al cargar los datos'
         })
       }
     }

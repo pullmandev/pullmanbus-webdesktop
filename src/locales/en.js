@@ -121,6 +121,7 @@ export default {
   taking_seat: 'Taking seat',
   get_tickets: 'Getting tickets',
   downloading_ticket: 'Downloading ticket',
+  email_sent: 'The tickets were sent to your mail',
   error_404: "This is not the page you're looking for",
   terms: 'Terms of use.',
   your_rights: 'Know your rights',
