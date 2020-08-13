@@ -29,7 +29,7 @@
                 color="blue_dark"
                 v-bind="attrs"
                 v-on="on"
-                @click="downloaderTicket(props.item.boleto)"
+                @click="downloaderTicket(props.item)"
               >
                 <i class="material-icons">get_app</i>
               </v-btn>
@@ -146,7 +146,7 @@ export default {
   },
 
   methods: {
-    async downloaderTicket(nroTicket) {
+    async downloaderTicket(ticket) {
       this.$notify({
         group: 'load',
         title: this.$t('downloading_ticket'),
@@ -155,8 +155,8 @@ export default {
 
       try {
         const { status, data } = await apiTransaction.postVoucher({
-          boleto: nroTicket,
-          codigo: this.code
+          boleto: ticket.boleto,
+          codigo: ticket.codigo
         })
 
         if (status === OK) {

@@ -167,7 +167,6 @@ const routes = [
         name: 'ServicesList',
         component: ConfirmationServicesList,
         beforeEnter(to, from, next) {
-          console.log(store.getters.getSearchingConfirmation)
           if (store.getters.getSearchingConfirmation.ticket.confirmation) {
             next({
               name: 'ConfirmationServicesPanel'

@@ -15,7 +15,7 @@
       :loading-text="$t('Loading... Please wait')"
     >
       <template slot="item" slot-scope="props">
-        <tr>
+        <tr :class="{ selected: select[props.item.codigo] }">
           <td>{{ props.item.codigo }}</td>
           <td>{{ props.item.estado }}</td>
           <td>{{ props.item.fechaCompraFormato }}</td>
@@ -28,16 +28,6 @@
               @click="getTicket(props.item.codigo)"
             >
               <i class="material-icons">search</i>
-            </v-btn>
-          </td>
-          <td class="text-center">
-            <v-btn
-              text
-              icon
-              color="blue_dark"
-              @click="downloadTickets(props.item.codigo)"
-            >
-              <i class="material-icons">get_app</i>
             </v-btn>
           </td>
         </tr>
@@ -63,6 +53,8 @@ export default {
 
   data() {
     return {
+      select: {},
+      notifyEmail: {},
       loadingTicket: false,
       loading: true,
       transactions: [],
@@ -102,13 +94,6 @@ export default {
           align: 'center',
           sortable: false,
           class: 'purchase-table-header'
-        },
-        {
-          text: '',
-          value: '',
-          align: 'center',
-          sortable: false,
-          class: 'purchase-table-header'
         }
       ]
     }
@@ -127,14 +112,12 @@ export default {
   methods: {
     async getTransactions() {
       const { email } = this.$store.getters.userData.usuario
-
       try {
         const { status, data } = await apiCancel.searchTransaction({
           email
         })
 
         if (status === OK) {
-          // console.log('Mis compras', data)
           this.loading = false
           this.transactions = data
         }
@@ -162,6 +145,9 @@ export default {
         })
 
         if (status === OK) {
+          this.select = {}
+          this.select[code] = true
+
           this.loadingTicket = false
           this.ticketsData = data
         }
@@ -179,10 +165,18 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .purchase-table-header {
   background-color: var(--var-orange);
   color: white !important;
   font-size: 16px !important;
+}
+
+.v-data-table {
+  table {
+    .selected {
+      background-color: #0000001a !important;
+    }
+  }
 }
 </style>

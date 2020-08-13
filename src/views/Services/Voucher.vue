@@ -108,6 +108,13 @@ export default {
     this.getTransaction()
   },
 
+  destroyed() {
+    this.$notify({
+      group: 'info',
+      clean: true
+    })
+  },
+
   computed: {
     fechaFormateada() {
       moment.locale(this.$i18n.locale)
@@ -122,7 +129,7 @@ export default {
         group: 'info',
         title: this.$t('success_buy'),
         text: this.$t('email_sent') + `: ${email}`,
-        duration: -1
+        duration: -1 // negative to remain until clicked
       })
 
       const code = this.$route.params.id
