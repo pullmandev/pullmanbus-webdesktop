@@ -7,22 +7,16 @@ import vuetify from './plugins/vuetify'
 import i18n from './plugins/vueI18n'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
-import * as VueGoogleMaps from 'vue2-google-maps'
-import IdleVue from 'idle-vue'
+import VueGtag from 'vue-gtag'
 import('./assets/base.css')
 
-Vue.use(IdleVue, {
-  eventEmitter: new Vue(),
-  idleTime: 60000 * 15
-})
-Vue.use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyDQB3QcRFQSQFoJSubx4AvoQl5_QYohIkg',
-    libraries: 'places, drawing, geometry, visualization'
+Vue.use(
+  VueGtag,
+  {
+    config: { id: 'UA-168212446-1' }
   },
-  installComponents: true
-})
-
+  router
+)
 Vue.use(Notifications)
 Vue.use(VueCurrencyFilter, {
   symbol: '$',
