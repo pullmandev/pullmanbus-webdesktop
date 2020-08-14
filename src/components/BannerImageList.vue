@@ -16,7 +16,11 @@
       <v-row class="mx-6">
         <v-col md="3" sm="12" v-for="(item, index) of images" :key="index">
           <v-card>
-            <a :href="links[index]" target="_blank">
+            <a
+              v-if="links[index] !== 'Dialog'"
+              :href="links[index]"
+              target="_blank"
+            >
               <v-img
                 class="white--text align-end"
                 :src="require(`../../static/images/${item}`)"
@@ -25,6 +29,15 @@
               >
               </v-img>
             </a>
+            <v-img
+              v-else
+              class="white--text align-end"
+              :src="require(`../../static/images/${item}`)"
+              cover
+              height="260px"
+              @click="$emit('dialog')"
+            >
+            </v-img>
             <div class="content-text-container">
               <v-card-text
                 style="background-color: white; position: absolute; bottom: 0"

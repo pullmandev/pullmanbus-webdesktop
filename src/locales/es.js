@@ -119,7 +119,9 @@ export default {
   no_going_date: 'Fecha de ida es obligatoria',
   search_services: 'Buscando servicios',
   taking_seat: 'Tomando asiento',
-  get_ticket: 'Obteniendo boletos',
+  get_tickets: 'Obteniendo boletos',
+  downloading_ticket: 'Descargando boleto',
+  email_sent: 'Los boletos fueron enviados a su correo',
   error_404: 'No hemos encontrado la página que estas buscando',
   terms: 'Términos de uso.',
   your_rights: 'Conoce tus derechos',
@@ -288,5 +290,6 @@ export default {
     'El cliente al momento de registrarse o hacer transacciones bancarias podrá optar por aceptar o denegar la recepción en su correo electrónico de circulares promocionales, mensajes o alertas de ofertas, teniendo la posibilidad de cancelar suscripción a través de enlace que será enviado en cada correo electrónico. En caso de cancelación de suscripción dejará de recibir alertas de ofertas, mensajes promocionales o descuentos especiales pero continuará recibiendo comunicaciones referidas al estatus de sus reservas activas. El usuario podrá solicitar la cancelación, rectificación, o supresión total de su información personal, a través de carta certificada enviada a WIT dirección Los Conquistadores 2440, Providencia, Santiago de Chile, lo cual deberá ser atendido en un plazo no mayor a 20 días hábiles para proceder a la eliminación total de los datos.',
   privacy_document11:
     'EL USUARIO DECLARA FORMALMENTE CONOCER Y ACEPTAR ESTA POLÍTICA DE PRIVACIDAD Y LOS DERECHOS QUE OTORGA A VIAJA EN BUS.',
-  seat_title: 'Seleccione asiento'
+  seat_title: 'Seleccione asiento',
+  'Loading... Please wait': 'Cargando... Por favor espere'
 }

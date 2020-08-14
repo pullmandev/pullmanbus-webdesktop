@@ -80,7 +80,7 @@ export default {
 
   created() {
     feed().then(result => {
-      console.log('result', result)
+      // console.log('result', result)
       this.items = result.content
     })
   },
@@ -101,6 +101,7 @@ export default {
     formatText(text) {
       const length = 200
       let result = text
+
       if (text.length > length) {
         result = text.substr(0, length) + '...'
       }

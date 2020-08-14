@@ -5,7 +5,6 @@
         <v-menu
           :close-on-content-click="true"
           transition="scale-transition"
-          full-width
           color="blue-dark"
           max-width="290px"
           min-width="290px"

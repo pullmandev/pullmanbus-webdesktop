@@ -66,11 +66,11 @@
                       data.pisos[selectedFloor].piso
                     ].grid"
                     :key="i"
-                    class="d-inline-block"
+                    class="blank-seat-rem"
                   >
                     <!-- acá tengo las columnas del bus (son 5)-->
                     <div
-                      class="blank-seat-rem"
+                      class="d-inline-block"
                       v-for="(seat, j) in col"
                       :key="j"
                     >
@@ -78,7 +78,7 @@
                       <!-- <template > -->
                       <template v-if="seat !== null">
                         <!-- baño -->
-                        <template v-if="seat.includes('B')">
+                        <template v-if="seat.asiento.includes('B')">
                           <div
                             style="height: 33px"
                             class="seatWidth d-flex align-center justify-center grey darken-4 elevation-1 white--text mb-2 ml-1"
@@ -87,14 +87,14 @@
                           </div>
                         </template>
                         <div
-                          v-else-if="seat === 'X' || seat === '%'"
+                          v-else-if="seat.asiento === '' || seat.asiento === '%'"
                           style="height: 33px"
                           class="seatWidth"
                         />
                         <v-btn
                           v-else-if="
                             seatIsInshoppingCart(
-                              seat,
+                              seat.asiento,
                               data.pisos[selectedFloor].piso
                             ) > -1
                           "
@@ -103,20 +103,20 @@
                           small
                           class="mx-0 my-0 seatBtn seatWidth"
                           @click="
-                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                            selectSeat(seat.asiento, data.pisos[selectedFloor].piso, [
                               i,
                               j
                             ])
                           "
                         >
                           <seat
-                            :seatNumber="seat[0]"
+                            :seatNumber="seat.asiento"
                             :floor="data.pisos[selectedFloor].piso"
                             type="taken"
                           />
                         </v-btn>
                         <v-btn
-                          v-else-if="seat[1] !== '0'"
+                          v-else-if="seat.estado !== 'libre'"
                           fab
                           text
                           small
@@ -124,7 +124,7 @@
                           disabled
                         >
                           <seat
-                            :seatNumber="seat[0]"
+                            :seatNumber="seat.asiento"
                             :floor="data.pisos[selectedFloor].piso"
                             type="occupied"
                           />
@@ -136,14 +136,14 @@
                           small
                           class="mx-0 my-0 seatBtn seatWidth"
                           @click="
-                            selectSeat(seat, data.pisos[selectedFloor].piso, [
+                            selectSeat(seat.asiento, data.pisos[selectedFloor].piso, [
                               i,
                               j
                             ])
                           "
                         >
                           <seat
-                            :seatNumber="seat[0]"
+                            :seatNumber="seat.asiento"
                             type="free"
                             :floor="data.pisos[selectedFloor].piso"
                           />
@@ -428,7 +428,7 @@ export default {
           item.destino === this.serviceData.destino &&
           item.integrador === this.serviceData.integrador &&
           item.empresa === this.serviceData.empresa &&
-          seat[0] === item.asiento //&&
+          seat === item.asiento //&&
         // moment().diff(moment(item.fechaTomada), 'minutes') < 15
       )
       return index
@@ -454,7 +454,6 @@ export default {
       if (this.hasVuelta) {
         const hasBackServices = this.searchSeats(true)
         const hasGoServices = this.searchSeats()
-        console.log(hasBackServices, hasGoServices)
         if (!hasBackServices && !hasGoServices) {
           if (this.$store.state.services.tab === 'tab-Vuelta') {
             this.$emit('confirm')
@@ -508,14 +507,19 @@ export default {
         descuento: 0
         // fechaTomada: moment.now()
       }
+      console.log("index", index);
+      console.log("seatIndex", seatIndex);
+      console.log("floorData", floorData);
+      console.log("piso", piso);
+      console.log("indexes", indexes);      
       if (seatIndex > -1) {
         this.leverageSeat(
-          { ...floorData, asiento: seat[0], piso },
+          { ...floorData, asiento: seat, piso },
           seatIndex,
           indexes
         )
       } else {
-        this.takeSeat({ ...floorData, asiento: seat[0], piso }, indexes)
+        this.takeSeat({ ...floorData, asiento: seat, piso }, indexes)
       }
     },
     async takeSeat(params, indexes) {
@@ -544,8 +548,8 @@ export default {
             requestParams.asiento +
             this.$t('seats_error2'),
           type: 'error'
-        })
-        this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]][1] = '1'
+        })                
+        this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]].estado='ocupado'
         this.$forceUpdate()
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
@@ -563,8 +567,8 @@ export default {
       console.log(
         'grilla',
         this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]]
-      )
-      this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]][1] = '0'
+      )      
+      this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]].estado = 'libre'
       this.$store.dispatch('DELETE_SEAT', { seat: index })
     },
     createRequestParams(params) {
@@ -578,7 +582,7 @@ export default {
       ])
       requestParams.asiento =
         params.piso > 0
-          ? (parseInt(params.asiento) + 20).toString()
+          ? (parseInt(params.asiento)).toString()
           : params.asiento
       return requestParams
     },
@@ -591,7 +595,7 @@ export default {
       }
       this.loadingSeats = true
       this.createDataForRequest()
-      const mapResponse = await API.getMap({
+      const mapResponse = await API.getMapVertical({
         idServicio: item.idServicio,
         tipoBusPiso1: item.busPiso1,
         tipoBusPiso2: item.busPiso2,
@@ -600,60 +604,16 @@ export default {
         idDestino: item.idTerminalDestino,
         integrador: item.integrador
       })
-      this.map = mapResponse.data
-      await this.getAvailability()
-    },
-    async getAvailability() {
-      const availabilityResponse = await API.getAvailability({
-        idServicio: this.item.idServicio,
-        tipoBusPiso1: this.item.busPiso1,
-        tipoBusPiso2: this.item.busPiso2,
-        fechaServicio: this.item.fechaServicio,
-        idOrigen: this.item.idTerminalOrigen,
-        idDestino: this.item.idTerminalDestino,
-        integrador: this.item.integrador
-      })
-      const availability = availabilityResponse.data
+      this.map = mapResponse.data   
       const floors = Object.keys(this.map)
-      console.log('availability', availability)
-      console.log('map', this.map)
-      console.log('floors', floors)
       let grilla = []
-      const map = JSON.parse(JSON.stringify(this.map))
-      floors.forEach((key, iFloor) => {
-        map[key] = this.map[key].map(row => {
-          const newRow = row.map(olditem => {
-            let item = olditem
-            if (item === 'null') {
-              item = null
-            }
-            let seat = item
-            if (
-              item !== null &&
-              item !== 'X' &&
-              item !== '%' &&
-              !item.includes('B')
-            ) {
-              seat = []
-              seat.push(item)
-              const index = parseInt(item)
-              seat.push(availability[iFloor].substring(index - 1, index))
-            }
-            return seat
-          })
-          return newRow
-        })
-        map[key].reverse()
+      const map = JSON.parse(JSON.stringify(this.map)) 
+      floors.forEach((key) => {
         grilla.push({ floor: key, grid: map[key] })
-      })
+      }) 
       console.log('grilla', grilla)
       this.bus = { grilla }
       this.loadingSeats = false
-    },
-    async reloadAvailability(floor) {
-      this.loadingSeats = true
-      this.selectedFloor = floor
-      await this.getAvailability()
     }
   }
 }

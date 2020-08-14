@@ -1,211 +1,196 @@
 <template>
-  <div>
-    <v-container class="center">
-      <v-card class="elevation-10 pt-5 pb-5">
-        <v-container fluid>
-          <v-row class="confirmation-title blue_dark--text">
-            <v-col cols="12" md="12" lg="12">
-              <h1>{{ $t('congratulations') }}</h1>
-            </v-col>
-            <v-col cols="12" md="12" lg="12">
-              <p>{{ $t('success_buy') }}</p>
-            </v-col>
-            <v-col cols="12" class="d-flex justify-center">
-              <div
-                class="page-icon text-center d-flex align-center justify-center"
-              >
-                <v-icon size="70" class="white--text">check</v-icon>
-              </div>
-            </v-col>
-            <v-col cols="12" md="12" lg="12">
-              <h3 class="mb-2">Datos de la compra:</h3>
-              <v-data-table
-                :headers="headers"
-                :items="[data]"
-                hide-actions
-                class="elevation-1"
-              >
-                <template slot="item" slot-scope="props">
-                  <td class="text-left">{{ $route.params.id }}</td>
-                  <td class="text-left">Pullman bus</td>
-                  <td class="text-left">Peso Chileno</td>
-                  <td class="text-left">
-                    {{ props.item.montoFormateado }}
-                  </td>
-                  <td class="text-center">
-                    {{ props.item.codigoTransbank }}
-                  </td>
-                  <td class="text-left">{{ fechaFormateada }}</td>
-                  <td class="text-left">
-                    {{ props.item.tipoPagoFormateado }}
-                  </td>
-                  <td class="text-left">{{ props.item.numeroCuota }}</td>
-                  <td class="text-left">{{ props.item.numeroTarjeta }}</td>
-                </template>
-              </v-data-table>
-            </v-col>
-            <v-col class="d-flex justify-end">
-              <v-btn outlined class="mt-5" @click="$router.push({ path: '/' })"
-                >{{ $t('back') }}
-              </v-btn>
-              <v-btn
-                color="blue_dark"
-                class="white--text mt-5 ml-3"
-                @click="gettingTickets"
-                >{{ $t('download') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
-    </v-container>
-  </div>
+  <v-container class="center">
+    <v-card class="elevation-10 pt-5 pb-5">
+      <v-container fluid>
+        <v-row class="confirmation-title blue_dark--text">
+          <v-col cols="12" md="12" lg="12">
+            <h1>{{ $t('congratulations') }}</h1>
+          </v-col>
+
+          <v-col cols="12" md="12" lg="12">
+            <p>{{ $t('success_buy') }}</p>
+          </v-col>
+
+          <v-col cols="12" class="d-flex justify-center">
+            <div
+              class="page-icon text-center d-flex align-center justify-center"
+            >
+              <v-icon size="70" class="white--text">check</v-icon>
+            </div>
+          </v-col>
+
+          <v-col cols="12" md="12" lg="12">
+            <h3 class="mb-2 ml-2">Datos de la compra:</h3>
+
+            <v-data-table
+              class="elevation-1"
+              :headers="transactionHeaders"
+              :items="transaction"
+              :loading="loading"
+              :loading-text="$t('Loading... Please wait')"
+            >
+              <template slot="item" slot-scope="props">
+                <td class="text-center">{{ props.item.codigo }}</td>
+                <td class="text-center">Pullman bus</td>
+                <td class="text-center">Peso Chileno</td>
+                <td class="text-center">{{ props.item.montoFormateado }}</td>
+                <td class="text-center">{{ props.item.codigoTransbank }}</td>
+                <td class="text-center">{{ fechaFormateada }}</td>
+                <td class="text-center">{{ props.item.tipoPagoFormateado }}</td>
+                <td class="text-center">{{ props.item.numeroCuota }}</td>
+                <td class="text-center">{{ props.item.numeroTarjeta }}</td>
+              </template>
+            </v-data-table>
+          </v-col>
+
+          <v-col v-if="download" cols="12" md="12" lg="12">
+            <TicketsTable :tickets="ticketsData" />
+          </v-col>
+
+          <v-col class="d-flex justify-end">
+            <v-btn
+              class="mt-5"
+              outlined
+              @click="$router.push({ name: 'home' })"
+            >
+              {{ $t('back') }}
+            </v-btn>
+
+            <v-btn
+              class="download white--text mt-5 ml-3"
+              color="blue_dark"
+              @click="download = true"
+              :disabled="download"
+            >
+              {{ $t('download') }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-card>
+  </v-container>
 </template>
+
 <script>
-import API from '@/services/api/transaction'
 import moment from 'moment'
+import { OK } from 'http-status-codes'
+import TicketsTable from '@COMPONENTS/Tables/TicketsTable.component'
+import apiTransaction from '@SERVICES/api/transaction'
 
 export default {
+  name: 'Voucher',
+
+  components: {
+    TicketsTable
+  },
+
   data() {
     return {
-      download: '',
-      data: {},
-      headers: [
-        { text: 'Orden de Compra', sortable: false },
-        { text: 'Comercio', sortable: false },
-        { text: 'Moneda', sortable: false },
-        { text: 'Monto', sortable: false },
-        { text: 'Código Transacción', sortable: false },
-        { text: 'Fecha', sortable: false },
-        { text: 'Tipo de pago', sortable: false },
-        { text: 'Cuotas', sortable: false },
-        { text: 'N. Tarjeta', sortable: false }
+      loading: true,
+      download: false,
+      transaction: [],
+      ticketsData: [],
+      transactionHeaders: [
+        { text: 'Orden de Compra', align: 'center', sortable: false },
+        { text: 'Comercio', align: 'center', sortable: false },
+        { text: 'Moneda', align: 'center', sortable: false },
+        { text: 'Monto', align: 'center', sortable: false },
+        { text: 'Código Transacción', align: 'center', sortable: false },
+        { text: 'Fecha', align: 'center', sortable: false },
+        { text: 'Tipo de pago', align: 'center', sortable: false },
+        { text: 'Cuotas', align: 'center', sortable: false },
+        { text: 'N. Tarjeta', align: 'center', sortable: false }
       ]
     }
   },
-  mounted() {
-    this.download = this.$store.state.canDownload
-    if (this.$store.state.canDownload.permission === 'OK') {
-      this.$store.dispatch('SET_CAN_DOWNLOAD', {
-        permission: 'FALSE',
-        type: 'permission'
-      })
-      this.$store.dispatch('SET_CAN_DOWNLOAD', {
-        code: this.$route.params.id,
-        type: 'code'
-      })
-    }
 
-    console.log(this.download)
-    this.gettingTickets()
+  mounted() {
+    this.getTransaction()
   },
+
+  destroyed() {
+    this.$notify({
+      group: 'info',
+      clean: true
+    })
+  },
+
   computed: {
     fechaFormateada() {
-      console.log(this.$i18n.locale)
       moment.locale(this.$i18n.locale)
-      return moment(this.data.fechaCompra).format('L')
+      return moment(this.transaction[0].fechaCompra).format('L')
     }
   },
+
   methods: {
-    gettingTickets() {
-      if (
-        this.download !== 'OK' &&
-        this.download.code !== this.$route.params.id
-      ) {
-        return
-      }
-
+    async getTransaction() {
+      const { email } = this.$store.getters.userData.usuario
       this.$notify({
-        group: 'load',
-        title: this.$t('get_ticket'),
-        type: 'info'
+        group: 'info',
+        title: this.$t('success_buy'),
+        text: this.$t('email_sent') + `: ${email}`,
+        duration: -1 // negative to remain until clicked
       })
-      const codigo = this.$route.params.id
-      API.postHeader({ orden: codigo }).then(async response => {
-        this.data = response.data
-        const boletos = this.data.boletos
-        for (let item of boletos) {
-          const responseTicket = await API.postVoucher({
-            boleto: item.boleto,
-            codigo
-          })
-          this.toPDF(responseTicket.data)
+
+      const code = this.$route.params.id
+      try {
+        const { status, data } = await apiTransaction.postHeader({
+          orden: code
+        })
+
+        if (status === OK) {
+          this.loading = false
+
+          this.transaction.push(data)
+          this.ticketsData = data.boletos
         }
-      })
-    },
-    toPDF(response) {
-      // create a download anchor tag
-      const tipo = response.tipo.toLowerCase()
-      let downloadLink = document.createElement('a')
-      downloadLink.target = '_blank'
-      downloadLink.download = response.nombre
+      } catch (error) {
+        console.error('ERROR-GET-TICKETS ->', error.message)
 
-      // convert downloaded data to a Blob
-      const blob = new Blob([this.toUint8Array(response.archivo)], {
-        type: `application/${tipo}`
-      })
-
-      // create an object URL from the Blob
-      let URL = window.URL || window.webkitURL
-      const downloadUrl = URL.createObjectURL(blob)
-
-      // set object URL as the anchor's href
-      downloadLink.href = downloadUrl
-
-      // append the anchor to document body
-      document.body.append(downloadLink)
-
-      // fire a click event on the anchor
-      downloadLink.click()
-
-      // cleanup: remove element and revoke object URL
-      document.body.removeChild(downloadLink)
-      URL.revokeObjectURL(downloadUrl)
-    },
-    toUint8Array(archivo) {
-      const binary = atob(archivo)
-      const length = binary.length
-      const arrayBuffer = new ArrayBuffer(length)
-      const uintArray = new Uint8Array(arrayBuffer)
-
-      for (let i = 0; i < length; i++) {
-        uintArray[i] = binary.charCodeAt(i)
+        this.loading = false
+        this.$notify({
+          group: 'error',
+          title: 'Error al cargar los datos'
+        })
       }
-
-      return uintArray
     }
   }
 }
 </script>
-<style scoped>
+
+<style lang="scss">
+.center {
+  margin-top: 8vh !important;
+}
+
+.confirmation-title {
+  h1 {
+    text-align: center;
+    line-height: 4rem !important;
+    font-size: 44px;
+    font-weight: bold !important;
+  }
+
+  p {
+    font-size: 20px;
+    color: #a0a0a0;
+    text-align: center;
+  }
+}
+
 .page-icon {
   border-radius: 50%;
   width: 125px;
   height: 125px;
   background-color: var(--var-orange);
 }
-.center {
-  margin-top: 8vh !important;
-}
-.confirmation-title h1 {
-  text-align: center;
-  font-weight: bold !important;
-}
-.confirmation-title h1 {
-  line-height: 4rem !important;
-  font-size: 44px;
-}
-.confirmation-title p {
-  font-size: 20px;
-  color: #a0a0a0;
-  text-align: center;
-}
+
 table {
   width: 100%;
-  background-color: lightgray;
-}
-table td {
-  color: grey;
-  text-align: center;
+
+  td {
+    color: grey;
+    text-align: center;
+  }
 }
 </style>

@@ -1,5 +1,6 @@
 // const base = 'https://pullman.cl' // prod
-const base = 'https://pullmanapi.pasajeschile.cl' // dev
+//const base = 'https://pullmanapi.pasajeschile.cl' // dev
+const base = 'https://pullmanapi.viajaenbus.cl/' // dev
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
@@ -7,9 +8,9 @@ const sesion = `${base}/srv-privado-web/rest/usuario`
 const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
 const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
-const serviciosVenta = `${base}/serviciosVenta/rest/Servicios`
 const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
+
 export default {
   cities: `${baseVenta}/buscaCiudades`,
   services: `${baseVenta}/obtenerServicio`,
@@ -45,9 +46,10 @@ export default {
   obtenerCiudades: `${parametros}/obtenerCiudades`,
   obtenerRegiones: `${parametros}/obtenerRegiones`,
   buscarMotivoContacto: `${parametros}/buscarMotivoContacto`,
-  datosAgencia: `${serviciosVenta}/datosAgencia`,
-  botonPago: `${serviciosVenta}/GetConvenio`,
-  validarConvenio: `${serviciosVenta}/GetDescuentoConvenio`,
+  datosAgencia: `${administracion}/datosAgencia`,
+  botonPago: `${administracion}/private/convenio/getConvenio`,
+  validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
-  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`
+  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`,
+  mapVertical: `${baseVenta}/buscarPlantillaVertical`
 }

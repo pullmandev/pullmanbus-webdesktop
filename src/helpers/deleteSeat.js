@@ -13,7 +13,7 @@ function createRequestParams(params) {
   ])
   requestParams.asiento =
     params.piso > 0
-      ? (parseInt(params.asiento) + 20).toString()
+      ? (parseInt(params.asiento)).toString()
       : params.asiento
   return requestParams
 }
