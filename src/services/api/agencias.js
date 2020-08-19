@@ -5,6 +5,6 @@ const { datosAgencia } = endPoints
 
 export default {
   getAgencies(id) {
-    return axios.get(`${datosAgencia}/codciudad=${id}`)
+    return axios.get(`${datosAgencia}?ciudad=${id}`)
   }
 }

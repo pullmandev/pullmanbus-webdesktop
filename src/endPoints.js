@@ -46,7 +46,7 @@ export default {
   obtenerCiudades: `${parametros}/obtenerCiudades`,
   obtenerRegiones: `${parametros}/obtenerRegiones`,
   buscarMotivoContacto: `${parametros}/buscarMotivoContacto`,
-  datosAgencia: `${administracion}/datosAgencia`,
+  datosAgencia: `${parametros}/datosAgencia`,
   botonPago: `${administracion}/private/convenio/getConvenio`,
   validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
