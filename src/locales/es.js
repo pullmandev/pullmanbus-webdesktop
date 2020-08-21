@@ -291,5 +291,7 @@ export default {
   privacy_document11:
     'EL USUARIO DECLARA FORMALMENTE CONOCER Y ACEPTAR ESTA POLÍTICA DE PRIVACIDAD Y LOS DERECHOS QUE OTORGA A VIAJA EN BUS.',
   seat_title: 'Seleccione asiento',
-  'Loading... Please wait': 'Cargando... Por favor espere'
+  'Loading... Please wait': 'Cargando... Por favor espere',
+  select_origin : 'Debe seleccionar ciudad de origen',
+  select_destination : 'Debe seleccionar ciudad de destino'
 }

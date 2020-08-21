@@ -289,5 +289,7 @@ export default {
     'At the time of registering or making bank transactions, the client may choose to accept or deny the receipt in their email of promotional circulars, messages or offers alerts, having the possibility of canceling subscription through the link that will be sent in each email. In the event of cancellation of subscription, you will no longer receive alerts on offers, promotional messages or special discounts but will continue to receive communications regarding the status of your active reservations. The user may request the cancellation, rectification, or total deletion of their personal information, through a certified letter sent to WIT at Los Conquistadores 2440, Providencia, Santiago de Chile, which must be attended to within a period not exceeding 20 business days. to proceed with the total deletion of the data.',
   privacy_document11:
     'THE USER FORMALLY DECLARES THAT I KNOW AND ACCEPT THIS PRIVACY POLICY AND THE RIGHTS THAT I GIVE TO TRAVEL BY BUS.',
-  seat_title: 'Select seat'
+  seat_title: 'Select seat',
+  select_origin : 'You must select depart city',
+  select_destination : 'You must select arrive city'
 }

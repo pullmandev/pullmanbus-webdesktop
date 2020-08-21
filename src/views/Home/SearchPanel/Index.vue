@@ -145,6 +145,22 @@ export default {
       this.toCity = fromCity
     },
     validateSearch() {
+      if(this.fromCity == null){
+        this.$notify({
+        group: 'error',
+        title: this.$t('select_origin'),
+        type: 'error'
+        })
+        return;
+      }
+      if(this.toCity == null){
+        this.$notify({
+        group: 'error',
+        title: this.$t('select_destination'),
+        type: 'error'
+        })
+        return;
+      }
       this.$notify({
         group: 'stuck-load',
         title: this.$t('search_services'),
