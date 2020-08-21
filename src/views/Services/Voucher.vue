@@ -124,35 +124,31 @@ export default {
 
   methods: {
     async getTransaction() {
-      const { email } = this.$store.getters.userData.usuario
-      this.$notify({
-        group: 'info',
-        title: this.$t('success_buy'),
-        text: this.$t('email_sent') + `: ${email}`,
-        duration: -1 // negative to remain until clicked
-      })
-
       const code = this.$route.params.id
       try {
         const { status, data } = await apiTransaction.postHeader({
           orden: code
         })
-
         if (status === OK) {
           this.loading = false
-
           this.transaction.push(data)
           this.ticketsData = data.boletos
+          let email = this.transaction[0].boletos[0].imprimeVoucher.cliente
+          this.$notify({
+            group: 'info',
+            title: this.$t('success_buy'),
+            text: this.$t('email_sent') + `: ${email}`,
+            duration: -1 // negative to remain until clicked
+          })
         }
       } catch (error) {
         console.error('ERROR-GET-TICKETS ->', error.message)
-
         this.loading = false
         this.$notify({
           group: 'error',
           title: 'Error al cargar los datos'
         })
-      }
+      }     
     }
   }
 }

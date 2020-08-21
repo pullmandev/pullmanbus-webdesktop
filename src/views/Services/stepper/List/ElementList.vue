@@ -66,7 +66,7 @@
                       </span>
                       <span class="body-2 d-block"><b>Salida:</b></span>
                       <span class="body-2 d-block">{{
-                        service.terminalOrigen
+                        service.terminalSalida
                       }}</span>
                     </v-col>
                     <v-col cols="2" class="pr-12 text-center">
@@ -94,7 +94,7 @@
                       </span>
                       <span class="body-2 d-block"><b>Llegada:</b></span>
                       <span class="body-2 d-block">{{
-                        service.terminalDestino
+                        service.terminaLlegada
                       }}</span>
                     </v-col>
                     <v-col

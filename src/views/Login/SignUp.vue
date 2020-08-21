@@ -264,7 +264,7 @@ export default {
         if (response.data.exito) {
           this.$notify({
             group: 'info',
-            title: 'Usuario resgistrado corréctamente',
+            title: 'Usuario registrado correctamente',
             type: 'info'
           })
           this.$store.dispatch('SET_SESSION_DIALOG', {
