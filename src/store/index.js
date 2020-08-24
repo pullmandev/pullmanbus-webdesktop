@@ -18,6 +18,7 @@ const store = new Vuex.Store({
         'searching',
         'searchingConfirmation',
         'cities',
+        'citiesTo',
         'seats',
         'confirmationSeats',
         'step',
@@ -34,6 +35,7 @@ const store = new Vuex.Store({
       open: false
     },
     cities: [],
+    citiesTo: [],
     searching: {
       from_city: null,
       to_city: null,
@@ -115,6 +117,18 @@ const store = new Vuex.Store({
         .then(response => {
           if (response.data) {
             commit('SET_CITIES_LIST', { list: response.data })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    LOAD_CITIES_TO_LIST({ commit}, searchOrigin) {
+      const { searchingCity } = searchOrigin
+      APICities.getCityByCode(searchingCity)
+        .then(response => {
+          if (response.data) {
+            commit('SET_CITIES_TO_LIST', { list: response.data })
           }
         })
         .catch(err => {
@@ -418,6 +432,9 @@ const store = new Vuex.Store({
     SET_CITIES_LIST: (state, { list }) => {
       state.cities = list
     },
+    SET_CITIES_TO_LIST: (state, { list }) => {
+      state.citiesTo = list
+    },
     SET_SERVICES_LIST: (state, { list }) => {
       state.services.data = list
     },
@@ -555,6 +572,9 @@ const store = new Vuex.Store({
     },
     getCitiesList: state => {
       return state.cities.filter(cities => !cities.completed)
+    },
+    getCitiesToList: state => {
+      return state.citiesTo.filter(citiesTo => !citiesTo.completed)
     },
     getServiceFiltered: state => {
       const serviceFilters = state.serviceFilters

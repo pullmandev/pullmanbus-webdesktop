@@ -8,7 +8,7 @@
         <v-form>
           <v-row dense>
             <v-col cols="12">
-              <cities-list direction="from" v-model="fromCity" />
+              <cities-from-list direction="from" v-model="fromCity" />
             </v-col>
             <v-col cols="12" class="pa-0 d-flex justify-center align-center">
               <v-btn icon color="white" @click="exchangeCities">
@@ -16,7 +16,7 @@
               </v-btn>
             </v-col>
             <v-col cols="12">
-              <cities-list direction="to" v-model="toCity" />
+              <cities-to-list direction="to" v-model="toCity" />
             </v-col>
             <v-col cols="6">
               <calendar direction="from" v-model="fromDate" />
@@ -42,7 +42,8 @@
 </template>
 
 <script>
-import CitiesList from '@/views/Services/SearchPanel/Cities'
+import CitiesFromList from '@/views/Home/SearchPanel/CitiesFrom'
+import CitiesToList from '@/views/Home/SearchPanel/CitiesTo'
 import Calendar from '@/views/Services/SearchPanel/Calendar'
 import { mapGetters } from 'vuex'
 
@@ -55,7 +56,8 @@ export default {
     toCity: null
   }),
   components: {
-    CitiesList,
+    CitiesFromList,
+    CitiesToList,
     Calendar
   },
   mounted() {
@@ -76,6 +78,12 @@ export default {
     })
   },
   watch: {
+    fromCity(value) {
+      let searchingCity = value.codigo
+        this.$store.dispatch('LOAD_CITIES_TO_LIST', {
+        searchingCity
+      })
+    },
     fromDate(value) {
       const diff = moment(this.toDate).diff(value, 'days')
       if (diff <= -1 || value == null) {

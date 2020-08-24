@@ -13,6 +13,7 @@ const administracion = `${base}/administracion-web/rest`
 
 export default {
   cities: `${baseVenta}/buscaCiudades`,
+  citiesTo: `${baseVenta}/buscarCiudadPorCodigo`,
   services: `${baseVenta}/obtenerServicio`,
   map: `${baseVenta}/planilla`,
   availability: `${baseVenta}/disponibilidad`,

@@ -17,7 +17,7 @@
           <v-col cols="12" class="py-0">
             <v-row>
               <v-col class="py-0">
-                <cities-list
+                <cities-from-list
                   direction="from"
                   v-model="fromCity"
                   :windowHeight="windowSize.y"
@@ -33,7 +33,7 @@
                 </v-btn>
               </v-col>
               <v-col class="py-0">
-                <cities-list
+                <cities-to-list
                   direction="to"
                   v-model="toCity"
                   :windowHeight="windowSize.y"
@@ -67,7 +67,8 @@
 <script>
 import Carousel from '@/components/Carousel'
 import Promotions from '@/components/Banners/SearchPanelBanner'
-import CitiesList from '@/views/Home/SearchPanel/Cities'
+import CitiesFromList from '@/views/Home/SearchPanel/CitiesFrom'
+import CitiesToList from '@/views/Home/SearchPanel/CitiesTo'
 import Calendar from '@/views/Home/SearchPanel/Calendar'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
@@ -75,7 +76,8 @@ import { mapGetters } from 'vuex'
 export default {
   components: {
     Carousel,
-    CitiesList,
+    CitiesFromList,
+    CitiesToList,
     Calendar,
     Promotions
   },
@@ -119,8 +121,11 @@ export default {
         to_city: this.toCity
       })
     },
-
     fromCity(value) {
+      let searchingCity = value.codigo
+        this.$store.dispatch('LOAD_CITIES_TO_LIST', {
+        searchingCity
+      })
       this.$store.dispatch('SET_HOME_BANNERS', {
         from_date: this.fromDate,
         from_city: value,
