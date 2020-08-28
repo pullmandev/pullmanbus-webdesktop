@@ -1,22 +1,24 @@
 <template>
   <div>
-    <h3
+    <!--h3
       class="display-3 text-center blue_dark--text"
       style="font-size: 2rem !important;"
     >
       Redes Sociales
-    </h3>
-    <Facebook />
-    <Instagram />
+    </h3-->
+    <!--Facebook /-->
+    <!--Instagram /-->
   </div>
 </template>
 <script>
+/*
 import Facebook from '@/views/Home/SocialMedia/Facebook'
 import Instagram from '@/views/Home/SocialMedia/Instagram/Index'
+*/
 export default {
   components: {
-    Facebook,
-    Instagram
+    //Facebook,
+    //Instagram
   }
 }
 </script>

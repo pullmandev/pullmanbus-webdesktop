@@ -9,6 +9,7 @@ import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import VueGtag from 'vue-gtag'
 import('./assets/base.css')
+import * as VueGoogleMaps from 'vue2-google-maps' 
 
 Vue.use(
   VueGtag,
@@ -28,7 +29,11 @@ Vue.use(VueCurrencyFilter, {
 })
 Vue.prototype.$filters = Vue.options.filters
 Vue.config.productionTip = false
-
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyDUKVRPLZEXbgVyBaRlyC8wWuRzr2UlLmI'
+  }
+})
 const app = new Vue({
   router,
   store,
