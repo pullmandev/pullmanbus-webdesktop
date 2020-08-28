@@ -1,7 +1,9 @@
 import axios from 'axios'
 
-const post = 'https://cors-anywhere.herokuapp.com/http://blog.pullmanbus.cl/?rest_route=/wp/v2/posts'
+// const post = 'https://cors-anywhere.herokuapp.com/http://blog.pullmanbus.cl/?rest_route=/wp/v2/posts'
 // const post = 'http://blog.pullmanbus.cl/?rest_route=/wp/v2/posts'
+
+const post = 'https://cors-anywhere.herokuapp.com/https://pullman-blog.witservices.io/?rest_route=/wp/v2/posts'
 
 const instaPost = 'https://www.instagram.com/pullman.cl/'
 
