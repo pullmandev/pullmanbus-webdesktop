@@ -78,7 +78,7 @@ export default {
           route: 'PullmanPass'
         },
         {
-          title: 'CONFIRMACION DE REGRESO',
+          title: 'Confirmacion De Regreso',
           icon: 'mdi-chevron-right',
           route: 'ConfirmationServicesPanel'
         }
