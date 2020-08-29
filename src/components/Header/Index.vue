@@ -37,12 +37,12 @@
         offset-y
         style="display: flex; height: 100%; align-items: center;"
       >
-        <template v-slot:activator="{ on }">
+        <!--template v-slot:activator="{ on }">
           <v-btn class="white--text" text v-on="on">
             Menu
             <v-icon>mdi-chevron-down</v-icon>
           </v-btn>
-        </template>
+        </template-->
         <v-list>
           <v-list-item
             v-for="(item, i) in links"
@@ -74,8 +74,7 @@
           <v-list-item
             v-for="(item, index) in languageMenu"
             :key="index"
-            @click="$i18n.locale = item.lang"
-          >
+            @click="changeI18n(item)">
             <v-list-item-title>
               {{ item.title }}
             </v-list-item-title>
@@ -156,8 +155,8 @@ export default {
     }),
     languageMenu() {
       return [
-        { title: this.$t('es'), lang: 'es' },
-        { title: this.$t('en'), lang: 'en' }
+        { title: this.$t('es'), lang: 'es' , img : '/static/logos/header/Iconos-25.png' },
+        { title: this.$t('en'), lang: 'en' , img : '/static/logos/header/Iconos-24.png'}
       ]
     }
   },
@@ -167,6 +166,9 @@ export default {
     signOut() {
       this.$store.dispatch('DELETE_USER')
       this.$router.push({ path: '/' })
+    },
+    changeI18n(item){
+      this.$i18n.locale = item.lang
     }
   }
 }
