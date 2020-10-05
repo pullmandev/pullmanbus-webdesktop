@@ -109,8 +109,9 @@ export default {
   arrival_hour: 'Hora llegada',
   seats_list: 'Sin asientos en lista',
   read_terms1: 'He leido los ',
-  read_terms2: 'términos',
+  read_terms2: 'términos y condiciones',
   read_terms3: ' de la compra.',
+  read_terms4: ' del cambio de boleto.',
   passenger_data: 'Datos pasajero',
   delete: 'Eliminar',
   one_reservation: 'Reserva ida',
@@ -293,5 +294,8 @@ export default {
   seat_title: 'Seleccione asiento',
   'Loading... Please wait': 'Cargando... Por favor espere',
   select_origin : 'Debe seleccionar ciudad de origen',
-  select_destination : 'Debe seleccionar ciudad de destino'
+  select_destination : 'Debe seleccionar ciudad de destino',
+  success_change: 'Su cambio ha sido realizado con éxito',
+  fail_title_change : 'Lo sentimos',
+  fail_detail_change : 'No fue posible realizar el cambio de boleto'
 }

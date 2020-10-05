@@ -4,7 +4,9 @@ import endPoints from '@/endPoints'
 const transaction = endPoints.transaction
 const searchHeader = endPoints.searchHeader
 const generateVoucher = endPoints.generateVoucher
-
+const transactionCoupon = endPoints.transactionCoupon
+const searchHeaderCoupon = endPoints.searchHeaderCoupon
+const generateCoupon = endPoints.generateCoupon
 export default {
   post(params) {
     return axios.post(transaction, params)
@@ -16,6 +18,22 @@ export default {
 
   postVoucher(params) {
     return axios.post(generateVoucher, params, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+  },
+
+  postCoupon(params) {
+    return axios.post(transactionCoupon, params)
+  },
+
+  postHeaderCoupon(params) {
+    return axios.post(searchHeaderCoupon, params)
+  },
+
+  postVoucherCoupon(params) {
+    return axios.post(generateCoupon, params, {
       headers: {
         'Content-Type': 'application/json'
       }

@@ -48,9 +48,7 @@
                     {{ service.horaSalida }}
                   </span>
                   <span class="body-2 d-block"><b>Salida:</b></span>
-                  <span class="body-2 d-block">{{
-                    service.terminalOrigen
-                  }}</span>
+                  <span class="body-2 d-block">{{service.terminalSalida}}</span>
                 </v-col>
                 <v-col cols="2" class="pr-12 text-center">
                   <div style="position: relative">
@@ -74,9 +72,7 @@
                     {{ service.horaLlegada }}
                   </span>
                   <span class="body-2 d-block"><b>Llegada:</b></span>
-                  <span class="body-2 d-block">{{
-                    service.terminalDestino
-                  }}</span>
+                  <span class="body-2 d-block">{{service.terminaLlegada}}</span>
                 </v-col>
                 <v-col
                   cols="2"

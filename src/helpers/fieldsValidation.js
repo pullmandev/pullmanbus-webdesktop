@@ -40,5 +40,10 @@ export default {
   numberValidation,
   otherDocValidation,
   passwordValidation,
-  rutValidation
+  rutValidation,
+  passwordCostaValidation
+}
+
+function passwordCostaValidation(v) {
+  return /^[A-Za-z0-9]{4,}$/.test(v) || 'Contraseña debe ser valida'
 }

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import APIService from '@/services/api/services'
 import APICities from '@/services/api/cities'
+import APIConfirmation from '@/services/api/confirmationTicket'
 import createBanners from '@/helpers/createBanners'
 import router from '../router'
 import moment from 'moment'
@@ -36,11 +37,16 @@ const store = new Vuex.Store({
     },
     cities: [],
     citiesTo: [],
+    citiesConfirmation:[],
+    citiesToConfirmation:[],
     searching: {
       from_city: null,
       to_city: null,
       from_date: null,
       to_date: null
+    },
+    searchingFromToConfirmation:{
+      searchingCity:{}
     },
     searchingConfirmation: {
       ticket: {},
@@ -102,7 +108,9 @@ const store = new Vuex.Store({
       to: '',
       from: ''
     },
-    packageVersion: process.env.PACKAGE_VERSION || '0'
+    packageVersion: process.env.PACKAGE_VERSION || '0',
+    cupon : null,
+    ticketChange : null
   },
 
   actions: {
@@ -129,6 +137,30 @@ const store = new Vuex.Store({
         .then(response => {
           if (response.data) {
             commit('SET_CITIES_TO_LIST', { list: response.data })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    LOAD_CITIES_CONFIRMATION_LIST({ commit}, payload) {
+      const { searchingCity } = payload
+      APIConfirmation.getCities(searchingCity)
+        .then(response => {
+          if (response.data) {
+            commit('SET_CITIES_CONFIRMATION_LIST', { list: response.data })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    LOAD_CITIES_TO_CONFIRMATION_LIST({ commit}, payload) {
+      const { searchingCity } = payload
+      APIConfirmation.getCitiesTo(searchingCity)
+        .then(response => {
+          if (response.data) {
+            commit('SET_CITIES_TO_CONFIRMATION_LIST', { list: response.data })
           }
         })
         .catch(err => {
@@ -419,6 +451,12 @@ const store = new Vuex.Store({
     },
     SET_HISTORY({ commit }, payload) {
       commit('SET_HISTORY', { from: payload.from, to: payload.to })
+    },
+    SET_COUPON_BUY({ commit }, cupon) {
+      commit('SET_CUPON', cupon)
+    },
+    SET_TICKET_CHANGE({ commit }, tiket) {
+      commit('SET_TICKET_CHANGE_VOUCHER', tiket)
     }
   },
 
@@ -434,6 +472,12 @@ const store = new Vuex.Store({
     },
     SET_CITIES_TO_LIST: (state, { list }) => {
       state.citiesTo = list
+    },
+    SET_CITIES_CONFIRMATION_LIST: (state, { list }) => {
+      state.citiesConfirmation = list
+    },
+    SET_CITIES_TO_CONFIRMATION_LIST: (state, { list }) => {
+      state.citiesToConfirmation = list
     },
     SET_SERVICES_LIST: (state, { list }) => {
       state.services.data = list
@@ -563,6 +607,12 @@ const store = new Vuex.Store({
     },
     SET_HISTORY(state, history) {
       state.history = history
+    },
+    SET_CUPON(state, cupon) {      
+      state.cupon = cupon
+    },
+    SET_TICKET_CHANGE_VOUCHER(state, ticket) {      
+      state.ticketChange = ticket
     }
   },
 
@@ -575,6 +625,12 @@ const store = new Vuex.Store({
     },
     getCitiesToList: state => {
       return state.citiesTo.filter(citiesTo => !citiesTo.completed)
+    },
+    getCitiesConfirmacionList: state => {
+      return state.citiesConfirmation.filter(citiesConfirmation => !citiesConfirmation.completed)
+    },
+    getCitiesToConfirmacionList: state => {
+      return state.citiesToConfirmation.filter(citiesToConfirmation => !citiesToConfirmation.completed)
     },
     getServiceFiltered: state => {
       const serviceFilters = state.serviceFilters
@@ -625,14 +681,16 @@ const store = new Vuex.Store({
       return servicesByPrice
     },
     getConfirmationServiceFiltered: state => {
-      const { clase } = state.searchingConfirmation.ticket
+      //const { clase } = state.searchingConfirmation.ticket
+      const { claseFiltro } = state.searchingConfirmation.ticket
+      console.log(claseFiltro)
       const servicesFiltered = state.confirmationServices.data.map(service => {
-        let filter1 =
-          service.idClaseBusPisoUno.substr(0, 3) === clase.substr(0, 3)
+        let filter1 = claseFiltro.find(item=> 
+          service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)) != undefined          
         let newItem = { ...service, filter1 }
         if (service.busPiso2 != null) {
-          let filter2 =
-            service.idClaseBusPisoDos.substr(0, 3) === clase.substr(0, 3)
+          let filter2 = claseFiltro.find(item=> 
+            service.idClaseBusPisoDos.substr(0, 3) === item.substr(0, 3))!= undefined
           newItem = { ...newItem, filter2 }
         }
         return newItem
@@ -881,6 +939,12 @@ const store = new Vuex.Store({
     },
     appVersion: state => {
       return state.packageVersion
+    },
+    getCupon: state => {
+      return state.cupon.cupon
+    },
+    getTicketChange: state => {
+      return state.ticketChange.ticketChange
     }
   }
 })

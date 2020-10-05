@@ -60,7 +60,7 @@ export default {
         {
           title: 'Cambio boleto',
           icon: 'mdi-chevron-right',
-          route: 'SearchTicket'
+          route: 'ChangeTicket'
         },
         {
           title: 'Preguntas frecuentes',
@@ -81,6 +81,11 @@ export default {
           title: 'Confirmacion De Regreso',
           icon: 'mdi-chevron-right',
           route: 'ConfirmationServicesPanel'
+        },
+        {
+          title: 'Cuponera',
+          icon: 'mdi-chevron-right',
+          route: 'couponServicesPanel'
         }
       ]
     }

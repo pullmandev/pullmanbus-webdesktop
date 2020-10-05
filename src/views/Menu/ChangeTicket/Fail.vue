@@ -1,20 +1,14 @@
 <template>
   <div>
-    <Promotions height="270" :banner="true">
-      <template slot="promotion">
-        <p class="headline d-block">Aprovecha las promociones</p>
-        <p class="display-2">Hasta 40% de descuento</p>
-      </template>
-    </Promotions>
     <v-container class="center">
       <v-card class="elevation-10 pt-5 pb-5">
         <v-container fluid>
           <v-row column class="confirmation-title">
             <v-col cols="12" md="12" lg="12">
-              <h1 class="blue_dark--text">Lo sentimos</h1>
+              <h1 class="blue_dark--text">{{ $t('fail_title_change') }}</h1>
             </v-col>
             <v-col cols="12" md="12" lg="12">
-              <p>Confirmacion rechazada</p>
+              <p>{{ $t('fail_detail_change') }}</p>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
               <div
@@ -23,26 +17,22 @@
                 <v-icon size="70" class="white--text">clear</v-icon>
               </div>
             </v-col>
-            <v-col cols="12" md="6" offset-md="3">
-              <div class="text-center">
-                <h3 class="mb-2 headline">{{ data.resultado.mensaje }}</h3>
-              </div>
-            </v-col>
           </v-row>
         </v-container>
       </v-card>
-      <v-btn class="white--text mt-5 blue_dark" @click="$router.go(-1)">{{
+      <v-btn class="white--text mt-5 blue_dark" @click="toServices">{{
         $t('back')
       }}</v-btn>
     </v-container>
   </div>
 </template>
 <script>
-import Promotions from '@/components/PromotionBanner'
 export default {
-  props: ['data'],
-  components: {
-    Promotions
+  methods: {
+    toServices() {
+      localStorage.fromFail = true
+      this.$router.push({ path: 'changeTicket' })
+    }
   }
 }
 </script>

@@ -38,6 +38,8 @@ import MenuForm from '@/views/Menu/Form'
 import MenuContainer from '@/views/Menu/Index'
 import ChangeTicket from '@/views/Menu/ChangeTicket/ChangeTicket'
 import SearchTicket from '@/views/Menu/ChangeTicket/SearchTicket'
+import VoucherChangeTicket from '@/views/Menu/ChangeTicket/Voucher.vue'
+import FailChangeTicket from '@/views/Menu/ChangeTicket/Fail.vue'
 import Contact from '@/views/Menu/Contact'
 
 //Docs
@@ -51,6 +53,13 @@ import Convenios from '@/views/Docs/Convenios/Index'
 import AgencyList from '@/views/Menu/Agencies/List'
 import Agency from '@/views/Menu/Agencies/Detail'
 
+//Coupon Services
+import CouponServicesContainer from '@/views/CouponServices/Index.vue'
+import CouponSearchPanel from '@/views/CouponServices/SearchPanel.vue'
+import CouponDetail from '@/views/CouponServices/Detail/Index.vue'
+import ConfirmationCoupon from '@/views/CouponServices/ConfirmationCoupon.vue'
+import VoucherCoupon from '@/views/CouponServices/VoucherCoupon.vue'
+import FailCoupon from '@/views/CouponServices/FailCoupon.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -96,6 +105,18 @@ const routes = [
         path: 'changeTicket',
         name: 'ChangeTicket',
         component: ChangeTicket,
+        props: route => ({ params: route.query })
+      },
+      {
+        path: 'voucherChangeTicket',
+        name: 'VoucherChangeTicket',
+        component: VoucherChangeTicket,
+        props: route => ({ params: route.query })
+      },
+      {
+        path: 'failChangeTicket',
+        name: 'FailChangeTicket',
+        component: FailChangeTicket,
         props: route => ({ params: route.query })
       },
       {
@@ -258,6 +279,37 @@ const routes = [
         path: 'convenios',
         name: 'Convenios',
         component: Convenios
+      }
+    ]
+  },
+  {
+    path: '/couponServices',
+    component: CouponServicesContainer,
+    children: [
+      {
+        path: '',
+        name: 'couponServicesPanel',
+        component: CouponSearchPanel
+      },
+      {
+        path: 'couponDetail',
+        name: 'CouponDetail',
+        component: CouponDetail
+      },
+      {
+        path: 'confirmationCoupon/:id',
+        name: 'confirmationCoupon',
+        component: ConfirmationCoupon
+      },
+      {
+        path: 'voucherCoupon/:id',
+        name: 'voucherCoupon',
+        component: VoucherCoupon
+      },
+      {
+        path: 'failCoupon/:id',
+        name: 'failCoupon',
+        component: FailCoupon
       }
     ]
   },

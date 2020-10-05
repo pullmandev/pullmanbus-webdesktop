@@ -9,7 +9,7 @@ import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
 import VueGtag from 'vue-gtag'
 import('./assets/base.css')
-import * as VueGoogleMaps from 'vue2-google-maps' 
+import * as VueGoogleMaps from 'vue2-google-maps'   
 
 Vue.use(
   VueGtag,

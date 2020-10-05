@@ -48,8 +48,8 @@ export default {
   to_city: 'Where do you want to go?  (optional)',
   from_date: 'Choose your date',
   to_date: 'When will you return?',
-  from_city2: 'From',
-  to_city2: 'To',
+  from_city2: 'Origin',
+  to_city2: 'Destiny',
   from_date2: 'Departure date',
   from_date3: 'Departure',
   to_date2: 'Return (optional)',
@@ -109,8 +109,9 @@ export default {
   arrival_hour: 'Arrival time',
   seats_list: 'No seats listed',
   read_terms1: 'I have read the ',
-  read_terms2: 'terms',
+  read_terms2: 'terms and conditions',
   read_terms3: ' of purchase.',
+  read_terms4: ' of change ticket.',
   passenger_data: 'Passenger data',
   delete: 'Delete',
   one_reservation: 'One way reservation',
@@ -291,5 +292,8 @@ export default {
     'THE USER FORMALLY DECLARES THAT I KNOW AND ACCEPT THIS PRIVACY POLICY AND THE RIGHTS THAT I GIVE TO TRAVEL BY BUS.',
   seat_title: 'Select seat',
   select_origin : 'You must select depart city',
-  select_destination : 'You must select arrive city'
+  select_destination : 'You must select arrive city',
+  success_change: 'Your change has been made successfully',
+  fail_title_change : 'We are sorry',
+  fail_detail_change : 'It was not possible to change the ticket'
 }

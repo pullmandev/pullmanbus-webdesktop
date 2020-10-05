@@ -19,5 +19,24 @@ module.exports = {
       })
     ]
   },
-  transpileDependencies: ['vuetify']
+  transpileDependencies: ['vuetify'],
+  devServer: {
+    proxy : {
+      "^/integrador-web": {
+      target: 'http://localhost:8080',
+      ws: true,
+      changeOrigin: true
+      },
+      "^/administracion-web": {
+      target: 'http://qa.pullman.cl',
+      ws: true,
+      changeOrigin: true
+      },
+      "^/srv-privado-web": {
+      target: 'http://qa.pullman.cl',
+      ws: true,
+      changeOrigin: true
+      }
+    }
+  }
 }

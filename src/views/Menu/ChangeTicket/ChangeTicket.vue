@@ -18,6 +18,8 @@
                 v-model="code"
                 :disabled="search"
                 :rules="generalRules"
+                @keypress="validarEnter($event)"
+                maxLength="12"
                 required
               ></v-text-field>
             </v-col>
@@ -37,7 +39,8 @@
                 :disabled="!validCodeForm"
                 class="ml-3"
               >
-                <span>{{ search ? 'Buscar' : 'Borrar' }}</span>
+                <!--span>{{ search ? 'Buscar' : 'Borrar' }}</span-->
+                <span>{{ 'Borrar' }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -51,25 +54,25 @@
           <template slot="item" slot-scope="props">
             <tr>
               <td class="text-left pa-1">
-                {{ props.item.origenNombre }}
+                {{ props.item.boleto.origenNombre }}
               </td>
               <td class="text-left pa-2">
-                {{ props.item.valor | currency }}
+                {{ props.item.boleto.valor | currency }}
               </td>
-              <td class="text-left">{{ props.item.fechaEmbarcacion }}</td>
+              <td class="text-left">{{ props.item.boleto.fechaEmbarcacion }}</td>
 
               <td class="text-left pa-1">
-                {{ props.item.destinoNombre }}
+                {{ props.item.boleto.destinoNombre }}
               </td>
               <td class="text-left">
-                {{ props.item.estadoActualDescripcion }}
+                {{ props.item.boleto.estadoActualDescripcion }}
               </td>
-              <td class="text-left">{{ props.item.horaEmbarcacion }}</td>
-              <td class="text-center">{{ props.item.asiento }}</td>
+              <td class="text-left">{{ props.item.boleto.horaEmbarcacion }}</td>
+              <td class="text-center">{{ props.item.boleto.asiento }}</td>
             </tr>
           </template>
         </v-data-table>
-        <div v-if="validTicket">
+         <div v-if="validTicket">
           <h3 class="title" style="color: rgba(0,0,0,0.87)">
             Datos cambio boleto
           </h3>
@@ -90,7 +93,7 @@
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-menu
-                  v-if="ticket.tipoCompra === 'CAJA'"
+                  v-if="ticket.boleto.tipoCompra === 'CAJA'"
                   v-model="pickerDate"
                   :close-on-content-click="false"
                   transition="scale-transition"
@@ -133,11 +136,13 @@
                   color="blue"
                   :rules="rutRules"
                   required
+                  maxLength="10"
+                  @keypress="validar($event,'rut')"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-menu
-                  v-if="ticket.tipoCompra === 'CAJA'"
+                  v-if="ticket.boleto.tipoCompra === 'CAJA'"
                   ref="menu"
                   v-model="pickerHour"
                   :close-on-content-click="false"
@@ -171,6 +176,25 @@
                 </v-menu>
               </v-col>
             </v-row>
+                <div class="d-flex justify-start">
+                  <v-checkbox
+                    color="orange_dark"
+                    v-model="terms"
+                    :rules="[v => !!v || '']"
+                    required
+                  ></v-checkbox>
+                  <div class="d-flex align-center">
+                    <label class="subheading">
+                      {{ $t('read_terms1') }}
+                      <span class="termLink" @click="dialog = true">
+                        {{
+                        $t('read_terms2')
+                        }}
+                      </span>
+                      {{ $t('read_terms4') }}
+                    </label>
+                  </div>
+                </div>   
             <v-btn
               @click="submit"
               color="orange"
@@ -182,6 +206,32 @@
             </v-btn>
           </v-form>
         </div>
+         <v-dialog
+              v-model="dialog"
+              fullscreen
+              transition="dialog-bottom-transition"
+              :overlay="false"
+              scrollable
+            >
+              <v-card>
+                <v-toolbar dark class="orange">
+                  <v-btn icon @click.native="dialog = false" dark>
+                    <v-icon>close</v-icon>
+                  </v-btn>
+                  <v-toolbar-title>{{ $t('terms') }}</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+                <v-card-text>
+                  <v-container>
+                  <div class="justifyText">
+                  <p class="title text-center my-4"><b>Términos y condiciones</b></p>
+                  <div contenteditable="true" v-html="condiciones"></div>
+                  <!--{{ cupon.condiciones }}-->
+                  </div>
+                  </v-container>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
       </v-card-text>
     </v-card>
   </v-container>
@@ -194,14 +244,17 @@ import { mapGetters } from 'vuex'
 import validations from '@/helpers/fieldsValidation'
 
 export default {
-  props: ['params'],
+  //props: ['params'],
   data() {
     return {
+      dialog: false,
       loading: false,
       loadingExchange: false,
       search: false,
       validTicket: false,
       validForm: false,
+      terms: false,
+      condiciones:"",
       validCodeForm: false,
       pickerDate: false,
       pickerHour: false,
@@ -209,8 +262,8 @@ export default {
       email: '',
       date: null,
       hour: null,
-      ticket: this.params.data,
-      code: this.params.ticket,
+      ticket: {},
+      code: '',
       generalRules: [v => !!v || 'Este campo es requerido'],
       emailRules: [
         v => !!v || 'E-mail es requerido',
@@ -264,8 +317,8 @@ export default {
     }
   },
   mounted() {
-    console.log('mounted', this.params)
-    this.Consult()
+    //console.log('mounted', this.params)
+    //this.Consult()
   },
   computed: {
     ...mapGetters({
@@ -278,29 +331,7 @@ export default {
   },
   methods: {
     async consultAndFillTable() {
-      this.searchTicket()
       this.Consult()
-    },
-    async searchTicket() {
-      try {
-        this.loading = true
-        const response = await API.searchTicket({ boleto: this.code })
-        console.log('Searching', response.data)
-        if (response.data.valorFormateado === '') {
-          this.$notify({
-            group: 'error',
-            title: 'Error al solicitar datos de boleto',
-            text: 'Verifique el boleto e intentelo de nuevo',
-            type: 'error'
-          })
-        } else {
-          this.ticket = response.data
-        }
-      } catch (err) {
-        console.error(err)
-      } finally {
-        this.loading = false
-      }
     },
     async Consult() {
       try {
@@ -309,9 +340,12 @@ export default {
           boleto: this.code
         })
         console.log('Apto?', response.data)
-        if (!response.data.exito) {
-          const { mensaje } = response.data
-          const text = mensaje || 'Se genero un error al canjear boleto'
+        console.log(response.data);
+        const resultado = response.data.resultado;
+        console.log('resultado',resultado);
+        if (!resultado.exito) {
+          //const { mensaje } = resultado.mensaje
+          const text = resultado.mensaje || 'Se genero un error al canjear boleto'
           this.validTicket = false
           this.$notify({
             group: 'error',
@@ -319,7 +353,9 @@ export default {
             type: 'error',
             text
           })
-        } else {
+        } else {          
+          this.ticket=response.data
+          this.condiciones = this.ticket.boleto.condiciones
           this.validTicket = true
           this.$notify({
             group: 'info',
@@ -337,32 +373,33 @@ export default {
     async submit() {
       try {
         const params = {
-          boleto: this.ticket.boleto,
+          boleto: this.ticket.boleto.boleto,
           email: this.email,
           usuario: this.email,
-          rut: this.rut
+          rut: this.rut,
+          idIntegrador:this.ticket.idIntegrador
         }
+        console.log("params",params)
         this.loadingExchange = true
         const response = await API.exchangeTicket(params)
-        console.log(response.data)
-        if (response.data.exito) {
+        const ticketChange = response.data
+        const resultado = response.data.resultado
+        if (resultado.exito) {
+          /*
           this.$notify({
             group: 'info',
             title: 'El boleto se canjeo con exito',
             type: 'info'
           })
+          */
           this.email = ''
           this.rut = ''
-          this.$router.go(-1)
-        } else {
-          const { mensaje } = response.data
-          const text = mensaje || 'Se genero un error al canjear boleto'
-          this.$notify({
-            group: 'error',
-            title: 'Error al canjear',
-            type: 'error',
-            text
+          this.$store.dispatch('SET_TICKET_CHANGE', {
+            ticketChange
           })
+          this.$router.push({ path: 'voucherChangeTicket' })
+        } else {
+          this.$router.push({ path: 'failChangeTicket' })
         }
         console.log('boletos', response.data)
       } catch (err) {
@@ -391,6 +428,32 @@ export default {
       this.validTicket = false
       this.email = ''
       this.rut = ''
+      this.ticket.boleto={}
+    },
+    validar(tecla, tipo) {
+      let patron;
+      switch (tipo) {
+      case 'rut': patron = /[\dKk-]/; break //Solo acepta números, K y guion    
+      }
+      var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
+      if (charCode != 8) {
+        let aux = String.fromCharCode(charCode);
+        console.log(patron.test(aux));
+        if(patron.test(aux)){
+          return true
+        }else{
+          tecla.preventDefault();
+        }
+      } else {
+        return true;
+      }
+    },
+    validarEnter(tecla) {      
+      var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
+      if (charCode === 13) {
+        tecla.preventDefault();
+        this.consultAndFillTable()
+      }
     }
   }
 }

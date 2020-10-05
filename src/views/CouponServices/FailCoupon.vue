@@ -1,11 +1,5 @@
 <template>
   <div>
-    <Promotions height="270" :banner="true">
-      <template slot="promotion">
-        <p class="headline d-block">Aprovecha las promociones</p>
-        <p class="display-2">Hasta 40% de descuento</p>
-      </template>
-    </Promotions>
     <v-container class="center">
       <v-card class="elevation-10 pt-5 pb-5">
         <v-container fluid>
@@ -14,7 +8,7 @@
               <h1 class="blue_dark--text">Lo sentimos</h1>
             </v-col>
             <v-col cols="12" md="12" lg="12">
-              <p>Confirmacion rechazada</p>
+              <p>Orden de compra {{ $route.params.id }} rechazada</p>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
               <div
@@ -24,25 +18,39 @@
               </div>
             </v-col>
             <v-col cols="12" md="6" offset-md="3">
-              <div class="text-center">
-                <h3 class="mb-2 headline">{{ data.resultado.mensaje }}</h3>
+              <div class="ml-5">
+                <h3 class="mb-2">Las posibles causas de este rechazo son:</h3>
+                <ol class="ml-4">
+                  <li>
+                    Error en el ingreso de los datos de su tarjeta de Crédito o
+                    Débito (fecha y/o código de seguridad).
+                  </li>
+                  <li>
+                    Su tarjeta de Crédito o Débito no cuenta con saldo
+                    suficiente.
+                  </li>
+                  <li>
+                    Tarjeta aún no habilitada en el sistema financiero.
+                  </li>
+                </ol>
               </div>
             </v-col>
           </v-row>
         </v-container>
       </v-card>
-      <v-btn class="white--text mt-5 blue_dark" @click="$router.go(-1)">{{
+      <v-btn class="white--text mt-5 blue_dark" @click="toServices">{{
         $t('back')
       }}</v-btn>
     </v-container>
   </div>
 </template>
 <script>
-import Promotions from '@/components/PromotionBanner'
 export default {
-  props: ['data'],
-  components: {
-    Promotions
+  methods: {
+    toServices() {
+      localStorage.fromFail = true
+      this.$router.push({ path: '/couponServices/' })
+    }
   }
 }
 </script>

@@ -265,7 +265,7 @@ export default {
         this.loadingPdf = true
         this.$notify({
           group: 'load',
-          title: this.$t('get_ticket'),
+          title: this.$t('get_tickets'),
           type: 'info'
         })
         const seat = this.selectedSeats[0]
@@ -288,7 +288,8 @@ export default {
           idOrigen: seat.origen,
           idDestino: seat.destino,
           piso: seat.piso + 1,
-          email: ticket.email
+          email: ticket.email,
+          idIntegrador : ticket.idIntegrador
         }
         console.log('params', params)
         const response = await APIConfirmation.confirmTicket(params)

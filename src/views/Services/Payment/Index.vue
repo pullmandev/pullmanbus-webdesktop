@@ -386,21 +386,31 @@ export default {
             permission: 'OK',
             type: 'permission'
           })
-          setTimeout(() => {
-            const { url, token } = data
-            let f = document.createElement('form')
-            f.setAttribute('method', 'post')
-            f.setAttribute('action', url)
-            let i = document.createElement('input')
-            i.setAttribute('type', 'text')
-            i.setAttribute('name', 'TBK_TOKEN')
-            i.setAttribute('value', token)
-            f.appendChild(i.cloneNode())
-            f.style.display = 'none'
-            document.body.appendChild(f)
-            f.submit()
-            document.body.removeChild(f)
-          }, 500)
+          
+          if(data.exito){
+            setTimeout(() => {
+              const { url, token } = data
+              let f = document.createElement('form')
+              f.setAttribute('method', 'post')
+              f.setAttribute('action', url)
+              let i = document.createElement('input')
+              i.setAttribute('type', 'text')
+              i.setAttribute('name', 'TBK_TOKEN')
+              i.setAttribute('value', token)
+              f.appendChild(i.cloneNode())
+              f.style.display = 'none'
+              document.body.appendChild(f)
+              f.submit()
+              document.body.removeChild(f)
+            }, 500);
+          }else{
+            this.$notify({
+            group: 'error',
+            title: 'Validar Compra',
+            type: 'error',
+            text: `${data.mensaje}`
+          })
+          }
         })
         .catch(err => {
           console.log(err)

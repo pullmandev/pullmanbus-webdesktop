@@ -2,14 +2,18 @@
 //const base = 'https://pullmanapi.pasajeschile.cl' // dev
 const base = 'https://pullmanapi.viajaenbus.cl/' // dev
 
+
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
 const sesion = `${base}/srv-privado-web/rest/usuario`
 const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
-const confirmacion = `${base}/srv-privado-web/rest/confirmacion`
+//const confirmacion = `${baseIntegrador}/integrador-web/rest/confirmacion`
+//const serviciosVenta = `${base}/serviciosVenta/rest/Servicios`
 const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
+const operacion = `${base}/integrador-web/rest/operacion`
+const baseCuponera = `${base}/integrador-web/rest/cuponera`
 
 export default {
   cities: `${baseVenta}/buscaCiudades`,
@@ -34,10 +38,15 @@ export default {
   buscarBoletoCode: `${compra}/obtenerBoleto`,
   guardarSolicitudServicio: `${compra}/guardarSolicitudServicio`,
   buscarBoleto: `${compra}/buscarBoleto`,
-  buscarBoletoConfirmacion: `${confirmacion}/buscarBoleto`,
-  confirmarBoleto: `${confirmacion}/confirmarBoleto`,
-  validarBoletoCanje: `${compra}/validarBoletoCanje`,
-  canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
+  buscarBoletoConfirmacion: `${operacion}/buscarBoleto`,
+  confirmarBoleto: `${operacion}/confirmarBoleto`,
+  buscarCityConfirmacion:`${operacion}/buscarOrigen`,
+  buscarCityToConfirmacion:`${operacion}/buscarDestino`,
+  //buscarDestinoConfirmacion:`${confirmacion}/confirmarBoleto`,
+  //validarBoletoCanje: `${compra}/validarBoletoCanje`,
+  validarBoletoCanje: `${operacion}/validarBoletoCambio`,
+ //canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
+  canjearBoletoCanje: `${operacion}/cambiarBoleto`,
   cancel: `${baseVenta}/anularVenta`,
   enviarMailAnulacion: `${anular}/enviarMailAnulacion`,
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
@@ -52,5 +61,11 @@ export default {
   validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
   buscarCaluga: `${administracion}/private/contenido/buscarCaluga`,
-  mapVertical: `${baseVenta}/buscarPlantillaVertical`
+  mapVertical: `${baseVenta}/buscarPlantillaVertical`,
+
+  buscarCuponera: `${baseCuponera}/buscarCuponera`,
+  validarUsuario: `${baseCuponera}/validarUsuario`,
+  transactionCoupon: `${basePago}/guardarTransaccionCuponera`,
+  searchHeaderCoupon: `${baseVenta}/buscarEncabezadoCuponera`,
+  generateCoupon: `${baseVenta}/generarComprobanteCuponera`
 }
