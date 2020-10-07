@@ -79,7 +79,7 @@ export default {
     }
   },
   mounted() {
-    console.log('ticketChange : ', this.ticketChange)       
+    //console.log('ticketChange : ', this.ticketChange)       
   },
   destroyed() {
     this.$notify({

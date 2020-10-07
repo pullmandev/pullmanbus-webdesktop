@@ -202,9 +202,9 @@ export default {
           fechaSolicitud: moment().format(),
           responsable: null
         }
-        console.log(params)
+        //console.log(params)
         const response = await API.postSolicitudServicio(params)
-        console.log(response.data)
+        //console.log(response.data)
         if (!response.data.exito) {
           this.$notify({
             group: 'error',

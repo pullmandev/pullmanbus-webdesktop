@@ -233,7 +233,7 @@ export default {
       API.validateTicket({ boleto: this.ticket })
         .then(response => {
           const data = response.data
-          console.log('ticket', data)
+          //console.log('ticket', data)
           if (!data.resultado.exito) {
             this.$notify({
               group: 'error',

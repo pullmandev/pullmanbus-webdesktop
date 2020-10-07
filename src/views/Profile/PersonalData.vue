@@ -257,7 +257,7 @@ export default {
             moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
           genero: this.gender
         }
-        console.log(params)
+        //console.log(params)
         const response = await API.updateUser(params)
         if (!response.data.exito) {
           this.$notify({

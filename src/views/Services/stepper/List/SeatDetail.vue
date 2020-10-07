@@ -62,7 +62,7 @@ export default {
         return
       }
       const seat = this.seat
-      console.log('detail', seat)
+      //console.log('detail', seat)
       this.items = []
       let text = 'Asiento'
       let value = seat.piso > 0 ? parseInt(seat.asiento) : seat.asiento

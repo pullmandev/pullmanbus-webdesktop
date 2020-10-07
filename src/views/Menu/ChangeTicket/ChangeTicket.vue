@@ -224,7 +224,7 @@
                 <v-card-text>
                   <v-container>
                   <div class="justifyText">
-                  <p class="title text-center my-4"><b>Términos y condiciones</b></p>
+                  <p class="title text-center my-4"><b>Tï¿½rminos y condiciones</b></p>
                   <div contenteditable="true" v-html="condiciones"></div>
                   <!--{{ cupon.condiciones }}-->
                   </div>
@@ -339,10 +339,10 @@ export default {
         const response = await API.validateTicket({
           boleto: this.code
         })
-        console.log('Apto?', response.data)
-        console.log(response.data);
+        //console.log('Apto?', response.data)
+        //console.log(response.data);
         const resultado = response.data.resultado;
-        console.log('resultado',resultado);
+        //console.log('resultado',resultado);
         if (!resultado.exito) {
           //const { mensaje } = resultado.mensaje
           const text = resultado.mensaje || 'Se genero un error al canjear boleto'
@@ -379,7 +379,7 @@ export default {
           rut: this.rut,
           idIntegrador:this.ticket.idIntegrador
         }
-        console.log("params",params)
+        //console.log("params",params)
         this.loadingExchange = true
         const response = await API.exchangeTicket(params)
         const ticketChange = response.data
@@ -401,7 +401,7 @@ export default {
         } else {
           this.$router.push({ path: 'failChangeTicket' })
         }
-        console.log('boletos', response.data)
+        //console.log('boletos', response.data)
       } catch (err) {
         console.error(err)
       } finally {
@@ -433,12 +433,12 @@ export default {
     validar(tecla, tipo) {
       let patron;
       switch (tipo) {
-      case 'rut': patron = /[\dKk-]/; break //Solo acepta números, K y guion    
+      case 'rut': patron = /[\dKk-]/; break //Solo acepta nï¿½meros, K y guion    
       }
       var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
       if (charCode != 8) {
         let aux = String.fromCharCode(charCode);
-        console.log(patron.test(aux));
+        //console.log(patron.test(aux));
         if(patron.test(aux)){
           return true
         }else{

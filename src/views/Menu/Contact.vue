@@ -240,7 +240,7 @@ export default {
     APIParams.getMotivoContacto()
       .then(response => {
         this.motivos = response.data
-        console.log(response.data)
+        //console.log(response.data)
       })
       .catch(err => console.error(err))
   },

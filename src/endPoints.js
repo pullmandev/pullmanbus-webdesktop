@@ -1,6 +1,5 @@
-// const base = 'https://pullman.cl' // prod
-//const base = 'https://pullmanapi.pasajeschile.cl' // dev
-const base = 'https://pullmanapi.viajaenbus.cl/' // dev
+const base = 'https://pullman.cl' // prod
+//const base = 'https://pullmanapi.viajaenbus.cl/' // dev
 
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
@@ -8,8 +7,6 @@ const basePago = `${base}/integrador-web/rest/pago`
 const sesion = `${base}/srv-privado-web/rest/usuario`
 const compra = `${base}/srv-privado-web/rest/compra`
 const parametros = `${base}/srv-privado-web/rest/parametros`
-//const confirmacion = `${baseIntegrador}/integrador-web/rest/confirmacion`
-//const serviciosVenta = `${base}/serviciosVenta/rest/Servicios`
 const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
 const operacion = `${base}/integrador-web/rest/operacion`
@@ -41,11 +38,8 @@ export default {
   buscarBoletoConfirmacion: `${operacion}/buscarBoleto`,
   confirmarBoleto: `${operacion}/confirmarBoleto`,
   buscarCityConfirmacion:`${operacion}/buscarOrigen`,
-  buscarCityToConfirmacion:`${operacion}/buscarDestino`,
-  //buscarDestinoConfirmacion:`${confirmacion}/confirmarBoleto`,
-  //validarBoletoCanje: `${compra}/validarBoletoCanje`,
+  buscarCityToConfirmacion:`${operacion}/buscarDestino`,  
   validarBoletoCanje: `${operacion}/validarBoletoCambio`,
- //canjearBoletoCanje: `${compra}/canjearBoletoCanje`,
   canjearBoletoCanje: `${operacion}/cambiarBoleto`,
   cancel: `${baseVenta}/anularVenta`,
   enviarMailAnulacion: `${anular}/enviarMailAnulacion`,
@@ -62,7 +56,6 @@ export default {
   convenios: `${administracion}/private/convenio/obtenerInformacion`,
   buscarCaluga: `${administracion}/private/contenido/buscarCaluga`,
   mapVertical: `${baseVenta}/buscarPlantillaVertical`,
-
   buscarCuponera: `${baseCuponera}/buscarCuponera`,
   validarUsuario: `${baseCuponera}/validarUsuario`,
   transactionCoupon: `${basePago}/guardarTransaccionCuponera`,

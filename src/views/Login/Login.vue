@@ -122,7 +122,7 @@ export default {
       API.auth({ usuario: this.email, password: this.password })
         .then(response => {
           const data = JSON.parse(JSON.stringify(response.data))
-          console.log(response.data)
+          //console.log(response.data)
           if (!data.exito) {
             this.$notify({
               group: 'error',

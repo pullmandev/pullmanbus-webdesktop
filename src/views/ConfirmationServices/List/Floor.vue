@@ -237,7 +237,7 @@ export default {
   },
   watch: {
     item() {
-      console.log('watch', this.item)
+      //console.log('watch', this.item)
       this.getSeats(this.item)
     }
   },
@@ -252,7 +252,7 @@ export default {
       const piso = pisos.filter(item => {
         return item.piso === selected
       })[0]
-      console.log('piso', piso)
+      //console.log('piso', piso)
       return piso
     },
     confirmationSeats() {
@@ -291,7 +291,7 @@ export default {
           email: ticket.email,
           idIntegrador : ticket.idIntegrador
         }
-        console.log('params', params)
+        //console.log('params', params)
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data
         let nameRoute = 'ConfirmationServiceSucceed'
@@ -373,11 +373,11 @@ export default {
         descuento: 0
         // fechaTomada: moment.now()
       }
-      console.log("index", index);
-      console.log("seatIndex", seatIndex);
-      console.log("floorData", floorData);
-      console.log("piso", piso);
-      console.log("indexes", indexes);    
+      //console.log("index", index);
+      //console.log("seatIndex", seatIndex);
+      //console.log("floorData", floorData);
+      //console.log("piso", piso);
+      //console.log("indexes", indexes);    
       if (seatIndex > -1) {
         this.leverageSeat(
           { ...floorData, asiento: seat, piso },
@@ -424,10 +424,10 @@ export default {
     async leverageSeat(params, index, indexes) {
       const requestParams = this.createRequestParams(params)
       await API.freeSeat(requestParams)
-      console.log(
-        'grilla',
-        this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]]
-      )
+      //console.log(
+      //  'grilla',
+      //  this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]]
+      //)
       this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]].estado = 'libre'
       this.$store.dispatch('DELETE_CONFIRMATION_SEAT', { seat: index })
     },
@@ -471,7 +471,7 @@ export default {
       floors.forEach((key) => {
         grilla.push({ floor: key, grid: map[key] })
       }) 
-      console.log('grilla', grilla)
+      //console.log('grilla', grilla)
       this.bus = { grilla }
       this.loadingSeats = false
     },   

@@ -103,8 +103,8 @@ export default {
       })
     },
     setUserSearchingData() {
-      console.log('fromDate', this.fromCity)
-      console.log('toCity', this.toCity)
+      //console.log('fromDate', this.fromCity)
+      //console.log('toCity', this.toCity)
       this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
         date: this.fromDate,
         direction: 'from'

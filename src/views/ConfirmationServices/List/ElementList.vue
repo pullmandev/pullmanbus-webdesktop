@@ -152,7 +152,7 @@ export default {
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
-    console.log('mounted', this.servicesList)
+    //console.log('mounted', this.servicesList)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)

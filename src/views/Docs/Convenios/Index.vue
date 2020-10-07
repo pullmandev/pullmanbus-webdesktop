@@ -56,7 +56,7 @@ export default {
         this.convenios = []
         const resp = await API.getConvenios()
         resp.data.forEach(convenio => {
-          console.log(convenio)
+          //console.log(convenio)
           const title = convenio.convenio.convenio
           let description = ''
           convenio.portalConvInformacionI18ns.forEach(item => {

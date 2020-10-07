@@ -53,7 +53,7 @@ export default {
     API.getFaqs()
       .then(response => {
         this.data = response.data
-        console.log('faqs', this.data)
+        //console.log('faqs', this.data)
       })
       .catch(err => console.error(err))
       .finally(() => (this.loading = false))

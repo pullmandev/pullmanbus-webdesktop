@@ -284,7 +284,7 @@ export default {
   },
   components: {},
   mounted() {
-    console.log('cupon : ', this.cupon)
+    //console.log('cupon : ', this.cupon)
     this.requiereAutenticacion = this.cupon.requiereAutenticacion;
     if(this.requiereAutenticacion){
       this.showPaymentPanel = false;
@@ -316,7 +316,7 @@ export default {
       .then(response => {        
         if(response.data.valido){
           if(response.data.programa == this.cupon.programa){
-            console.log(response.data);
+            //console.log(response.data);
             this.showPaymentPanel = true
             this.email = response.data.mailVenta.toUpperCase()           
             this.$nextTick(function () {
@@ -402,9 +402,9 @@ export default {
       "medioDePago":"WBPAY",      
       "clase": this.cupon.clase
     }
-    console.log(transactionParams)
+    //console.log(transactionParams)
     const response = await APITransaction.postCoupon(transactionParams)
-    console.log(response.data)
+    //console.log(response.data)
     return response.data
     
     },
@@ -416,7 +416,7 @@ export default {
       var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
       if (charCode != 8) {
         let aux = String.fromCharCode(charCode);
-        console.log(patron.test(aux));
+        //console.log(patron.test(aux));
         if(patron.test(aux)){
           return true
         }else{
@@ -428,7 +428,7 @@ export default {
     }
   },
   created: function() {
-    console.log('Create')
+    //console.log('Create')
     APIConvenio.getBotonPago().then(response => {
       const data = response.data.Convenio
       data.forEach(convenio => {

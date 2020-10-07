@@ -176,7 +176,7 @@ export default {
           "origen": this.fromCity.codigo,
           "destino": this.toCity.codigo
       }
-      console.log(cupon)
+      //console.log(cupon)
       API.getListCoupon(cupon)
         .then(response => {
           if(response.data.length > 0){

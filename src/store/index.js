@@ -200,17 +200,17 @@ const store = new Vuex.Store({
       dispatch('SET_LOADING_SERVICE', { loading: true })
       Promise.all([requestGoing, requestReturn])
         .then(responses => {
-          console.log('responses', responses)
+          //console.log('responses', responses)
           const data = responses[0].data.map(item => {
             return { ...item, vuelta: false }
           })
           let dataReturn = []
-          console.log('first', data)
+          //console.log('first', data)
           if (responses[1]) {
             dataReturn = responses[1].data.map(item => {
               return { ...item, vuelta: true }
             })
-            console.log('second', dataReturn)
+            //console.log('second', dataReturn)
           }
           const resultData = data.concat(dataReturn)
           if (resultData.length <= 0) {
@@ -224,7 +224,7 @@ const store = new Vuex.Store({
             dispatch('SET_USER_FILTER', { filter: [], type: 'class' })
             return
           }
-          console.log('route', router.currentRoute)
+          ('route', router.currentRoute)
           if (payload.goTo) {
             router.push('/services')
           } else if (router.currentRoute.name === 'ServicesPaymentData') {
@@ -297,7 +297,7 @@ const store = new Vuex.Store({
           const resultData = response.data.map(item => {
             return { ...item, fechaSubida: payload.date }
           })
-          console.log('resultData', resultData)
+          //console.log('resultData', resultData)
           if (resultData.length <= 0) {
             Vue.notify({
               group: 'error',
@@ -683,7 +683,7 @@ const store = new Vuex.Store({
     getConfirmationServiceFiltered: state => {
       //const { clase } = state.searchingConfirmation.ticket
       const { claseFiltro } = state.searchingConfirmation.ticket
-      console.log(claseFiltro)
+      //console.log(claseFiltro)
       const servicesFiltered = state.confirmationServices.data.map(service => {
         let filter1 = claseFiltro.find(item=> 
           service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)) != undefined          

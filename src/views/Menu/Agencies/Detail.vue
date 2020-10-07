@@ -99,7 +99,7 @@ export default {
     updateMap(latitud, longitud) {
       const lat = parseInt(latitud)
       const lng = parseInt(longitud)
-      console.log(this.$refs)
+      //console.log(this.$refs)
       this.$refs.mapRef.$mapPromise.then(map => {
         map.panTo({ lat, lng })
       })

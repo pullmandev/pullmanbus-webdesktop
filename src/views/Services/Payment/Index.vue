@@ -325,7 +325,7 @@ export default {
           totalApagar: '0'
         }
         this.selectedSeats.forEach(seat => {
-          console.log(seat)
+          //console.log(seat)
           var fecha = seat.fechaPasada.split('/')
           params.listaBoleto.push({
             clase: seat.clase,
@@ -344,7 +344,7 @@ export default {
         const response = await APIConvenio.getValidateConvenio(params)
         if (response.data.mensaje == 'OK') {
           response.data.listaBoleto.forEach(salida => {
-            console.log(salida)
+            //console.log(salida)
             this.selectedSeats.find(seat => {
               var fechaArr = seat.fechaPasada.split('/')
               var fecha = fechaArr[2] + fechaArr[1] + fechaArr[0]
@@ -463,14 +463,14 @@ export default {
         numeroTelefono: '+569'
       }
       const transactionParams = { ...paymentInfo, listaCarrito }
-      console.log('transactionParams', transactionParams)
+      //console.log('transactionParams', transactionParams)
       const response = await APITransaction.post(transactionParams)
-      console.log(response.data)
+      //console.log(response.data)
       return response.data
     }
   },
   created: function() {
-    console.log('Create')
+    //console.log('Create')
     APIConvenio.getBotonPago().then(response => {
       const data = response.data.Convenio
       data.forEach(convenio => {
@@ -493,12 +493,12 @@ export default {
           alt: convenio.convenio.descripcion
         })
       })
-      console.log(response.data)
+      //console.log(response.data)
     })
   },
   watch: {
     payMethod: function(newMethod) {
-      console.log(newMethod)
+      //console.log(newMethod)
       if (newMethod == 'BCNSD') {
         this.selectedConvenio = 'BCNSD'
       } else {
@@ -511,7 +511,7 @@ export default {
       this.rut = ''
       this.selectedConvenioName = ''
       this.selectedSeats.forEach(seat => {
-        console.log(seat)
+        //console.log(seat)
         seat.tarifa = seat.precio
       })
       this.listaCovenios.forEach(conv => {

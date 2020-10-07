@@ -341,7 +341,7 @@ export default {
             this.search = false
           }
         } else {
-          console.log(this.tickets)
+          //console.log(this.tickets)
           this.clearTicketData()
         }
       } catch (err) {
@@ -392,9 +392,9 @@ export default {
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder
           }
-          console.log(params)
+          //console.log(params)
           const response = await API.cancel(params)
-          console.log(response.data)
+          //console.log(response.data)
           if (response.data.exito) {
             this.$notify({
               group: 'info',

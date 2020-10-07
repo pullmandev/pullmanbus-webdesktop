@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch('SET_TICKET_CONFIRMATION', { confirmation: true })
-    console.log(this.data)
+    //console.log(this.data)
     this.toPDF(this.data.archivo)
   },
   methods: {

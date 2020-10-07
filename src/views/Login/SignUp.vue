@@ -258,9 +258,9 @@ export default {
           fechaNacimiento: `${this.year}-${this.month}-${this.day}T00:00:00.000+0000`,
           genero: this.gender
         }
-        console.log('params', params)
+        //console.log('params', params)
         const response = await API.signup(params)
-        console.log(response.data)
+        //console.log(response.data)
         if (response.data.exito) {
           this.$notify({
             group: 'info',
