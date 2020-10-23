@@ -2,126 +2,164 @@
   <section class="container">
     <v-row>
       <v-col cols="10" offset="1">
-        <h2 class="mb-12">{{ $t('privacy') }}</h2>
+        <p class="mt-4">
+          Para utilizar a plenitud todos los servicios del sitio debe ser
+          necesario registrarse y proveer cierta información personal que
+          servirá para dar respuesta y otorgar un mejor servicio. Al aceptar los
+          Términos y Condiciones, el usuario accede a proveer los datos para
+          registro y las actualizaciones necesarias para mantener actualizado
+          dicho registro. La institución utilizará los datos de registro de
+          acuerdo con las disposiciones legales vigentes contenidas en la Ley N°
+          19.628 y sus modificaciones.
+        </p>
 
-        <h3>Deberes de los pasajeros</h3>
-        <ul class="my-6">
+        <p>
+          Estas políticas de privacidad rigen el uso que toda persona natural o
+          jurídica que denominaremos “Cliente” le da a la plataforma y las
+          condiciones de seguridad y tratamiento que se le da a los datos
+          recopilados.
+        </p>
+
+        <p>
+          Establece las condiciones de recopilación, utilización y situación
+          donde es compartida dicha información y los derechos que tiene el
+          “Cliente” sobre la misma, sin hacer diferencia si ha sido usado a
+          través de aplicación web de escritorio o móvil.
+        </p>
+
+        <p>
+          Para los efectos de la presente Política de Privacidad, el Cliente
+          expresa su aceptación plena de las cláusulas aquí descritas, por
+          tanto, constituye un acuerdo válido y obligatorio entre Cliente y
+          Pullman Bus.
+        </p>
+
+        <p>
+          En caso de que el Usuario no acepte las condiciones o no esté de total
+          acuerdo con las Política de Privacidad, deberá dejar de usar la
+          Plataforma y abstenerse de descargar o usar ya sea directa o
+          indirectamente, y de utilizar cualquier servicio provisto por la
+          misma. Constituye igualmente responsabilidad del Cliente revisar
+          periódicamente la Política de Privacidad de la Plataforma y ver sus
+          actualizaciones o modificaciones.
+        </p>
+
+        <p>
+          Para el funcionamiento de la Plataforma, la Empresa puede recopilar
+          información web así como grabar las llamadas telefónicas que se
+          estimen conveniente especialmente en caso de gestión de reclamos.
+          También se podrá almacenar información de los Usuarios, por medio de
+          cookies o tag, por medio de la información proporcionada por el propio
+          Cliente. Dicha información comprende datos referentes como nombre,
+          direcciones, correo electrónico, direcciones IP, navegador o búsquedas
+          realizadas en nuestra Plataforma. El Cliente podrá optar a su libre
+          elección, restringir o deshabilitar el uso de cookies configurando su
+          navegador web de preferencia, habilitando su navegador web para que
+          rechace cookies teniendo en cuenta que al negarse a aceptar una cookie
+          no podrá obtener acceso a muchos servicios de viaje y herramientas de
+          planificación ofrecidos por este Sitio Web.
+        </p>
+
+        <p>
+          La información y datos que se recopila se le da el siguiente uso:
+        </p>
+
+        <ul>
           <li>
-            Planifique su viaje y compre sus pasajes con la debida anticipación.
+            <p>
+              Tramitar su compra de pasaje incluyendo las transacciones.
+            </p>
           </li>
+
           <li>
-            Compre los pasajes solo en las líneas y las empresas del comercio
-            establecido para así estar adecuadamente protegido frente a posibles
-            problemas. El transporte ilegal o pirata no entrega ninguna garantía
-            de respeto a los derechos como consumidor.
+            <p>
+              Ofrecerle productos, descuentos o promociones a través de medios
+              como correo electrónico o teléfono.
+            </p>
           </li>
+
           <li>
-            Confirme la validez de las promociones u ofertas que puedan disponer
-            las empresas en sus viajes. Revise folletos (si los hay), pregunte
-            al vendedor de pasajes (en las cajas de los terminales de buses o
-            centros de venta) o revise el sitio Web de cada empresa, si esta lo
-            posee.
+            <p>
+              Responder preguntas y gestionar reclamos, realizar encuestas de
+              satisfacción, o consultar preferencia de ofertas o destinos.
+            </p>
           </li>
+
           <li>
-            Exija un comprobante por cada bulto de equipaje que lleve en las
-            cámaras portaequipajes.
+            <p>
+              Remitirle confirmación y actualizaciones sobre su compra vía
+              correo electrónico, teléfono, SMS o WhatsApp.
+            </p>
           </li>
+
           <li>
-            Tenga precaución con su equipaje de mano, es de su entera
-            responsabilidad lo que lleve al interior del bus.
-          </li>
-          <li>
-            Declare al llevar equipaje cuyo valor exceda a las 5 Unidades
-            Tributarias Mensuales ($160.000 aproximados) en los formularios
-            habilitados por cada empresa. Si no lo hace, se expone a que ante la
-            pérdida de su equipaje, la empresa sólo responda hasta 5 UTM y no
-            por el verdadero valor del bien que extravió.
-          </li>
-          <li>
-            Exija que el bus donde viaja lleve un dispositivo acústico y
-            luminoso de color rojo al interior del vehículo, el cual debe estar
-            a la vista de los pasajeros y activarse automáticamente cada vez que
-            la velocidad del bus exceda de 100 kilómetros por hora.
-          </li>
-          <li>
-            Exija al conductor bajar la velocidad cuando el dispositivo esté
-            encendido.
-          </li>
-          <li>
-            Exija que el volumen del audio (radio o tv) se mantenga en un nivel
-            adecuado.
-          </li>
-          <li>
-            Es también su deber mantener el mobiliario de la unidad que lo
-            transporta, no debe rayar o destruir asientos, vidrios y cortinas
-            del bus, tampoco pegar chicles u otros de carácter adhesivo. El baño
-            debe ser usado solo para orinar y en atención a que lo utilizarán
-            también otros pasajeros. Está prohibido a los pasajeros fumar y
-            beber alcohol dentro del bus.
-          </li>
-          <li>
-            Ponga por escrito sus comentarios en el libro de reclamos de la
-            empresa ante incumplimientos de los servicios ofrecidos.
+            <p>
+              Realizar análisis y estudios internos de Pullman Bus, sobre
+              intereses, gustos y necesidades del cliente, con el fin de mejorar
+              nuestras propuestas comerciales, publicitarias y promocionales.
+            </p>
           </li>
         </ul>
 
-        <h3>
-          OTRAS DIRECCIONES DE INTERÉS RESPECTO A ESTE TEMA
-        </h3>
-        <ul class="my-6">
-          <li>
-            Ley del Consumidor (<a
-              href="http://www.gobiernodechile.cl/consumidor/ley.asp"
-              target="_blank"
-              >http://www.gobiernodechile.cl/consumidor/ley.asp</a
-            >)
-          </li>
-          <li>
-            Reglamento de los Servicios Nacionales de Transporte Público de
-            Pasajeros (D.S 212/92) (<a
-              href="http://www.subtrans.cl/subtrans/doc/leyes_ds212_1992(agosto2005).pdf"
-              target="_blank"
-              >http://www.subtrans.cl/subtrans/doc/leyes_ds212_1992(agosto2005).pdf</a
-            >)
-          </li>
-          <li>
-            Fiscalización de Transportes (<a
-              href="http://www.mttfiscalizacion.cl"
-              target="_blank"
-              >http://www.mttfiscalizacion.cl</a
-            >)
-          </li>
-          <li>
-            Ministerio de Transportes (<a
-              href="http://www.mtt.cl"
-              target="_blank"
-              >http://www.mtt.cl</a
-            >)
-          </li>
-          <li>
-            Subsecretaría de Transportes (<a
-              href="http://www.subtrans.cl"
-              target="_blank"
-              >http://www.subtrans.cl</a
-            >)
-          </li>
-          <li>
-            Servicio Nacional del Consumidor Sernac (<a
-              href="http://www.sernac.cl"
-              target="_blank"
-              >http://www.sernac.cl</a
-            >)
-          </li>
-          <li>
-            Fenabus (<a href="http://www.fenabus.cl" target="_blank"
-              >http://www.fenabus.cl</a
-            >)
-          </li>
-        </ul>
+        <p>
+          Queda entendido y es de su conocimiento que Pullman Bus podrá
+          compartir los datos relevantes de sus usuarios con Prestadoras de
+          Servicio de transporte, aliados comerciales y proveedores para la
+          gestión de sus reservas, incluyendo tarjetas de crédito usadas en la
+          compra, analítica comercial y servicio de atención al cliente.
+        </p>
+
+        <p>
+          Pullman Bus mantiene mecanismos de seguridad para protección de sus
+          datos, haciendo uso de un título digital que autentifica la identidad
+          de un sitio web y cifrado de datos con el protocolo SSL (Secure Socket
+          Layer), por lo que la información que se envía al servidor será
+          estrictamente confidencial para el uso de terceros. Los datos serán de
+          uso exclusivo para aquellos empleados, contratistas, representantes y
+          agentes de la Empresa que necesitan conocer tales datos para el
+          desempeño sus funciones y exigiendo a proveedores y aliados
+          comerciales las mismas condiciones de confidencialidad incluyendo a
+          empresas. Sin embargo y sin perjuicio de lo anterior, no garantiza
+          eventuales vulneraciones por ataques web o intromisión de terceros no
+          autorizados, aun cuando utilicen la información de los Clientes en
+          forma indebida. Pullman Bus se reserva el derecho de transferir la
+          información recolectada en caso de venta de todo o parte de la
+          compañía o transferencia de la Plataforma a otro administrador.
+        </p>
+
+        <p>
+          Los datos personales correspondientes al Cliente serán almacenados en
+          servidores ubicados en Chile, sin embargo, podrá almacenar dichos
+          datos en otras ubicaciones fuera de Chile, a efecto de respaldos o
+          redundancia de almacenamiento.
+        </p>
+
+        <p>
+          El cliente al momento de registrarse o hacer transacciones bancarias
+          podrá optar por aceptar o denegar la recepción en su correo
+          electrónico de circulares promocionales, mensajes o alertas de
+          ofertas, teniendo la posibilidad de cancelar suscripción a través de
+          enlace que será enviado en cada correo electrónico. En caso de
+          cancelación de suscripción dejará de recibir alertas de ofertas,
+          mensajes promocionales o descuentos especiales pero continuará
+          recibiendo comunicaciones referidas al estatus de sus reservas
+          activas. El usuario podrá solicitar la cancelación, rectificación, o
+          supresión total de su información personal, a través de carta
+          certificada enviada a WIT dirección Los Conquistadores 2440,
+          Providencia, Santiago de Chile, lo cual deberá ser atendido en un
+          plazo no mayor a 20 días hábiles para proceder a la eliminación total
+          de los datos.
+        </p>
+
+        <p>
+          EL USUARIO DECLARA FORMALMENTE CONOCER Y ACEPTAR ESTA POLÍTICA DE
+          PRIVACIDAD Y LOS DERECHOS QUE OTORGA A Pullman Bus.
+        </p>
       </v-col>
     </v-row>
   </section>
 </template>
+
 <script>
 export default {
   mounted() {
@@ -130,8 +168,20 @@ export default {
   }
 }
 </script>
-<style scoped>
-h2 {
-  text-align: center;
+
+<style lang="scss" scoped>
+.container {
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  ol,
+  ul {
+    padding-left: 35px;
+  }
 }
 </style>
