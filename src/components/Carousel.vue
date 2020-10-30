@@ -15,13 +15,7 @@ export default {
   data: () => ({
     items: [
       {
-        src: 'Slide1.png'
-      },
-      {
-        src: 'Slide2.png'
-      },
-      {
-        src: 'Slide3.png'
+        src: 'Slide4.png'
       }
     ]
   })
