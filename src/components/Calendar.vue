@@ -179,7 +179,7 @@ export default {
       })
     },
     lessThan45(date) {
-      const limit = moment().add(45, 'days')
+      const limit = moment().add(120, 'days')
       return moment(date).diff(limit, 'days') < 0
     }
   }
