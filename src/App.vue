@@ -86,6 +86,11 @@ export default {
           title: 'Cuponera',
           icon: 'mdi-chevron-right',
           route: 'couponServicesPanel'
+        },
+        {
+          title: 'Datos Pasajero',
+          icon: 'mdi-chevron-right',
+          route: 'passengerDataPanel'
         }
       ]
     }

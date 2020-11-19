@@ -224,7 +224,7 @@ const store = new Vuex.Store({
             dispatch('SET_USER_FILTER', { filter: [], type: 'class' })
             return
           }
-          ('route', router.currentRoute)
+          //console.log('route', router.currentRoute)
           if (payload.goTo) {
             router.push('/services')
           } else if (router.currentRoute.name === 'ServicesPaymentData') {
@@ -550,6 +550,22 @@ const store = new Vuex.Store({
       state.grid = grid
     },
     SET_SEAT: (state, { seat }) => {
+      seat.pasajero = { 
+        "validForm" : false ,
+        "tipoDocumento" : "R",
+        "documento": "",
+        "comuna": "",
+        "direccion": "",
+        "email": "",
+        "materno": "",
+        "nacionalidad": "",
+        "nombres": "",
+        "paterno": "",
+        "telefono": "",
+        "telefonoEmergencia":"",
+        "terms":false,
+        "dialog":false 
+      };
       state.seats.push(seat)
     },
     SET_CONFIRMATION_SEAT_AMOUNT: (state, { seat, tomado }) => {

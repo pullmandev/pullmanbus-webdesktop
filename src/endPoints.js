@@ -11,6 +11,7 @@ const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
 const operacion = `${base}/integrador-web/rest/operacion`
 const baseCuponera = `${base}/integrador-web/rest/cuponera`
+const pasajero = `${base}/srv-privado-web/rest/pasajero`
 
 export default {
   cities: `${baseVenta}/buscaCiudades`,
@@ -60,5 +61,14 @@ export default {
   validarUsuario: `${baseCuponera}/validarUsuario`,
   transactionCoupon: `${basePago}/guardarTransaccionCuponera`,
   searchHeaderCoupon: `${baseVenta}/buscarEncabezadoCuponera`,
-  generateCoupon: `${baseVenta}/generarComprobanteCuponera`
+  generateCoupon: `${baseVenta}/generarComprobanteCuponera`,
+  obtenerListaCiudad: `${parametros}/obtenerListaCiudad`,
+
+  buscarListaTipoDocumento: `${pasajero}/buscarListaTipoDocumento`,
+  buscarListaNacionalidad: `${pasajero}/buscarListaNacionalidad`,
+  buscarPorNumeroDocumento: `${pasajero}/buscarPorNumeroDocumento`,
+  guardarRelacionPasajero: `${pasajero}/guardarRelacionPasajero`, 
+  
+  buscarRegistroPorBoleto: `${operacion}/buscarRegistro`,
+  editarRegistroBoleto: `${operacion}/modificarRegistro`
 }

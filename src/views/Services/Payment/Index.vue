@@ -449,7 +449,19 @@ export default {
             ? (parseInt(seat.asiento)).toString()
             : seat.asiento
         params.datoConvenio = this.rut
-        params.convenio = this.selectedConvenio
+        params.convenio = this.selectedConvenio    
+        params.pasajero = {
+          comunaDestino : seat.pasajero.comunaDestino,
+          comunaOrigen : seat.pasajero.comunaOrigen,
+          documento : seat.pasajero.numeroDocumento,
+          email : seat.pasajero.email,
+          nacionalidad : seat.pasajero.nacionalidad,
+          nombre : seat.pasajero.nombre,
+          apellido : seat.pasajero.apellido,
+          telefono : seat.pasajero.telefono,
+          telefonoEmergencia : seat.pasajero.telefonoEmergencia,
+          tipoDocumento : seat.pasajero.tipoDocumento
+        };            
         listaCarrito.push(params)
       })
       const paymentInfo = {

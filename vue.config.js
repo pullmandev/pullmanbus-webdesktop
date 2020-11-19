@@ -23,7 +23,7 @@ module.exports = {
   devServer: {
     proxy : {
       "^/integrador-web": {
-      target: 'http://localhost:8080',
+      target: 'http://qa.pullman.cl',
       ws: true,
       changeOrigin: true
       },

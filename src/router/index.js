@@ -60,6 +60,10 @@ import CouponDetail from '@/views/CouponServices/Detail/Index.vue'
 import ConfirmationCoupon from '@/views/CouponServices/ConfirmationCoupon.vue'
 import VoucherCoupon from '@/views/CouponServices/VoucherCoupon.vue'
 import FailCoupon from '@/views/CouponServices/FailCoupon.vue'
+
+import PassengerDataContainer from '@/views/PassengerDataServices/Index.vue'
+import PassengerDataPanel from '@/views/PassengerDataServices/PassengerData.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -310,6 +314,22 @@ const routes = [
         path: 'failCoupon/:id',
         name: 'failCoupon',
         component: FailCoupon
+      }
+    ]
+  },
+  {
+    path: '/PassengerDataServices',
+    component: PassengerDataContainer,
+    children: [
+      {
+        path: '',
+        name: 'passengerDataPanel',
+        component: PassengerDataPanel
+      },
+      {
+        path: '/passengerDataPanel/:boleto',
+        name: 'passengerDataPanel',
+        component: PassengerDataPanel
       }
     ]
   },

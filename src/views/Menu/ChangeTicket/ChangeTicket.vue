@@ -224,7 +224,7 @@
                 <v-card-text>
                   <v-container>
                   <div class="justifyText">
-                  <p class="title text-center my-4"><b>T�rminos y condiciones</b></p>
+                  <p class="title text-center my-4"><b>Términos y condiciones</b></p>
                   <div contenteditable="true" v-html="condiciones"></div>
                   <!--{{ cupon.condiciones }}-->
                   </div>
@@ -433,7 +433,7 @@ export default {
     validar(tecla, tipo) {
       let patron;
       switch (tipo) {
-      case 'rut': patron = /[\dKk-]/; break //Solo acepta n�meros, K y guion    
+      case 'rut': patron = /[\dKk-]/; break //Solo acepta números, K y guion    
       }
       var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
       if (charCode != 8) {
