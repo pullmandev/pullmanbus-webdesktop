@@ -385,9 +385,9 @@ export default {
             rutSolicitante: '',
             usuario: ''
           }
-          if (this.tickets[index].tipoCompra === 'VD') {
-            params.rutSolicitante = this.rutApplicant
-            params.usuario = this.name
+          params.rutSolicitante = this.rutApplicant
+          params.usuario = this.name
+          if (this.tickets[index].tipoCompra === 'VD') {            
             params.banco = this.selectedBank
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder
