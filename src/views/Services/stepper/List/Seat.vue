@@ -1,15 +1,12 @@
 <template>
   <div>
     <v-img
-      width="38"
-      height="40"
-      :src="
-        require(`../../../../../static/logos/seats/Iconos-${imageToShow}.png`)
-      "
+      width="45"
+      height="45"
+      :src="require(`../../../../../static/logos/seats/${imageToShow}.png`)"
       contain
-      class="align-center"
-    >
-      <span class="white--text">{{ seatNumberToShow }}</span>
+      class="align-center">
+      <span>{{ seatNumberToShow }}</span>
     </v-img>
   </div>
 </template>
@@ -27,18 +24,27 @@ export default {
     },
     imageToShow() {
       if (this.type === 'occupied') {
-        return 26
+        return "seat-busy"
       } else if (this.type === 'taken') {
-        return 27
+        return "seat-taken"
+      } else if(this.type === 'pet-free'){
+        return "seat-pet-free"
+      } else if(this.type === 'pet-taken'){
+        return "seat-pet-taken"
+      } else if (this.type === 'pet-occupied') {
+        return "seat-pet-busy"
       } else {
-        return 28
+        return "seat-free"
       }
     }
   }
 }
 </script>
-
-<style lang="stylus">
+<style>
+.v-responsive__content{
+  color: #fff;
+  margin-top: 5px!important;
+}
 button.seatBtn.btn div svg.seatSizeDesktop text.seatText {
   opacity: 1;
   -webkit-transform: rotate(-90deg);

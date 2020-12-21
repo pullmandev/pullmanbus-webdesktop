@@ -295,5 +295,10 @@ export default {
   select_destination : 'You must select arrive city',
   success_change: 'Your change has been made successfully',
   fail_title_change : 'We are sorry',
-  fail_detail_change : 'It was not possible to change the ticket'
+  fail_detail_change : 'It was not possible to change the ticket',
+  selected_pet_seats: 'Selected',
+  reserved_pet_seats: 'Reserved',
+  available_pet_seats: 'Available',
+  pet_service: 'Pet Service',
+  releasing_seat: 'Releasing seat'
 }

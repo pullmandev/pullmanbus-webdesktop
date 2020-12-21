@@ -90,10 +90,11 @@
                           v-else-if="seat.asiento === '' || seat.asiento === '%'"
                           style="height: 33px"
                           class="seatWidth"
-                        />
+                        /> 
                         <v-btn
                           v-else-if="
-                            seatIsInshoppingCart(
+                            petSeatIsInshoppingCart(
+                              seat.tipo,
                               seat.asiento,
                               data.pisos[selectedFloor].piso
                             ) > -1
@@ -102,11 +103,26 @@
                           text
                           small
                           class="mx-0 my-0 seatBtn seatWidth"
+                          disabled>
+                          <seat
+                            :seatNumber="seat.asiento"
+                            :floor="data.pisos[selectedFloor].piso"
+                            type="pet-taken"
+                          />
+                        </v-btn>                      
+                        <v-btn
+                          v-else-if="
+                            seatIsInshoppingCart(
+                              seat,
+                              data.pisos[selectedFloor].piso
+                            ) > -1
+                          "
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn seatWidth"
                           @click="
-                            selectSeat(seat.asiento, data.pisos[selectedFloor].piso, [
-                              i,
-                              j
-                            ])
+                            selectSeat(seat, data.pisos[selectedFloor].piso)
                           "
                         >
                           <seat
@@ -116,7 +132,7 @@
                           />
                         </v-btn>
                         <v-btn
-                          v-else-if="seat.estado !== 'libre'"
+                          v-else-if="seat.estado === 'ocupado'"
                           fab
                           text
                           small
@@ -130,16 +146,41 @@
                           />
                         </v-btn>
                         <v-btn
+                          v-else-if="seat.estado === 'pet-busy'"
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          disabled
+                        >
+                          <seat
+                            :seatNumber="seat.asiento"
+                            :floor="data.pisos[selectedFloor].piso"
+                            type="pet-occupied"
+                          />
+                        </v-btn>
+                        <v-btn
+                          v-else-if="seat.estado === 'pet-free'"
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          disabled
+                        >
+                          <seat
+                            :seatNumber="seat.asiento"
+                            :floor="data.pisos[selectedFloor].piso"
+                            type="pet-free"
+                          />
+                        </v-btn>                                              
+                        <v-btn
                           v-else
                           fab
                           text
                           small
                           class="mx-0 my-0 seatBtn seatWidth"
                           @click="
-                            selectSeat(seat.asiento, data.pisos[selectedFloor].piso, [
-                              i,
-                              j
-                            ])
+                            selectSeat(seat, data.pisos[selectedFloor].piso)
                           "
                         >
                           <seat
@@ -149,7 +190,6 @@
                           />
                         </v-btn>
                       </template>
-                      <!-- </template> -->
                     </div>
                   </div>
                 </v-col>
@@ -162,6 +202,7 @@
               <v-row justify="center">
                 <v-col cols="10">
                   <div>
+                    <template>
                     <div
                       class="d-flex justify-start my-4 mx-12"
                       v-for="(item, index) in seatsImg"
@@ -169,9 +210,9 @@
                     >
                       <div style="width: 35px">
                         <v-img
-                          height="20"
+                          width="60"
                           :src="
-                            require(`../../../../../static/logos/seats/Iconos-${item.number}.png`)
+                            require(`../../../../../static/logos/seats/${item.number}.png`)
                           "
                           contain
                         />
@@ -180,6 +221,27 @@
                         {{ $t(item.text) }}
                       </h3>
                     </div>
+                    </template>
+                    <template v-if="item.mascota === '1'">
+                    <div                      
+                      class="d-flex justify-start my-4 mx-12"
+                      v-for="(item, index) in seatsPetImg"
+                      :key="index"                      
+                    >
+                      <div style="width: 35px">
+                        <v-img
+                          width="60"
+                          :src="
+                            require(`../../../../../static/logos/seats/${item.number}.png`)
+                          "
+                          contain
+                        />
+                      </div>
+                      <h3 class="ml-1">
+                        {{ $t(item.text) }}
+                      </h3>
+                    </div>
+                    </template>
                     <template v-if="selectedSeats.length > 0">
                       <strong class="d-block">Total</strong>
                       <div class="text-right">
@@ -209,12 +271,15 @@
                           <v-btn
                             icon
                             color="orange"
+                            v-if="seat.tipo != 'pet'" 
                             @click="deleteSelectedSeat(seat)"
-                          >
-                            <v-icon>clear</v-icon>
-                          </v-btn>
+                          >                         
+                          <v-icon>clear</v-icon>
+                          </v-btn> 
+                          <img v-if="seat.tipo === 'pet'" 
+                          src="../../../../../static/logos/seats/icono_pata_verde.svg"
+                          class="service-pet-image"/>                        
                         </span>
-
                         <hr />
                         <strong>{{ totalAmount | currency }}</strong>
                       </div>
@@ -274,6 +339,37 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-dialog
+        v-model="dialogPet"
+        transition="dialog-bottom-transition"        
+        max-width="400">
+        <v-card class="modalPet">
+          <v-card-text> 
+            <v-row justify="end"> 
+              <v-btn icon @click.native="dialogPet = false" dark>
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-row>
+            <v-row justify="center">
+              <img 
+                src="../../../../../static/logos/seats/pet-alert.png"
+                width="120px"/> 
+            </v-row> 
+            <p style="padding-top:20px;color:white;">
+              Estas eligiendo un asiento dentro del espacio destinado a mascotas a bordo.
+            </p>
+            <p style="color:white;">¿Quieres continuar y reservarlo?</p>
+            <v-container>
+              <v-btn
+                @click="selectBusSeatPet()"
+                class="white--text"
+                color="#5089BC"
+                >{{ $t('continue') }}</v-btn
+              >           
+            </v-container>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
       <!-- .Grid end-->
     </v-card>
   </div>
@@ -304,14 +400,23 @@ export default {
   ],
   data() {
     return {
+      dialogPet: false,
+      petData:{
+        seatData : {}, piso : 0
+      },
       //confirmationSeats: [],
       seatDetail: false,
       seatForDetail: {},
       seatImageBase: '../../../../../static/logos/seats/',
       seatsImg: [
-        { text: 'available_seats', number: '28' },
-        { text: 'selected_seats', number: '27' },
-        { text: 'reserved_seats', number: '26' }
+        { text: 'available_seats', number: 'seat-free' },
+        { text: 'selected_seats', number: 'seat-taken' },
+        { text: 'reserved_seats', number: 'seat-busy' }
+      ],
+      seatsPetImg: [
+        { text: 'available_pet_seats', number: 'seat-pet-free' },
+        { text: 'selected_pet_seats', number: 'seat-pet-taken' },
+        { text: 'reserved_pet_seats', number: 'seat-pet-busy' }
       ],
       dialog: false,
       messageType: false,
@@ -374,6 +479,23 @@ export default {
         if (index > -1) {
           await deleteSeat(index)
         }
+        if(seat.tipo === 'asociado'){
+         const index = this.selectedSeats.findIndex(
+            item =>
+              item.piso === seat.piso &&
+              item.servicio === seat.servicio &&
+              item.fecha === seat.fecha &&
+              item.origen === seat.origen &&
+              item.destino === seat.destino &&
+              item.integrador === seat.integrador &&
+              item.empresa === seat.empresa &&
+              item.asiento === seat.asientoAsociado &&
+              item.tipo === 'pet' 
+          )
+          if (index > -1) {
+            await deleteSeat(index)
+          }
+        }
       } catch (err) {
         console.error(err)
       }
@@ -418,7 +540,7 @@ export default {
       }
       return this.serviceData
     },
-    seatIsInshoppingCart(seat, piso) {
+    seatIsInshoppingCart(seatData, piso) {
       const index = this.selectedSeats.findIndex(
         item =>
           item.piso === piso &&
@@ -428,7 +550,24 @@ export default {
           item.destino === this.serviceData.destino &&
           item.integrador === this.serviceData.integrador &&
           item.empresa === this.serviceData.empresa &&
-          seat === item.asiento //&&
+          seatData.asiento === item.asiento &&
+          seatData.tipo != 'pet' 
+        // moment().diff(moment(item.fechaTomada), 'minutes') < 15
+      )
+      return index
+    },
+    petSeatIsInshoppingCart(tipo, asiento, piso) {
+      const index = this.selectedSeats.findIndex(
+        item =>
+          item.piso === piso &&
+          item.servicio === this.serviceData.servicio &&
+          item.fecha === this.serviceData.fecha &&
+          item.origen === this.serviceData.origen &&
+          item.destino === this.serviceData.destino &&
+          item.integrador === this.serviceData.integrador &&
+          item.empresa === this.serviceData.empresa &&
+          asiento === item.asiento &&
+          tipo === 'pet' 
         // moment().diff(moment(item.fechaTomada), 'minutes') < 15
       )
       return index
@@ -484,9 +623,35 @@ export default {
         this.$emit('confirm')
       }
     },
-    selectSeat(seat, piso, indexes) {
+    selectSeat(seatData, piso) {      
+      const seatIndex = this.seatIsInshoppingCart(seatData, piso)
+      if(seatData.tipo === 'asociado' && seatIndex == -1){
+        const seatList = this.seatsByTravel(this.back)
+        if(seatList.length < 3){
+          this.petData.seatData = seatData;
+          this.petData.piso = piso;
+          this.dialogPet = true;
+        }else{
+          this.$notify({
+            group: 'load',
+            title: 'No puede tomar este asiento.',
+            type: 'info'
+          })
+        }
+      }else{
+        this.selectBusSeat(seatData, piso)
+      }
+    },   
+    selectBusSeatPet(){
+      this.selectBusSeat(this.petData.seatData, this.petData.piso)
+      this.dialogPet = false;    
+      this.petData.seatData = {}
+      this.petData.piso = 0
+    },
+    selectBusSeat(seatData, piso) {      
+      let seat = seatData.asiento;
       const index = this.data.pisos.length > 1 ? piso : 0
-      const seatIndex = this.seatIsInshoppingCart(seat, piso)
+      const seatIndex = this.seatIsInshoppingCart(seatData, piso)
       const floorData = {
         ...this.serviceData,
         servicioNombre: this.serviceData.pisos[index].servicio,
@@ -515,14 +680,29 @@ export default {
       if (seatIndex > -1) {
         this.leverageSeat(
           { ...floorData, asiento: seat, piso },
-          seatIndex,
-          indexes
+          seatIndex
         )
+        console.log('Fin libera asiento')
+        this.$store.dispatch('DELETE_SEAT', { seat: seatIndex })
       } else {
-        this.takeSeat({ ...floorData, asiento: seat, piso }, indexes)
+        this.takeSeat({ ...floorData,tipo : seatData.tipo, asiento: seat, asientoAsociado : seatData.asientoAsociado, piso })
+      }
+      if(seatData.tipo === 'asociado'){
+         let seatIndexAsociado = this.petSeatIsInshoppingCart('pet', seatData.asientoAsociado, piso)
+         if (seatIndexAsociado > -1) {
+          console.log('Inicio libera asiento pet')
+          this.leverageSeat(
+            { ...floorData, asiento: seatData.asientoAsociado, piso },
+            seatIndexAsociado
+          )
+          console.log('Fin libera asiento pet')
+          this.$store.dispatch('DELETE_SEAT', { seat: seatIndexAsociado })
+        } else {
+          this.takeSeat({ ...floorData,tipo : 'pet', asiento: seatData.asientoAsociado, asientoAsociado : seat, piso })
+        }
       }
     },
-    async takeSeat(params, indexes) {
+    async takeSeat(params) {
       const seatList = this.seatsByTravel(this.back)
       if (seatList.length > 3) {
         this.$notify({
@@ -537,8 +717,11 @@ export default {
         title: this.$t('taking_seat'),
         type: 'info'
       })
+      this.loadingSeats = true
       const requestParams = this.createRequestParams(params)
+      console.log(requestParams)
       const response = await API.takeSeat(requestParams)
+      this.loadingSeats = false
       if (!response.data > 0) {
         this.$notify({
           group: 'error',
@@ -548,10 +731,10 @@ export default {
             requestParams.asiento +
             this.$t('seats_error2'),
           type: 'error'
-        })                
-        this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]].estado='ocupado'
+        })       
         this.$forceUpdate()
       } else {
+        this.getSeats(this.item)
         const seat = Object.assign({ vuelta: this.back }, params)
         seat.id = seat.elementId + seat.piso + seat.asiento
         this.$store.dispatch('SET_SEAT', { seat })
@@ -561,15 +744,20 @@ export default {
         }
       }
     },
-    async leverageSeat(params, index, indexes) {
+    async leverageSeat(params) {
+      this.loadingSeats = true
       const requestParams = this.createRequestParams(params)
-      await API.freeSeat(requestParams)
-      //console.log(
-      //  'grilla',
-      //  this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]]
-      //)      
-      this.bus.grilla[params.piso].grid[indexes[0]][indexes[1]].estado = 'libre'
-      this.$store.dispatch('DELETE_SEAT', { seat: index })
+      console.log(requestParams)
+       this.$notify({
+        group: 'load',
+        title: this.$t('releasing_seat'),
+        type: 'info'
+      }) 
+      const mapResponse = await API.freeSeat(requestParams) 
+      this.loadingSeats = false
+      if(mapResponse.data > 0){
+        this.getSeats(this.item)
+      }
     },
     createRequestParams(params) {
       const requestParams = _.pick(params, [
@@ -589,10 +777,12 @@ export default {
     async getSeats(item) {
       this.floorArray = item.pisos.length > 1 ? [0, 1] : [0]
       this.selectedFloor = item.pisos[0].piso
-      this.data = item
+      this.data = item  
+      /*
       if (this.bus.grilla.length > 0) {
         return
       }
+      */
       this.loadingSeats = true
       this.createDataForRequest()
       const mapResponse = await API.getMapVertical({
@@ -602,7 +792,9 @@ export default {
         fechaServicio: item.fechaServicio,
         idOrigen: item.idTerminalOrigen,
         idDestino: item.idTerminalDestino,
-        integrador: item.integrador
+        integrador: item.integrador,
+        clasePiso1 : item.pisos[0].clase,
+        clasePiso2 : item.pisos.length > 1 ? item.pisos[0].clase : ""
       })
       this.map = mapResponse.data   
       const floors = Object.keys(this.map)
@@ -644,10 +836,14 @@ export default {
   right: 0;
 }
 .seatWidth {
-  width: 33px;
+  width: 45px;
 }
 .blank-seat-rem {
   margin-right: 1rem;
+}
+.modalPet{
+  text-align:center;
+  background: #85C4D7;
 }
 @media screen and (max-width: 1364px) {
   .seatWidth {
@@ -662,5 +858,10 @@ export default {
   .blank-seat-rem {
     margin-right: 0;
   }
+}
+.service-pet-image {
+  max-width: 24px;
+  height: auto;
+  margin-top: 0px;
 }
 </style>

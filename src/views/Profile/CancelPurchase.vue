@@ -61,9 +61,19 @@
               <td class="text-left">
                 <v-checkbox
                   v-if="props.item.puedeImprimir"
+                  :disabled="props.item.tipoServicio == 'pet'"
                   color="blue_dark"
                   v-model="props.item.anular"
+                  v-on:change="anular(props.item)"
                 ></v-checkbox>
+              </td>
+              <td class="text-left">
+                 <v-img
+                    v-if="props.item.tipoServicio === 'pet'"
+                    width="42px"
+                    title="Asiento Mascota"
+                    src="../../../static/logos/seats/icono_pata_verde.svg"
+                  />
               </td>
             </tr>
           </template>
@@ -256,6 +266,12 @@ export default {
           value: '',
           align: 'left',
           sortable: false
+        },
+        {
+          text: '',
+          value: '',
+          align: 'left',
+          sortable: false
         }
       ]
     }
@@ -350,6 +366,21 @@ export default {
         this.loading = false
       }
     },
+    anular(item){
+      console.log(item)
+      if(item.tipoServicio === 'asociado'){
+        //console.log(item.asientoAsociado + " - " + item.imprimeVoucher.servicio + " - " + item.imprimeVoucher.fechaHoraSalida);
+        for(const ticket of this.tickets){
+          //console.log(ticket.asientoAsociado + " - " + ticket.imprimeVoucher.servicio + " - " + ticket.imprimeVoucher.fechaHoraSalida);
+          if(item.asientoAsociado == ticket.asiento 
+            && item.imprimeVoucher.servicio == ticket.imprimeVoucher.servicio
+            && item.imprimeVoucher.fechaHoraSalida == ticket.imprimeVoucher.fechaHoraSalida){
+            ticket.anular = item.anular;
+            //console.log("ok")
+          }
+        }
+      }
+    },
     clearTicketData() {
       this.code = ''
       this.tickets = []
@@ -387,7 +418,7 @@ export default {
           }
           params.rutSolicitante = this.rutApplicant
           params.usuario = this.name
-          if (this.tickets[index].tipoCompra === 'VD') {            
+          if (this.tickets[index].tipoCompra === 'VD') {           
             params.banco = this.selectedBank
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder

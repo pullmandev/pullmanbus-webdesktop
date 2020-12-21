@@ -14,6 +14,8 @@ import List from '@/views/Services/stepper/List/Index'
 import Payment from '@/views/Services/Payment/Index.vue'
 import Confirmation from '@/views/Services/Confirmation.vue'
 
+
+
 //Confirmation Services
 import ConfirmationServicesContainer from '@/views/ConfirmationServices/Index.vue'
 import ConfirmationSearchPanel from '@/views/ConfirmationServices/SearchPanel.vue'

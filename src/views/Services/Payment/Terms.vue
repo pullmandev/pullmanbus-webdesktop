@@ -198,5 +198,102 @@
         podrán verificar la autenticidad de ellas.
       </p>
     </div>
+
+    <div class="justifyText">
+      <p class="title text-center my-4"><b>Condiciones de viaje con Mascota a Bordo</b></p>
+
+      <ol class="ml-4">
+        <li>
+          El servicio MAB solo estará disponible para la compra de pasajes en la página web www.pullmanbus.cl
+        </li>
+        <li>
+          Los viajes MAB serán exclusivos entre Santiago y Viña del Mar, en horario Valle (10:00 a 16:00 horas).
+        </li>
+        <li>
+          Las mascotas que pueden viajar son solo perros y gatos. No se aceptarán otras especies.
+        </li>
+        <li>
+          No podrán viajar mascotas solas.
+        </li>
+        <li>
+          Solo se permite un perro o gato por pasajero. 
+        </li>
+        <li>
+          No se permite llevar 2 perros o gatos en el mismo canil, jaula y/o caja. 
+        </li>
+        <li>
+          La mascota siempre debe viajar con una persona responsable a su lado. 
+        </li>
+        <li>
+          El responsable de la mascota debe firmar una declaración Jurada de Tenencia Responsable antes del viaje que se enviará junto el pasaje, y que debe ser rellenada y entregada al conductor al momento de abordar el bus. 
+        </li>
+        <li>
+          La mascota debe ir durante todo el viaje dentro de una caja, canil o jaula para transporte, la cual no puede medir más de 60 centímetros de largo, 34 cm de alto y 38,5 cm de ancho. Solo quedan exentos de usar caja los perros de asistencia (Art. 3 y 4 Ley 20.025). En este caso el perro tampoco pagará pasaje.
+        </li>
+        <li>
+          La Ley 20.025 solo contempla perros de asistencia especialmente entrenados y certificados. 
+        </li>
+        <li>
+          Las personas que deban hacer uso de animales de apoyo emocional o de contención deben acreditar previamente su utilización a través de un certificado emitido por un sicólogo o siquiatra. 
+        </li>
+        <li>
+          Solo pueden viajar perros o gatos que quepan en el canil, jaula y/o caja (excepto Ley 20.025).
+        </li>
+        <li>
+          El canil, jaula y/o caja debe estar limpio y tener espacio para que el animal pueda moverse y estar cómodo.
+        </li>
+        <li>
+          Los cupos en buses con sello MAB serán limitados hasta 4 el que dependerá de la configuración del bus con el cual se preste el servicio (1 piso, 2 pisos, etc.). Se incluye los perros o gatos de apoyo emocional o de contención. 
+        </li>
+        <li>
+          La mascota debe ir en un asiento especial de igual valor al del resto de los pasajeros.
+        </li>
+      </ol>
+
+      <p class="subheading">
+        <b>RECOMENDACIONES</b>
+      </p>
+      <ol class="ml-4">
+        <li>
+          -	Por recomendación de expertos veterinarios, no deben viajar mascotas en el maletero.          
+        </li>
+        <li>  
+          -	No es recomendable drogar ni dar sedantes a la mascota, si no lo sugiere un veterinario.        
+        </li>
+      </ol>
+
+      <p class="subheading">
+        <b>Precauciones para un viaje tranquilo y seguro con tu perro o gato</b>
+      </p>
+      <ol class="ml-4">
+        <li>
+          Programa tu viaje con anticipación.
+        </li>
+        <li>
+           Se recomienda al menos 5 horas de ayuno para que al animal no vomite ni defeque durante el viaje. 
+        </li>
+        <li>
+          Es recomendable que la mascota haya hecho ejercicio intenso ese mismo día para que el cansancio lo relaje. 
+        </li>
+        <li>
+          Asegúrate de mantener a tu mascota hidratada.
+        </li>
+        <li>
+           Lleva algo familiar para tu perro o gato, como un juguete que le agrade y pueda reducir su estrés.
+        </li>
+        <li>
+          Porta útiles de aseo y bolsas.
+        </li>
+      </ol>
+
+      <p>
+        AYÚDANOS A CONCIENTIZAR SOBRE LA TENENCIA RESPONSABLE DE MASCOTAS Y CONSTRUIR UN PROYECTO MASCOTA A BORDO, SEGURO PARA TODOS 
+        ¡NUESTROS AMIGOS PELUDOS NOS NECESITAN 
+
+        Para comentarios, sugerencias, ideas, aportes o reclamos MAB escribe a comunicaciones@pullman.cl 
+
+        Comparte tu experiencia y fotos con tu regalón y regalona en nuestras redes sociales con el hashtag #MascotaABordo 
+      </p>
+    </div>
   </v-container>
 </template>

@@ -14,7 +14,7 @@
           <v-expansion-panel
             :key="service.id"
             v-for="service in itemsPerPage"
-            class="arrow elevation-0"
+            class="arrow elevation-0"            
           >
             <v-expansion-panel-header style="overflow: hidden">
               <v-row no-gutters>
@@ -28,7 +28,13 @@
                     }}</span>
                   </div>
                 </v-col>
-                <v-col :cols="hasVuelta ? 12 : 11">
+                <v-col cols="1">                  
+                  <img 
+                  v-if="service.mascota === '1'"
+                  src="../../../../../static/logos/seats/icono_pata_verde.svg"
+                  class="service-pet-image"/>
+                </v-col>
+                <v-col :cols="hasVuelta ? 11 : 10">
                   <v-row>
                     <v-col cols="2">
                       <span class="headline d-block">
@@ -239,13 +245,29 @@ export default {
       return services
     },
     paginationLength() {
+      let count = 0;
+      if(this.searching.petService){
+        for(const service of this.services){
+          if(service.mascota === '1'){
+            count++;
+          }
+        }
+        return Math.ceil(count/5);
+      }
       return Math.ceil(this.services.length / 5)
     },
     itemsPerPage() {
       let pages = []
-      let page = []
-      for (const servicesGroup of this.services) {
-        page.push(servicesGroup)
+      let page = []      
+      for (const servicesGroup of this.services) {        
+        if(this.searching.petService){
+          if(servicesGroup.mascota === '1'){
+            page.push(servicesGroup)  
+          }
+        }else{
+          page.push(servicesGroup)  
+        }
+        //page.push(servicesGroup)
         if (page.length === 5) {
           pages.push(page)
           page = []
@@ -258,9 +280,9 @@ export default {
       return pages[this.page - 1]
     }
   },
-  watch: {
+  watch: {    
     loadingServices(value) {
-      if (value) {
+      if (value) {        
         this.fechaSubidaIda = this.$store.state.searching.from_date
         this.fechaSubidaVuelta = this.$store.state.searching.to_date
       }
@@ -333,6 +355,12 @@ export default {
 .service-company-image {
   max-width: 100%;
   height: auto;
+}
+
+.service-pet-image {
+  max-width: 80%;
+  height: auto;
+  margin-top: 25px;
 }
 
 @media (max-width: 1060px) {

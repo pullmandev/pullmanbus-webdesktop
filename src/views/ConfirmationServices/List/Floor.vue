@@ -99,7 +99,7 @@
                           />
                         </v-btn>
                         <v-btn
-                          v-else-if="seat.estado !== 'libre'"
+                          v-else-if="seat.estado === 'ocupado'"
                           fab
                           text
                           small
@@ -110,6 +110,34 @@
                             :seatNumber="seat.asiento"
                             :floor="data.pisos[selectedFloor].piso"
                             type="occupied"
+                          />
+                        </v-btn>
+                        <v-btn
+                          v-else-if="seat.tipo === 'asociado'"
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          disabled
+                        >
+                          <seat
+                            :seatNumber="seat.asiento"
+                            :floor="data.pisos[selectedFloor].piso"
+                            type="occupied"
+                          />
+                        </v-btn>
+                         <v-btn
+                          v-else-if="seat.tipo === 'pet'"
+                          fab
+                          text
+                          small
+                          class="mx-0 my-0 seatBtn seatWidth"
+                          disabled
+                        >
+                          <seat
+                            :seatNumber="seat.asiento"
+                            :floor="data.pisos[selectedFloor].piso"
+                            type="pet-occupied"
                           />
                         </v-btn>
                         <v-btn
@@ -155,7 +183,7 @@
                         <v-img
                           height="20"
                           :src="
-                            require(`../../../../static/logos/seats/Iconos-${item.number}.png`)
+                            require(`../../../../static/logos/seats/${item.number}.png`)
                           "
                           contain
                         />
@@ -212,9 +240,14 @@ export default {
       loadingPdf: false,
       seatImageBase: '../../../../../static/logos/seats/',
       seatsImg: [
-        { text: 'available_seats', number: '28' },
-        { text: 'selected_seats', number: '27' },
-        { text: 'reserved_seats', number: '26' }
+        { text: 'available_seats', number: 'seat-free' },
+        { text: 'selected_seats', number: 'seat-taken' },
+        { text: 'reserved_seats', number: 'seat-busy' }
+      ],
+      seatsPetImg: [
+        { text: 'available_pet_seats', number: 'seat-pet-free' },
+        { text: 'selected_pet_seats', number: 'seat-pet-taken' },
+        { text: 'reserved_pet_seats', number: 'seat-pet-busy' }
       ],
       dialog: false,
       messageType: false,

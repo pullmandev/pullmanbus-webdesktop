@@ -49,8 +49,8 @@
           </v-card-text>
           <v-data-table
             :headers="headers"
-            :items="selectedSeats"
-            :expanded="selectedSeats"
+            :items="selectedSeats" 
+            :expanded="selectedSeats"           
             :sort-by="['fechaSubida', 'horaSalida']"
             :sort-desc="[false, false]"
             item-key="id"
@@ -116,26 +116,27 @@
                     color="orange"
                     @click="deleteSelected(props.item)"
                     :disabled="deleting"
+                    v-if="props.item.tipo != 'pet'"
                   >
                     <v-icon>clear</v-icon>
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn text @click="props.expand(!props.isExpanded)">
-                    <!--v-icon>mdi-chevron-right</v-icon-->
+                  <v-btn text @click="props.expand(!props.isExpanded)" 
+                    v-if="props.item.tipo != 'pet'">                    
                     <v-img
-                      v-if="props.item.pasajero.validForm"
-                      width="24px"
-                      title="Datos pasajero completado"
+                      width="32px"
+                      title="Ingresar datos pasajero"
                       src="../../../../static/images/icono_bus_flecha.png"
                     />
-                    <v-img
-                      v-else
-                      width="24px"
-                      title="Debe completar datos pasajero"
-                      src="../../../../static/images/icono_persona.png"
-                    />
                   </v-btn>
+                  <v-img
+                    v-if="props.item.tipo === 'pet'"
+                    width="52px"
+                    style="margin-left:8px;"
+                    title="Asiento Mascota"
+                    src="../../../../static/logos/seats/icono_pata_verde.svg"
+                  />
                 </td>
               </tr>
             </template>
@@ -171,7 +172,7 @@
                   </v-row>
                 </td>
               </tr>
-              <tr class="passenger-data">
+              <tr class="passenger-data" v-if="props.item.tipo != 'pet'">
                 <td :colspan="props.headers.length">
                   <v-row>
                     <v-col>
@@ -550,7 +551,12 @@ export default {
       listaComuna: []
     }
   },
-  mounted() {
+  mounted() {    
+    for(const seat of this.selectedSeats){
+      if(seat.tipo != 'pet'){
+        seat.isExpanded = true;
+      }
+    }
     console.log(this.selectedSeats)
     APIPassenger.getDocumentTypeList()
       .then(response => {
@@ -658,6 +664,23 @@ export default {
       const index = this.selectedSeats.findIndex(item => item.id === seat.id)
       if (index > -1) {
         await deleteSeat(index)
+      }
+      if(seat.tipo === 'asociado'){
+         const index = this.selectedSeats.findIndex(
+          item =>
+            item.piso === seat.piso &&
+            item.servicio === seat.servicio &&
+            item.fecha === seat.fecha &&
+            item.origen === seat.origen &&
+            item.destino === seat.destino &&
+            item.integrador === seat.integrador &&
+            item.empresa === seat.empresa &&
+            item.asiento === seat.asientoAsociado &&
+            item.tipo === 'pet' 
+        )
+        if (index > -1) {
+          await deleteSeat(index)
+        }
       }
       this.deleting = false
     },

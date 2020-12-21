@@ -8,11 +8,24 @@
         color="orange"
         class="elevation-24 rounded-search-box mt-5 px-12 pt-7"
       >
-        <v-card-text class="px-0"
-          ><h2 class="display-1 white--text" :class="breakPoint.fontClass">
-            {{ $t('travel_details') }}
-          </h2></v-card-text
-        >
+        <v-card-text class="px-0">
+          <v-row>
+            <v-col cols="9" class="py-0">
+              <h2 class="display-1 white--text" :class="breakPoint.fontClass">
+                {{ $t('travel_details') }}
+              </h2>
+            </v-col>
+            <v-col cols="3" class="py-0">
+              <v-row>
+                <v-switch
+                  class="switch-pet"
+                  v-model="petService"              
+                ></v-switch>
+                <img src="../../../../static/logos/seats/img_filtro.png" class="img-filtro"/>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card-text>
         <v-row>
           <v-col cols="12" class="py-0">
             <v-row>
@@ -86,7 +99,8 @@ export default {
     toDate: null,
     fromCity: null,
     toCity: null,
-    windowSize: { x: window.innerWidth, y: window.innerHeight }
+    windowSize: { x: window.innerWidth, y: window.innerHeight },
+    petService: false
   }),
   computed: {
     ...mapGetters({
@@ -181,7 +195,8 @@ export default {
         fromDate: this.fromDate,
         toDate: this.toDate,
         fromCity: this.fromCity,
-        toCity: this.toCity
+        toCity: this.toCity,
+        petService : this.petService
       })
     },
     setUserSearchingData() {
@@ -200,6 +215,9 @@ export default {
       this.$store.dispatch('SET_NEW_USER_SEARCHING_CITY', {
         city: this.toCity,
         direction: 'to'
+      })
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_PET', {
+        petService: this.petService
       })
     }
   },
@@ -245,5 +263,11 @@ div.card.search_card {
 
 .search-panel-radios .v-input--radio-group__input {
   justify-content: center;
+}
+.img-filtro{
+  max-height: 32px;
+}
+.switch-pet{
+  margin-top: 0px !important;
 }
 </style>

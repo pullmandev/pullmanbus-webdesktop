@@ -3,7 +3,7 @@
     <v-img
       width="38"
       height="40"
-      :src="require(`../../../../static/logos/seats/Iconos-${imageToShow}.png`)"
+      :src="require(`../../../../static/logos/seats/${imageToShow}.png`)"
       contain
       class="align-center"
     >
@@ -25,11 +25,17 @@ export default {
     },
     imageToShow() {
       if (this.type === 'occupied') {
-        return 26
+        return "seat-busy"
       } else if (this.type === 'taken') {
-        return 27
+        return "seat-taken"
+      } else if(this.type === 'pet-free'){
+        return "seat-pet-free"
+      } else if(this.type === 'pet-taken'){
+        return "seat-pet-taken"
+      } else if (this.type === 'pet-occupied') {
+        return "seat-pet-busy"
       } else {
-        return 28
+        return "seat-free"
       }
     }
   }

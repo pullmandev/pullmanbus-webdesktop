@@ -1,5 +1,6 @@
 <template>
   <div class="mt-5">
+    <by-pet />
     <by-time />
     <by-price />
     <!-- <by-company /> -->
@@ -8,6 +9,7 @@
 </template>
 
 <script>
+import byPet from './ByPet'
 import byPrice from './ByPrice'
 import byTime from './ByTime'
 import byService from '@/views/Services/filters/ByService'
@@ -16,6 +18,7 @@ export default {
     return {}
   },
   components: {
+    byPet,
     byPrice,
     byTime,
     byService

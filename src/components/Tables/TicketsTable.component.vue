@@ -37,6 +37,12 @@
             <span>{{ $t('download') }}</span>
           </v-tooltip>
         </td>
+        <td class="text-center">
+           <img 
+              v-if="props.item.tipoServicio === 'pet'"
+              src="../../../static/logos/seats/icono_pata_verde.svg"
+              style="width:3rem;"/>
+        </td>
       </tr>
     </template>
   </v-data-table>
@@ -112,6 +118,13 @@ export default {
         {
           text: '',
           value: 'actions',
+          align: 'center',
+          sortable: false,
+          class: 'purchase-table-header'
+        },
+           {
+          text: '',
+          value: '',
           align: 'center',
           sortable: false,
           class: 'purchase-table-header'

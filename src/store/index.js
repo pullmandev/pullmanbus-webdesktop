@@ -43,7 +43,8 @@ const store = new Vuex.Store({
       from_city: null,
       to_city: null,
       from_date: null,
-      to_date: null
+      to_date: null,
+      petService: false
     },
     searchingFromToConfirmation:{
       searchingCity:{}
@@ -356,6 +357,10 @@ const store = new Vuex.Store({
       }
     },
 
+    SET_NEW_USER_SEARCHING_PET({ commit }, payload) {      
+      commit('SET_USER_SEARCHING_PET', { petService: payload.petService })      
+    },
+
     SET_SEARCHING_CONFIRMATION({ commit }, payload) {
       if (payload.type === 'date') {
         commit('SET_SEARCHING_CONFIRMATION_DATE', { date: payload.date })
@@ -373,6 +378,9 @@ const store = new Vuex.Store({
         commit('SET_PRICE_FILTER', { filter: payload.filter })
       if (payload.type === 'hours')
         commit('SET_HOUR_FILTER', { filter: payload.filter })
+      if (payload.type === 'pet'){        
+        commit('SET_PET_FILTER', { filter : payload.filter })
+      }
     },
 
     SET_USER_LANGUAGE({ commit }, payload) {
@@ -497,6 +505,10 @@ const store = new Vuex.Store({
     SET_USER_SEARCHING_TO_CITY: (state, { city }) => {
       state.searching.to_city = city
     },
+    SET_USER_SEARCHING_PET: (state, { petService }) => {
+      console.log("Change set pet", petService)
+      state.searching.petService = petService
+    },
     SET_USER_SEARCHING_FROM_DATE: (state, { date }) => {
       const diff = moment(state.searching.to_date).diff(date, 'days')
       if (diff <= -1 || date == null) {
@@ -530,6 +542,9 @@ const store = new Vuex.Store({
     },
     SET_HOUR_FILTER: (state, { filter }) => {
       state.serviceFilters.hours = filter
+    },
+    SET_PET_FILTER: (state, { filter }) => {
+      state.searching.petService = filter
     },
     SET_LANGUAGE: (state, { language }) => {
       state.language = language

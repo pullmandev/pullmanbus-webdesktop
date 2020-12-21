@@ -125,7 +125,7 @@
                 :rules="emailRules"
                 @input="
                   v => {
-                    this.emailconfirmError = this.confirmemail !== v
+                    this.emailconfirmError = this.confirmemail.toUpperCase() !== v.toUpperCase()
                   }
                 "
                 required
@@ -146,7 +146,7 @@
                 :error="emailconfirmError"
                 @input="
                   v => {
-                    this.emailconfirmError = this.email !== v
+                    this.emailconfirmError = this.email.toUpperCase() !== v.toUpperCase()
                   }
                 "
               ></v-text-field>
@@ -264,7 +264,7 @@ export default {
       validForm: false,
       validForm2: false,
       validForm3: false,
-      email: this.$store.getters.payment_info.email,
+      email: this.$store.getters.payment_info.email.toUpperCase(),
       confirmemail: '',
       movil: this.$store.getters.payment_info.movil,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
@@ -293,7 +293,7 @@ export default {
       return (
         !this.validForm2 ||
         !this.validForm3 ||
-        this.email !== this.confirmemail ||
+        this.email.toUpperCase() !== this.confirmemail.toUpperCase() ||
         this.payMethod === ''
       )
     }
@@ -461,7 +461,9 @@ export default {
           telefono : seat.pasajero.telefono,
           telefonoEmergencia : seat.pasajero.telefonoEmergencia,
           tipoDocumento : seat.pasajero.tipoDocumento
-        };            
+        };  
+        params.tipoServicio = seat.tipo  
+        params.asientoAsociado = seat.asientoAsociado
         listaCarrito.push(params)
       })
       const paymentInfo = {

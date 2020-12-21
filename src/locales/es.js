@@ -297,5 +297,10 @@ export default {
   select_destination : 'Debe seleccionar ciudad de destino',
   success_change: 'Su cambio ha sido realizado con éxito',
   fail_title_change : 'Lo sentimos',
-  fail_detail_change : 'No fue posible realizar el cambio de boleto'
+  fail_detail_change : 'No fue posible realizar el cambio de boleto',
+  selected_pet_seats: 'Seleccionados',
+  reserved_pet_seats: 'Reservados',
+  available_pet_seats: 'Disponibles',
+  pet_service: 'Servicio Mascota',
+  releasing_seat: 'Liberando asiento'
 }
