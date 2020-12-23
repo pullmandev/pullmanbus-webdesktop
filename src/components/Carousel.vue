@@ -16,6 +16,9 @@ export default {
     items: [
       {
         src: 'SlideNavidad.png'
+      },
+      {
+        src: 'SlidePet.png'
       }
     ]
   })
