@@ -15,7 +15,7 @@ export default {
   data: () => ({
     items: [
       {
-        src: 'SlideNavidad.png'
+        src: 'SlideVerano.png'
       },
       {
         src: 'SlidePet.png'
