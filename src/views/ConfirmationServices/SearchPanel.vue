@@ -224,6 +224,7 @@ export default {
 
     },
     validateSearch() {
+      this.ticket = this.ticket.toUpperCase();
       this.loading = true
       this.$notify({
         group: 'load',

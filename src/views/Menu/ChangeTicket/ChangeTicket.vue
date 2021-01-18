@@ -336,6 +336,7 @@ export default {
     async Consult() {
       try {
         this.loading = true
+        this.code = this.code.toUpperCase();
         const response = await API.validateTicket({
           boleto: this.code
         })
