@@ -20,7 +20,7 @@
       <v-btn text>
         <v-icon>mdi-chevron-right</v-icon>
         <a
-          href="http://ventasctacte.pullman.cl/odp"
+          href="http://pullmanempresas.cl/"
           class="white--text"
           style="text-decoration: none"
           target="_blank"
