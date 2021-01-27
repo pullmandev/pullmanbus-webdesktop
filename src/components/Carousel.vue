@@ -19,9 +19,6 @@ export default {
       },
       {
         src: 'SlidePet.png'
-      },
-      {
-        src: 'SlideMAB.png'
       }
     ]
   })
