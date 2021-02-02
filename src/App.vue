@@ -118,4 +118,8 @@ $themeColor: var(--var-orange);
 @include track('textarea');
 @include scrollbar('textarea');
 @include thumb('textarea', var(--var-blue));
+
+.vue-slider-dot{
+  z-index: 1!important;
+}
 </style>

@@ -513,7 +513,7 @@
           >
           <v-btn
             color="orange"
-            :disabled="selectedSeats.length <= 0"
+            :disabled="puedeContinuar()"
             class="white--text mr-5"
             @click="validaData()"
             >{{ $t('continue') }}</v-btn
@@ -597,12 +597,21 @@ export default {
       pasajero.numeroDocumento = ''
     },
     async searchPassengerData(pasajero) {
+      this.clearPassengerData(pasajero, '')
+      if(pasajero.tipoDocumento=='R'){
+        let valida = validations.rutValidation(pasajero.numeroDocumento)
+        console.log(valida);
+        if(valida!==true) return;
+      }else{
+        console.log("Validar pasaporte")
+      }
+      
       let passenger = {
         tipoDocumento: pasajero.tipoDocumento,
         documento: pasajero.numeroDocumento
       }
       console.log(passenger)
-      this.clearPassengerData(pasajero, ''),
+      
         await APIPassenger.getPassengerData(passenger).then(response => {
           if (response.data.documento != null) {
             pasajero.numeroDocumento = response.data.documento
@@ -656,6 +665,16 @@ export default {
     },
     validaData() {      
       this.routeWithScroll('#paymentStepper', 'Payment')    
+    },
+    puedeContinuar(){
+      let valid = false;
+      if (this.selectedSeats.length > 0){
+        this.selectedSeats.forEach(element=>{
+          console.log(element.pasajero.validForm);
+          if(!element.pasajero.validForm) valid=true;
+        })
+      }
+      return valid;
     },
     routeWithScroll,
     confirmationAmount,
