@@ -11,21 +11,18 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="email"
               :label="$t('email')"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="emailRules"
-              class="app-textfield"
             ></v-text-field>
           </v-col>
           <v-col cols="12">
             <v-text-field
-              dark
               filled
               outlined
               dense
@@ -35,9 +32,8 @@
               @click:append="see = !see"
               :type="see ? 'password' : 'text'"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="passwordRules"
-              class="app-textfield"
             ></v-text-field>
           </v-col>
           <v-col cols="8" offset="2" class="pt-3">
@@ -126,7 +122,7 @@ export default {
       API.auth({ usuario: this.email, password: this.password })
         .then(response => {
           const data = JSON.parse(JSON.stringify(response.data))
-          console.log(response.data)
+          //console.log(response.data)
           if (!data.exito) {
             this.$notify({
               group: 'error',
@@ -167,6 +163,9 @@ export default {
               active: true
             }
           })
+          if (data.usuario.rut == null) {
+            this.$router.push({ name: 'my_profile' })
+          }
           this.$store.dispatch('SET_SESSION_DIALOG', {
             type: 'open',
             open: false
@@ -194,7 +193,7 @@ export default {
   text-decoration: underline;
   opacity: 0.7;
   text-align: center;
-  color: white;
+  color: var(--var-blue_dark);
 }
 .spacer {
   height: 20vh;

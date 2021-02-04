@@ -1,17 +1,54 @@
 <template>
-  <BannerImageList
-    title="Temas de interés"
+  <NewsList
+    title="Noticias y actualidad"
     subTitle="Infórmate sobre nuestros servicios, convenios y otros"
-    :itemTitles="['Viaja en Bus, la manera más inteligente de viajar', 'Obtén aquí tu Pullman Pass y accede a un mundo de descuentos', 'Conoce aquí los convenios que Pullman Bus tiene para tí']"
-    :links="['https://www.viajaenbus.cl/','https://www.pullmanbus.cl/portalWAR/paginas/contenido/pass.jsf','https://www.pullmanbus.cl/portalWAR/paginas/contenido/convenio.jsf#header']"
-    :images="['Banner2.png', 'Banner3.png','Banner1.png']"
+    :items="articles"
   />
 </template>
+
 <script>
-import BannerImageList from '@/components/BannerImageList'
+import NewsList from '@/components/NewsList'
+import API from '@/services/api/posts'
+
 export default {
   components: {
-    BannerImageList
+    NewsList
+  },
+
+  data() {
+    return {
+      articles: []
+    }
+  },
+
+  async mounted() {
+    const response = await API.getPosts()
+
+    response.data
+      .filter(item => {
+        const id = 31
+        let result = false
+
+        for (let category of item.categories) {
+          if (category === id) {
+            result = true
+            break
+          }
+        }
+        return result
+      })
+      .forEach(item => {
+        API.getImage(item._links['wp:featuredmedia'][0].href).then(response => {
+          const img = response.data.media_details.sizes.medium_large.source_url
+
+          this.articles.push({
+            title: item.title.rendered,
+            content: item.excerpt.rendered,
+            link: item.link,
+            img
+          })
+        })
+      })
   }
 }
 </script>

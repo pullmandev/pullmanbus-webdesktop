@@ -3,48 +3,63 @@
     <v-row cols="12" sm="12" md="8" lg="6">
       <v-col>
         <div class="mt-1 service-container-background">
-          <v-toolbar dark color="blue_light" id="serviceToolbar">
-            <v-toolbar-title>
-              <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
-                {{ $t('outbound_service') }}: {{ searching.from_city.nombre }}
-                {{ $t('to') }}
-                {{ searching.to_city.nombre }}
-              </span>
-            </v-toolbar-title>
-            <template v-if="hasVuelta" v-slot:extension>
-              <v-tabs v-model="selectedTab" centered slider-color="yellow">
-                <v-tab
-                  v-for="i in tabs"
-                  :key="i"
-                  :href="'#tab-' + i"
-                  class="pa-0 tabButton"
+          <v-container>
+            <v-toolbar dark color="blue_light" id="serviceToolbar">
+              <v-toolbar-title>
+                <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
+                  {{ $t('outbound_service') }}: {{ searching.from_city.nombre }}
+                  {{ $t('to') }}
+                  {{ searching.to_city.nombre }}
+                </span>
+                <span
+                  class="title ml-3"
+                  :class="{ 'body-1': windowSize.x <= 960 }"
                 >
-                  <v-btn
-                    style="width: 100%; height: 100%;"
-                    class="ma-0"
-                    :class="i === 'Ida' ? 'mr-1' : 'ml-1'"
-                    color="blue_light"
-                    text
+                  <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
+                    Fecha de vuelta: {{ formatDate(searching.to_date) }}
+                  </template>
+                  <template v-else>
+                    Fecha de ida: {{ formatDate(searching.from_date) }}
+                  </template>
+                </span>
+              </v-toolbar-title>
+              <template v-if="hasVuelta" v-slot:extension>
+                <v-tabs v-model="selectedTab" centered hide-slider>
+                  <v-tab
+                    v-for="i in tabs"
+                    :key="i"
+                    :href="'#tab-' + i"
+                    class="pa-0 tab-custom"
+                    v-ripple="{ class: 'blue_dark--text' }"
+                    active-class="tab-active"
                   >
-                    <span class="white--text">
-                      {{ i }}
-                    </span>
-                  </v-btn>
-                </v-tab>
-              </v-tabs>
+                    <v-btn
+                      style="width: 100%; height: 100%;"
+                      text
+                      class="ma-0"
+                      color="blue_light"
+                      tile
+                    >
+                      <span class="white--text">
+                        {{ i }}
+                      </span>
+                    </v-btn>
+                  </v-tab>
+                </v-tabs>
+              </template>
+            </v-toolbar>
+            <template v-if="hasVuelta">
+              <v-tabs-items v-model="selectedTab" class="light">
+                <v-tab-item value="tab-Ida">
+                  <List />
+                </v-tab-item>
+                <v-tab-item value="tab-Vuelta">
+                  <List :back="true" />
+                </v-tab-item>
+              </v-tabs-items>
             </template>
-          </v-toolbar>
-          <template v-if="hasVuelta">
-            <v-tabs-items v-model="selectedTab" class="light">
-              <v-tab-item value="tab-Ida">
-                <List />
-              </v-tab-item>
-              <v-tab-item value="tab-Vuelta">
-                <List :back="true" />
-              </v-tab-item>
-            </v-tabs-items>
-          </template>
-          <List v-else :back="false" />
+            <List v-else :back="false" />
+          </v-container>
         </div>
       </v-col>
     </v-row>
@@ -52,7 +67,8 @@
 </template>
 <script>
 /* eslint-disable */
-import List from "@/views/Services/stepper/List/ElementList";
+import List from "@/views/Services/stepper/List/ElementList"
+import scrollAnimation from '@/helpers/scrollAnimation'
 import { mapGetters } from "vuex";
 import moment from "moment";
 import _ from 'lodash'
@@ -69,6 +85,8 @@ export default {
     };
   },
   mounted () {
+    this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Ida' })
+    scrollAnimation('#paymentStepper')
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize);
     })
@@ -79,12 +97,9 @@ export default {
   computed: {
     ...mapGetters({
       services: ['getServiceList'],
-      searching: ['getSearching']
+      searching: ['getSearching'],
+      hasVuelta: ['hasVuelta']
     }),
-    hasVuelta () {
-      const services = this.services(true)
-      return services.length > 0
-    },
     selectedTab: {
       get () {
         return this.$store.state.services.tab
@@ -98,6 +113,9 @@ export default {
     }
   },
   methods: {
+    formatDate(date) {
+      return moment(date).format('LL')
+    },
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight };
     }
@@ -105,10 +123,17 @@ export default {
 };
 </script>
 
-<style >
-.tabButton a{
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+<style lang="scss">
+.font {
+  font-family: Poppins;
+}
+.tab-custom {
+  border: 0.5px solid lightgray;
+  border-bottom: 0;
+}
+
+.tab-active {
+  background: var(--var-blue_dark);
 }
 
 .icon-service-expanded {

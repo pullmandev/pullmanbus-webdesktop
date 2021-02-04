@@ -2,7 +2,9 @@
   <div>
     <v-card flat hover class="mt-2">
       <v-card-title>
-        <h3 class="title blue--text" style="font-size: 1rem !important;">{{ $t('price_range') }}</h3>
+        <h3 class="title blue--text" style="font-size: 1rem !important;">
+          {{ $t('price_range') }}
+        </h3>
       </v-card-title>
       <v-card-text>
         <div class="label-price-slider">
@@ -15,7 +17,12 @@
             {{ max | currency }}
           </div>
         </div>
-        <vue-slider ref="slider" v-model="value" v-bind="options" />
+        <vue-slider
+          ref="slider"
+          v-model="value"
+          v-bind="options"
+          :process="true"
+        />
       </v-card-text>
     </v-card>
   </div>
@@ -39,7 +46,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => '$' + val,
         tooltip: 'hover',
-        width: '190px',
+        width: '100%',
         height: 8,
         dotSize: 20,
         min: 500,

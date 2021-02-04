@@ -11,162 +11,159 @@
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="name"
               :label="$t('name')"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="generalRules"
-              class="app-textfield"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="f_lastname"
               :label="$t('lastname')"
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
             ></v-text-field>
           </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+            <h3 class="title  my-0">Genero</h3>
+            <v-radio-group
+              class="my-0"
+              v-model="gender"
+              :mandatory="true"
+              dense
+              row
+            >
+              <v-radio value="F" label="Mujer" color="blue" />
+              <v-radio value="M" label="Hombre" color="blue" />
+            </v-radio-group>
+          </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
-            <v-row dense>
-              <v-col cols="12" style="position: relative">
-                <v-menu
-                  v-model="pickerMenu"
-                  :close-on-content-click="false"
-                  transition="scale-transition"
-                  color="blue-dark"
-                  max-width="290px"
-                  min-width="290px"
-                >
-                  <template v-slot:activator="{ on }">
-                    <v-text-field
-                      dark
-                      filled
-                      outlined
-                      dense
-                      placeholder="Fecha de nacimiento"
-                      v-on="on"
-                      color="grey lighten-4"
-                      v-model="formatedDate"
-                      readonly
-                    >
-                    </v-text-field>
-                  </template>
-                  <v-date-picker
-                    min="1920-01-01"
-                    v-model="date"
-                    color="blue_dark"
-                    @input="pickerMenu = false"
-                    :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
-                    :locale="$t('locale')"
-                  >
-                  </v-date-picker>
-                </v-menu>
+            <v-row no-gutters>
+              <v-col>
+                <v-autocomplete
+                  ref="date-1"
+                  @input="dateInput(1)"
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="day"
+                  :items="days"
+                  outlined
+                  filled
+                  dense
+                  label="D"
+                  color="blue"
+                  style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+                  :rules="dateRules"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  ref="date-2"
+                  @input="dateInput(2)"
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="month"
+                  :items="months"
+                  outlined
+                  filled
+                  dense
+                  label="M"
+                  color="blue"
+                  style="border-radius: 0;"
+                  :rules="dateRules"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  ref="date-3"
+                  @input="dateInput(3)"
+                  maxLength="4"
+                  class="body-1"
+                  append-icon=""
+                  v-model="year"
+                  :items="years"
+                  outlined
+                  filled
+                  dense
+                  :label="$t('short_year')"
+                  color="blue"
+                  style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+                  :rules="dateRules"
+                />
               </v-col>
             </v-row>
           </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+            <h3 class="title  my-0">Tipo de documento</h3>
+            <v-radio-group
+              class="my-0"
+              v-model="doc_type"
+              :mandatory="true"
+              dense
+              row
+            >
+              <v-radio value="RUT" label="Chileno" color="blue" />
+              <v-radio value="OTHER" label="Otro" color="blue" />
+            </v-radio-group>
+          </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="rut"
               :label="'Nº ' + $t('document')"
               outline-1
-              color="grey lighten-4"
-              :rules="rutRules"
-              class="app-textfield"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" lg="5" class="ml-3 mr-3">
-            <v-text-field
-              dark
-              filled
-              outlined
-              dense
-              prefix="+569"
-              placeholder=" "
-              v-model="movil"
-              :label="$t('mobile')"
-              outline-1
-              mask="#### ####"
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
+              :rules="doc_type === 'RUT' ? rutRules : otherRules"
             ></v-text-field>
           </v-col>
           <v-col xs12 lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
+              @input="
+                v => {
+                  this.emailconfirmError = this.confirmemail !== v
+                }
+              "
               v-model="email"
               :rules="emailRules"
               :label="$t('email')"
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
               required
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="confirmemail"
-              :rules="emailconfirmRules"
+              :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
+              :error="emailconfirmError"
+              @input="
+                v => {
+                  this.emailconfirmError = this.email !== v
+                }
+              "
               :label="$t('confirm_email')"
+              @paste.prevent
               outline-1
-              color="grey lighten-4"
-              class="app-textfield"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" lg="5" class="ml-3 mr-3">
-            <v-text-field
-              dark
-              filled
-              outlined
-              dense
-              v-model="password"
-              :label="$t('password')"
-              :append-icon="seePassword ? 'visibility' : 'visibility_off'"
-              @click:append="seePassword = !seePassword"
-              :type="seePassword ? 'password' : 'text'"
-              outline-1
-              color="grey lighten-4"
-              :rules="passwordRules"
-              class="app-textfield"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12" lg="5" class="ml-3 mr-3">
-            <v-text-field
-              dark
-              filled
-              outlined
-              dense
-              v-model="confirmpassword"
-              :label="$t('confirm_password')"
-              outline-1
-              :rules="passwordconfirmRules"
-              :append-icon="seePassword2 ? 'visibility' : 'visibility_off'"
-              @click:append="seePassword2 = !seePassword2"
-              :type="seePassword2 ? 'password' : 'text'"
-              color="grey lighten-4"
-              class="app-textfield"
+              color="blue"
             ></v-text-field>
           </v-col>
           <v-col md="4" cols="12" offset-md="4" class="pt-3">
@@ -206,10 +203,18 @@ export default {
       seePassword: true,
       seePassword2: true,
       name: '',
-      date: '',
+      day: '',
+      days: Array.from({ length: 31 }, (v, k) => k + 1),
+      month: '',
+      months: Array.from({ length: 12 }, (v, k) => k + 1),
+      year: '',
+      years: Array.from(
+        { length: 87 },
+        (v, k) => k + moment().get('year') - 100
+      ),
       f_lastname: '',
-      gender: '',
-      doc_type: '',
+      gender: 'F',
+      doc_type: 'RUT',
       email: '',
       confirmemail: '',
       password: '',
@@ -222,17 +227,12 @@ export default {
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
-      emailconfirmRules: [
-        v => (v && this.email === v) || 'E-mails no coinciden'
-      ],
-      passwordRules: [
-        v => !!v || 'Contraseña es requerido',
-        validations.passwordValidation
-      ],
-      passwordconfirmRules: [
-        v => (v && this.password === v) || 'Contraseñas no coinciden'
-      ],
+      emailconfirmError: false,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+      otherRules: [
+        v => !!v || 'Este campo es requerido',
+        validations.otherDocValidation
+      ],
       generalRules: [v => !!v || 'Este campo es requerido'],
       dateRules: [v => !!v || '']
     }
@@ -241,42 +241,69 @@ export default {
     formatedDate() {
       if (this.date === '') return ''
       else return moment(this.date).format('LL')
+    },
+    actualDate() {
+      return moment().format('YYYY-MM-DD')
     }
   },
   methods: {
     async signup() {
-      this.loading = true
-      const params = {
-        rut: this.rut,
-        email: this.email,
-        nombre: this.name,
-        apellidoPaterno: this.f_lastname,
-        estado: 'ACT',
-        fechaCreacion: moment(moment(), 'DD-MM-YYYY')
-          .format('L')
-          .split('/')
-          .join('-'),
-        fechaNacimiento: moment(this.date).format('DD-MM-YYYY'),
-        password: this.password
+      try {
+        this.loading = true
+        const params = {
+          rut: this.rut,
+          email: this.email,
+          nombre: this.name,
+          apellidoPaterno: this.f_lastname,
+          fechaNacimiento: `${this.year}-${this.month}-${this.day}T00:00:00.000+0000`,
+          genero: this.gender
+        }
+        //console.log('params', params)
+        const response = await API.signup(params)
+        //console.log(response.data)
+        if (response.data.exito) {
+          this.$notify({
+            group: 'info',
+            title: 'Usuario registrado correctamente',
+            type: 'info'
+          })
+          this.$store.dispatch('SET_SESSION_DIALOG', {
+            type: 'dialogType',
+            dialogType: 'login'
+          })
+        } else {
+          let text =
+            response.data.mensaje.length > 0
+              ? response.data.mensaje
+              : this.$t('sign_up_error')
+          this.$notify({
+            group: 'error',
+            title: this.$t('sign_up'),
+            type: 'error',
+            text
+          })
+          console.error(response.data)
+        }
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.loading = false
       }
-      console.log('params', params)
-      const response = await API.signup(params)
-      this.loading = false
-      console.log(response.data)
-      if (response.data.exito) {
-        this.$store.dispatch('SET_SESSION_DIALOG', {
-          type: 'dialogType',
-          dialogType: 'signup'
-        })
-      } else {
-        this.$notify({
-          group: 'error',
-          title: this.$t('sign_up'),
-          type: 'error',
-          text: this.$t('sign_up_error')
-        })
-        console.error(response.data)
-      }
+    },
+    dateInput(id) {
+      this.$nextTick(() => {
+        const nextId = id + 1
+        if (nextId >= 4) {
+          return
+        }
+        const theElement = this.$refs[`date-${nextId}`].$el
+        const input = theElement.querySelector('input:not([type=hidden])')
+        if (input) {
+          setTimeout(() => {
+            input.focus()
+          }, 0)
+        }
+      })
     }
   }
 }

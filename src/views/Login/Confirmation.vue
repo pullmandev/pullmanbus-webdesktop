@@ -12,10 +12,10 @@
           <div
             class="confirmation-icon text-center mb-10 d-flex align-center justify-center"
           >
-            <v-icon size="70" class="blue_dark--text">check</v-icon>
+            <v-icon size="70" class="white--text">check</v-icon>
           </div>
         </v-col>
-        <v-col cols="12" class="text-right">
+        <!-- <v-col cols="12" class="text-right">
           <a
             class="blue_dark--text"
             @click="
@@ -27,7 +27,7 @@
           >
             Cambio de contraseña
           </a>
-        </v-col>
+        </v-col> -->
       </v-row>
     </v-container>
   </Container>
@@ -48,6 +48,6 @@ export default {
   border-radius: 50%;
   width: 100px;
   height: 100px;
-  background-color: white;
+  background-color: var(--var-orange);
 }
 </style>

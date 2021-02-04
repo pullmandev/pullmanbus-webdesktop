@@ -9,9 +9,12 @@
           antes de la salida del servicio.
         </p>
         <form>
-          <v-row align="center">
-            <v-col cols="12" sm="6" md="6" class="pl-3 pr-3">
+          <v-row>
+            <v-col cols="12" sm="6" md="6" class="pl-3 pr-3 d-flex">
               <v-text-field
+                filled
+                outlined
+                dense
                 label="Orden"
                 v-model="code"
                 :disabled="!search"
@@ -22,18 +25,10 @@
               <v-btn
                 @click="getTicket"
                 color="blue"
-                :disabled="loading"
+                :loading="loading"
                 class="white--text"
               >
-                <template v-if="loading">
-                  <v-progress-circular
-                    indeterminate
-                    color="blue"
-                  ></v-progress-circular>
-                </template>
-                <template v-else>
-                  <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
-                </template>
+                <span>{{ search ? 'Consultar' : 'Borrar' }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -61,93 +56,107 @@
               </td>
               <td class="text-center">{{ props.item.asiento }}</td>
               <td class="text-left pa-2">
-                {{ props.item.total | currency }}
+                {{ props.item.total }}
               </td>
               <td class="text-left">
-                <v-btn
-                  text
-                  icon
-                  color="blue"
-                  @click="getTicketInfo(props.item.boleto)"
-                >
-                  <v-icon>search</v-icon>
-                </v-btn>
+                <v-checkbox
+                  v-if="props.item.puedeImprimir"
+                  :disabled="props.item.tipoServicio == 'pet'"
+                  color="blue_dark"
+                  v-model="props.item.anular"
+                  v-on:change="anular(props.item)"
+                ></v-checkbox>
+              </td>
+              <td class="text-left">
+                 <v-img
+                    v-if="props.item.tipoServicio === 'pet'"
+                    width="42px"
+                    title="Asiento Mascota"
+                    src="../../../static/logos/seats/icono_pata_verde.svg"
+                  />
               </td>
             </tr>
           </template>
         </v-data-table>
-        <i class="subheading">
+        <i class="subheading" v-if="tickets.length > 0">
           *Si la compra se realizo con tarjeta de credito, se generara una
           reversa en su cuenta, si se realizo con tarjeta de debito, se
           realizara una transferencia a la cuenta que entregue para este fin. La
           devolución o reversa se hara efectiva en un plazo maximo de 6 dias
         </i>
-        <v-form v-model="validForm">
+        <v-form v-model="validForm" v-if="viewForm">
           <v-row align="center" class="mt-5">
             <v-col cols="12" md="6" class="pl-3 pr-3">
-              <v-text-field
-                label="Boleto"
-                v-model="selectedTicket"
+              <v-autocomplete
+                filled
+                outlined
+                dense
+                label="Tipo de cuenta"
+                :items="accountTypes"
+                v-model="selectedAccountType"
+                item-text="nombre"
+                item-value="codigo"
+                clearable
                 :rules="generalRules"
                 required
-              ></v-text-field>
+                :disabled="loadingCancel"
+              ></v-autocomplete>
             </v-col>
-            <v-col cols="12" md="6" class="pl-3 pr-3">
-              <v-select
-                label="Tipo de compra"
-                :items="purchaseTypes"
-                v-model="selectedPurchase"
-                autocomplete
-              ></v-select>
-            </v-col>
-            <template v-if="selectedPurchase === 'Debito'">
+            <template v-if="tickets[0].tipoCompra === 'VD'">
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Rut solicitante"
                   v-model="rutApplicant"
                   :rules="rutApplicantRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Usuario"
                   v-model="name"
                   :rules="emailRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="RUT de titular de cuenta"
                   v-model="rutHolder"
                   :rules="rutRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" md="6" class="pl-3 pr-3">
-                <v-select
-                  label="Tipo de cuenta"
-                  :items="accountTypes"
-                  v-model="selectedAccountType"
-                  item-text="nombre"
-                  item-value="codigo"
-                  clearable
-                  autocomplete
-                  :rules="generalRules"
-                  required
-                ></v-select>
-              </v-col>
+
               <v-col cols="12" md="6" class="pl-3 pr-3">
                 <v-text-field
+                  filled
+                  outlined
+                  dense
                   label="Numero de cuenta"
                   v-model="accountNumber"
                   :rules="generalRules"
                   required
+                  :disabled="loadingCancel"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="6" class="pl-3 pr-3">
-                <v-select
+                <v-autocomplete
+                  filled
+                  outlined
+                  dense
                   label="Banco"
                   :items="banks"
                   v-model="selectedBank"
@@ -157,24 +166,19 @@
                   autocomplete
                   :rules="generalRules"
                   required
-                ></v-select>
+                  :disabled="loadingCancel"
+                ></v-autocomplete>
               </v-col>
             </template>
           </v-row>
           <v-btn
             @click="submit"
             color="blue_dark"
-            :disabled="!validForm || code === '' || loadingCancel"
+            class="white--text"
+            :disabled="!validForm || code === '' || !hasNullable"
+            :loading="loadingCancel"
           >
-            <template v-if="loadingCancel">
-              <v-progress-circular
-                indeterminate
-                color="blue_dark"
-              ></v-progress-circular>
-            </template>
-            <template v-else>
-              <span>Anular</span>
-            </template>
+            Anular
           </v-btn>
         </v-form>
       </v-card-text>
@@ -187,6 +191,7 @@ import API from '@/services/api/cancel'
 import moment from 'moment'
 import { mapGetters } from 'vuex'
 import validations from '@/helpers/fieldsValidation'
+import scrollAnimation from '@/helpers/scrollAnimation'
 
 export default {
   data() {
@@ -201,10 +206,9 @@ export default {
       rutHolder: '',
       rutApplicant: '',
       tickets: [],
-      accountTypes: [],
+      accountCreditTypes: [],
+      accountDebitTypes: [],
       banks: [],
-      purchaseTypes: ['Credito', 'Debito'],
-      selectedTicket: '',
       selectedAccountType: '',
       selectedBank: '',
       selectedPurchase: 'Credito',
@@ -262,131 +266,196 @@ export default {
           value: '',
           align: 'left',
           sortable: false
+        },
+        {
+          text: '',
+          value: '',
+          align: 'left',
+          sortable: false
         }
       ]
     }
   },
-  mounted() {
+  created() {
     this.getParameters()
   },
-  computed: mapGetters({
-    userData: ['userData']
-  }),
+  computed: {
+    ...mapGetters({
+      userData: ['userData']
+    }),
+    viewForm() {
+      if (this.tickets.length <= 0) {
+        return false
+      }
+      const puedeImprimir = this.tickets.filter(item => item.puedeImprimir)
+      return puedeImprimir.length > 0
+    },
+    hasNullable() {
+      if (this.tickets.length <= 0) {
+        return false
+      }
+      const nullable = this.tickets.filter(item => item.anular)
+      return nullable.length > 0
+    },
+    accountTypes() {
+      if (this.tickets.length <= 0) {
+        return []
+      }
+      if (this.tickets[0].tipoCompra === 'VD') {
+        return this.accountDebitTypes
+      } else {
+        return this.accountCreditTypes
+      }
+    }
+  },
   methods: {
     async getParameters() {
-      const accountTypesRes = await API.tipoCuenta({ codigo: 'VD' })
+      const accountCreditTypesRes = await API.tipoCuenta({ codigo: 'VC' })
+      const accountDebitTypesRes = await API.tipoCuenta({ codigo: 'VD' })
       const banksRes = await API.bancos()
-      this.accountTypes = accountTypesRes.data
+      this.accountCreditTypes = accountCreditTypesRes.data
+      this.accountDebitTypes = accountDebitTypesRes.data
       this.banks = banksRes.data
     },
     async getTicket() {
-      if (this.search) {
-        this.loading = true
-        const params = { codigo: this.code, email: this.userData.usuario.email }
-        const response = await API.searchTicket(params)
-        this.tickets = response.data.map(item => {
-          const { fechaHoraSalida } = item.imprimeVoucher
-          const dateNumber = fechaHoraSalida.slice(0, 8)
-          const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
-          const date = moment(dateNumber).format('DD/MM/YYYY')
-          const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
-          item.fechaHoraSalida = date + ' ' + hour
-          item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
-          item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
-          item.asiento = item.imprimeVoucher.asiento
-          item.total = item.imprimeVoucher.total
-          item.codigoTransaccion = item.imprimeVoucher.codigoTransaccion
-          return item
-        })
-        if (this.tickets.length > 0) {
-          this.search = false
+      try {
+        if (this.search) {
+          this.loading = true
+          const params = {
+            codigo: this.code.trim()
+          }
+          const response = await API.searchTicket(params)
+          if (response.data.length <= 0) {
+            this.$notify({
+              group: 'error',
+              title: 'No se encontraron tickets',
+              type: 'error',
+              text: 'Verifique el codigo e intentelo de nuevo'
+            })
+          }
+          this.tickets = response.data.map(item => {
+            const { fechaHoraSalida } = item.imprimeVoucher
+            const dateNumber = fechaHoraSalida.slice(0, 8)
+            const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
+            const date = moment(dateNumber).format('DD/MM/YYYY')
+            const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
+            item.fechaHoraSalida = date + ' ' + hour
+            item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
+            item.nombreTerminalDestino =
+              item.imprimeVoucher.nombreTerminalDestino
+            item.asiento = item.imprimeVoucher.asiento
+            item.total = item.imprimeVoucher.total.includes('.')
+              ? `$ ${item.imprimeVoucher.total}`
+              : this.$filters.currency(item.imprimeVoucher.total)
+            item.codigoTransaccion = item.imprimeVoucher.codigoTransaccion
+            item.anular = false
+            return item
+          })
+          this.name = this.userData.usuario.email
+          this.rutApplicant = this.userData.usuario.rut
+          if (this.tickets.length > 0) {
+            this.search = false
+          }
+        } else {
+          //console.log(this.tickets)
+          this.clearTicketData()
         }
+      } catch (err) {
+        console.error(err)
+      } finally {
         this.loading = false
-      } else {
-        this.clearTicketData()
       }
     },
-    getTicketInfo(code) {
-      const ticket = this.tickets.filter(item => {
-        return item.boleto === code
-      })[0]
-      if (!this.validateTicketDate(ticket.imprimeVoucher.fechaHoraSalida)) {
-        return
+    anular(item){
+      console.log(item)
+      if(item.tipoServicio === 'asociado'){
+        //console.log(item.asientoAsociado + " - " + item.imprimeVoucher.servicio + " - " + item.imprimeVoucher.fechaHoraSalida);
+        for(const ticket of this.tickets){
+          //console.log(ticket.asientoAsociado + " - " + ticket.imprimeVoucher.servicio + " - " + ticket.imprimeVoucher.fechaHoraSalida);
+          if(item.asientoAsociado == ticket.asiento 
+            && item.imprimeVoucher.servicio == ticket.imprimeVoucher.servicio
+            && item.imprimeVoucher.fechaHoraSalida == ticket.imprimeVoucher.fechaHoraSalida){
+            ticket.anular = item.anular;
+            //console.log("ok")
+          }
+        }
       }
-      this.selectedTicket = ticket.boleto
-      this.rutApplicant = this.userData.usuario.rut
-      this.name = this.userData.usuario.email
-      this.code = ticket.codigoTransaccion
     },
     clearTicketData() {
       this.code = ''
       this.tickets = []
-      this.selectedTicket = ''
       this.search = true
+      this.clearData()
     },
     clearData() {
-      this.clearTicketData()
-      this.name = ''
       this.accountNumber = ''
       this.rutHolder = ''
-      this.rutApplicant = ''
       this.selectedAccountType = ''
       this.selectedBank = ''
     },
     async submit() {
-      const ticket = this.tickets.filter(item => {
-        return item.boleto === this.selectedTicket
-      })[0]
-      if (!this.validateTicketDate(ticket.imprimeVoucher.fechaHoraSalida)) {
-        return
-      }
-      this.loadingCancel = true
-      let params = {
-        boleto: this.selectedTicket,
-        codigoTransaccion: this.code,
-        integrador: ticket.integrador
-      }
-      if (this.selectedPurchase === 'Debito') {
-        params.rutSolicitante = this.rutApplicant
-        params.usuario = this.name
-        params.banco = this.selectedBank
-        params.tipoCuenta = this.selectedAccountType
-        params.numeroCuenta = this.accountNumber
-        params.rutTitular = this.rutHolder
-      }
-      console.log(params)
-      const response = await API.cancel(params)
-      this.loadingCancel = false
-      if (response.data.exito) {
-        this.$notify({
-          group: 'info',
-          title: this.$t('cancellations_success'),
-          type: 'info'
+      try {
+        if (this.loadingCancel) {
+          return
+        }
+        this.loadingCancel = true
+        this.loadingCancel = true
+        const length = this.tickets.length
+        for (let index = 0; index < length; index++) {
+          if (!this.tickets[index].anular) {
+            continue
+          }
+          let params = {
+            boleto: this.tickets[index].boleto,
+            codigoTransaccion: this.code.trim(),
+            integrador: this.tickets[index].integrador,
+            tipoCuenta: this.selectedAccountType,
+            banco: '',
+            numeroCuenta: '',
+            rutTitular: '',
+            rutSolicitante: '',
+            usuario: ''
+          }
+          params.rutSolicitante = this.rutApplicant
+          params.usuario = this.name
+          if (this.tickets[index].tipoCompra === 'VD') {           
+            params.banco = this.selectedBank
+            params.numeroCuenta = this.accountNumber
+            params.rutTitular = this.rutHolder
+          }
+          //console.log(params)
+          const response = await API.cancel(params)
+          //console.log(response.data)
+          if (response.data.exito) {
+            this.$notify({
+              group: 'info',
+              title: this.$t('cancellations_success'),
+              type: 'info'
+            })
+            this.tickets[index].puedeImprimir = false
+          } else {
+            const text =
+              response.data.mensaje != null
+                ? response.data.mensaje
+                : this.$t('cancellations_error')
+            this.$notify({
+              group: 'error',
+              title: this.$t('cancellation'),
+              type: 'error',
+              text
+            })
+          }
+        }
+        await API.sendEmail({
+          email: this.userData.usuario.email
         })
         this.clearData()
-      } else {
-        this.$notify({
-          group: 'error',
-          title: this.$t('cancellation'),
-          type: 'error',
-          text: this.$t('cancellations_error')
-        })
+      } catch (err) {
+        console.log(err)
+      } finally {
+        scrollAnimation('#profile')
+        this.loadingCancel = false
       }
-      console.log('boletos', response.data)
-    },
-    validateTicketDate(date) {
-      const ticketHour = moment(date, 'YYYY-MM-DD HH:mm')
-      const today = moment()
-      const diff = ticketHour.diff(today, 'seconds')
-      const result = diff > 3600 * 4
-      if (!result) {
-        this.$notify({
-          group: 'error',
-          title: 'Pasaje fuera del plazo para anular',
-          type: 'error'
-        })
-      }
-      return result
     }
   }
 }

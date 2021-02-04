@@ -15,8 +15,10 @@
             class="d-flex flex-column text-left title"
             style="line-height: 20px"
           >
-            {{ name + ' ' + f_lastname }}
-            <span class="body-2">{{ email }}</span>
+            {{ formTitle }}
+            <span v-if="userData.usuario.nombre" class="body-2">{{
+              email
+            }}</span>
           </h2>
         </v-toolbar-title>
       </v-toolbar>
@@ -49,6 +51,19 @@
                   color="primary"
                 ></v-text-field>
               </v-col>
+              <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+                <h3 class="title  my-0">Genero</h3>
+                <v-radio-group
+                  class="my-0"
+                  v-model="gender"
+                  :mandatory="true"
+                  dense
+                  row
+                >
+                  <v-radio value="F" label="Mujer" color="blue" />
+                  <v-radio value="M" label="Hombre" color="blue" />
+                </v-radio-group>
+              </v-col>
               <v-col cols="12" lg="5" class="ml-3 mr-3">
                 <v-row dense>
                   <v-col cols="12" style="position: relative">
@@ -65,7 +80,7 @@
                           filled
                           outlined
                           dense
-                          placeholder="Fecha de nacimiento"
+                          label="Fecha de nacimiento"
                           v-on="on"
                           color="grey lighten-4"
                           v-model="formatedDate"
@@ -74,7 +89,8 @@
                         </v-text-field>
                       </template>
                       <v-date-picker
-                        min="1920-01-01"
+                        :min="minDate"
+                        :max="maxDate"
                         v-model="date"
                         color="blue_dark"
                         @input="pickerMenu = false"
@@ -118,6 +134,7 @@
                   dense
                   v-model="confirmemail"
                   :rules="emailconfirmRules"
+                  @paste.prevent
                   :label="$t('confirm_email')"
                   outline-1
                   color="primary"
@@ -161,6 +178,8 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      maxDate: undefined,
+      minDate: undefined,
       pickerMenu: false,
       loading: false,
       validForm: false,
@@ -200,12 +219,24 @@ export default {
     }
   },
   mounted() {
+    this.enableDate()
     this.clear()
   },
   computed: {
     ...mapGetters({
       userData: ['userData']
     }),
+    formTitle() {
+      let { nombre, apellidoPaterno } = this.userData.usuario
+      let title = null
+      if (nombre) {
+        title = nombre
+        if (apellidoPaterno) {
+          title += ' ' + apellidoPaterno
+        }
+      }
+      return title != null ? title : this.email
+    },
     formatedDate() {
       moment.locale(this.$i18n.locale)
       return moment(this.date).format('LL')
@@ -214,36 +245,42 @@ export default {
 
   methods: {
     async modify() {
-      this.loading = true
-      const { usuario } = Object.assign({}, this.userData)
-      const params = {
-        rut: this.rut,
-        email: this.email,
-        nombre: this.name,
-        apellidoMaterno: this.m_lastname,
-        apellidoPaterno: this.f_lastname,
-        fechaCreacion: usuario.fechaCreacion,
-        fechaNacimiento: moment(this.date).format('DD-MM-YYYY')
-      }
-      const response = await API.signup(params)
-      this.loading = false
-      if (!response.data.exito) {
-        this.$notify({
-          group: 'error',
-          title: 'Actualizar datos',
-          type: 'error',
-          text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
-        })
-        console.error(response.data)
-      } else {
-        this.$notify({
-          group: 'info',
-          title: 'Datos actualizados',
-          type: 'info'
-        })
-        const newUsuario = Object.assign({}, usuario, params)
-        const userData = { ...this.userData, usuario: newUsuario }
-        this.$store.dispatch('SET_USER', { userData })
+      try {
+        this.loading = true
+        const { usuario } = Object.assign({}, this.userData)
+        const params = {
+          rut: this.rut,
+          email: this.email,
+          nombre: this.name,
+          apellidoPaterno: this.f_lastname,
+          fechaNacimiento:
+            moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
+          genero: this.gender
+        }
+        //console.log(params)
+        const response = await API.updateUser(params)
+        if (!response.data.exito) {
+          this.$notify({
+            group: 'error',
+            title: 'Actualizar datos',
+            type: 'error',
+            text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
+          })
+          console.error(response.data)
+        } else {
+          this.$notify({
+            group: 'info',
+            title: 'Datos actualizados',
+            type: 'info'
+          })
+          const newUsuario = Object.assign({}, usuario, params)
+          const userData = { ...this.userData, usuario: newUsuario }
+          this.$store.dispatch('SET_USER', { userData })
+        }
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loading = false
       }
     },
     clear() {
@@ -252,11 +289,17 @@ export default {
         'YYYY-MM-DD'
       )
       this.name = usuario.nombre
-      this.m_lastname = usuario.apellidoMaterno
       this.f_lastname = usuario.apellidoPaterno
       this.email = usuario.email
       this.confirmemail = usuario.email
       this.rut = usuario.rut
+      this.gender = usuario.gender
+    },
+    enableDate() {
+      const max = moment().subtract(14, 'years')
+      const min = moment().subtract(100, 'years')
+      this.maxDate = max.format()
+      this.minDate = min.format()
     }
   }
 }

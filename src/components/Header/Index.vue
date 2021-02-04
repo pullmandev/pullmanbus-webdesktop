@@ -1,22 +1,62 @@
 <template>
   <div>
-    <v-app-bar color="orange" fixed dark>
+    <v-app-bar color="orange" fixed dark style="overflow: hidden;">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-btn
         text
-        color="orange"
-        class="pb-12"
         @click="$router.push({ path: '/' })"
+        style="height: 100%"
+        class="pa-0"
       >
-        <div style="width: 300px" class="mb-12">
+        <div style="width: 206px" class="py-1">
           <v-img
-            src="../../../static/logos/pullman bus_blanco.png"
-            height="50"
+            src="../../../static/logos/pullmanbus_blanco.png"
+            height="60"
             contain
           />
         </div>
       </v-btn>
       <v-spacer></v-spacer>
+      <v-btn text>
+        <v-icon>mdi-chevron-right</v-icon>
+        <a
+          href="http://pullmanempresas.cl/"
+          class="white--text"
+          style="text-decoration: none"
+          target="_blank"
+        >
+          CUENTA CORRIENTE
+        </a>
+      </v-btn>
+      <v-btn text :to="{ name: 'ConfirmationServicesPanel' }">
+        <v-icon>mdi-chevron-right</v-icon>
+        CONFIRMACION DE REGRESO
+      </v-btn>
+      <v-menu
+        bottom
+        offset-y
+        style="display: flex; height: 100%; align-items: center;"
+      >
+        <!--template v-slot:activator="{ on }">
+          <v-btn class="white--text" text v-on="on">
+            Menu
+            <v-icon>mdi-chevron-down</v-icon>
+          </v-btn>
+        </template-->
+        <v-list>
+          <v-list-item
+            v-for="(item, i) in links"
+            :key="i"
+            :href="item.link"
+            :to="item.route ? { name: item.route } : undefined"
+            :target="item.link ? '_blank' : undefined"
+          >
+            <v-list-item-title>
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-menu offset-y>
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
@@ -34,8 +74,7 @@
           <v-list-item
             v-for="(item, index) in languageMenu"
             :key="index"
-            @click="$i18n.locale = item.lang"
-          >
+            @click="changeI18n(item)">
             <v-list-item-title>
               {{ item.title }}
             </v-list-item-title>
@@ -50,7 +89,7 @@
             height="30"
             width="30"
           />
-          Iniciar sesion
+          Inicio sesión
         </v-btn>
       </template>
       <template v-else>
@@ -88,7 +127,7 @@
         </v-menu>
       </template>
     </v-app-bar>
-    <Drawer :open.sync="drawer" />
+    <Drawer :open.sync="drawer" :links="links" />
   </div>
 </template>
 <script>
@@ -96,6 +135,7 @@ import Drawer from '@/components/Header/Drawer'
 import openDialog from '@/helpers/openDialog'
 import { mapGetters } from 'vuex'
 export default {
+  props: ['links'],
   components: {
     Drawer
   },
@@ -115,8 +155,8 @@ export default {
     }),
     languageMenu() {
       return [
-        { title: this.$t('es'), lang: 'es' },
-        { title: this.$t('en'), lang: 'en' }
+        { title: this.$t('es'), lang: 'es' , img : '/static/logos/header/Iconos-25.png' },
+        { title: this.$t('en'), lang: 'en' , img : '/static/logos/header/Iconos-24.png'}
       ]
     }
   },
@@ -126,6 +166,9 @@ export default {
     signOut() {
       this.$store.dispatch('DELETE_USER')
       this.$router.push({ path: '/' })
+    },
+    changeI18n(item){
+      this.$i18n.locale = item.lang
     }
   }
 }

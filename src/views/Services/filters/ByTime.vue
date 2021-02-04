@@ -2,7 +2,9 @@
   <div>
     <v-card flat hover class="mt-2 transparentCard">
       <v-card-title>
-        <h3 class="title blue--text" style="font-size: 1rem !important;">{{ $t('closing_hour') }}</h3>
+        <h3 class="title blue--text" style="font-size: 1rem !important;">
+          {{ $t('closing_hour') }}
+        </h3>
       </v-card-title>
       <v-card-text>
         <div class="label-price-slider">
@@ -40,7 +42,7 @@ export default {
         tooltipDir: ['bottom', 'top'],
         tooltipFormatter: val => this.formatter(val),
         tooltip: 'hover',
-        width: '190px',
+        width: '100%',
         height: 8,
         dotSize: 20,
         min: 0,

@@ -24,10 +24,8 @@
           </template>
           <v-date-picker
             min="2017-01-24"
-            @change="setDate"
             v-model="userCalendar"
             :allowed-dates="enableToDate"
-            @input="setDate($event)"
             color="blue_dark"
             :locale="localeChange"
             :first-day-of-week="firstDayOfweek"
@@ -67,23 +65,6 @@ export default {
         .format('YYYY-MM-DD')
     })
   },
-  methods: {
-    setDate(date) {
-      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
-        date: date,
-        direction: this.direction
-      })
-    },
-    clearDate() {
-      this.direction === 'from'
-        ? (this.formattedDateFrom = null)
-        : (this.formattedDateTo = null)
-      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
-        date: null,
-        direction: this.direction
-      })
-    }
-  },
   computed: {
     ...mapGetters({
       searching: ['getSearching']
@@ -92,14 +73,14 @@ export default {
       if (this.direction === 'from') {
         const fromDate = moment().subtract(1, 'days')
         return date => {
-          const diff = moment(date).diff(fromDate)
-          return diff > -1
+          const diff = moment(date).diff(fromDate) > -1 && this.lessThan45(date)
+          return diff
         }
       } else {
         const fromDate = this.searching.from_date
         return date => {
-          const diff = moment(date).diff(fromDate)
-          return diff > -1
+          const diff = moment(date).diff(fromDate) > -1 && this.lessThan45(date)
+          return diff
         }
       }
     },
@@ -132,6 +113,9 @@ export default {
           date: value,
           direction: this.direction
         })
+        if (this.direction === 'from') {
+          this.$store.dispatch('SET_HOME_BANNERS')
+        }
       }
     },
     formatedDate: {
@@ -176,6 +160,27 @@ export default {
             : this.$t('to_date3')
       }
       return result
+    }
+  },
+  methods: {
+    setDate(date) {
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
+        date: date,
+        direction: this.direction
+      })
+    },
+    clearDate() {
+      this.direction === 'from'
+        ? (this.formattedDateFrom = null)
+        : (this.formattedDateTo = null)
+      this.$store.dispatch('SET_NEW_USER_SEARCHING_DATE', {
+        date: null,
+        direction: this.direction
+      })
+    },
+    lessThan45(date) {
+      const limit = moment().add(45, 'days')
+      return moment(date).diff(limit, 'days') < 0
     }
   }
 }

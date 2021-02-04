@@ -11,16 +11,14 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              dark
               filled
               outlined
               dense
               v-model="email"
               :label="$t('email')"
               outline-1
-              color="grey lighten-4"
+              color="blue"
               :rules="emailRules"
-              class="app-textfield"
             ></v-text-field>
           </v-col>
           <v-col md="10" offset-md="1" cols="12" class="pt-3">

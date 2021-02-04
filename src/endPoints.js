@@ -1,19 +1,21 @@
-// const base = 'https://www.pullmanbus.cl' // prod
-//const baseServ = 'https://servicios.pullmanbus.cl' // prod
-const base = 'https://pullmanapi.pasajeschile.cl' // dev
-const baseServ = 'https://pullmanapi.pasajeschile.cl' // dev
+const base = 'https://pullman.cl' // prod
+//const base = 'https://pullmanapi.viajaenbus.cl/' // dev
+
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
-const sesion = `${base}/srv-privado-viajaenbus-web/rest/usuario`
-const compra = `${base}/srv-privado-viajaenbus-web/rest/compra`
-const parametros = `${base}/srv-privado-viajaenbus-web/rest/parametros`
-const serviciosVenta = `${baseServ}/serviciosVenta/rest/Servicios`
+const sesion = `${base}/srv-privado-web/rest/usuario`
+const compra = `${base}/srv-privado-web/rest/compra`
+const parametros = `${base}/srv-privado-web/rest/parametros`
+const anular = `${base}/srv-privado-web/rest/anular`
 const administracion = `${base}/administracion-web/rest`
-
+const operacion = `${base}/integrador-web/rest/operacion`
+const baseCuponera = `${base}/integrador-web/rest/cuponera`
+const pasajero = `${base}/srv-privado-web/rest/pasajero`
 
 export default {
   cities: `${baseVenta}/buscaCiudades`,
+  citiesTo: `${baseVenta}/buscarCiudadPorCodigo`,
   services: `${baseVenta}/obtenerServicio`,
   map: `${baseVenta}/planilla`,
   availability: `${baseVenta}/disponibilidad`,
@@ -24,15 +26,49 @@ export default {
   searchHeader: `${baseVenta}/buscarEncabezado`,
   generateVoucher: `${baseVenta}/generarComprobante`,
   auth: `${sesion}/autenticar`,
-  registro: `${sesion}/guardar`,
-  cambioPassword: `${sesion}/cambioPassowrd`,
+  registro: `${sesion}/inscribirUsuario`,
+  actualizar: `${sesion}/guardar`,
+  cambioPassowrd: `${sesion}/cambioPassowrd`,
   recuperarPassword: `${sesion}/recuperarPassword`,
-  buscarTransEmail: `${compra}/buscarTransaccionPorEmail`,
-  buscarBoletoCode: `${compra}/buscarBoletoPorCodigo`,
+  guardarUsuario: `${sesion}/guardarUsuario`,
+  enviarContacto: `${sesion}/enviarContacto`,
+  buscarTransEmail: `${compra}/obtenerTransacciones`,
+  buscarBoletoCode: `${compra}/obtenerBoleto`,
+  guardarSolicitudServicio: `${compra}/guardarSolicitudServicio`,
+  buscarBoleto: `${compra}/buscarBoleto`,
+  buscarBoletoConfirmacion: `${operacion}/buscarBoleto`,
+  confirmarBoleto: `${operacion}/confirmarBoleto`,
+  buscarCityConfirmacion:`${operacion}/buscarOrigen`,
+  buscarCityToConfirmacion:`${operacion}/buscarDestino`,  
+  validarBoletoCanje: `${operacion}/validarBoletoCambio`,
+  canjearBoletoCanje: `${operacion}/cambiarBoleto`,
   cancel: `${baseVenta}/anularVenta`,
+  enviarMailAnulacion: `${anular}/enviarMailAnulacion`,
   tipoCuenta: `${parametros}/obtenerTipoCuenta`,
   bancos: `${parametros}/obtenerBanco`,
-  botonPago:`${serviciosVenta}/GetConvenio`,
-  validarConvenio:`${serviciosVenta}/GetDescuentoConvenio`,
-  convenios:`${administracion}/private/convenio/obtenerInformacion`,
+  itinerario: `${parametros}/buscarItinerario`,
+  obtenerFaq: `${parametros}/obtenerFaq`,
+  obtenerCiudades: `${parametros}/obtenerCiudades`,
+  obtenerRegiones: `${parametros}/obtenerRegiones`,
+  buscarMotivoContacto: `${parametros}/buscarMotivoContacto`,
+  datosAgencia: `${parametros}/datosAgencia`,
+  botonPago: `${administracion}/private/convenio/getConvenio`,
+  validarConvenio: `${administracion}/private/convenio/getDescuentoConvenio`,
+  convenios: `${administracion}/private/convenio/obtenerInformacion`,
+  buscarCaluga: `${administracion}/private/contenido/buscarCaluga`,
+  mapVertical: `${baseVenta}/buscarPlantillaVertical`,
+  buscarCuponera: `${baseCuponera}/buscarCuponera`,
+  validarUsuario: `${baseCuponera}/validarUsuario`,
+  transactionCoupon: `${basePago}/guardarTransaccionCuponera`,
+  searchHeaderCoupon: `${baseVenta}/buscarEncabezadoCuponera`,
+  generateCoupon: `${baseVenta}/generarComprobanteCuponera`,
+  obtenerListaCiudad: `${parametros}/obtenerListaCiudad`,
+
+  buscarListaTipoDocumento: `${pasajero}/buscarListaTipoDocumento`,
+  buscarListaNacionalidad: `${pasajero}/buscarListaNacionalidad`,
+  buscarPorNumeroDocumento: `${pasajero}/buscarPorNumeroDocumento`,
+  guardarRelacionPasajero: `${pasajero}/guardarRelacionPasajero`, 
+  
+  buscarRegistroPorBoleto: `${operacion}/buscarRegistro`,
+  editarRegistroBoleto: `${operacion}/modificarRegistro`
 }

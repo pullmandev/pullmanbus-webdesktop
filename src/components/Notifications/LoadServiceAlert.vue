@@ -3,6 +3,7 @@
     group="stuck-load"
     :duration="-1"
     :width="windowSize.x <= 960 ? '80%' : 600"
+    :ignoreDuplicates="true"
     animation-name="v-fade-left"
     position="bottom right"
   >
@@ -12,7 +13,7 @@
           <v-progress-circular
             indeterminate
             :size="30"
-            color="blue_light"
+            color="light"
           ></v-progress-circular>
         </div>
         <div class="custom-template-content">

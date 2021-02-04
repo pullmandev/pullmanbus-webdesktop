@@ -14,76 +14,120 @@
           <v-expansion-panel
             :key="service.id"
             v-for="service in itemsPerPage"
-            class="arrow elevation-0"
+            class="arrow elevation-0"            
           >
-            <v-expansion-panel-header>
-              <v-row>
-                <v-col cols="2">
-                  <span class="headline d-block">
-                    <img
-                      :src="'data:image;base64,' + service.logo"
-                      class="service-company-image"
-                    />
-                  </span>
-                </v-col>
-                <v-col cols="2">
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
+            <v-expansion-panel-header style="overflow: hidden">
+              <v-row no-gutters>
+                <v-col cols="1" v-if="!hasVuelta">
+                  <div
+                    v-if="service.idaVueltaPisoUno || service.idaVueltaPisoDos"
+                    class="white--text text-left orange promotion-advice"
                   >
-                    {{ service.horaSalida }}
-                  </span>
-                  <span class="body-2 d-block"><b>Salida:</b></span>
-                  <span class="body-2 d-block">{{
-                    service.terminalSalida
-                  }}</span>
-                </v-col>
-                <v-col cols="2" class="pr-12 text-center">
-                  <div style="position: relative">
-                    <v-icon
-                      class="display-2 white"
-                      style="z-index: 2"
-                      color="orange"
-                    >
-                      mdi-bus-side
-                    </v-icon>
-                    <hr class="hr-bus-style" />
+                    <span class="ml-8 caption">{{
+                      service.textoPromocion
+                    }}</span>
                   </div>
-                  <small>{{ hoursDifference(service) }}</small>
                 </v-col>
-                <v-col cols="2">
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
-                  >
-                    {{ service.horaLlegada }}
-                  </span>
-                  <span class="body-2 d-block"><b>Llegada:</b></span>
-                  <span class="body-2 d-block">{{
-                    service.terminalDestino
-                  }}</span>
+                <v-col cols="1">                  
+                  <img 
+                  v-if="service.mascota === '1'"
+                  src="../../../../../static/logos/seats/icono_pata_verde.svg"
+                  class="service-pet-image"/>
                 </v-col>
-                <v-col
-                  cols="2"
-                  v-for="(piso, index) in service.pisos"
-                  :key="index"
-                >
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
-                  >
-                    $ {{ piso.tarifaInternet }}
-                  </span>
-                  <span
-                    class="body-2 d-block"
-                    style="text-decoration: line-through"
-                    ><b>$ {{ piso.tarifa }}</b></span
-                  >
-                  <span class="caption d-block"><b>Promoción internet</b></span>
-                  <span class="caption d-block"
-                    ><b>Piso {{ index + 1 }}</b></span
-                  >
-                  <span class="caption d-block">{{ piso.servicio }}</span>
+                <v-col :cols="hasVuelta ? 11 : 10">
+                  <v-row>
+                    <v-col cols="2">
+                      <span class="headline d-block">
+                        <img
+                          :src="'data:image;base64,' + service.logo"
+                          class="service-company-image"
+                        />
+                        <v-btn
+                          text
+                          :small="windowSize.x <= 1100"
+                          :large="windowSize.x > 1100"
+                          @click.stop="
+                            serviceForItinerary = service
+                            dialog = true
+                          "
+                        >
+                          <v-icon color="orange">mdi-plus</v-icon>
+                          <span
+                            class="capitalize body-1"
+                            :class="
+                              windowSize.x <= 1100 ? 'displayNone' : 'body-2'
+                            "
+                            >itinerario</span
+                          >
+                        </v-btn>
+                      </span>
+                    </v-col>
+                    <v-col cols="2">
+                      <span class="body-2 d-block">{{ fechaSubida }}</span>
+                      <span
+                        class="headline d-block"
+                        style="font-size: 1rem !important;"
+                      >
+                        {{ service.horaSalida }}
+                      </span>
+                      <span class="body-2 d-block"><b>Salida:</b></span>
+                      <span class="body-2 d-block">{{
+                        service.terminalOrigen
+                      }}</span>
+                    </v-col>
+                    <v-col cols="2" class="pr-12 text-center">
+                      <div style="position: relative">
+                        <v-icon
+                          class="display-2 white"
+                          style="z-index: 2"
+                          color="orange"
+                        >
+                          mdi-bus-side
+                        </v-icon>
+                        <hr class="hr-bus-style" />
+                      </div>
+                      <small>{{ hoursDifference(service) }}</small>
+                    </v-col>
+                    <v-col cols="2">
+                      <span class="body-2 d-block">{{
+                        service.fechaLlegada
+                      }}</span>
+                      <span
+                        class="headline d-block"
+                        style="font-size: 1rem !important;"
+                      >
+                        {{ service.horaLlegada }}
+                      </span>
+                      <span class="body-2 d-block"><b>Llegada:</b></span>
+                      <span class="body-2 d-block">{{
+                        service.terminaLlegada
+                      }}</span>
+                    </v-col>
+                    <v-col
+                      cols="2"
+                      v-for="(piso, index) in service.pisos"
+                      :key="index"
+                    >
+                      <span
+                        class="headline d-block"
+                        style="font-size: 1rem !important;"
+                      >
+                        $ {{ piso.tarifaInternet }}
+                      </span>
+                      <span
+                        class="body-2 d-block"
+                        style="text-decoration: line-through"
+                        ><b>$ {{ piso.tarifa }}</b></span
+                      >
+                      <span class="caption d-block"
+                        ><b>Promoción internet</b></span
+                      >
+                      <span class="caption d-block"
+                        ><b>Piso {{ piso.piso + 1 }}</b></span
+                      >
+                      <span class="caption d-block">{{ piso.servicio }}</span>
+                    </v-col>
+                  </v-row>
                 </v-col>
               </v-row>
             </v-expansion-panel-header>
@@ -95,6 +139,11 @@
                   :item="service"
                   :expanded="true"
                   :isXs="windowSize.x <= 600"
+                  :fechaSubida="fechaSubida"
+                  :fechaIda="fechaSubidaIda"
+                  :fechaVuelta="fechaSubidaVuelta"
+                  :ciudadOrigen="ciudadOrigen"
+                  :ciudadDestino="ciudadDestino"
                   @confirm="goToPayment"
                 />
                 <v-alert
@@ -124,18 +173,13 @@
     <v-card v-else class="elevation-0">
       <span>{{ $t('no_elements') }}</span>
     </v-card>
-    <Dialog
-      :dialog="dialog"
-      @finish="dialog = false"
-      @loged="goToPayment"
-      @confirm="goToPaymentFromModal"
-    />
+    <Dialog :open.sync="dialog" :service="serviceForItinerary" />
   </div>
 </template>
 <script>
 import Floor from '@/views/Services/stepper/List/Floor'
-import Dialog from '@/views/Services/stepper/List/UserInfo'
-import scrollAnimation from '@/helpers/scrollAnimation'
+import Dialog from '@/views/Services/stepper/List/Itinerary'
+import routeWithScroll from '@/helpers/routeWithScroll'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -143,9 +187,15 @@ export default {
   props: ['search', 'back'],
   data() {
     return {
+      fechaSubidaIda: this.$store.state.searching.from_date,
+      fechaSubidaVuelta: this.$store.state.searching.to_date,
+      ciudadOrigen: this.$store.state.searching.from_city.codigo,
+      ciudadDestino: this.$store.state.searching.to_city.codigo,
+      serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       dialog: false,
+      confirmTicketDialog: false,
       expand: false,
       rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }]
     }
@@ -165,11 +215,24 @@ export default {
   computed: {
     ...mapGetters({
       servicesList: ['getServiceList'],
-      selectedService: ['getSelectedService'],
+      seatsWithPromoNotSelected: ['seatsWithPromoNotSelected'],
+      seatsWithPromo: ['seatsWithPromo'],
+      selectedSeats: ['seats'],
       searching: ['getSearching'],
       loadingServices: ['getLoadingService'],
-      payment_info: ['payment_info']
+      payment_info: ['payment_info'],
+      hasVuelta: ['hasVuelta'],
+      selectedTab: ['getServicesTab']
     }),
+    fechaSubida() {
+      const dateFromStore =
+        this.selectedTab === 'tab-Vuelta' && this.hasVuelta
+          ? this.fechaSubidaVuelta
+          : this.fechaSubidaIda
+      const dateItems = dateFromStore.split('-')
+      const fechaSubida = `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
+      return fechaSubida
+    },
     langSearch() {
       return this.$t('search')
     },
@@ -182,13 +245,29 @@ export default {
       return services
     },
     paginationLength() {
+      let count = 0;
+      if(this.searching.petService){
+        for(const service of this.services){
+          if(service.mascota === '1'){
+            count++;
+          }
+        }
+        return Math.ceil(count/5);
+      }
       return Math.ceil(this.services.length / 5)
     },
     itemsPerPage() {
       let pages = []
-      let page = []
-      for (const servicesGroup of this.services) {
-        page.push(servicesGroup)
+      let page = []      
+      for (const servicesGroup of this.services) {        
+        if(this.searching.petService){
+          if(servicesGroup.mascota === '1'){
+            page.push(servicesGroup)  
+          }
+        }else{
+          page.push(servicesGroup)  
+        }
+        //page.push(servicesGroup)
         if (page.length === 5) {
           pages.push(page)
           page = []
@@ -201,9 +280,17 @@ export default {
       return pages[this.page - 1]
     }
   },
+  watch: {    
+    loadingServices(value) {
+      if (value) {        
+        this.fechaSubidaIda = this.$store.state.searching.from_date
+        this.fechaSubidaVuelta = this.$store.state.searching.to_date
+      }
+    }
+  },
   methods: {
     hoursDifference(service) {
-      const from = service.fechaSalida + 'T' + service.horaSalida
+      const from = this.fechaSubida + 'T' + service.horaSalida
       const to = service.fechaLlegada + 'T' + service.horaLlegada
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)
@@ -239,14 +326,19 @@ export default {
       this.dialog = true
     },
     goToPayment() {
-      scrollAnimation('#paymentStepper')
-      this.$store.dispatch('SET_STEP', { step: 2 })
+      routeWithScroll('#paymentStepper', 'ServicesPaymentData')
     }
   }
 }
 </script>
 
 <style>
+.promotion-advice {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: -110px;
+  transform: rotate(-60deg);
+}
 .hr-bus-style {
   position: absolute;
   top: 50%;
@@ -263,6 +355,12 @@ export default {
 .service-company-image {
   max-width: 100%;
   height: auto;
+}
+
+.service-pet-image {
+  max-width: 80%;
+  height: auto;
+  margin-top: 25px;
 }
 
 @media (max-width: 1060px) {

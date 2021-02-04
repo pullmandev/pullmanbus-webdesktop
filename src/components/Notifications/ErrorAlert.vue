@@ -3,6 +3,7 @@
     group="error"
     :duration="3000"
     :width="windowSize.x <= 960 ? '80%' : 700"
+    :ignoreDuplicates="true"
     animation-name="v-fade-left"
     position="top center"
   >
@@ -44,7 +45,8 @@ export default {
 }
 </script>
 <style>
-.custom-template {
+.custom-template,
+.custom-template.displayNoneTiny {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;

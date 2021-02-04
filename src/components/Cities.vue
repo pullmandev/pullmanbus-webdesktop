@@ -2,6 +2,7 @@
   <div>
     <v-autocomplete
       class="body-1"
+      :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
       dark
       :outlined="outlined"
       :label="languageChange"
@@ -53,6 +54,7 @@ export default {
           city: value,
           direction: this.direction
         })
+        this.$store.dispatch('SET_HOME_BANNERS')
       }
     },
     languageChange() {

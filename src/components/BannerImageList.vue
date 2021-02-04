@@ -1,44 +1,57 @@
 <template>
   <div class="destinies-type-container pt-5">
-    <h3 class="display-3 text-center" style="color: var(--var-blue_dark); font-size: 2rem !important;">
+    <h3
+      class="display-3 text-center blue_dark--text"
+      style="font-size: 2rem !important;"
+    >
       {{ title }}
     </h3>
-    <h4 class="headline text-center " style="color: var(--var-blue_light); font-size: 1.5rem !important;">
+    <h4
+      class="headline text-center blue_light--text"
+      style="font-size: 1.5rem !important;"
+    >
       {{ subTitle }}
     </h4>
-    <v-container>
-      <v-row no-gutters>
-        <v-col cols="4" v-for="(item, index) of images" :key="index">
-          <v-card class="mx-1">
-            <a :href="links[index]" target="_blank">
-            <v-img
-              class="white--text align-end"
-              :class="{ 'align-center': index === 5 }"
-
-              :src="require(`../../static/images/${item}`)"
-              height="350px"
+    <v-container fluid>
+      <v-row class="mx-6">
+        <v-col md="3" sm="12" v-for="(item, index) of images" :key="index">
+          <v-card>
+            <a
+              v-if="links[index] !== 'Dialog'"
+              :href="links[index]"
+              target="_blank"
             >
-
-            </v-img>
+              <v-img
+                class="white--text align-end"
+                :src="require(`../../static/images/${item}`)"
+                cover
+                height="260px"
+              >
+              </v-img>
             </a>
-          </v-card>
-        </v-col>
-        <v-col cols="4" v-for="(item, index) of images" :key="index">
-          <v-card class="mx-1">
-              <v-card-title class="justify-center">
-                <template v-if="index == 5">
-                  {{ itemTitles[index] }}
-                </template>
-                <template v-else>
-                  <div class="d-block text-center">
-                    <span>
-                    </span>
-                    <p class="body-1">
-                      {{ itemTitles[index] }}
-                    </p>
-                  </div>
-                </template>
-              </v-card-title>
+            <v-img
+              v-else
+              class="white--text align-end"
+              :src="require(`../../static/images/${item}`)"
+              cover
+              height="260px"
+              @click="$emit('dialog')"
+            >
+            </v-img>
+            <div class="content-text-container">
+              <v-card-text
+                style="background-color: white; position: absolute; bottom: 0"
+              >
+                <div class="d-block">
+                  <strong style="font-size: 0.9rem">{{
+                    itemTitle[index]
+                  }}</strong>
+                  <p class="body-2">
+                    {{ itemContent[index] }}
+                  </p>
+                </div>
+              </v-card-text>
+            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -50,16 +63,30 @@ export default {
   props: {
     title: String,
     subTitle: String,
-    itemTitles: [String],
-    images: [String],
-    links: [String],
+    itemTitle: Array,
+    itemContent: Array,
+    images: Array,
+    links: Array,
     text: String
   }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .destinies-type-container {
   width: 100vw;
-  height: 80vh;
+  min-height: 80vh;
+}
+.body-1 {
+  word-break: break-word;
+}
+.content-text-container {
+  height: 132px;
+  position: relative;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  & div {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
 }
 </style>

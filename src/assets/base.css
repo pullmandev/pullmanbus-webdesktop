@@ -1,10 +1,10 @@
   :root {
-    --var-blue_dark: #1110AD;
-    --var-blue: #1715E6;
+    --var-blue_dark: #0078DB;
+    --var-blue: #0078DB;
     --var-blue_light: #2069E0;
     --var-blue_variant: #4AC2CE;
     --var-yellow: #FFA71A;
-    --var-orange: #FF5500;
+    --var-orange: #FF5000;
     --var-orange_dark: #EA4006;
     --var-light: #F7F7F7;
   }
@@ -49,20 +49,13 @@
     url('fonts/poppins/Poppins-Thin.ttf') format('truetype'),
     url('fonts/poppins/Poppins-ThinItalic.ttf') format('truetype')
   }
-  .application {
-    font-family: Poppins, Roboto, sans-serif !important;
-  }
   .antroVectraFont {
     font-family: 'antrovectra';
   }
   
   .satisfyFont {
-    font-family: 'Satisfy-Regular';
+    font-family: 'Satisfy-Regular' !important;
   }
-  
-  /*#app {
-    font-family: 'Lato', sans-serif;
-  }*/
   
   .relativePos {
     position: relative;
@@ -217,4 +210,24 @@
   .rounded-search-box {
     border-radius: 10px !important;
     overflow: hidden;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  .phone input::-webkit-outer-spin-button,
+  .phone input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  .phone input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  .leftText {
+    text-align: left;
+  }
+
+  .rightText {
+    text-align: right;
   }

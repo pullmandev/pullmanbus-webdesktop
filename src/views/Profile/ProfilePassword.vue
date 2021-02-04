@@ -108,28 +108,37 @@ export default {
   },
   methods: {
     async changePassword() {
-      this.loading = true
-      const params = {
-        email: this.userData.usuario.email,
-        password: this.oldpassword,
-        nuevaPassword: this.password
-      }
-      const response = await API.changePassword(params)
-      this.loading = false
-      if (!response.data.exito) {
-        this.$notify({
-          group: 'error',
-          title: this.$t('update_data'),
-          type: 'error',
-          text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
-        })
-        console.error(response.data)
-      } else {
-        this.$notify({
-          group: 'info',
-          title: this.$t('data_updated'),
-          type: 'info'
-        })
+      try {
+        this.loading = true
+        const params = {
+          email: this.userData.usuario.email,
+          password: this.oldpassword,
+          nuevaPassword: this.password
+        }
+        const response = await API.updatePassword(params)
+        this.loading = false
+        if (!response.data.exito) {
+          this.$notify({
+            group: 'error',
+            title: this.$t('update_data'),
+            type: 'error',
+            text: 'Ocurrió un error al actualizar datos, intentelo mas tarde'
+          })
+          console.error(response.data)
+        } else {
+          this.$notify({
+            group: 'info',
+            title: this.$t('data_updated'),
+            type: 'info'
+          })
+        }
+        this.password = ''
+        this.confirmpassword = ''
+        this.confirmpassword = ''
+      } catch (err) {
+        console.error(err)
+      } finally {
+        this.loading = false
       }
     }
   }

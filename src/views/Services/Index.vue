@@ -2,13 +2,10 @@
   <div class="ServicesBackground font">
     <!-- Principal View -->
     <div style="margin-top: 52px"></div>
-    <Promotions height="270" :banner="true">
-      <template slot="promotion">
-        <p class="headline d-block">Aprovecha las promociones</p>
-        <p class="display-2">Hasta 40% de descuento</p>
-      </template>
-    </Promotions>
-    <router-view></router-view>
+    <Promotions height="400" :banner="true" id="paymentStepper" />
+    <transition>
+      <router-view></router-view>
+    </transition>
     <v-btn
       color="primary"
       class="white--text floating-filters-btn displayNoneMd"
@@ -32,7 +29,7 @@
 </template>
 <script>
 /* eslint-disable */
-import Promotions from '@/components/PromotionBanner'
+import Promotions from '@/components/PrincipalBanner'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -61,6 +58,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('resize', this.onResize)
+  },
+  onIdle() {
+    this.$router.push('/')
   }
 }
 </script>
