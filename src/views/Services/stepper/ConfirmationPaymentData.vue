@@ -670,8 +670,8 @@ export default {
       let valid = false;
       if (this.selectedSeats.length > 0){
         this.selectedSeats.forEach(element=>{
-          console.log(element.pasajero.validForm);
-          if(!element.pasajero.validForm) valid=true;
+          console.log(element);          
+          if(element.tipo!='pet' && !element.pasajero.validForm) valid=true;
         })
       }
       return valid;

@@ -481,8 +481,7 @@ export default {
                 text
               })
             }
-          }   
-        
+          }          
         this.clearData()
       } catch (err) {
         console.log(err)
