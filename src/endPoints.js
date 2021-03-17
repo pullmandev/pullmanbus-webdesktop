@@ -70,5 +70,8 @@ export default {
   guardarRelacionPasajero: `${pasajero}/guardarRelacionPasajero`, 
   
   buscarRegistroPorBoleto: `${operacion}/buscarRegistro`,
-  editarRegistroBoleto: `${operacion}/modificarRegistro`
+  editarRegistroBoleto: `${operacion}/modificarRegistro`,
+
+  origenCuponera: `${parametros}/buscaOrigenCuponera`,
+  destinoCuponera: `${parametros}/buscaDestinoCuponera`
 }

@@ -24,7 +24,9 @@ const store = new Vuex.Store({
         'confirmationSeats',
         'step',
         'payment_info',
-        'userData'
+        'userData',
+        'cuponera',
+        'cuponeraTo'
       ]
     })
   ],
@@ -39,6 +41,8 @@ const store = new Vuex.Store({
     citiesTo: [],
     citiesConfirmation:[],
     citiesToConfirmation:[],
+    cuponera:[],
+    cuponeraTo:[],
     searching: {
       from_city: null,
       to_city: null,
@@ -320,6 +324,31 @@ const store = new Vuex.Store({
           dispatch('SET_LOADING_CONFIRMATION_SERVICE', { loading: false })
         })
     },
+
+    LOAD_CUPONERA_LIST({ commit }) {
+      APICities.getCuponera()
+        .then(response => {
+          if (response.data) {
+            commit('SET_CUPONERA_LIST', { list: response.data })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    LOAD_CUPONERA_TO_LIST({ commit}, searchOrigin) {
+      const { searchingCity } = searchOrigin
+      APICities.getCuponeraByCode(searchingCity)
+        .then(response => {
+          if (response.data) {
+            commit('SET_CUPONERA_TO_LIST', { list: response.data })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+
     SET_LOADING_SERVICE({ commit }, payload) {
       commit('SET_LOADING_SERVICE', { loading: payload.loading })
     },
@@ -644,6 +673,12 @@ const store = new Vuex.Store({
     },
     SET_TICKET_CHANGE_VOUCHER(state, ticket) {      
       state.ticketChange = ticket
+    },
+    SET_CUPONERA_LIST: (state, { list }) => {
+      state.cuponera = list
+    },
+    SET_CUPONERA_TO_LIST: (state, { list }) => {
+      state.cuponeraTo = list
     }
   },
 
@@ -976,6 +1011,12 @@ const store = new Vuex.Store({
     },
     getTicketChange: state => {
       return state.ticketChange.ticketChange
+    },
+    getCuponeraList: state => {
+      return state.cuponera.filter(cuponera => !cuponera.completed)
+    },
+    getCuponeraToList: state => {
+      return state.cuponeraTo.filter(cuponeraTo => !cuponeraTo.completed)
     }
   }
 })

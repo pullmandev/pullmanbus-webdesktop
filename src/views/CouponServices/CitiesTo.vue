@@ -5,10 +5,10 @@
       :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
       dense
       :label="languageChange"
-      :items="cities"
+      :items="cuponera"
       color="blue_dark"
-      item-text="nombre"
-      item-value="codigo"
+      item-text="descripcion"
+      item-value="valor"
       :menu-props="{
         bottom: true,
         overflowY: true,
@@ -24,7 +24,7 @@
         </template>
         <template v-else>
           <v-list-item-content>
-            <v-list-item-title v-html="data.item.nombre"></v-list-item-title>
+            <v-list-item-title v-html="data.item.descripcion"></v-list-item-title>
           </v-list-item-content>
         </template>
       </template>
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      cities: ['getCitiesToList']
+      cuponera: ['getCuponeraToList']
     }),
     userCity: {
       get() {

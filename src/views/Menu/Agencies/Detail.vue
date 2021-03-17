@@ -37,7 +37,7 @@
         <v-col class="d-flex justify-center">
           <gmap-map
             :center="{ lat: 10, lng: 10 }"
-            :zoom="7"
+            :zoom="12"
             map-type-id="terrain"
             style="width: 600px; height: 400px"
             ref="mapRef"
@@ -82,8 +82,8 @@ export default {
         this.data.forEach(item => {
           this.markers.push({
             position: {
-              lat: parseInt(item.Latitud),
-              lng: parseInt(item.Longitud)
+              lat: parseFloat(item.Latitud),
+              lng: parseFloat(item.Longitud)
             }
           })
         })
@@ -97,8 +97,8 @@ export default {
   },
   methods: {
     updateMap(latitud, longitud) {
-      const lat = parseInt(latitud)
-      const lng = parseInt(longitud)
+      const lat = parseFloat(latitud)
+      const lng = parseFloat(longitud)
       //console.log(this.$refs)
       this.$refs.mapRef.$mapPromise.then(map => {
         map.panTo({ lat, lng })

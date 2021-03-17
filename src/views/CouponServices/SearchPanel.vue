@@ -128,12 +128,12 @@ export default {
   computed: {        
   },
   mounted() {
-    this.$store.dispatch('LOAD_CITIES_LIST', {})
+    this.$store.dispatch('LOAD_CUPONERA_LIST', {})
   },
   watch: {
     fromCity(value) {
-      let searchingCity = value.codigo
-      this.$store.dispatch('LOAD_CITIES_TO_LIST', {
+      let searchingCity = value.valor
+      this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
         searchingCity
       })
     }
@@ -173,10 +173,10 @@ export default {
       })
       let cupon = {
           "idSistema":1,
-          "origen": this.fromCity.codigo,
-          "destino": this.toCity.codigo
+          "origen": this.fromCity.valor,
+          "destino": this.toCity.valor
       }
-      //console.log(cupon)
+      console.log(cupon)
       API.getListCoupon(cupon)
         .then(response => {
           if(response.data.length > 0){

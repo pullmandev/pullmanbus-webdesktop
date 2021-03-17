@@ -392,6 +392,10 @@ export default {
       this.rutHolder = ''
       this.selectedAccountType = ''
       this.selectedBank = ''
+      this.arrayBoleto = []
+      this.puedeImprimir = false
+      this.integrador = ""
+      this.dataRespuesta
     },
     async submit() {
       try {
@@ -401,14 +405,29 @@ export default {
         this.loadingCancel = true
         this.loadingCancel = true
         const length = this.tickets.length
+
+        this.arrayBoleto = []
+        this.puedeImprimir = false
+        this.integrador = ""
+        this.usuarioNombre = ""
+  
         for (let index = 0; index < length; index++) {
           if (!this.tickets[index].anular) {
             continue
+          }else{
+
+            this.arrayBoleto.push(this.tickets[index].boleto)  
+            this.puedeImprimir = this.tickets[index].puedeImprimir
+            this.integrador = this.tickets[index].integrador
           }
+        }
+
+          this.usuarioNombre = `${this.userData.usuario.nombre} ${this.userData.usuario.apellidoPaterno}`
+          console.log(this.arrayBoleto)
           let params = {
-            boleto: this.tickets[index].boleto,
+            boleto: this.arrayBoleto,
             codigoTransaccion: this.code.trim(),
-            integrador: this.tickets[index].integrador,
+            integrador: this.integrador,
             tipoCuenta: this.selectedAccountType,
             banco: '',
             numeroCuenta: '',
@@ -417,38 +436,53 @@ export default {
             usuario: ''
           }
           params.rutSolicitante = this.rutApplicant
-          params.usuario = this.name
-          if (this.tickets[index].tipoCompra === 'VD') {           
+          params.usuario = this.usuarioNombre
+          //if (this.tickets[index].tipoCompra === 'VD') {           
             params.banco = this.selectedBank
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder
-          }
-          //console.log(params)
+          //}
+          console.log(params)
           const response = await API.cancel(params)
-          //console.log(response.data)
-          if (response.data.exito) {
-            this.$notify({
-              group: 'info',
-              title: this.$t('cancellations_success'),
-              type: 'info'
-            })
-            this.tickets[index].puedeImprimir = false
-          } else {
-            const text =
-              response.data.mensaje != null
-                ? response.data.mensaje
-                : this.$t('cancellations_error')
-            this.$notify({
-              group: 'error',
-              title: this.$t('cancellation'),
-              type: 'error',
-              text
-            })
-          }
-        }
-        await API.sendEmail({
-          email: this.userData.usuario.email
-        })
+          console.log(response.data)
+
+          this.dataRespuesta = response.data
+
+          console.log(this.dataRespuesta)
+  
+          for (let index = 0; index < this.dataRespuesta.length; index++) {
+
+              this.boletoValidacion = this.dataRespuesta[index].boleto
+              console.log(this.boletoValidacion)
+
+            if (this.dataRespuesta[index].exito) {
+              this.$notify({
+                group: 'info',
+                title: this.$t('cancellations_success'),
+                type: 'info'
+              })
+              for (let index = 0; index < length; index++) {
+                if(this.tickets[index].boleto === this.boletoValidacion){
+                    this.tickets[index].puedeImprimir = false
+                } 
+              }
+              await API.sendEmail({
+              email: this.userData.usuario.email
+              })
+            } else {
+              const text =
+                this.dataRespuesta[index].mensaje != null
+                  ? this.dataRespuesta[index].mensaje
+                  : this.$t('cancellations_error')
+              this.$notify({
+                group: 'error',
+                title: this.$t('cancellation'),
+                type: 'error',
+                text
+              })
+            }
+          }   
+        
         this.clearData()
       } catch (err) {
         console.log(err)
