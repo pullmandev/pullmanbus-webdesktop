@@ -81,7 +81,7 @@ export default {
           has_content: true,
           title: '¿Cómo me inscribo en el programa de Pullman más?',
           content:
-            'Tan solo debes inscribir con tu correo electrónico, rellenar los campos con tus datos personales, recibirás un correo para validar la información, al validar ya serás un miembro activo del club. Haz <a target="_blank" href="http://pullmanmas.cl/">Click Aquí.</a>'
+            'Tan solo debes inscribir con tu correo electrónico, rellenar los campos con tus datos personales, recibirás un correo para validar la información, al validar ya serás un miembro activo del club. Haz <a target="_blank" href="http://www.pullmanmas.cl/">Click Aquí.</a>'
         },
         {
           has_content: true,
@@ -105,7 +105,7 @@ export default {
           has_content: true,
           title: '¿Cómo obtengo los descuentos?',
           content:
-            'Debes ingresar en <a target="_blank" href="http://pullmanmas.cl/">www.pullmanmas.cl</a> >> Selecciona el beneficio que desees >>  En la ficha del beneficio se te solicitara ingresar tu Rut de afiliado para descargar el cupón de descuento >> Selecciona “Obtén Cupón”.'
+            'Debes ingresar en <a target="_blank" href="http://www.pullmanmas.cl/">www.pullmanmas.cl</a> >> Selecciona el beneficio que desees >>  En la ficha del beneficio se te solicitara ingresar tu Rut de afiliado para descargar el cupón de descuento >> Selecciona “Obtén Cupón”.'
         },
         {
           has_content: true,
@@ -123,7 +123,7 @@ export default {
     },
     beneficios(){
       window.open(
-        'http://pullmanmas.cl/',
+        'http://www.pullmanmas.cl/',
         '_blank'
       );
     }
