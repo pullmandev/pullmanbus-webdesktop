@@ -1,20 +1,25 @@
 <template>
   <section class="container">
-    <h1 class="blue--text mb-3 mt-5">BENEFICIOS DE TARJETA PULLMAN PASS</h1>
+    <h1 class="orange--text mb-3 mt-5">CLUB DE BENEFICIOS PULLMAN MÁS</h1>
     <p>
-      Compruébalo tú mismo, porque cada vez que compres tus pasajes en Pullman
-      Bus y presentes tu tarjeta de cliente frecuente estarás acumulando puntos
-      para que puedas viajar completamente "GRATIS". Para acceder al selecto
-      Club pullman Pass y comenzar a disfrutar de todos nuestros beneficios,
-      sólo deberás llenar el formulario de inscripción en alguna de nuestras
-      agencias habilitadas y eres socio...........¡ASI DE SIMPLE!
+      Pullman más es el programa de fidelización de Pullman Bus creado como un complemento 
+      de Pullman Pass, premiamos tu lealtad y preferencia por lo que te invitamos a conocer los 
+      mejores beneficios que ofrece el club. ¡Tan solo con inscribirte! Viaja en esta nueva 
+      aventura y se miembro de nuestra gran familia.
     </p>
-    <ul class="firstText mb-5 pa-0">
-      <li>No se cobra mantención por ser socio de Pullman Pass.</li>
-      <li>Obtienes un descuento en la compra de pasajes.</li>
-      <li>Acumulas puntos por cada compra de pasajes que realices.</li>
-    </ul>
     <v-row>
+      <v-col cols="6" class="d-flex justify-start">
+        <v-btn color="orange" class="white--text" @click="openDialog('signup')">
+          <v-icon>mdi-chevron-right</v-icon>
+          OBTENER PULLMAN PASS
+        </v-btn>
+      </v-col>
+      <v-col cols="6" class="d-flex justify-end">
+        <v-btn color="orange" class="white--text" @click="beneficios()">
+          <v-icon>mdi-chevron-right</v-icon>
+          DESCUBRE LOS BENEFICIOS
+        </v-btn>
+      </v-col>
       <v-col cols="12">
         <h2 class="mb-7 text-center blue--text">{{ $t('FAQs') }}</h2>
         <v-expansion-panels multiple v-model="panel">
@@ -29,7 +34,7 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="pa-6 content">
-              <p v-if="info.has_content">{{ info.content }}</p>
+              <p v-if="info.has_content" v-html="info.content"></p>
               <template v-if="info.id === 0">
                 <p>
                   Los puntos tienen una vigencia de un año a partir de la fecha
@@ -59,13 +64,7 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-      </v-col>
-      <v-col cols="12" class="d-flex justify-end">
-        <v-btn color="orange" class="white--text" @click="openDialog('signup')">
-          <v-icon>mdi-chevron-right</v-icon>
-          OBTENER PULLMAN PASS
-        </v-btn>
-      </v-col>
+      </v-col>     
     </v-row>
     <div style="height: 50vh;"></div>
   </section>
@@ -80,37 +79,39 @@ export default {
       data: [
         {
           has_content: true,
-          title: '¿Cómo inscribirse en el programa Pullman Pass?',
+          title: '¿Cómo me inscribo en el programa de Pullman más?',
           content:
-            'Sólo debes completar el formulario de inscripción en nuestras oficinas habilitadas a lo largo del país.'
+            'Tan solo debes inscribir con tu correo electrónico, rellenar los campos con tus datos personales, recibirás un correo para validar la información, al validar ya serás un miembro activo del club. Haz <a target="_blank" href="http://pullmanmas.cl/">Click Aquí.</a>'
         },
         {
           has_content: true,
-          title: '¿Cómo acumular puntos?',
+          title: '¿El programa tiene algún costo?',
           content:
-            'Presentando tu tarjeta Pullman Pass y tu cédula de identidad, al comprar en nuestras agencias.'
+            'No, es absolutamente gratuito, tan solo debes inscribirte e iniciar sesión para formar parte de esta gran familia.'
         },
         {
           has_content: true,
-          title: '¿Cómo canjear puntos?',
+          title: '¿El Programa Pullman Pass seguirá vigente?',
           content:
-            'Sólo debes solicitar el canje en los puntos de venta habilitados, presentando tu tarjeta Pullman Pass y tu cédula de identidad.'
+            'Pullman Pass continuara funcionando para nuestros clientes inscritos, deben solicitar sus descuentos  y canjes en los puntos de ventas habilitados.'
         },
         {
           has_content: true,
-          title: '¿Cómo consultar cuántos puntos tengo acumulados?',
+          title: '¿Qué hago si olvide mi contraseña?',
           content:
-            'En las agencias habilitadas, con tu Rut o tarjeta Pullman Pass, o llamando al 600 660 0011.'
+            'Debes ingresar a Inicio de Sesión >> selecciona "Olvide mi contraseña“ >> debes ingresar tu correo electrónico registrado >> se te enviará una contraseña provisoria al correo electrónico con la que podrás iniciar sesión.'
         },
         {
-          has_content: false,
-          id: 0,
-          title: '¿Qué vigencia tienen los puntos?'
+          has_content: true,
+          title: '¿Cómo obtengo los descuentos?',
+          content:
+            'Debes ingresar en <a target="_blank" href="http://pullmanmas.cl/">www.pullmanmas.cl</a> >> Selecciona el beneficio que desees >>  En la ficha del beneficio se te solicitara ingresar tu Rut de afiliado para descargar el cupón de descuento >> Selecciona “Obtén Cupón”.'
         },
         {
-          has_content: false,
-          id: 1,
-          title: '¿Puede otra persona utilizar mis puntos?'
+          has_content: true,
+          title: '¿Cómo hago uso de los beneficios?',
+          content:
+            'Según corresponda puedes obtener cupones con descuentos por compras Web o descuentos en locales comerciales. Ingresa al sitio Web del beneficio seleccionado, y al momento de generar la compra ingresa el código del cupón para acceder a los descuentos o muestra el cupón en el local comercial del beneficio.'
         }
       ]
     }
@@ -119,10 +120,16 @@ export default {
     openDialog,
     changeColor(index) {
       return this.panel.findIndex(item => item === index) > -1
+    },
+    beneficios(){
+      window.open(
+        'http://pullmanmas.cl/',
+        '_blank'
+      );
     }
   },
   mounted() {
-    this.$parent.$data.title = 'Pullman Pass'
+    this.$parent.$data.title = 'PULLMAN MÁS'
   }
 }
 </script>

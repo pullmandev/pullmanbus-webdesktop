@@ -132,7 +132,7 @@ export default {
   },
   watch: {
     fromCity(value) {
-      let searchingCity = value.valor
+      let searchingCity = value.codigoCiudad
       this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
         searchingCity
       })
@@ -173,8 +173,8 @@ export default {
       })
       let cupon = {
           "idSistema":1,
-          "origen": this.fromCity.valor,
-          "destino": this.toCity.valor
+          "origen": this.fromCity.codigoCiudad,
+          "destino": this.toCity.codigoCiudad
       }
       //console.log(cupon)
       API.getListCoupon(cupon)

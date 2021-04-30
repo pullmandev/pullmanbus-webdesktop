@@ -7,8 +7,8 @@
       :label="languageChange"
       :items="cuponera"
       color="blue_dark"
-      item-text="descripcion"
-      item-value="valor"
+      item-text="descripcionCiudad"
+      item-value="codigoCiudad"
       :menu-props="{
         bottom: true,
         overflowY: true,
@@ -24,7 +24,7 @@
         </template>
         <template v-else>
           <v-list-item-content>
-            <v-list-item-title v-html="data.item.descripcion"></v-list-item-title>
+            <v-list-item-title v-html="data.item.descripcionCiudad"></v-list-item-title>
           </v-list-item-content>
         </template>
       </template>

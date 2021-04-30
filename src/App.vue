@@ -73,7 +73,7 @@ export default {
           route: 'Contact'
         },
         {
-          title: 'Pullman Pass',
+          title: 'Club de beneficios',
           icon: 'mdi-chevron-right',
           route: 'PullmanPass'
         },
