@@ -15,10 +15,10 @@ export default {
   data: () => ({
     items: [
       {
-        src : 'SlideSummer.png'
+        src : 'Slide02.png'
       },
       {
-        src: 'SlideMAB.png'
+        src: 'Slide01.png'
       }
     ]
   })
