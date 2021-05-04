@@ -124,9 +124,6 @@ export default {
     changeColor(index) {
       return this.panel.findIndex(item => item === index) > -1
     },
-    open(){
-      alert('hola')
-    },
     beneficios(){
       window.open(
         'http://www.pullmanmas.cl/',
