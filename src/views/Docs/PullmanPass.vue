@@ -11,7 +11,7 @@
       <v-col cols="6" class="d-flex justify-start">
         <v-btn color="orange" class="white--text" @click="openDialog('signup')">
           <v-icon>mdi-chevron-right</v-icon>
-          OBTENER PULLMAN PASS
+          OBTENER PULLMAN MÁS
         </v-btn>
       </v-col>
       <v-col cols="6" class="d-flex justify-end">
@@ -34,7 +34,10 @@
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="pa-6 content">
-              <p v-if="info.has_content" v-html="info.content"></p>
+              <p v-if="info.has_content" v-html="info.content">
+                
+              </p>    
+              <a v-if="i === 0" @click="openDialog('signup')">Haz Click Aqui!</a>          
               <template v-if="info.id === 0">
                 <p>
                   Los puntos tienen una vigencia de un año a partir de la fecha
@@ -81,7 +84,7 @@ export default {
           has_content: true,
           title: '¿Cómo me inscribo en el programa de Pullman más?',
           content:
-            'Tan solo debes inscribir con tu correo electrónico, rellenar los campos con tus datos personales, recibirás un correo para validar la información, al validar ya serás un miembro activo del club. Haz <a target="_blank" href="http://www.pullmanmas.cl/">Click Aquí.</a>'
+            'Tan solo debes inscribir con tu correo electrónico, rellenar los campos con tus datos personales, recibirás un correo para validar la información, al validar ya serás un miembro activo del club.'
         },
         {
           has_content: true,
@@ -120,6 +123,9 @@ export default {
     openDialog,
     changeColor(index) {
       return this.panel.findIndex(item => item === index) > -1
+    },
+    open(){
+      alert('hola')
     },
     beneficios(){
       window.open(
