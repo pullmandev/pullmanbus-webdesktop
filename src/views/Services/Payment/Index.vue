@@ -357,6 +357,7 @@ export default {
               ) {
                 seat.tarifa = salida.pago
               }
+              seat.descuento = salida.descuento
             })
           })
           this.$notify({
@@ -436,7 +437,7 @@ export default {
           'integrador'
         ])
         if (!seat.tomadoPromo) {
-          params.monto = parseInt(seat.monto.split('.').join(''))
+          params.monto = parseInt(seat.tarifaNormal.split('.').join(''))
           params.precio = parseInt(seat.tarifa.split('.').join(''))
         } else {
           params.monto = parseInt(seat.totalPromo.split('.').join(''))
