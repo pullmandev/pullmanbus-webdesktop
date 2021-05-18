@@ -73,5 +73,7 @@ export default {
   editarRegistroBoleto: `${operacion}/modificarRegistro`,
 
   origenCuponera: `${parametros}/buscaOrigenCuponera`,
-  destinoCuponera: `${parametros}/buscaDestinoCuponera`
+  destinoCuponera: `${parametros}/buscaDestinoCuponera`,
+
+  buscarListaCarrusel: `${administracion}/private/contenido/obtenerSeccion`
 }

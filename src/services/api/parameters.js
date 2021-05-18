@@ -6,7 +6,8 @@ const {
   obtenerFaq,
   buscarMotivoContacto,
   obtenerCiudades,
-  obtenerRegiones
+  obtenerRegiones,
+  buscarListaCarrusel
 } = endPoints
 
 export default {
@@ -24,5 +25,9 @@ export default {
   },
   getRegions() {
     return axios.post(obtenerRegiones)
+  },
+  getListaCarrusel() {
+    let params = { "portal": { "id": 7 }, "portalSeccion": { "id": "2" } };
+    return axios.post(buscarListaCarrusel, params)
   }
 }

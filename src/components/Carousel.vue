@@ -4,24 +4,26 @@
       <v-carousel-item
         v-for="(item, i) in items"
         :key="i"
-        :src="require(`../../static/images/${item.src}`)"
+        :src="item.src"
         transition="fade-carousel"
       ></v-carousel-item>
     </v-carousel>
   </div>
 </template>
 <script>
+import API from '@/services/api/parameters'
 export default {
   data: () => ({
-    items: [
-      {
-        src : 'Slide02.png'
-      },
-      {
-        src: 'Slide01.png'
-      }
-    ]
-  })
+    items: []
+  }),
+  async mounted() {
+    const response = await API.getListaCarrusel() 
+    const data = response.data   
+    data.forEach(item => {
+      this.items.push({"src": item.imagen})
+    });
+    console.log(this.items)
+  }
 }
 </script>
 <style lang="scss" scoped>
