@@ -17,12 +17,14 @@ export default {
     items: []
   }),
   async mounted() {
-    const response = await API.getListaCarrusel() 
-    const data = response.data   
+    let params = { "portal": { "id": 7 }, "portalSeccion": { "id": "2" } };
+    const response = await API.getContenidoSeccion(params) 
+    const data = response.data  
+    console.log(data) 
     data.forEach(item => {
       this.items.push({"src": item.imagen})
     });
-    console.log(this.items)
+
   }
 }
 </script>

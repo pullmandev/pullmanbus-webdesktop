@@ -70,7 +70,7 @@
                       >
                         {{ service.horaSalida }}
                       </span>
-                      <span class="body-2 d-block"><b>Salida:</b></span>
+                      <span class="body-2 d-block"><b>{{textoSalida}}</b></span>
                       <span class="body-2 d-block">{{
                         service.terminalOrigen
                       }}</span>
@@ -98,7 +98,7 @@
                       >
                         {{ service.horaLlegada }}
                       </span>
-                      <span class="body-2 d-block"><b>Llegada:</b></span>
+                      <span class="body-2 d-block"><b>{{textoLlegada}}</b></span>
                       <span class="body-2 d-block">{{
                         service.terminaLlegada
                       }}</span>
@@ -120,7 +120,7 @@
                         ><b>$ {{ piso.tarifa }}</b></span
                       >
                       <span class="caption d-block"
-                        ><b>Promoción internet</b></span
+                        ><b>{{textoPrecioOferta}}</b></span
                       >
                       <span class="caption d-block"
                         ><b>Piso {{ piso.piso + 1 }}</b></span
@@ -182,7 +182,7 @@ import Dialog from '@/views/Services/stepper/List/Itinerary'
 import routeWithScroll from '@/helpers/routeWithScroll'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
-
+import API from '@/services/api/parameters'
 export default {
   props: ['search', 'back'],
   data() {
@@ -197,14 +197,29 @@ export default {
       dialog: false,
       confirmTicketDialog: false,
       expand: false,
-      rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }]
+      rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }],
+      textoPrecioOferta : '',
+      textoSalida : '',
+      textoLlegada : ''
     }
   },
   components: {
     Floor,
     Dialog
   },
-  mounted() {
+  async mounted() {
+    let params = { "portal": { "id": 7 }, "portalSeccion": { "id": "3" } };
+    const response = await API.getContenidoSeccion(params) 
+    const data = response.data 
+    console.log(data);
+    data.forEach(item => {
+      if(item.llave == 'TEXTO_OFERTA') 
+      this.textoPrecioOferta = item.portalSeccContenidoI18ns.find(x => x.i18n == 'es').descripcion;
+      if(item.llave == 'TEXTO_SALIDA') 
+      this.textoSalida = item.portalSeccContenidoI18ns.find(x => x.i18n == 'es').descripcion;
+      if(item.llave == 'TEXTO_LLEGADA') 
+      this.textoLlegada = item.portalSeccContenidoI18ns.find(x => x.i18n == 'es').descripcion;
+    })
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })

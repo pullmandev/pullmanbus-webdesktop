@@ -26,8 +26,7 @@ export default {
   getRegions() {
     return axios.post(obtenerRegiones)
   },
-  getListaCarrusel() {
-    let params = { "portal": { "id": 7 }, "portalSeccion": { "id": "2" } };
+  getContenidoSeccion(params) {
     return axios.post(buscarListaCarrusel, params)
   }
 }
