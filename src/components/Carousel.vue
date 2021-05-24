@@ -1,7 +1,8 @@
 <template>
-  <div style="min-height: 630px; height: 100vh">
+  <div style="min-height: 650px; height: 100vh;">
     <v-carousel cycle hide-delimiters :show-arrows="false" height="100%">
       <v-carousel-item
+        style="padding-top: 60px;"
         v-for="(item, i) in items"
         :key="i"
         :src="item.src"
