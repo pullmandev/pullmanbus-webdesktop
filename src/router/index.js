@@ -44,6 +44,8 @@ import VoucherChangeTicket from '@/views/Menu/ChangeTicket/Voucher.vue'
 import FailChangeTicket from '@/views/Menu/ChangeTicket/Fail.vue'
 import Contact from '@/views/Menu/Contact'
 
+import CostaPass from '@/views/Menu/CostaPass'
+
 //Docs
 import Docs from '@/views/Docs/Index'
 import Terms from '@/views/Docs/Terms'
@@ -65,6 +67,8 @@ import FailCoupon from '@/views/CouponServices/FailCoupon.vue'
 
 import PassengerDataContainer from '@/views/PassengerDataServices/Index.vue'
 import PassengerDataPanel from '@/views/PassengerDataServices/PassengerData.vue'
+
+import VueAnalytics from 'vue-analytics'
 
 Vue.use(VueRouter)
 
@@ -335,6 +339,17 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/ConvenioCostaPass',
+    component: PassengerDataContainer,
+    children: [
+      {
+        path: '',
+        name: 'costaPass',
+        component: CostaPass
+      }
+    ]
+  },
   { path: '*', component: Error404 }
 ]
 
@@ -346,4 +361,19 @@ const router = new VueRouter({
 router.afterEach((to, from) => {
   store.dispatch('SET_HISTORY', { from, to })
 })
+
+Vue.use(VueAnalytics, {
+  id: 'G-1YHQCCNF5D',
+  router,
+  autoTracking: {
+    pageviewTemplate (route) {
+      return {
+        page: route.path,
+        title: route.path,
+        location: window.location.href
+      }
+    }
+  }
+})
+
 export default router

@@ -1,6 +1,6 @@
-const base = 'https://pullman.cl' // prod
+//const base = 'https://pullman.cl' // prod
 //const base = 'https://pullmanapi.viajaenbus.cl/' // dev
-
+const base = ''
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
@@ -75,5 +75,9 @@ export default {
   origenCuponera: `${parametros}/buscaOrigenCuponera`,
   destinoCuponera: `${parametros}/buscaDestinoCuponera`,
 
-  buscarListaCarrusel: `${administracion}/private/contenido/obtenerSeccion`
+  detalleConvenioAtributo:  `${administracion}/private/convenio/getDetalleConvenioAtributo`,
+  buscarListaCarrusel: `${administracion}/private/contenido/obtenerSeccion`,
+  buscarUsuario: `${sesion}/obtenerUsuarioPass`,
+  cambiarClave: `${sesion}/modificarClaveUsuario`,
+  enviarClave: `${sesion}/enviarCorreoClave`
 }

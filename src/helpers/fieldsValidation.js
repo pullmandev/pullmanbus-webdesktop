@@ -6,6 +6,10 @@ function numberValidation(v) {
   return v.length === 8 || 'Número debe ser de 8 dígitos'
 }
 
+function numericValidation(v) {
+  return !isNaN(v) || 'Sólo debe ingresar numeros'
+}
+
 function otherDocValidation(v) {
   return !isNaN(v) || 'Nº de Documento no debe tener letras'
 }
@@ -45,7 +49,8 @@ export default {
   otherDocValidation,
   passwordValidation,
   rutValidation,
-  passwordCostaValidation
+  passwordCostaValidation,
+  numericValidation
 }
 
 function passwordCostaValidation(v) {

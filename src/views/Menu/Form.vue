@@ -14,8 +14,17 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-title>
+      <v-container v-if="this.requestType.id == 1">
+        <v-row>
+            <v-col style="text-align: justify; font-size: 0.8em; hyphens: manual !important;" cols="12" lg="12" class="ml-3 mr-3">
+              <p>Si quieres cotizar un servicio exclusivo de transporte para particulares,
+                empresas, fundaciones, clubes deportivos, etc. Escribenos y te contactaremos.
+              </p>
+            </v-col>
+        </v-row>
+      </v-container>
       <v-container>
-        <v-form v-model="validForm">
+        <v-form ref="form" v-model="validForm">
           <v-row>
             <v-col cols="12" lg="5" class="ml-3 mr-3">
               <v-text-field
@@ -86,6 +95,75 @@
                 required
               ></v-text-field>
             </v-col>
+            <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <v-text-field
+                filled
+                outlined
+                dense
+                type="number"
+                v-model="cantidadPasajeros"
+                :rules="numberRules"
+                :label="$t('cantidadPasajeros')"
+                outline-1
+                color="blue"
+                required
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <!-- <v-text-field
+                filled
+                outlined
+                dense
+                v-model="comunaOrigen"
+                :label="$t('comunaOrigen')"
+                outline-1
+                color="blue"
+                :rules="generalRules"
+                required
+              ></v-text-field> -->
+
+              <v-autocomplete
+                light
+                filled
+                outlined
+                dense
+                :items="listaComuna"
+                item-text="nombre"
+                item-value="nombre"
+                label="COMUNA RESIDENCIA ORIGEN"
+                v-model="comunaOrigen"
+                required
+                :rules="[v => !!v || '']"
+              ></v-autocomplete>
+            </v-col>
+            <v-col cols="12" lg="5" class="ml-3 mr-3">
+              <!-- <v-text-field
+                filled
+                outlined
+                dense
+                v-model="comunaDestino"
+                :label="$t('comunaDestino')"
+                outline-1
+                color="blue"
+                :rules="generalRules"
+                required
+              ></v-text-field> -->
+
+              <v-autocomplete
+                light
+                filled
+                outlined
+                dense
+                :items="listaComuna"
+                item-text="nombre"
+                item-value="nombre"
+                label="COMUNA RESIDENCIA DESTINO"
+                v-model="comunaDestino"
+                required
+                :rules="[v => !!v || '']"
+              ></v-autocomplete>
+            </v-col>
             <v-col cols="12">
               <v-textarea
                 v-model="description"
@@ -130,6 +208,7 @@
 import API from '@/services/api/request'
 import validations from '@/helpers/fieldsValidation'
 import moment from 'moment'
+import APICities from '@/services/api/cities'
 
 export default {
   props: ['type'],
@@ -143,6 +222,9 @@ export default {
       movil: '',
       rut: '',
       description: '',
+      cantidadPasajeros: 0,
+      comunaOrigen: '',
+      comunaDestino: '',
       emailRules: [
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
@@ -156,11 +238,29 @@ export default {
         v => !!v || 'Este campo es requerido',
         validations.numberValidation
       ],
-      generalRules: [v => !!v || 'Este campo es requerido']
+      numberRules: [
+        v => !!v || 'Este campo es requerido',
+        v => ( v && v >= 0 ) || 'El valor debe ser mayor que 0',
+        v => ( v && v <= 5000 ) || 'El valor debe ser menor que 5000',
+        validations.numericValidation
+      ],
+      generalRules: [v => !!v || 'Este campo es requerido'],
+      listaComuna: []
     }
   },
   mounted() {
     this.clear()
+    APICities.getAllCities()
+      .then(response => {
+        if (response.data) {
+          response.data.forEach(item => {
+            this.listaComuna.push(item)
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
   },
   computed: {
     requestType() {
@@ -200,7 +300,11 @@ export default {
           descripcion: this.description,
           estado: '1',
           fechaSolicitud: moment().format(),
-          responsable: null
+          responsable: null,
+          cantidadPasajeros: this.cantidadPasajeros,
+          comunaOrigen: this.comunaOrigen,
+          comunaDestino: this.comunaDestino,
+          tipoDocumento: this.doc_type === 'RUT' ? 1 : 0
         }
         //console.log(params)
         const response = await API.postSolicitudServicio(params)
@@ -219,6 +323,8 @@ export default {
             title: 'Solicitud de Viaje Especial ingresada exitosamente',
             type: 'info'
           })
+          this.movil = ''
+          this.reset()
         }
       } catch (err) {
         console.error(err)
@@ -232,8 +338,14 @@ export default {
       this.doc_type = 'RUT'
       this.rut = ''
       this.email = ''
-      this.description = ''
-    }
+      this.description = '',
+      this.cantidadPasajeros = 0,
+      this.comunaOrigen = '',
+      this.comunaDestino = ''
+    },
+    reset() {
+      this.$refs.form.reset()
+    },
   }
 }
 </script>

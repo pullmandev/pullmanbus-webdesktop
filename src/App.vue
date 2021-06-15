@@ -73,7 +73,7 @@ export default {
           route: 'Contact'
         },
         {
-          title: 'Club de beneficios',
+          title: 'Pullman Pass',
           icon: 'mdi-chevron-right',
           route: 'PullmanPass'
         },
@@ -91,6 +91,11 @@ export default {
           title: 'Datos Pasajero',
           icon: 'mdi-chevron-right',
           route: 'passengerDataPanel'
+        },
+        {
+          title: 'Costa Pass',
+          icon: 'mdi-chevron-right',
+          route: 'costaPass'
         }
       ]
     }

@@ -15,7 +15,7 @@
       </v-toolbar>
       <v-card-title>
         <v-card-text>
-          <v-radio-group v-model="selectedConvenio" row>
+          <v-radio-group v-model="selectedConvenio" row @change="getDetalleConvenio()" >
             <v-row>
               <v-col
                 :key="i"
@@ -63,10 +63,11 @@
         Nombre del convenio: {{ selectedConvenioName }}
       </v-card-title>
       <v-card-text>
-        <v-form v-model="validForm">
-          <v-row cols="12" sm="12" md="8" lg="7">
-            <v-col cols="3">
+        <v-form v-model="validForm" >          
+          <v-row cols="12" sm="12" md="8" lg="7" >
+            <v-col cols="3"  :key="i" v-for="(item, i) in listaDetalleConvenio">
               <v-text-field
+                v-if="item.Tipo ==='RUT'"
                 filled
                 outlined
                 dense
@@ -76,6 +77,23 @@
                 color="blue"
                 :rules="rutRules"
                 required
+                maxLength="10"
+              ></v-text-field>       
+              <v-text-field
+                v-if="item.Tipo ==='PASSWORD'"
+                filled
+                outlined
+                dense
+                v-model="password"
+                :label="$t('password')"
+                :append-icon="see ? 'visibility' : 'visibility_off'"
+                @click:append="see = !see"
+                :type="see ? 'password' : 'text'"
+                outline-1
+                color="blue"
+                :rules="passwordRules"
+                required
+                maxLength="10"
               ></v-text-field>
             </v-col>
             <v-col cols="4">
@@ -254,6 +272,7 @@ export default {
       selectedConvenio: '',
       selectedConvenioName: '',
       listaCovenios: [],
+      listaDetalleConvenio: [],
       selectedSeats: this.$store.state.seats,
       rut: '',
       personalRut: this.$store.getters.payment_info.rut,
@@ -272,7 +291,13 @@ export default {
         v => !!v || 'E-mail es requerido',
         validations.emailValidation
       ],
-      emailconfirmError: false
+      emailconfirmError: false,
+      see: true,
+      password: '',
+      passwordRules: [
+        v => !!v || 'Ingrese contraseña',
+        validations.passwordValidation
+      ]
     }
   },
   computed: {
@@ -299,7 +324,19 @@ export default {
     }
   },
   methods: {
+    getDetalleConvenio(){
+      this.getDatalleConvenioAtributo()
+    },
+    async getDatalleConvenioAtributo(){
+      //console.log(this.selectedConvenio)
+      const response = await APIConvenio.getDetalleConvenioAtributo(this.selectedConvenio)
+      const data = response.data
+      this.listaDetalleConvenio = [...data];
+      //console.log(this.listaDetalleConvenio)
+    },
     showDialogOrValidate() {
+      console.log("RUT: ",this.rut)
+      console.log("PASSWORD: ",this.password)
       const withPromo = this.selectedSeats.filter(item => item.tomadoPromo)
       if (withPromo.length > 0) {
         this.convDialog = true
@@ -315,15 +352,19 @@ export default {
       try {
         this.loadingRutValidation = true
         var re = /\./gi
+
         const params = {
           descuento: '0',
           idConvenio: this.selectedConvenio,
-          listaAtributo: [{ idCampo: 'RUT', valor: this.rut }],
+          listaAtributo: [],
           listaBoleto: [],
           mensaje: '',
           montoTotal: '0',
           totalApagar: '0'
         }
+        if(this.rut != ''){ params.listaAtributo.push({ idCampo: 'RUT', valor: this.rut })}
+        if(this.password != ''){ params.listaAtributo.push({ idCampo: 'PASSWORD', valor: this.password })}
+        //console.log(this.selectedConvenio)
         this.selectedSeats.forEach(seat => {
           //console.log(seat)
           var fecha = seat.fechaPasada.split('/')
@@ -338,10 +379,15 @@ export default {
             piso: seat.piso,
             valor: seat.tarifaNormal.replace(re, ''),
             asiento: seat.asiento,
-            promocion: '0'
+            promocion: '0',
+            bus: seat.bus,
+            horaSalida: seat.horaSalida.replace(':',''),
+            rut : seat.pasajero.numeroDocumento
           })
         })
         const response = await APIConvenio.getValidateConvenio(params)
+        const data = response.data
+        console.log("Data",data)
         if (response.data.mensaje == 'OK') {
           response.data.listaBoleto.forEach(salida => {
             //console.log(salida)
@@ -353,7 +399,7 @@ export default {
                 seat.origen == salida.origen &&
                 seat.destino == salida.destino &&
                 seat.asiento == salida.asiento &&
-                fecha == salida.fechaSalida
+                fecha == salida.fechaSalida 
               ) {
                 seat.tarifa = salida.pago
               }
@@ -368,7 +414,7 @@ export default {
         } else {
           this.$notify({
             group: 'error',
-            title: 'Validar conevenio',
+            title: 'Validar convenio',
             type: 'error',
             text: `${response.data.mensaje}`
           })
@@ -508,7 +554,6 @@ export default {
           alt: convenio.convenio.descripcion
         })
       })
-      //console.log(response.data)
     })
   },
   watch: {
@@ -516,6 +561,7 @@ export default {
       //console.log(newMethod)
       if (newMethod == 'BCNSD') {
         this.selectedConvenio = 'BCNSD'
+        this.getDetalleConvenio()
       } else {
         if (this.selectedConvenio == 'BCNSD') {
           this.selectedConvenio = ''
@@ -524,6 +570,7 @@ export default {
     },
     selectedConvenio: function(newConvenio) {
       this.rut = ''
+      this.password = ''
       this.selectedConvenioName = ''
       this.selectedSeats.forEach(seat => {
         //console.log(seat)
@@ -555,5 +602,10 @@ export default {
 
 .webpay-payment {
   width: 150px;
+}
+
+.linea
+{
+    display: inline-block;
 }
 </style>
