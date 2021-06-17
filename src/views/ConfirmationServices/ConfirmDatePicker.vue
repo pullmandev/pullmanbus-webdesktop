@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     lessThan45(date) {
-      const limit = moment().add(45, 'days')
+      const limit = moment().add(60, 'days')
       return moment(date).diff(limit, 'days') < 0
     }
   }
