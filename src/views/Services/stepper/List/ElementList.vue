@@ -120,7 +120,7 @@
                         ><b>$ {{ piso.tarifa }}</b></span
                       >
                       <span class="caption d-block"
-                        ><b>{{textoPrecioOferta}}</b></span
+                        ><b>{{service.glosaPromo}}</b></span
                       >
                       <span class="caption d-block"
                         ><b>Piso {{ piso.piso + 1 }}</b></span
@@ -198,7 +198,6 @@ export default {
       confirmTicketDialog: false,
       expand: false,
       rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }],
-      textoPrecioOferta : '',
       textoSalida : '',
       textoLlegada : ''
     }
@@ -213,8 +212,6 @@ export default {
     const data = response.data 
     console.log(data);
     data.forEach(item => {
-      if(item.llave == 'TEXTO_OFERTA') 
-      this.textoPrecioOferta = item.portalSeccContenidoI18ns.find(x => x.i18n == 'es').descripcion;
       if(item.llave == 'TEXTO_SALIDA') 
       this.textoSalida = item.portalSeccContenidoI18ns.find(x => x.i18n == 'es').descripcion;
       if(item.llave == 'TEXTO_LLEGADA') 
