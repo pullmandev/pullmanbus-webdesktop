@@ -104,6 +104,12 @@
                   style="text-decoration: none"
                   ><v-icon size="40" dark>mdi-instagram</v-icon></a
                 >
+                <a
+                  href="https://www.linkedin.com/company/22594345/admin/"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-linkedin</v-icon></a
+                >
               </span>
             </v-col>
           </v-row>
