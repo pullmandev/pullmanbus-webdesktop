@@ -1,9 +1,7 @@
 <template>
   <div>
     <Login :open="sessionDialog.dialogType === 'login' && sessionDialog.open" />
-    <SignUp
-      :open="sessionDialog.dialogType === 'signup' && sessionDialog.open"
-    />
+    <SignUp :open="sessionDialog.dialogType === 'signup' && sessionDialog.open" />
     <SendPassword
       :open="sessionDialog.dialogType === 'sendPassword' && sessionDialog.open"
     />
@@ -11,9 +9,7 @@
       :open="sessionDialog.dialogType === 'confirmation' && sessionDialog.open"
     />
     <ChangePassword
-      :open="
-        sessionDialog.dialogType === 'changePassword' && sessionDialog.open
-      "
+      :open="sessionDialog.dialogType === 'changePassword' && sessionDialog.open"
     />
   </div>
 </template>

@@ -3,7 +3,7 @@
     <!-- Principal View -->
     <div style="margin-top: 52px"></div>
     <Detail />
-    <div style="height: 150px; background: var(--var-light);"></div>
+    <!-- <div style="height: 150px; background: var(--var-light);"></div> -->
   </div>
 </template>
 <script>
@@ -31,8 +31,8 @@ export default {
 </script>
 
 <style lang="scss">
-.CouponBackground {
-  background: var(--var-light);
-  min-height: 95vh;
-}
+/*.CouponBackground {
+   background: var(--var-light);
+  min-height: 95vh; 
+}*/
 </style>

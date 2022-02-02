@@ -1,20 +1,19 @@
 <template v-if="direction">
-  <div>
+  <div class="calendar_container">
     <v-row dense>
       <v-col xs12 style="position: relative">
         <v-menu
           :close-on-content-click="true"
           transition="scale-transition"
           full-width
-          color="blue-dark"
+          color="blue_dark"
           max-width="290px"
           min-width="290px"
         >
           <template v-slot:activator="{ on }">
             <v-text-field
               v-on="on"
-              dark
-              color="grey lighten-4"
+              color="blue_dark"
               :label="languageChange"
               v-model="formatedDate"
               readonly
@@ -32,8 +31,8 @@
           >
           </v-date-picker>
         </v-menu>
-        <v-btn icon dark @click="clearDate" class="mt-3 pl-1 btn-picker">
-          <v-icon>clear</v-icon>
+        <v-btn icon @click="clearDate" style="margin-top: 17px" class="pl-1 btn-picker">
+          <v-icon color="orange_dark">clear</v-icon>
         </v-btn>
       </v-col>
     </v-row>
@@ -89,8 +88,7 @@ export default {
     localeChange() {
       this.firstDayOfweek = this.$i18n.locale === 'en' ? 0 : 1
       moment.locale(this.$i18n.locale)
-      if (this.userCalendar)
-        this.formatedDate = moment(this.userCalendar).format('LL')
+      if (this.userCalendar) this.formatedDate = moment(this.userCalendar).format('LL')
       return this.$t('locale')
     },
     languageChange() {
@@ -112,11 +110,23 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss">
+@import '@/sass/colors.scss';
 .btn-picker {
   position: absolute !important;
   top: 0;
   right: 0;
   margin-right: 2px !important;
+}
+.calendar_container {
+  .mdi-close {
+    color: $orange_dark !important;
+  }
+  input {
+    color: $blue_dark !important;
+  }
+  label {
+    color: $blue_dark !important;
+  }
 }
 </style>

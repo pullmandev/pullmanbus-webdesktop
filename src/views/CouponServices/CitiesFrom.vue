@@ -1,7 +1,7 @@
 <template v-if="direction">
   <div>
     <v-autocomplete
-      class="body-1"
+      class="cityFrom"
       :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
       dense
       :label="languageChange"
@@ -58,9 +58,7 @@ export default {
       }
     },
     languageChange() {
-      return this.direction === 'from'
-        ? this.$t('from_city2')
-        : this.$t('to_city2')
+      return this.direction === 'from' ? this.$t('from_city2') : this.$t('to_city2')
     }
   }
 }

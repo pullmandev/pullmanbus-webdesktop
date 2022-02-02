@@ -1,15 +1,15 @@
 <template>
   <div>
     <v-container class="center">
-      <v-card class="elevation-10 pt-5 pb-5">
+      <v-card class="elevation-10 pb-5">
         <v-container fluid>
           <v-form v-model="formSearch">
             <v-row class="pt-3">
-              <v-col cols="1" sm="12">
+              <v-col class="maxed" cols="1" sm="12">
                 <v-img src="../../../static/images/banner_pasajero.png" />
               </v-col>
-            </v-row>            
-            <v-row style="padding-top:20px;">
+            </v-row>
+            <v-row class="imgresp" style="padding-top:20px;">
               <v-col cols="6" sm="6" md="5" lg="4" offset-md="1" class="pt-0">
                 <v-text-field
                   light
@@ -25,10 +25,10 @@
                   maxLength="15"
                 ></v-text-field>
               </v-col>
-              <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
+              <v-col cols="6" sm="6" md="5" lg="4" class="pt-0 headline">
                 <v-btn
                   color="orange"
-                  class="white--text mr-5 md-5"
+                  class="white--text md-5"
                   @click="search()"
                   :disabled="!formSearch"
                   >Buscar</v-btn
@@ -36,30 +36,30 @@
               </v-col>
             </v-row>
           </v-form>
-          <v-form v-model="pasajero.validForm"  v-if="verBoleto">
-          <v-row>
-            <v-col>
-              <div class="title-passenger-data">
-                <v-row>
-                  <v-col lg="1">
-                    <v-img
-                      class="icono_persona"
-                      title=""
-                      src="../../../static/images/icono_persona.png"
-                    />
-                  </v-col>
-                  <v-col>
-                    <span
-                      ><h6 class="headline pt-1">
-                        DATOS PASAJERO
-                      </h6></span
-                    >
-                  </v-col>
-                </v-row>
-              </div>
-            </v-col>
-          </v-row>          
-            <v-row>
+          <v-form v-model="pasajero.validForm" v-if="verBoleto">
+            <v-row class="columnxs">
+              <v-col>
+                <div class="title-passenger-data">
+                  <v-row class="imgresp">
+                    <v-col lg="1" class="contimgperson">
+                      <v-img
+                        class="icono_persona"
+                        title=""
+                        src="../../../static/images/icono_persona.png"
+                      />
+                    </v-col>
+                    <v-col>
+                      <span
+                        ><h6 class="headline pt-1">
+                          DATOS PASAJERO
+                        </h6></span
+                      >
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-col>
+            </v-row>
+            <v-row class="columnxs">
               <v-col cols="6" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
                 <v-select
                   light
@@ -85,12 +85,8 @@
                   v-model="pasajero.numeroDocumento"
                   required
                   maxLength="20"
-                  :rules="
-                    pasajero.tipoDocumento === 'R' ? rutRules : [v => !!v || '']
-                  "
-                  @keypress="
-                    pasajero.tipoDocumento === 'R' ? validar($event, 'rut') : ''
-                  "
+                  :rules="pasajero.tipoDocumento === 'R' ? rutRules : [v => !!v || '']"
+                  @keypress="pasajero.tipoDocumento === 'R' ? validar($event, 'rut') : ''"
                   v-on:blur="searchPassengerData(pasajero)"
                 ></v-text-field>
               </v-col>
@@ -169,7 +165,7 @@
                   @keypress="validar($event, 'telefono')"
                   :rules="[v => !!v || '']"
                 ></v-text-field>
-              </v-col>              
+              </v-col>
               <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
                 <v-text-field
                   light
@@ -201,16 +197,20 @@
                   :rules="[v => !!v || '']"
                 ></v-autocomplete>
               </v-col>
-               <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
+              <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on, attrs }">
                     <v-icon color="primary" dark v-bind="attrs" v-on="on">
                       mdi-information-outline
                     </v-icon>
                   </template>
-                  <span>Este campo debe ser llenado con la comuna de su hogar, la comuna de su trabajo o la comuna que se encuentra visitando previamente al viaje.</span>
+                  <span
+                    >Este campo debe ser llenado con la comuna de su hogar, la comuna de
+                    su trabajo o la comuna que se encuentra visitando previamente al
+                    viaje.</span
+                  >
                 </v-tooltip>
-              </v-col>             
+              </v-col>
               <v-col cols="6" sm="6" md="5" lg="3" class="pt-0">
                 <v-autocomplete
                   light
@@ -233,7 +233,11 @@
                       mdi-information-outline
                     </v-icon>
                   </template>
-                  <span>Este campo debe ser llenado con la comuna donde residirá en destino, la comuna donde trabajará en el destino o la comuna que visitará en el destino.</span>
+                  <span
+                    >Este campo debe ser llenado con la comuna donde residirá en destino,
+                    la comuna donde trabajará en el destino o la comuna que visitará en el
+                    destino.</span
+                  >
                 </v-tooltip>
               </v-col>
               <v-col cols="6" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
@@ -274,7 +278,7 @@
                   </v-card>
                 </v-dialog-->
               </v-col>
-              <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
+              <v-col cols="6" sm="6" md="5" lg="4" class="pt-0 headline">
                 <v-btn
                   outlined
                   class="grey--text mr-5 md-5"
@@ -326,10 +330,7 @@ export default {
         dialog: false
       },
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       listaTipoDocumento: [],
       listaNacionalidad: [],
       listaComuna: []
@@ -337,8 +338,8 @@ export default {
   },
   mounted() {
     const ticket = this.$route.params.boleto
-    this.boleto = ticket === undefined ? '' : ticket  
-    this.search();  
+    this.boleto = ticket === undefined ? '' : ticket
+    this.search()
     APIPassenger.getDocumentTypeList()
       .then(response => {
         if (response.data) {
@@ -374,27 +375,27 @@ export default {
       })
   },
   methods: {
-    async search(){
-      this.verBoleto = false;
-        if(this.boleto != ''){
-            APIPassenger.getPassengerDataByTicket(this.boleto)
-            .then(response => {
-                if(response.data.mensaje.exito){
-                    this.pasajero = {...response.data.registro}
-                    this.pasajero.numeroDocumento = this.pasajero.documento
-                    this.verBoleto = true;
-                }else{
-                    this.$notify({
-                        group: 'error',
-                        title: response.data.mensaje.mensaje,
-                        type: 'error'
-                    })
-                }                
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        }
+    async search() {
+      this.verBoleto = false
+      if (this.boleto != '') {
+        APIPassenger.getPassengerDataByTicket(this.boleto)
+          .then(response => {
+            if (response.data.mensaje.exito) {
+              this.pasajero = { ...response.data.registro }
+              this.pasajero.numeroDocumento = this.pasajero.documento
+              this.verBoleto = true
+            } else {
+              this.$notify({
+                group: 'error',
+                title: response.data.mensaje.mensaje,
+                type: 'error'
+              })
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
     },
     async searchPassengerData() {
       let passenger = {
@@ -419,40 +420,40 @@ export default {
         })
     },
     async savePassengerData() {
-        let passenger = {
-            boleto : this.boleto,
-            comunaDestino : this.pasajero.comunaDestino,
-            comunaOrigen : this.pasajero.comunaOrigen,
-            documento : this.pasajero.numeroDocumento,
-            email : this.pasajero.email,
-            nacionalidad : this.pasajero.nacionalidad,
-            nombre : this.pasajero.nombre,
-            apellido : this.pasajero.apellido,
-            telefono : this.pasajero.telefono,
-            telefonoEmergencia : this.pasajero.telefonoEmergencia,
-            tipoDocumento : this.pasajero.tipoDocumento
-        }
-        APIPassenger.savePassengerDataTicket(passenger)
+      let passenger = {
+        boleto: this.boleto,
+        comunaDestino: this.pasajero.comunaDestino,
+        comunaOrigen: this.pasajero.comunaOrigen,
+        documento: this.pasajero.numeroDocumento,
+        email: this.pasajero.email,
+        nacionalidad: this.pasajero.nacionalidad,
+        nombre: this.pasajero.nombre,
+        apellido: this.pasajero.apellido,
+        telefono: this.pasajero.telefono,
+        telefonoEmergencia: this.pasajero.telefonoEmergencia,
+        tipoDocumento: this.pasajero.tipoDocumento
+      }
+      APIPassenger.savePassengerDataTicket(passenger)
         .then(response => {
-            if(response.data.exito){
-                this.$notify({
-                    group: 'info',
-                    title: 'Datos modificados correctamente.',
-                    type: 'info'
-                })
-                this.clearPassengerData('ALL');
-                this.verBoleto = false;
-                window.scroll(0, 0)
-            }else{
-                this.$notify({
-                    group: 'error',
-                    title: 'Error al modificar datos.',
-                    type: 'error'
-                })
-            }
+          if (response.data.exito) {
+            this.$notify({
+              group: 'info',
+              title: 'Datos modificados correctamente.',
+              type: 'info'
+            })
+            this.clearPassengerData('ALL')
+            this.verBoleto = false
+            window.scroll(0, 0)
+          } else {
+            this.$notify({
+              group: 'error',
+              title: 'Error al modificar datos.',
+              type: 'error'
+            })
+          }
         })
         .catch(err => {
-            console.log(err)
+          console.log(err)
         })
     },
     clearPassengerData(option) {
@@ -514,5 +515,29 @@ export default {
   font-size: 20px;
   color: #a0a0a0;
   text-align: center;
+}
+@media (max-width: 750px) {
+  .imgresp{
+    align-items: center;
+    flex-direction: column;
+  }
+  .columnxs{
+    flex-direction: column;
+  }
+  .contimgperson{
+    max-width: 50%;
+  }
+
+  .pt-0{
+    max-width: 100% !important;
+  }
+  .maxed{
+    max-width: 100% !important;
+  }
+}
+@media (max-width: 960px) {
+  .contimgperson{
+    max-width: 20%;
+  }
 }
 </style>

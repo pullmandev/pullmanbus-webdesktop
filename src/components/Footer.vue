@@ -12,13 +12,9 @@
               <span class="body-1 d-block">Escríbenos</span>
               <div class="d-flex align-center">
                 <div>
-                  <v-img
-                    src="../../static/logos/Iconos-33.png"
-                    height="30"
-                    width="30"
-                  />
+                  <v-img src="../../static/logos/Iconos-33.png" height="20px" width="20px" />
                 </div>
-                <span class="body-2">info@pullmanbus.cl</span>
+                <span id="infopullman" class="body-2">Contacto@pullmanbus.cl</span>
               </div>
             </v-col>
             <v-col cols="12">
@@ -61,11 +57,7 @@
                 style="display: flex; height: 100%; align-items: center;"
               >
                 <template v-slot:activator="{ on }">
-                  <v-btn
-                    class="white--text body-2 capitalize pa-0"
-                    text
-                    v-on="on"
-                  >
+                  <v-btn class="white--text body-2 capitalize pa-0" text v-on="on">
                     Menu
                     <v-icon>mdi-chevron-right</v-icon>
                   </v-btn>
@@ -104,12 +96,6 @@
                   style="text-decoration: none"
                   ><v-icon size="40" dark>mdi-instagram</v-icon></a
                 >
-                <a
-                  href="https://www.linkedin.com/company/22594345/admin/"
-                  target="_blank"
-                  style="text-decoration: none"
-                  ><v-icon size="40" dark>mdi-linkedin</v-icon></a
-                >
               </span>
             </v-col>
           </v-row>
@@ -133,10 +119,7 @@
       <div class="orange_dark px-5">
         <v-card-text class="white--text pb-1">
           <div :class="{ 'd-flex justify-space-between': !breakPoints }">
-            <span
-              >Todos los derechos reservados,
-              {{ new Date().getFullYear() }}</span
-            >
+            <span>Todos los derechos reservados, {{ new Date().getFullYear() }}</span>
             <span :class="{ 'd-block': breakPoints }">
               Desarrollada por Wit innovación y tecnología spa
             </span>
@@ -177,5 +160,8 @@ export default {
   text-decoration: none;
   color: white;
   margin-bottom: 0.5rem;
+}
+#infopullman{
+  margin-left: 4px;
 }
 </style>

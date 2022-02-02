@@ -17,9 +17,22 @@ export default {
   getFaqs() {
     return axios.get(obtenerFaq)
   },
-  getMotivoContacto() {
-    return axios.get(buscarMotivoContacto)
+
+  async getMotivoContacto() {
+    try {
+      const { status, data } = await axios.get(buscarMotivoContacto)
+
+      if (status === 200) return data
+      else {
+        console.warn('WARN-GET-MOTIVO-CONTACTO ->', data)
+        return null
+      }
+    } catch (error) {
+      console.error('ERROR-GET-MOTIVO-CONTACTO ->', error.message)
+      return null
+    }
   },
+
   getCities(params) {
     return axios.post(obtenerCiudades, params)
   },

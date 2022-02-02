@@ -28,7 +28,7 @@
                 color="blue_dark"
                 @click="Consult"
               >
-                <span>Consultar</span>
+                <span>{{ $t('consult') }}</span>
               </v-btn>
             </v-col>
           </v-row>
@@ -108,9 +108,7 @@ export default {
     },
     clear() {
       const { usuario } = this.userData
-      this.date = moment(usuario.fechaNacimiento, 'DD-MM-YYYY').format(
-        'YYYY-MM-DD'
-      )
+      this.date = moment(usuario.fechaNacimiento, 'DD-MM-YYYY').format('YYYY-MM-DD')
       this.name = ''
       this.movil = ''
       this.doc_type = ''

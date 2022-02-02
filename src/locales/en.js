@@ -1,6 +1,96 @@
 export default {
   en: 'English',
   es: 'Spanish',
+  business_client: 'BUSINESS CLIENT',
+  confirmation: {
+    header: 'Ticket confirmation',
+    drawer: 'Ticket confirmation',
+    form: 'Ticket Confirmation',
+    content:
+      'Complete the data to confirm the day and time of your blank ticket. The confirmation must be at least 4 hours before the departure of the bus. Remember that the blank ticket has a maximum duration of 6 months from the date of purchase.',
+    enter: 'ENTER YOUR SERVICE TO CONFIRM:'
+  },
+  changeTicket: {
+    drawer: 'Ticket change',
+    form: 'Change your tickets',
+    content:
+      'If you cannot travel, change the day and time of your ticket up to 4 hours before the bus departs.',
+    enter: 'ENTER THE NUMBER YOU WANT TO CHANGE:',
+    enter_data: 'ENTER THE DATA TO CHANGE THE TICKET:'
+  },
+  agencies: {
+    drawer: 'Agencies',
+    form: 'Find your nearest agency',
+    enter: 'CLICK ON THE REGION TO KNOW ITS AGENCIES'
+  },
+  special_trips: {
+    drawer: 'Special trips',
+    content:
+      'If you want to quote an exclusive transport service for individuals, companies, foundations, sports clubs, etc. write to us and we will contact you.',
+    form: 'Contact us to request Special Trips',
+    description: 'Trip description'
+  },
+  central_coast: {
+    drawer: 'Coupon',
+    content:
+      'If you are a frequent user of our services to the Central Coast, obtain a preferential rate and accumulate points with each trip. Enter your information to see if you are a candidate for the coupon.',
+    form: 'ENTER DESTINATIONS FOR COUPONER AVAILABILITY:'
+  },
+  ctaCte: {
+    drawer: 'Checking Account Request',
+    content:
+      'Enter your information to request your Checking Account.',
+    form: 'CURRENT ACCOUNT APPLICATION',
+    updown:'Current Account'
+  },
+  home_text: {
+    pets: 'SELECT ONBOARD PET SERVICES',
+    news: {
+      title: 'NEWS AND UPDATES',
+      sub: 'Find out about our services, agreements and others'
+    },
+    travels: {
+      title: 'Traveling through Chile',
+      sub:
+        'Meet places, species, events, food and characters of our long and beautiful country.'
+    }
+  },
+  footer_text: {
+    address: 'Address: San Borja 235, Central Station, Santiago',
+    privacy: 'Privacy policy',
+    terms: 'Ticket terms and conditions',
+    search_us: 'Search us in:',
+    pay: 'Secure payment:',
+    others: 'Other Pullman group companies'
+  },
+  login_text: {
+    description: 'Hello! Login to your account in a few steps'
+  },
+  sign_up_text: {
+    description: 'Join up! Enter your details to get an account',
+    man: 'Man',
+    woman: 'Woman'
+  },
+  services_text: {
+    internet: 'Internet promotion',
+    departure: 'Departure',
+    arrival: 'Arrival',
+    add: 'Add',
+    total_pay: 'Total to pay',
+    pay_resume: 'Purchase Summary',
+    normal_price: 'Normal price',
+    discount: 'Discount',
+    conv: 'Agreements',
+    discount_conv: 'Discounts agreement',
+    name_conv: 'Agreement name',
+    saving: 'Your savings',
+    methods: 'Methods',
+    validation: 'Validation',
+    validate: 'Validate'
+  },
+  news: 'NEWS',
+  consult: 'Consult',
+  erase: 'Erase',
   download: 'Download',
   welcome: 'Welcome',
   contact: 'Contact',
@@ -84,7 +174,7 @@ export default {
   price_range: 'Price range',
   closing_hour: 'Closing hour',
   company: 'Company',
-  outbound_service: 'Outbound service',
+  outbound_service: 'Going',
   to: 'to',
   congratulations: 'Congratulations',
   success_buy: 'Your purchase has been made successfully',
@@ -100,6 +190,8 @@ export default {
   floor: 'Floor',
   floors: 'Floors',
   price: 'Price',
+  normal_price: 'Normal price',
+  final_price: 'Final price',
   prices: 'Prices',
   classes: 'Classes',
   selected_seats: 'Selected',
@@ -148,6 +240,7 @@ export default {
   state: 'State',
   purchase_date: 'Purchase date',
   ticket: 'Ticket',
+  tickets: 'Tickets',
   date: 'Date',
   value: 'Value',
   update_data: 'Update data',
@@ -291,14 +384,102 @@ export default {
   privacy_document11:
     'THE USER FORMALLY DECLARES THAT I KNOW AND ACCEPT THIS PRIVACY POLICY AND THE RIGHTS THAT I GIVE TO TRAVEL BY BUS.',
   seat_title: 'Select seat',
-  select_origin : 'You must select depart city',
-  select_destination : 'You must select arrive city',
+  select_origin: 'You must select depart city',
+  select_destination: 'You must select arrive city',
   success_change: 'Your change has been made successfully',
-  fail_title_change : 'We are sorry',
-  fail_detail_change : 'It was not possible to change the ticket',
+  fail_title_change: 'We are sorry',
+  fail_detail_change: 'It was not possible to change the ticket',
   selected_pet_seats: 'Selected',
   reserved_pet_seats: 'Reserved',
   available_pet_seats: 'Available',
   pet_service: 'Pet Service',
-  releasing_seat: 'Releasing seat'
+  releasing_seat: 'Releasing seat',
+  pass: {
+    title: 'PULLMAN PASS CARD BENEFITS',
+    button: 'GET PULLMAN PASS',
+    description: `See for yourself, because every time you buy your tickets in Pullman
+    Bus and present your frequent customer card you will be accumulating points
+    so you can travel completely "FREE". To access the select
+    Club pullman Pass and start enjoying all our benefits,
+    You just have to fill out the registration form in one of our
+    qualified agencies and you are a member ........... SO SIMPLE!`,
+    li1: 'There is no maintenance charge for being a Pullman Pass member.',
+    li2: 'You get a discount on the purchase of tickets.',
+    li3: 'You accumulate points for each ticket purchase you make.',
+    data0: {
+      title: 'How to enroll in the Pullman Pass program?',
+      content:
+        '<p>You only have to complete the registration form in our offices enabled throughout the country.</p>'
+    },
+    data1: {
+      title: 'How to collect points?',
+      content:
+        '<p>Presenting your Pullman Pass card and your identity card, when shopping in our agencies.</p>'
+    },
+    data2: {
+      title: 'How to redeem points?',
+      content: `<p>You only have to request the exchange at the authorized points of sale,
+        presenting your Pullman Pass card and your identity card.</p>`
+    },
+    data3: {
+      title: 'How can I check how many points I have accumulated?',
+      content:
+        '<p>In authorized agencies, with your Rut or Pullman Pass card, or by calling 600 660 0011.</p>'
+    },
+    data4: {
+      title: 'What validity the points have?',
+      content: `
+        <p>
+          Points are valid for one year from the date of purchase.
+        </p>
+        <p>
+          All points accumulated up to February 28, 2009 are excluded from this condition. These will be valid until August 31, 2009.
+        </p>
+      `
+    },
+    data5: {
+      title: 'Can someone else use my points?',
+      content: `
+        <p>
+          Pullman Pass benefits are personal and non-transferable.
+          Therefore, when exchanging points for tickets,
+          these can only be used by the cardholder.
+        </p>
+        <p>
+          All benefits apply only to the holder's tickets
+          of the membership card.
+        </p>
+        <p>
+          Don't forget to show your Pullman Pass on all your purchases at
+          Pullman Bus.
+        </p>
+      `
+    }
+  },
+  nro_phone: 'Phone number',
+  contactme: 'Contact Us',
+  enter_account: 'Login to your account',
+  register_here: 'You do not have an account? Sign up here',
+  no_location: 'Location not available',
+  // TODO: Traducir textos a ingles
+  viewContact: {
+    title: 'Contact',
+    fields: {
+      document: 'N° Document',
+      name: 'Name',
+      lastname: {
+        paternal: 'Mother Lasname',
+        maternal: 'Paternal Lasname'
+      },
+      email: 'Email',
+      ticket: 'N° Ticket',
+      phone: 'Phone number',
+      select1: 'My request is',
+      select2: 'The reason for my request is',
+      select3: 'The option tha best describes my request',
+      add_file: 'Attached files (Maximum 3 files)',
+      note: 'Note',
+      message: 'Message'
+    }
+  }
 }

@@ -11,9 +11,7 @@
               <p>{{ $t('fail_detail_change') }}</p>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <div
-                class="page-icon text-center d-flex align-center justify-center"
-              >
+              <div class="page-icon text-center d-flex align-center justify-center">
                 <v-icon size="70" class="white--text">clear</v-icon>
               </div>
             </v-col>

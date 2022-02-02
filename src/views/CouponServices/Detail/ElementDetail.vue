@@ -3,7 +3,13 @@
     <v-row v-if="requiereAutenticacion">
       <v-col cols="12" sm="12" md="8" offset-md="2">
         <v-card class="mt-12">
-          <v-toolbar dense class="elevation-0" dark color="blue_light" id="IdentificationSection">
+          <v-toolbar
+            dense
+            class="elevation-0"
+            dark
+            color="blue_light"
+            id="IdentificationSection"
+          >
             <v-toolbar-title>
               <span class="title ml-3">Autenticación</span>
             </v-toolbar-title>
@@ -22,7 +28,7 @@
                   :rules="rutRules"
                   required
                   maxLength="10"
-                  @keypress="validar($event,'rut')"
+                  @keypress="validar($event, 'rut')"
                 ></v-text-field>
                 <v-text-field
                   filled
@@ -56,36 +62,55 @@
     <v-row>
       <v-col cols="12" sm="12" md="8" offset-md="2">
         <v-card class="mt-12">
-          <v-toolbar dense class="elevation-0" dark color="blue_light" id="ServiceToolbar">
-            <v-toolbar-title>
-              <span class="title ml-3">Detalle Cuponera</span>
-            </v-toolbar-title>
-          </v-toolbar>
           <v-card-text>
             <v-container>
-              <table id="tblCupon">
+              <h2 class="my-6 blue_dark--text">Detalle Cuponera</h2>
+              <table class="xim-tabla-cuponera xd">
                 <tr>
-                  <th class="leftText">Empresa</th>
-                  <th class="leftText">Programa</th>
-                  <th class="leftText">Servicio</th>
-                  <th class="leftText">Ruta</th>
-                  <th class="leftText">Boletos</th>
-                  <th class="leftText">Distribucion</th>
-                  <th class="rightText">Valor</th>
+                  <th>Empresa</th>
+                  <th>Programa</th>
+                  <th>Boletos Ida</th>
+                  <th>Boletos Vuelta</th>
+                  <th>Valor</th>
                 </tr>
                 <tr>
-                  <td class="leftText">
-                    <img
-                      :src="'data:image;base64,' + cupon.empresaLogo"
-                      class="service-company-image"
-                      :title="cupon.empresaDescripcion"/>
-                  </td>
-                  <td class="leftText">{{ cupon.programa }}</td>
-                  <td class="leftText">{{ cupon.claseDescripcion }}</td>                  
-                  <td class="leftText">{{ cupon.rutaDescripcion }}</td>
-                  <td class="leftText"><b>{{ cupon.boletos}}</b></td>
-                  <td class="leftText">{{ cupon.distribucion }}</td>
-                  <td class="rightText">{{ cupon.total | currency }}</td>
+                  <td>{{ cupon.origenNombre + " - " + cupon.destinoNombre }}</td>
+                  <td>{{ cupon.programa }}</td>
+                  <td>{{ cupon.cantidadIda }} </td>
+                  <td>{{ cupon.cantidadVuelta }}</td>
+                  <td>{{ cupon.total | currency }}</td>
+                </tr>
+              </table>
+              <table class="xim-tabla-cuponera xm">
+                <tr>
+                  <th>Empresa</th>
+                </tr>
+                <tr>
+                  <td>{{ cupon.origenNombre + " - " + cupon.destinoNombre }}</td>
+                </tr>
+                <tr>
+                  <th>Programa</th>
+                </tr>
+                <tr>
+                  <td>{{ cupon.programa }}</td>
+                </tr>
+                <tr>
+                  <th>Boletos Ida</th>
+                </tr>
+                <tr>
+                  <td>{{ cupon.cantidadIda }}</td>
+                </tr>
+                <tr>
+                  <th>Boletos Vuelta</th>
+                </tr>
+                <tr>
+                  <td>{{ cupon.cantidadVuelta }}</td>
+                </tr>
+                <tr>
+                  <th>Valor</th>
+                </tr>
+                <tr>
+                  <td>{{ cupon.total | currency }}</td>
                 </tr>
               </table>
             </v-container>
@@ -96,38 +121,31 @@
     <v-row v-if="showPaymentPanel">
       <v-col cols="12" sm="12" md="8" offset-md="2">
         <v-card class="mt-12">
-          <v-toolbar dense class="elevation-0" dark color="blue_light" id="PaySection">
-            <v-toolbar-title>
-              <span class="title ml-3">Medio de Pago</span>
-            </v-toolbar-title>
-          </v-toolbar>
           <v-card-text>
             <v-container>
+              <h2 class="my-6 blue_dark--text">Medio de Pago</h2>
               <v-form class="mt-5" v-model="validForm2">
                 <v-row>
-                  <v-col cols="4">
+                  <v-col cols="12" md="6">
                     <v-text-field
                       ref="email"
-                      filled
-                      outlined
                       dense
                       v-model="email"
                       label="Email"
                       outline-1
-                      color="blue"
+                      color="blue-dark"
                       :rules="emailRules"
                       @input="
-                  v => {
-                    this.emailconfirmError = this.confirmemail.toUpperCase() !== v.toUpperCase()
-                  }
-                "
+                        v => {
+                          this.emailconfirmError =
+                            this.confirmemail.toUpperCase() !== v.toUpperCase()
+                        }
+                      "
                       required
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="12" md="6">
                     <v-text-field
-                      filled
-                      outlined
                       dense
                       v-model="confirmemail"
                       @paste.prevent
@@ -138,10 +156,11 @@
                       :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
                       :error="emailconfirmError"
                       @input="
-                  v => {
-                    this.emailconfirmError = this.email.toUpperCase() !== v.toUpperCase()
-                  }
-                "
+                        v => {
+                          this.emailconfirmError =
+                            this.email.toUpperCase() !== v.toUpperCase()
+                        }
+                      "
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -149,12 +168,14 @@
               <v-row cols="12" sm="12" md="8">
                 <v-col>
                   <v-radio-group v-model="payMethod" :mandatory="true" row>
-                    <v-col :key="index" v-for="(item, index) in payments" md="4">
+                    <v-col :key="index" v-for="(item, index) in payments" md="12">
                       <v-row>
-                        <v-col cols="1">
-                          <v-radio color="orange_dark" label :value="item.value" />
+                        <v-col cols="5" md="10">
+                          <div class="xim-ah">
+                            <v-radio color="orange_dark" label :value="item.value" />
+                          </div>
                         </v-col>
-                        <v-col cols="11">
+                        <v-col cols="5" md="2">
                           <v-img
                             width="100px"
                             :src="`data:image/png;base64,${item.img}`"
@@ -179,9 +200,7 @@
                     <label class="subheading">
                       {{ $t('read_terms1') }}
                       <span class="termLink" @click="dialog = true">
-                        {{
-                        $t('read_terms2')
-                        }}
+                        {{ $t('read_terms2') }}
                       </span>
                       {{ $t('read_terms3') }}
                     </label>
@@ -194,7 +213,8 @@
                     :disabled="disabledButton"
                     :loading="loadingPayAction"
                     @click="pay"
-                  >{{ $t('continue') }}</v-btn>
+                    >{{ $t('continue') }}</v-btn
+                  >
                 </div>
               </v-form>
             </v-container>
@@ -215,11 +235,11 @@
                 </v-toolbar>
                 <v-card-text>
                   <v-container>
-                  <div class="justifyText">
-                  <p class="title text-center my-4"><b>Términos y condiciones</b></p>
-                  <div contenteditable="true" v-html="condiciones"></div>
-                  <!--{{ cupon.condiciones }}-->
-                  </div>
+                    <div class="justifyText">
+                      <p class="title text-center my-4"><b>Términos y condiciones</b></p>
+                      <div contenteditable="true" v-html="condiciones"></div>
+                      <!--{{ cupon.condiciones }}-->
+                    </div>
                   </v-container>
                 </v-card-text>
               </v-card>
@@ -261,16 +281,14 @@ export default {
       email: '',
       confirmemail: '',
       emailconfirmError: false,
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
-      requiereAutenticacion:false,
-      condiciones:''
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
+      requiereAutenticacion: false,
+      condiciones: '',
+       forLS:JSON.parse(localStorage.getItem("vuex"))
     }
-  },  
+  },
   computed: {
-     ...mapGetters({
+    ...mapGetters({
       cupon: ['getCupon']
     }),
     disabledButton() {
@@ -285,22 +303,22 @@ export default {
   components: {},
   mounted() {
     //console.log('cupon : ', this.cupon)
-    this.requiereAutenticacion = this.cupon.requiereAutenticacion;
-    if(this.requiereAutenticacion){
-      this.showPaymentPanel = false;
-    }else{
-      this.showPaymentPanel = true;
+    this.requiereAutenticacion = this.cupon.requiereAutenticacion
+    if (this.requiereAutenticacion) {
+      this.showPaymentPanel = false
+    } else {
+      this.showPaymentPanel = true
     }
-    this.condiciones = this.cupon.condiciones;
+    this.condiciones = this.cupon.condiciones
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.onResize)
   },
   methods: {
-    async validate() {   
-      this.email = ""
-      this.confirmemail = ""
-      this.showPaymentPanel = false   
+    async validate() {
+      this.email = ''
+      this.confirmemail = ''
+      this.showPaymentPanel = false
       this.loading = true
       this.$notify({
         group: 'load',
@@ -308,57 +326,58 @@ export default {
         type: 'info'
       })
       let user = {
-        "rut": this.rut,
-        "clave": this.password,
-        "integrador":1001
-      }      
+        rut: this.rut,
+        clave: this.password,
+        integrador: 1001
+      }
       API.validaUsuario(user)
-      .then(response => {        
-        if(response.data.valido){
-          if(response.data.programa == this.cupon.programa){
-            //console.log(response.data);
-            this.showPaymentPanel = true
-            this.email = response.data.mailVenta.toUpperCase()           
-            this.$nextTick(function () {
-              const theElement = this.$refs['email'].$el
-              const input = theElement.querySelector('input:not([type=hidden])')
-              if (input) {
-                setTimeout(() => {
-                  input.focus()
-                }, 0)
-              }
-            });
-          }else{
+        .then(response => {
+          if (response.data.valido) {
+            if (response.data.programa == this.cupon.programa) {
+              //console.log(response.data);
+              this.showPaymentPanel = true
+              this.email = response.data.mailVenta.toUpperCase()
+              this.$nextTick(function() {
+                const theElement = this.$refs['email'].$el
+                const input = theElement.querySelector('input:not([type=hidden])')
+                if (input) {
+                  setTimeout(() => {
+                    input.focus()
+                  }, 0)
+                }
+              })
+            } else {
+              this.$notify({
+                group: 'error',
+                title: 'Usuario, no pertenece al programa ' + this.cupon.programa,
+                type: 'error'
+              })
+            }
+          } else {
             this.$notify({
-            group: 'error',
-            title: "Usuario, no pertenece al programa " + this.cupon.programa,
-            type: 'error'
+              group: 'error',
+              title: 'Error de Autenticación',
+              type: 'error'
             })
-          }          
-        }else{
-          this.$notify({
-          group: 'error',
-          title: "Error de Autenticación",
-          type: 'error'
-          })
-        }  
-      })
-      .catch(err => {
-        console.error(err)
-      })
-      .finally(() => {
-        this.loading = false        
-      })  
+          }
+        })
+        .catch(err => {
+          console.error(err)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     async pay() {
+      console.log('PAGAR.........');
       this.loadingPayAction = true
-        this.makeTransaccion()
+      this.makeTransaccion()
         .then(data => {
           this.$store.dispatch('SET_CAN_DOWNLOAD', {
             permission: 'OK',
             type: 'permission'
           })
-          if(data.exito){
+          if (data.exito) {
             setTimeout(() => {
               const { url, token } = data
               let f = document.createElement('form')
@@ -380,50 +399,63 @@ export default {
           console.log(err)
         })
         .finally(() => (this.loadingPayAction = false))
-  },
-  async makeTransaccion() {
-    let transactionParams = {
-      "integrador":1001,
-      "idSistema":7,
-      "programa": this.cupon.programa,
-      "valor":  this.cupon.valorBoleto,
-      "origen": this.cupon.idOrigen,
-      "origenDescripcion":this.cupon.origenNombre,
-      "destino": this.cupon.idDestino,
-      "destinoDescripcion": this.cupon.destinoNombre,
-      "cantidad": this.cupon.cantidad,
-      "boletos": this.cupon.boletos,
-      "tipoCliente": "PPS",
-      "bus": this.cupon.ruta,
-      "empresa": this.cupon.empresa,
-      "empresaDescripcion": this.cupon.empresaDescripcion,
-      "rut": this.rut,
-      "email":this.email,
-      "medioDePago":"WBPAY",      
-      "clase": this.cupon.clase
-    }
-    //console.log(transactionParams)
-    const response = await APITransaction.postCoupon(transactionParams)
-    //console.log(response.data)
-    return response.data
-    
     },
-     validar(tecla, tipo) {
-      let patron;
-      switch (tipo) {
-      case 'rut': patron = /[\dKk-]/; break //Solo acepta números, K y guion    
+    async makeTransaccion() {
+      
+      let rutUser = ''
+
+      console.log('USER::',this.forLS.userCoupon);
+
+      if(this.forLS.userCoupon.active === true){
+         rutUser = this.forLS.userCoupon.documento;
+      }else{
+         rutUser = this.forLS.userData.rut;
       }
-      var charCode = (tecla.which) ? tecla.which : tecla.keyCode;
+
+      let transactionParams = {
+        integrador: 1000,
+        idSistema: 7,
+        clase: this.cupon.tipoBus,
+        boletos: this.cupon.cantidad,
+        programa: this.cupon.programa,
+        valor: this.cupon.total,
+        origen: this.cupon.origen,
+        origenDescripcion: this.cupon.origenNombre,
+        destino: this.cupon.destino,
+        destinoDescripcion: this.cupon.destinoNombre,
+        cantidad: this.cupon.cantidad,
+        tipoCliente: 'PPS',
+        bus: this.cupon.tipoBus,
+        empresa: this.cupon.empresa,
+        empresaDescripcion: this.cupon.empresaDescripcion,
+        rut: rutUser,
+        email: this.email,
+        medioDePago: 'WBPAY',
+        idCuponera: this.cupon.idCuponera
+      }
+      //console.log(transactionParams)
+      const response = await APITransaction.postCoupon(transactionParams)
+      //console.log(response.data)
+      return response.data
+    },
+    validar(tecla, tipo) {
+      let patron
+      switch (tipo) {
+        case 'rut':
+          patron = /[\dKk-]/
+          break //Solo acepta números, K y guion
+      }
+      var charCode = tecla.which ? tecla.which : tecla.keyCode
       if (charCode != 8) {
-        let aux = String.fromCharCode(charCode);
+        let aux = String.fromCharCode(charCode)
         //console.log(patron.test(aux));
-        if(patron.test(aux)){
+        if (patron.test(aux)) {
           return true
-        }else{
-          tecla.preventDefault();
+        } else {
+          tecla.preventDefault()
         }
       } else {
-        return true;
+        return true
       }
     }
   },
@@ -446,11 +478,32 @@ export default {
 </script>
 
 <style>
-#tblCupon {
+.xd {
+  display: table;
+}
+.xm { 
+  display: none;
   width: 100%;
 }
-#tblCupon td {
-  padding: 5px;
+.xim-ah {
+  display: flex;
+  justify-content: flex-end;
+  align-content: center;
+  width: 100%;
+  height: 100%;
+}
+.xim-tabla-cuponera {
+  width: 100%;
+}
+.xim-tabla-cuponera th { 
+  text-align: left;
+  padding: 10px 0;
+  color:#0078DB;
+  font-weight: 900;
+}
+.xim-tabla-cuponera td {
+  text-align: left;
+  padding: 10px 0;
 }
 .checkbox {
   display: inline-block !important;
@@ -458,13 +511,26 @@ export default {
 .termLink {
   color: var(--var-blue_light);
   text-decoration: underline;
-}.termLink:hover {
+}
+.termLink:hover {
   cursor: pointer;
 }
 .webpay-payment {
   width: 150px;
 }
-input{
-  text-transform: uppercase
+input {
+  text-transform: uppercase;
+}
+@media (max-width: 530px) {
+  .xd {
+    display: none;
+    width: 100%;
+  }
+  .xm { 
+    display: table;
+  }
+  .xim-tabla-cuponera td { 
+    padding: 0!important;
+  }
 }
 </style>

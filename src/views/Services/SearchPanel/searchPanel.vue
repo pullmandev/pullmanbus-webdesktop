@@ -80,7 +80,7 @@ export default {
   watch: {
     fromCity(value) {
       let searchingCity = value.codigo
-        this.$store.dispatch('LOAD_CITIES_TO_LIST', {
+      this.$store.dispatch('LOAD_CITIES_TO_LIST', {
         searchingCity
       })
     },
@@ -142,5 +142,10 @@ export default {
 
 .font {
   font-family: Poppins regular;
+}
+@media (max-width: 960px){
+  .col-10{
+    max-width: 100%;
+  }
 }
 </style>

@@ -24,11 +24,7 @@
             navigationEnabled
             :paginationEnabled="false"
           >
-            <slide
-              v-for="(item, i) of items"
-              :key="i"
-              class="d-flex justify-center"
-            >
+            <slide v-for="(item, i) of items" :key="i" class="d-flex justify-center">
               <v-card max-width="300" min-width="200" max-height="500">
                 <a :href="item.url" target="_blank">
                   <v-img

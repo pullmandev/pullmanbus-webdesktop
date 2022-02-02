@@ -22,13 +22,14 @@ export default {
     banner: Boolean
   },
   async mounted() {
-    let params = { "portal": { "id": 7 }, "portalSeccion": { "id": "3" } };
-    const response = await API.getContenidoSeccion(params) 
-    const data = response.data  
-    console.log(data) 
+    let params = { "portal": { "id": 7 }, "portalSeccion": { id: "3" } }
+    const response = await API.getContenidoSeccion(params)
+    const data = response.data
+    console.log(data)
     data.forEach(item => {
       if(item.llave == 'BANNER')
-      this.imagen = item.imagen
+        this.imagen = item.imagen
+
     });
   }
 }

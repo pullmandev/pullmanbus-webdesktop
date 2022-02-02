@@ -11,23 +11,20 @@
               <p>Orden de compra {{ $route.params.id }} rechazada</p>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <div
-                class="page-icon text-center d-flex align-center justify-center"
-              >
+              <div class="page-icon text-center d-flex align-center justify-center">
                 <v-icon size="70" class="white--text">clear</v-icon>
               </div>
             </v-col>
-            <v-col cols="12" md="6" offset-md="3">
-              <div class="ml-5">
+            <v-col cols="12" xs="12" md="6" offset-md="3">
+              <div class="ml-3">
                 <h3 class="mb-2">Las posibles causas de este rechazo son:</h3>
                 <ol class="ml-4">
                   <li>
-                    Error en el ingreso de los datos de su tarjeta de Crédito o
-                    Débito (fecha y/o código de seguridad).
+                    Error en el ingreso de los datos de su tarjeta de Crédito o Débito
+                    (fecha y/o código de seguridad).
                   </li>
                   <li>
-                    Su tarjeta de Crédito o Débito no cuenta con saldo
-                    suficiente.
+                    Su tarjeta de Crédito o Débito no cuenta con saldo suficiente.
                   </li>
                   <li>
                     Tarjeta aún no habilitada en el sistema financiero.

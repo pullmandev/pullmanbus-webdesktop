@@ -1,10 +1,6 @@
 <template>
   <v-list dark class="orange_dark">
-    <v-list-item
-      v-for="item in items"
-      :key="item.title"
-      @click="changeRoute(item)"
-    >
+    <v-list-item v-for="item in items" :key="item.title" @click="changeRoute(item)">
       <v-list-item-action>
         <v-icon dark>{{ item.icon }}</v-icon>
       </v-list-item-action>

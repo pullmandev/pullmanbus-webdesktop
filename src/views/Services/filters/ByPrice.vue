@@ -17,12 +17,7 @@
             {{ max | currency }}
           </div>
         </div>
-        <vue-slider
-          ref="slider"
-          v-model="value"
-          v-bind="options"
-          :process="true"
-        />
+        <vue-slider ref="slider" v-model="value" v-bind="options" :process="true" />
       </v-card-text>
     </v-card>
   </div>

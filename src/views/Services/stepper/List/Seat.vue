@@ -5,7 +5,8 @@
       height="45"
       :src="require(`../../../../../static/logos/seats/${imageToShow}.png`)"
       contain
-      class="align-center">
+      class="align-center"
+    >
       <span>{{ seatNumberToShow }}</span>
     </v-img>
   </div>
@@ -24,26 +25,26 @@ export default {
     },
     imageToShow() {
       if (this.type === 'occupied') {
-        return "seat-busy"
+        return 'seat-busy'
       } else if (this.type === 'taken') {
-        return "seat-taken"
-      } else if(this.type === 'pet-free'){
-        return "seat-pet-free"
-      } else if(this.type === 'pet-taken'){
-        return "seat-pet-taken"
+        return 'seat-taken'
+      } else if (this.type === 'pet-free') {
+        return 'seat-pet-free'
+      } else if (this.type === 'pet-taken') {
+        return 'seat-pet-taken'
       } else if (this.type === 'pet-occupied') {
-        return "seat-pet-busy"
+        return 'seat-pet-busy'
       } else {
-        return "seat-free"
+        return 'seat-free'
       }
     }
   }
 }
 </script>
 <style>
-.v-responsive__content{
+.v-responsive__content {
   color: #fff;
-  margin-top: 5px!important;
+  margin-top: 5px !important;
 }
 button.seatBtn.btn div svg.seatSizeDesktop text.seatText {
   opacity: 1;
@@ -74,7 +75,6 @@ button.seatBtn.btn div svg.seatSizeMobile text.seatText.mobileSeat {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
-
 
 .seatSizeDesktop {
   width: 36px;

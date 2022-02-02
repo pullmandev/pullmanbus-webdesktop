@@ -1,43 +1,45 @@
 <template>
-  <section class="container">
+  <section class="xim-margen">
     <h1 class="orange--text mb-3 mt-5">CLUB DE BENEFICIOS PULLMAN MÁS</h1>
     <p>
-      Pullman más es el programa de fidelización de Pullman Bus creado como un complemento 
-      de Pullman Pass, premiamos tu lealtad y preferencia por lo que te invitamos a conocer los 
-      mejores beneficios que ofrece el club. ¡Tan solo con inscribirte! Viaja en esta nueva 
+      Pullman más es el programa de fidelización de Pullman Bus creado como un complemento
+      de Pullman Pass, premiamos tu lealtad y preferencia por lo que te invitamos a conocer los
+      mejores beneficios que ofrece el club. ¡Tan solo con inscribirte! Viaja en esta nueva
       aventura y se miembro de nuestra gran familia.
     </p>
     <v-row>
-      <v-col cols="6" class="d-flex justify-start">
-        <v-btn color="orange" class="white--text" @click="openDialog('signup')">
+      <v-col sm="6" xs="12" class="xim-btnpmas">
+        <v-btn color="orange" class="white--text xim-90" @click="openDialog('signup')">
           <v-icon>mdi-chevron-right</v-icon>
           OBTENER PULLMAN MÁS
         </v-btn>
       </v-col>
-      <v-col cols="6" class="d-flex justify-end">
-        <v-btn color="orange" class="white--text" @click="beneficios()">
+      <v-col sm="6" xs="12" class="xim-btnpmas">
+        <v-btn color="orange" class="white--text xim-90" @click="beneficios()">
           <v-icon>mdi-chevron-right</v-icon>
           DESCUBRE LOS BENEFICIOS
         </v-btn>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col cols="12">
         <h2 class="mb-7 text-center blue--text">{{ $t('FAQs') }}</h2>
-        <v-expansion-panels multiple v-model="panel">
+        <v-expansion-panels class="xim-expansion" multiple v-model="panel">
           <v-expansion-panel v-for="(info, i) in data" :key="i">
             <v-expansion-panel-header
               :color="changeColor(i) ? 'orange' : 'blue_dark'"
-              class="white--text"
+              class="white--text xim-altura"
             >
               <h3>{{ info.title }}</h3>
-              <template v-slot:actions>
-                <v-icon color="white">mdi-plus</v-icon>
+              <template v-slot:actions >
+                <v-icon class="xim-expansion-icon" color="white">mdi-plus</v-icon>
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="pa-6 content">
               <p v-if="info.has_content" v-html="info.content">
-                
-              </p>    
-              <a v-if="i === 0" @click="openDialog('signup')">Haz Click Aqui!</a>          
+
+              </p>
+              <a v-if="i === 0" @click="openDialog('signup')">Haz Click Aqui!</a>
               <template v-if="info.id === 0">
                 <p>
                   Los puntos tienen una vigencia de un año a partir de la fecha
@@ -67,9 +69,9 @@
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-      </v-col>     
+      </v-col>
     </v-row>
-    <div style="height: 50vh;"></div>
+    <div class="xim-espacio-foot" style="height: 150vh;"></div>
   </section>
 </template>
 <script>
@@ -144,5 +146,10 @@ export default {
 .firstText li {
   list-style: none;
   margin-top: 0.5rem;
+}
+@media (max-width: 550px) {
+  .btnpmas{
+    max-width: 100%;
+  }
 }
 </style>

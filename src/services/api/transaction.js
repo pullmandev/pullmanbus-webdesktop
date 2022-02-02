@@ -7,6 +7,7 @@ const generateVoucher = endPoints.generateVoucher
 const transactionCoupon = endPoints.transactionCoupon
 const searchHeaderCoupon = endPoints.searchHeaderCoupon
 const generateCoupon = endPoints.generateCoupon
+const dataClient = endPoints.guardarDatosCliente
 export default {
   post(params) {
     return axios.post(transaction, params)
@@ -26,6 +27,10 @@ export default {
 
   postCoupon(params) {
     return axios.post(transactionCoupon, params)
+  },
+
+  postClientData(params) {
+    return axios.post(dataClient, params)
   },
 
   postHeaderCoupon(params) {

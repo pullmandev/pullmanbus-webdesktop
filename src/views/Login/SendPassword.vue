@@ -62,10 +62,7 @@ export default {
       loading: false,
       validForm: false,
       email: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ]
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation]
     }
   },
   methods: {

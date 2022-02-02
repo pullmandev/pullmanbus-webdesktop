@@ -25,6 +25,6 @@ export default {
     return axios.get(`${buscarRegistroPorBoleto}/${boleto}`)
   },
   savePassengerDataTicket(passenger) {
-    return axios.post(editarRegistroBoleto,passenger)
+    return axios.post(editarRegistroBoleto, passenger)
   }
 }

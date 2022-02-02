@@ -4,11 +4,7 @@
       <v-icon>menu</v-icon>
     </v-btn>
     <v-list>
-      <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        @click="changeRoute(item)"
-      >
+      <v-list-tile v-for="item in items" :key="item.title" @click="changeRoute(item)">
         <v-list-tile-title>{{ item.title }}</v-list-tile-title>
       </v-list-tile>
     </v-list>

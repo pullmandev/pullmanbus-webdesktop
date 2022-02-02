@@ -1,10 +1,12 @@
 <template>
   <v-row>
-    <v-col cols="2" class="pl-9 pr-0">
-      <search-panel class="displayNoneSm"></search-panel>
-      <filters class="displayNoneSm" />
+    <v-col cols="12" xs="12" sm="12" md="2">
+      <div class="xim-desktop">
+        <search-panel class="displayNoneSm"></search-panel>
+        <filters class="displayNoneSm" />
+      </div>
     </v-col>
-    <v-col cols="10">
+    <v-col cols="10" xs="12">
       <!-- <stepper step="1" ref="stepper" /> -->
       <router-view></router-view>
     </v-col>
@@ -44,12 +46,7 @@ export default {
   },
   methods: {
     setServices() {
-      const {
-        from_date,
-        to_date,
-        from_city,
-        to_city
-      } = this.$store.state.searching
+      const { from_date, to_date, from_city, to_city } = this.$store.state.searching
       this.$store.dispatch('LOAD_SERVICES_LIST', {
         fromDate: from_date,
         toDate: to_date,

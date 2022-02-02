@@ -17,14 +17,13 @@
         v-model="formatedDate"
         readonly
         :rules="rules"
-        style="max-width: 290px"
       >
       </v-text-field>
     </template>
     <v-date-picker
       min="1920-01-01"
       v-model="date"
-      color="blue_dark"
+      :color="color || 'blue_dark'"
       :allowed-dates="enableToDate"
       :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
       :locale="$t('locale')"
@@ -35,7 +34,7 @@
 <script>
 import moment from 'moment'
 export default {
-  props: ['automatic', 'value', 'rules'],
+  props: ['automatic', 'value', 'rules', 'color'],
   data() {
     return {
       pickerMenu: false,

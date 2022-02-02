@@ -11,6 +11,7 @@
     :loading="loading"
     :loading-text="$t('Loading... Please wait')"
   >
+
     <template slot="item" slot-scope="props">
       <tr>
         <td class="text-center">{{ props.item.boleto }}</td>
@@ -39,6 +40,7 @@
         </td>
       </tr>
     </template>
+
   </v-data-table>
 </template>
 
@@ -124,7 +126,7 @@ export default {
     formatTickets() {
       const tickets = this.tickets.map(ticket => {
         const { fechaHoraSalida } = ticket.imprimeVoucher
-        if(fechaHoraSalida!=null){
+        if (fechaHoraSalida != null) {
           const dateNumber = fechaHoraSalida.slice(0, 8)
           const hourNumber = fechaHoraSalida.slice(8, fechaHoraSalida.length)
           const date = moment(dateNumber).format('DD/MM/YYYY')
@@ -133,8 +135,7 @@ export default {
           ticket.fechaHoraSalida = date + ' ' + hour
         }
         ticket.nombreTerminalOrigen = ticket.imprimeVoucher.nombreTerminalOrigen
-        ticket.nombreTerminalDestino =
-        ticket.imprimeVoucher.nombreTerminalDestino
+        ticket.nombreTerminalDestino = ticket.imprimeVoucher.nombreTerminalDestino
         ticket.asiento = ticket.imprimeVoucher.asiento
         ticket.total = ticket.imprimeVoucher.total.includes('.')
           ? `$ ${ticket.imprimeVoucher.total}`

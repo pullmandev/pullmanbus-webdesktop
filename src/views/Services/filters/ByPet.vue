@@ -3,17 +3,20 @@
     <v-card flat hover class="mt-2 transparentCard">
       <v-card-title>
         <div class="label-price-slider">
-            <img src="../../../../static/logos/seats/pet-filter-panel.png" class="pet-image"/>
+          <img
+            src="../../../../static/logos/seats/pet-filter-panel.png"
+            class="pet-image"
+          />
         </div>
       </v-card-title>
       <v-card-text>
         <div class="label-price-slider">
-            <v-switch
-              class="switch-pet"
-              v-model="petService"
-              @change="setFilter"              
-            ></v-switch>
-        </div>        
+          <v-switch
+            class="switch-pet"
+            v-model="petService"
+            @change="setFilter"
+          ></v-switch>
+        </div>
       </v-card-text>
     </v-card>
   </div>
@@ -22,27 +25,24 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  
-  components: {
-  },
+  components: {},
   data() {
     return {
-      petService : false
+      petService: false
     }
   },
   mounted() {
     console.log(this.searching)
-    this.petService= this.searching.petService
+    this.petService = this.searching.petService
   },
   computed: {
     ...mapGetters({
-      searching: ['getSearching'],
+      searching: ['getSearching']
     })
   },
-  watch: {
-  },
+  watch: {},
   methods: {
-     setFilter() {
+    setFilter() {
       this.$store.dispatch('SET_USER_FILTER', {
         filter: this.petService,
         type: 'pet'
@@ -52,11 +52,11 @@ export default {
 }
 </script>
 <style>
-.switch-pet{
+.switch-pet {
   justify-content: center;
 }
 .pet-image {
-  height: auto;  
+  height: auto;
   justify-content: center;
 }
 .label-price-slider {

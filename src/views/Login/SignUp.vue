@@ -1,13 +1,13 @@
 <template>
-  <Container :open="open" :width="600" @close="$emit('close')">
-    <v-container class="pt-0">
+  <Container :open="open"  :width="600" @close="$emit('close')">
+    <v-container class="pt-0 xim-desktop">
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">
             <h1 class="headline">{{ $t('sign_up') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
-            <p>Únete! Ingresa tus datos para obtener una cuenta</p>
+            <p>{{ $t('sign_up_text.description') }}</p>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
             <v-text-field
@@ -34,16 +34,10 @@
             ></v-text-field>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
-            <h3 class="title  my-0">Genero</h3>
-            <v-radio-group
-              class="my-0"
-              v-model="gender"
-              :mandatory="true"
-              dense
-              row
-            >
-              <v-radio value="F" label="Mujer" color="blue" />
-              <v-radio value="M" label="Hombre" color="blue" />
+            <h3 class="title  my-0">{{ $t('gender') }}</h3>
+            <v-radio-group class="my-0" v-model="gender" :mandatory="true" dense row>
+              <v-radio value="F" :label="$t('sign_up_text.woman')" color="blue" />
+              <v-radio value="M" :label="$t('sign_up_text.man')" color="blue" />
             </v-radio-group>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -105,16 +99,10 @@
             </v-row>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
-            <h3 class="title  my-0">Tipo de documento</h3>
-            <v-radio-group
-              class="my-0"
-              v-model="doc_type"
-              :mandatory="true"
-              dense
-              row
-            >
+            <h3 class="title  my-0">{{ $t('doc_type') }}</h3>
+            <v-radio-group class="my-0" v-model="doc_type" :mandatory="true" dense row>
               <v-radio value="RUT" label="Chileno" color="blue" />
-              <v-radio value="OTHER" label="Otro" color="blue" />
+              <v-radio value="OTHER" :label="$t('other')" color="blue" />
             </v-radio-group>
           </v-col>
           <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -180,6 +168,146 @@
         </v-row>
       </v-form>
     </v-container>
+    <v-container class="xim-movile xim-my-dialog">
+      <v-form v-model="validForm">
+        <v-row>
+          <v-col cols="12" class="text-center">
+            <h1 class="headline">{{ $t('sign_up') }}</h1>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <p>{{ $t('sign_up_text.description') }}</p>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              v-model="name"
+              :label="$t('name')"
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              v-model="f_lastname"
+              :label="$t('lastname')"
+              color="blue"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+            <h3 class="title  my-0">{{ $t('gender') }}</h3>
+            <v-radio-group class="my-0" v-model="gender" :mandatory="true" dense row>
+              <v-radio value="F" :label="$t('sign_up_text.woman')" color="blue" />
+              <v-radio value="M" :label="$t('sign_up_text.man')" color="blue" />
+            </v-radio-group>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-row no-gutters>
+              <v-col>
+                <v-autocomplete
+                  ref="date-1"
+                  @input="dateInput(1)"
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="day"
+                  :items="days"
+                  label="D"
+                  color="blue"
+                  style="border-top-right-radius: 0; border-bottom-right-radius: 0;"
+                  :rules="dateRules"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  ref="date-2"
+                  @input="dateInput(2)"
+                  maxLength="2"
+                  class="body-1"
+                  append-icon=""
+                  v-model="month"
+                  :items="months"
+                  label="M"
+                  color="blue"
+                  style="border-radius: 0;"
+                  :rules="dateRules"
+                />
+              </v-col>
+              <v-col>
+                <v-autocomplete
+                  ref="date-3"
+                  @input="dateInput(3)"
+                  maxLength="4"
+                  class="body-1"
+                  append-icon=""
+                  v-model="year"
+                  :items="years"
+                  :label="$t('short_year')"
+                  color="blue"
+                  style="border-bottom-left-radius: 0; border-top-left-radius: 0;"
+                  :rules="dateRules"
+                />
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
+            <h3 class="title  my-0">{{ $t('doc_type') }}</h3>
+            <v-radio-group class="my-0" v-model="doc_type" :mandatory="true" dense row>
+              <v-radio value="RUT" label="Chileno" color="blue" />
+              <v-radio value="OTHER" :label="$t('other')" color="blue" />
+            </v-radio-group>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              v-model="rut"
+              :label="'Nº ' + $t('document')"
+              outline-1
+              color="blue"
+              :rules="doc_type === 'RUT' ? rutRules : otherRules"
+            ></v-text-field>
+          </v-col>
+          <v-col xs12 lg="5" class="ml-3 mr-3">
+            <v-text-field
+              @input="
+                v => {
+                  this.emailconfirmError = this.confirmemail !== v
+                }
+              "
+              v-model="email"
+              :rules="emailRules"
+              :label="$t('email')"
+              color="blue"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              v-model="confirmemail"
+              :hint="emailconfirmError ? 'E-mails no coinciden' : ''"
+              :error="emailconfirmError"
+              @input="
+                v => {
+                  this.emailconfirmError = this.email !== v
+                }
+              "
+              :label="$t('confirm_email')"
+              @paste.prevent
+              color="blue"
+            ></v-text-field>
+          </v-col>
+          <v-col md="4" cols="12" offset-md="4" class="pt-3">
+            <v-btn
+              block
+              class="white--text search-font rounded-search"
+              color="blue_dark"
+              :disabled="!validForm || loading"
+              @click="signup"
+            >
+              <span>{{ $t('sign_up') }}</span>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-container>
   </Container>
 </template>
 
@@ -208,10 +336,7 @@ export default {
       month: '',
       months: Array.from({ length: 12 }, (v, k) => k + 1),
       year: '',
-      years: Array.from(
-        { length: 87 },
-        (v, k) => k + moment().get('year') - 100
-      ),
+      years: Array.from({ length: 87 }, (v, k) => k + moment().get('year') - 100),
       f_lastname: '',
       gender: 'F',
       doc_type: 'RUT',
@@ -223,16 +348,10 @@ export default {
       rut: '',
       terms: '',
       info: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       emailconfirmError: false,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
-      otherRules: [
-        v => !!v || 'Este campo es requerido',
-        validations.otherDocValidation
-      ],
+      otherRules: [v => !!v || 'Este campo es requerido', validations.otherDocValidation],
       generalRules: [v => !!v || 'Este campo es requerido'],
       dateRules: [v => !!v || '']
     }

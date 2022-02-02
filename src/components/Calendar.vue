@@ -92,9 +92,9 @@ export default {
             return null
           }
           const format = this.fromHome ? 'LL' : 'DD/MM'
-          this.formattedDateFrom = moment(
-            this.$store.state.searching.from_date
-          ).format(format)
+          this.formattedDateFrom = moment(this.$store.state.searching.from_date).format(
+            format
+          )
           return this.$store.state.searching.from_date
         } else {
           if (this.$store.state.searching.to_date == null) {
@@ -102,9 +102,9 @@ export default {
             return null
           }
           const format = this.fromHome ? 'LL' : 'DD/MM'
-          this.formattedDateTo = moment(
-            this.$store.state.searching.to_date
-          ).format(format)
+          this.formattedDateTo = moment(this.$store.state.searching.to_date).format(
+            format
+          )
           return this.$store.state.searching.to_date
         }
       },
@@ -120,9 +120,7 @@ export default {
     },
     formatedDate: {
       get() {
-        return this.direction === 'from'
-          ? this.formattedDateFrom
-          : this.formattedDateTo
+        return this.direction === 'from' ? this.formattedDateFrom : this.formattedDateTo
       },
       set(value) {
         if (this.direction === 'from') {
@@ -137,27 +135,19 @@ export default {
       moment.locale(this.$i18n.locale)
       const format = this.fromHome ? 'LL' : 'DD/MM'
       if (this.$store.state.searching.from_date)
-        this.formattedDateFrom = moment(
-          this.$store.state.searching.from_date
-        ).format(format)
+        this.formattedDateFrom = moment(this.$store.state.searching.from_date).format(
+          format
+        )
       if (this.$store.state.searching.to_date)
-        this.formattedDateTo = moment(
-          this.$store.state.searching.to_date
-        ).format(format)
+        this.formattedDateTo = moment(this.$store.state.searching.to_date).format(format)
       return this.$t('locale')
     },
     languageChange() {
       let result = ''
       if (this.fromHome) {
-        result =
-          this.direction === 'from'
-            ? this.$t('from_date2')
-            : this.$t('to_date2')
+        result = this.direction === 'from' ? this.$t('from_date2') : this.$t('to_date2')
       } else {
-        result =
-          this.direction === 'from'
-            ? this.$t('from_date2')
-            : this.$t('to_date3')
+        result = this.direction === 'from' ? this.$t('from_date2') : this.$t('to_date3')
       }
       return result
     }

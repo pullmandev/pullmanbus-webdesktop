@@ -6,9 +6,9 @@ const validarUsuario = endPoints.validarUsuario
 
 export default {
   getListCoupon(cupon) {
-    return axios.post(buscarCuponera,cupon)
+    return axios.post(buscarCuponera, cupon)
   },
   validaUsuario(user) {
-    return axios.post(validarUsuario,user)
+    return axios.post(validarUsuario, user)
   }
 }

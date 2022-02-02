@@ -3,7 +3,7 @@
     cycle
     hide-delimiters
     :show-arrows="false"
-    class="rounded-home-banner promotion-banner_container banner-home-fadeIn"
+    class="rounded-home-banner promotion-banner_container banner-home-fadeIn xim-desktop"
     height="auto"
     v-if="showBanner"
   >
@@ -25,9 +25,7 @@
                 :style="{ backgroundColor: item.fondoTarifa }"
                 style="border-radius: 10px"
               >
-                <span :style="{ color: item.colorTarifa }"
-                  >${{ item.tarifas }}</span
-                >
+                <span :style="{ color: item.colorTarifa }">${{ item.tarifas }}</span>
               </p>
             </slot>
           </div>

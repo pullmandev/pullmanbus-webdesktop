@@ -3,12 +3,7 @@
     <div class="destinies-type-container d-flex align-center">
       <v-container fluid>
         <v-row>
-          <v-col
-            v-if="applyTitleStyle"
-            cols="1"
-            class="px-0"
-            style="width: 0"
-          />
+          <v-col v-if="applyTitleStyle" cols="1" class="px-0" style="width: 0" />
           <v-col md="2" sm="12" v-for="(item, index) of images" :key="index">
             <v-card>
               <a :href="links[index]" target="_blank">
@@ -22,9 +17,7 @@
               </a>
               <v-card-text>
                 <div class="d-block text-center">
-                  <strong style="font-size: 1.2rem">{{
-                    itemTitle[index]
-                  }}</strong>
+                  <strong style="font-size: 1.2rem">{{ itemTitle[index] }}</strong>
                   <p style="font-size: 0.92rem">
                     {{ itemContent[index] }}
                   </p>
@@ -32,12 +25,7 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col
-            v-if="applyTitleStyle"
-            cols="1"
-            class="px-0"
-            style="width: 0"
-          />
+          <v-col v-if="applyTitleStyle" cols="1" class="px-0" style="width: 0" />
         </v-row>
       </v-container>
     </div>

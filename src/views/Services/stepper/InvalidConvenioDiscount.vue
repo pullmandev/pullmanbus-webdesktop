@@ -6,12 +6,12 @@
           >No se aplicará descuento a todos los boletos</v-card-title
         >
         <v-card-text
-          >Los descuentos por convenios estarán desactivados para los asientos
-          con promoción de boleto de regreso.</v-card-text
+          >Los descuentos por convenios estarán desactivados para los asientos con
+          promoción de boleto de regreso.</v-card-text
         >
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="orange white--text" @click="accept">Continuar</v-btn>
+          <v-btn color="orange white--text" @click="accept">{{ $t('continue') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

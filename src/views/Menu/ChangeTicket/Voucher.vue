@@ -12,9 +12,7 @@
           </v-col>
 
           <v-col cols="12" class="d-flex justify-center">
-            <div
-              class="page-icon text-center d-flex align-center justify-center"
-            >
+            <div class="page-icon text-center d-flex align-center justify-center">
               <v-icon size="70" class="white--text">check</v-icon>
             </div>
           </v-col>
@@ -22,43 +20,80 @@
           <v-col cols="12" md="12" lg="12">
             <h3 class="mb-2 ml-2">Datos del cambio:</h3>
             <v-container>
-              <table id="tblTicket">
-                <tr>
-                  <td>Boleto</td>
-                  <td>Origen</td>
-                  <td>Destino</td>
-                  <td>Cliente</td>
-                  <td>Valor</td>
-                  <td>Clase</td>
-                </tr>
-                <tr>
-                  <td>{{ ticketChange.voucher.boleto }}</td>
-                  <td>{{ ticketChange.voucher.nombreTerminalOrigen }}</td>
-                  <td>{{ ticketChange.voucher.nombreTerminalDestino }}</td>
-                  <td>{{ ticketChange.voucher.cliente }}</td>
-                  <td>{{ ticketChange.voucher.total }}</td>
-                  <td>{{ ticketChange.voucher.nombreClase }}</td>
-                </tr>
-              </table>
+              <div class="xim-desktop">
+                <table id="tblTicket">
+                  <tr class="content">
+                    <td>Boleto</td>
+                    <td>Origen</td>
+                    <td>Destino</td>
+                    <td>Valor</td>
+                    <td>Clase</td>
+                  </tr>
+                  <tr class="content">
+                    <td>{{ ticketChange.voucher.boleto }}</td>
+                    <td>{{ ticketChange.voucher.nombreTerminalOrigen }}</td>
+                    <td>{{ ticketChange.voucher.nombreTerminalDestino }}</td>
+                    <td>{{ ticketChange.voucher.total }}</td>
+                    <td>{{ ticketChange.voucher.nombreClase }}</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="xim-movile">
+                <v-row class="xim-alinea-vertical" >
+                  <v-col cols="6" class="xim-colum">
+                    <label class="xim-texto-label">Boleto</label>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.boleto }}</span>
+                  </v-col>
+                  <v-col cols="6" class="xim-colum">
+                    <label class="xim-texto-label">Origen</label>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreTerminalOrigen }}</span>
+                  </v-col>
+                  <v-col cols="6" class="xim-colum">
+                    <label class="xim-texto-label">Destino</label>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreTerminalDestino }}</span>
+                  </v-col>
+                  <v-col cols="6" class="xim-colum">
+                    <label class="xim-texto-label">Valor</label>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.total }}</span>
+                  </v-col>
+                  <v-col cols="6" class="xim-colum">
+                    <label class="xim-texto-label">Clase</label>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreClase }}</span>
+                  </v-col>
+                </v-row>
+              </div>
             </v-container>
           </v-col>
-          <v-col class="d-flex justify-end">
-            <v-btn
-              class="mt-5"
-              outlined
-              @click="toServices"
-            >
-              {{ $t('back') }}
-            </v-btn>
+          <div class="xim-desktop">
+            <v-col class="d-flex justify-end">
+              <v-btn class="mt-5" outlined @click="toServices">
+                {{ $t('back') }}
+              </v-btn>
 
-            <v-btn
-              class="download white--text mt-5 ml-3"
-              color="blue_dark"
-              @click="download"
-            >
-              {{ $t('download') }}
-            </v-btn>
-          </v-col>
+              <v-btn
+                class="download white--text mt-5 ml-3"
+                color="blue_dark"
+                @click="download"
+              >
+                {{ $t('download') }}
+              </v-btn>
+            </v-col>
+          </div>
+          <div class="xim-movile xim-horizontal" style="width:100vw">
+            <v-col clos="12">
+              <v-btn class="mt-5" outlined @click="toServices">
+                  {{ $t('back') }}
+                </v-btn>
+
+                <v-btn
+                  class="download white--text mt-5 ml-3"
+                  color="blue_dark"
+                  @click="download"
+                >
+                  {{ $t('download') }}
+                </v-btn>
+            </v-col>
+          </div>
         </v-row>
       </v-container>
     </v-card>
@@ -70,8 +105,7 @@ import { mapGetters } from 'vuex'
 import { FileDownloadService } from '@SERVICES/FileDownload.service'
 export default {
   name: 'Voucher',
-  components: {    
-  },
+  components: {},
   data() {
     return {
       loading: true,
@@ -79,7 +113,7 @@ export default {
     }
   },
   mounted() {
-    //console.log('ticketChange : ', this.ticketChange)       
+    //console.log('ticketChange : ', this.ticketChange)
   },
   destroyed() {
     this.$notify({
@@ -92,11 +126,11 @@ export default {
       ticketChange: ['getTicketChange']
     })
   },
-  methods: {    
+  methods: {
     toServices() {
       this.$router.push({ path: 'changeTicket' })
     },
-    download(){
+    download() {
       this.$notify({
         group: 'load',
         title: this.$t('downloading_ticket'),
@@ -144,12 +178,23 @@ export default {
   height: 125px;
   background-color: var(--var-orange);
 }
-#tblTicket{
+#tblTicket {
   width: 100%;
 }
-#tblTicket td{
+#tblTicket td {
   padding: 5px;
   color: grey;
   text-align: center;
+}
+@media (max-width: 960px){
+  #tblTicket {
+    width: 100%;
+    display: flex;
+  }
+  .content{
+    display: flex;
+    min-width: 50%;
+    flex-direction: column;
+  }
 }
 </style>

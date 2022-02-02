@@ -12,9 +12,7 @@
           </v-col>
 
           <v-col cols="12" class="d-flex justify-center">
-            <div
-              class="page-icon text-center d-flex align-center justify-center"
-            >
+            <div class="page-icon text-center d-flex align-center justify-center">
               <v-icon size="70" class="white--text">check</v-icon>
             </div>
           </v-col>
@@ -144,7 +142,7 @@ export default {
           group: 'error',
           title: 'Error al cargar los datos'
         })
-      }     
+      }
     },
     toServices() {
       this.$router.push({ path: '/couponServices/' })

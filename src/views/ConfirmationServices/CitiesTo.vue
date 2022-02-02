@@ -17,6 +17,8 @@
       return-object
       clearable
       v-model="userCity"
+      :filled="outlined"
+      :outlined="outlined"
     >
       <template slot="item" slot-scope="data">
         <template v-if="typeof data.item !== 'object'">
@@ -35,7 +37,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['direction', 'value', 'windowHeight'],
+  props: ['direction', 'value', 'windowHeight', 'outlined'],
   name: 'CitiesToList',
   data() {
     return {
@@ -58,9 +60,7 @@ export default {
       }
     },
     languageChange() {
-      return this.direction === 'from'
-        ? this.$t('from_city2')
-        : this.$t('to_city2')
+      return this.direction === 'from' ? this.$t('from_city2') : this.$t('to_city2')
     }
   }
 }

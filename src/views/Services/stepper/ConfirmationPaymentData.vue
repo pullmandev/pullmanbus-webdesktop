@@ -1,508 +1,709 @@
 <template>
-  <div>
+  <div class="confirmation-payment-data-container">
     <v-container fluid>
       <!-- Card date passenger -->
-      <v-card class="elevation-1 pl-4 pb-10 rounded-search-box">
-        <div
-          class="white--text text-left orange passenger-data-advice"
-          v-if="!hasVuelta"
-        >
+      <v-card class="elevation-1 pl-lg-4 pl-md-1 pb-10 rounded-search-box">
+        <div class="white--text text-left orange passenger-data-advice" v-if="!hasVuelta">
           <span class="ml-10">
             Horario en promoción
           </span>
         </div>
-        <v-card-text>
-          <v-card-text>
-            <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
+        <v-card-text class="pl-md-0 pr-md-1 px-lg-4">
+          <div class="xim-desktop">
+            <v-card-text>
+              <h3 class="headline pt-3">{{ $t('passenger_data') }}</h3>
+            </v-card-text>
+            <v-row class="pt-3">
+              <v-col cols="12" sm="12">
+                <v-img src="../../../../static/images/banner_pasajero.png" />
+              </v-col>
+            </v-row>
+            <v-row class="pt-3" v-if="payment_info.email && payment_info.email !== ''">
+              <v-col cols="12" sm="3">
+                <v-card class="elevation-0">
+                  <v-card-text>
+                    <span class="font-weight-black">{{ $t('email') }}</span>
+                    <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="12" sm="3">
+                <v-card class="elevation-0">
+                  <v-card-text>
+                    <span class="font-weight-black">Rut</span>
+                    <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+            <v-card-text>
+              <h3 v-if="hasVuelta">
+                {{ $t('two_reservation') }}
+              </h3>
+              <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
+            </v-card-text>
+
+              <v-data-table
+                :headers="headers"
+                :items="selectedSeats"
+                :expanded="selectedSeats"
+                :sort-by="['fechaSubida', 'horaSalida']"
+                :sort-desc="[false, false]"
+                item-key="id"
+                class="elevation-0"
+                show-expand
+                hide-default-footer
+                :single-expand="false">
+                <template slot="item" slot-scope="props">
+                  <tr>
+                    <td style="overflow: hidden; max-width: 70px" class="pa-0">
+                      <div
+                        v-if="props.item.tomadoPromo"
+                        class="orange confirmation-promotion-advice"
+                      />
+                    </td>
+                    <td>
+                      <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
+                    </td>
+                    <td class="px-2">
+                      <span style="0.7rem">{{ props.item.terminalOrigen }}</span>
+                    </td>
+                    <td class="px-2">
+                      <span style="0.7rem">{{ props.item.terminalDestino }}</span>
+                    </td>
+                    <td>
+                      <span style="0.7rem">{{ props.item.fechaSubida }}</span>
+                    </td>
+                    <td>
+                      <span style="0.7rem">{{ props.item.horaSalida }}</span>
+                    </td>
+                    <td>
+                      <span>
+                        {{ props.item.servicioNombre }}
+                      </span>
+                    </td>
+                    <td class="text-center">
+                      <h3>
+                        {{
+                          props.item.piso > 0
+                            ? parseInt(props.item.asiento)
+                            : props.item.asiento
+                        }}
+                      </h3>
+                    </td>
+                    <td v-if="!hasVuelta" class="text-center">
+                      <h3>
+                        {{ props.item.tomadoPromo ? 'Si' : 'No' }}
+                      </h3>
+                    </td>
+                    <td class="base-price">
+                      <h3>{{ getTarifaNormal(props.item) | currency }}</h3>
+                    </td>
+                    <td class="d-flex align-center" style="font-weight: bold;">
+                      <h3 class="blue_dark--text" style="font-size: 1.4rem">
+                        {{ getFinalPrice(props.item) | currency }}
+                      </h3>
+                      <img
+                        src="../../../../static/logos/icono_por_ciento.svg"
+                        alt="percentage_logo"
+                        height="25px"
+                      />
+                    </td>
+                    <td class="pl-0" style="padding-right: 32px;">
+                      <div class="d-flex align-center">
+                        <v-btn
+                          text
+                          color="orange"
+                          @click="clear(props.item)"
+                          :disabled="deleting"
+                          v-if="props.item.tipo != 'pet'"
+                          class="px-0 clear-btn"
+                        >
+                          <v-icon>clear</v-icon>
+                        </v-btn>
+                        <v-btn
+                          text
+                          @click="props.expand(!props.isExpanded)"
+                          v-if="props.item.tipo != 'pet'"
+                          class="px-0"
+                        >
+                          <img
+                            width="32px"
+                            title="Ingresar datos pasajero"
+                            src="../../../../static/images/icono_bus_flecha.png"
+                          />
+                        </v-btn>
+                        <v-img
+                          v-if="props.item.tipo === 'pet'"
+                          class="xim-svg-icon"
+                          title="Asiento Mascota"
+                          src="../../../../static/logos/seats/icono_pata_verde.svg"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+                <template v-slot:expanded-item="props">
+                  <tr>
+                    <td
+                      :colspan="props.headers.length"
+                      v-if="!props.item.tomadoPromo && props.item.hasPromo && !hasVuelta"
+                    >
+                      <v-row>
+                        <v-col cols="8" md="8" sm="12">
+                          <strong class="orange--text">
+                            {{ setBannerText(props.item) }}
+                          </strong>
+                        </v-col>
+                        <v-col cols="4" md="4" sm="12" class="pt-0 d-flex justify-end">
+                          <v-btn
+                            color="orange"
+                            small
+                            class="white--text my-3"
+                            @click="confirmationAmount(props.item)"
+                          >
+                            Agregar
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+                  <tr class="passenger-data" v-if="props.item.tipo != 'pet'">
+                    <td :colspan="props.headers.length">
+                      <v-row>
+                        <v-col>
+                          <div class="title-passenger-data">
+                            <v-row>
+                              <v-col lg="1">
+                                <v-img
+                                  class="icono_persona"
+                                  title=""
+                                  src="../../../../static/images/icono_persona.png"
+                                />
+                              </v-col>
+                              <v-col>
+                                <span
+                                  ><h6 class="headline pt-1">
+                                    DATOS PASAJERO
+                                  </h6></span>
+                              </v-col>
+                            </v-row>
+                          </div>
+                        </v-col>
+                      </v-row>
+                      <v-form v-model="props.item.pasajero.validForm">
+                        <v-row>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
+                            <v-select
+                              light
+                              filled
+                              outlined
+                              dense
+                              :items="listaTipoDocumento"
+                              item-text="descripcion"
+                              item-value="valor"
+                              label="TIPO DOCUMENTO"
+                              v-model="props.item.pasajero.tipoDocumento"
+                              v-on:change="changeDocumentType(props.item.pasajero)"
+                            ></v-select>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              label="Numero documento"
+                              outline-1
+                              color=""
+                              v-model="props.item.pasajero.numeroDocumento"
+                              required
+                              maxLength="20"
+                              :rules="
+                                props.item.pasajero.tipoDocumento === 'R'
+                                  ? rutRules
+                                  : [v => !!v || '']
+                              "
+                              @keypress="
+                                props.item.pasajero.tipoDocumento === 'R'
+                                  ? validar($event, 'rut')
+                                  : ''
+                              "
+                              v-on:blur="searchPassengerData(props.item.pasajero)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              v-model="props.item.pasajero.nombre"
+                              label="Nombre"
+                              outline-1
+                              color=""
+                              required
+                              :rules="[v => !!v || '']"
+                              maxLength="40"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              v-model="props.item.pasajero.apellido"
+                              label="Apellido"
+                              outline-1
+                              color=""
+                              required
+                              :rules="[v => !!v || '']"
+                              maxLength="60"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
+                            <v-autocomplete
+                              light
+                              filled
+                              outlined
+                              dense
+                              :items="listaNacionalidad"
+                              item-text="descripcion"
+                              item-value="valor"
+                              label="NACIONALIDAD"
+                              v-model="props.item.pasajero.nacionalidad"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              :label="$t('email')"
+                              outline-1
+                              color=""
+                              :rules="emailRules"
+                              v-model="props.item.pasajero.email"
+                              required
+                              maxLength="100"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="5" xs="12" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              label="Contacto Telefónico"
+                              outline-1
+                              color=""
+                              v-model="props.item.pasajero.telefono"
+                              required
+                              maxLength="12"
+                              @keypress="validar($event, 'telefono')"
+                              :rules="[v => !!v || '']"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="6" xs="12" sm="6" md="5" lg="4" class="pt-0">
+                            <v-text-field
+                              light
+                              filled
+                              outlined
+                              dense
+                              label="Contacto Telefónico Emergencia"
+                              outline-1
+                              color=""
+                              v-model="props.item.pasajero.telefonoEmergencia"
+                              required
+                              maxLength="12"
+                              @keypress="validar($event, 'telefono')"
+                              :rules="[v => !!v || '']"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="5" xs="12" sm="6" md="5" lg="3" offset-md="2" class="pt-0">
+                            <v-autocomplete
+                              light
+                              filled
+                              outlined
+                              dense
+                              :items="listaComuna"
+                              item-text="nombre"
+                              item-value="codigo"
+                              label="COMUNA RESIDENCIA ORIGEN"
+                              v-model="props.item.pasajero.comunaOrigen"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-icon color="primary" dark v-bind="attrs" v-on="on">
+                                  mdi-information-outline
+                                </v-icon>
+                              </template>
+                              <span
+                                >Este campo debe ser llenado con la comuna de su hogar, la
+                                comuna de su trabajo o la comuna que se encuentra visitando
+                                previamente al viaje.</span
+                              >
+                            </v-tooltip>
+                          </v-col>
+                          <v-col cols="6" sm="6" md="5" lg="3" class="pt-0">
+                            <v-autocomplete
+                              light
+                              filled
+                              outlined
+                              dense
+                              :items="listaComuna"
+                              item-text="nombre"
+                              item-value="codigo"
+                              label="COMUNA RESIDENCIA DESTINO"
+                              v-model="props.item.pasajero.comunaDestino"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-icon color="primary" dark v-bind="attrs" v-on="on">
+                                  mdi-information-outline
+                                </v-icon>
+                              </template>
+                              <span
+                                >Este campo debe ser llenado con la comuna donde residirá en
+                                destino, la comuna donde trabajará en el destino o la comuna
+                                que visitará en el destino.</span
+                              >
+                            </v-tooltip>
+                          </v-col>
+                          <v-col cols="6" sm="6" md="5" lg="4" offset-md="2" class="pt-0">
+                          </v-col>
+                          <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
+                            <v-btn
+                              outlined
+                              class="grey--text mr-5 md-5"
+                              @click="clearPassengerData(props.item.pasajero, 'ALL')"
+                              >Limpiar</v-btn
+                            >
+                            <v-btn
+                              color="orange"
+                              :disabled="!props.item.pasajero.validForm"
+                              class="white--text mr-5 md-5"
+                              @click="savePassengerData(props.item.pasajero)"
+                              >Guardar</v-btn
+                            >
+                          </v-col>
+                        </v-row>
+                      </v-form>
+                    </td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </div>
           </v-card-text>
-          <v-row class="pt-3">
-            <v-col cols="1" sm="12">
-              <v-img src="../../../../static/images/banner_pasajero.png" />
-            </v-col>
-          </v-row>
-          <v-row
-            class="pt-3"
-            v-if="payment_info.email && payment_info.email !== ''"
-          >
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
+          <div class="xim-movile">
+            <v-row class="pt-3">
+              <v-col cols="12" sm="12">
+                <h3 class="headline xim-datos-pasajeros">{{ $t('passenger_data') }}</h3>
+                <v-img src="../../../../static/images/banner_pasajero.png" />
+              </v-col>
+            </v-row>
+            <v-row class="pt-3">
+              <v-col cols="6">
                 <v-card-text>
                   <span class="font-weight-black">{{ $t('email') }}</span>
                   <h3 class="py-2 body-2">{{ payment_info.email }}</h3>
                 </v-card-text>
-              </v-card>
-            </v-col>
-            <v-col cols="12" sm="3">
-              <v-card class="elevation-0">
+              </v-col>
+              <v-col cols="6">
                 <v-card-text>
                   <span class="font-weight-black">Rut</span>
                   <h3 class="py-2 body-2">{{ payment_info.rut }}</h3>
                 </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-          <v-card-text>
-            <h3 v-if="hasVuelta">
-              {{ $t('two_reservation') }}
-            </h3>
-            <h3 v-else class="capitalize">{{ $t('one_reservation') }}</h3>
-          </v-card-text>
-          <v-data-table
-            :headers="headers"
-            :items="selectedSeats" 
-            :expanded="selectedSeats"           
-            :sort-by="['fechaSubida', 'horaSalida']"
-            :sort-desc="[false, false]"
-            item-key="id"
-            class="elevation-0"
-            show-expand
-            hide-default-footer
-            :single-expand="false"
-          >
-            <template slot="item" slot-scope="props">
-              <tr>
-                <td style="overflow: hidden; max-width: 70px" class="pa-0">
-                  <div
-                    v-if="props.item.tomadoPromo"
-                    class="orange confirmation-promotion-advice"
-                  />
-                </td>
-                <td>
-                  <h3>{{ props.item.vuelta ? 'VUELTA' : 'IDA' }}</h3>
-                </td>
-                <td class="px-2">
-                  <span style="0.7rem">{{ props.item.terminalOrigen }}</span>
-                </td>
-                <td class="px-2">
-                  <span style="0.7rem">{{ props.item.terminalDestino }}</span>
-                </td>
-                <td>
-                  <span style="0.7rem">{{ props.item.fechaSubida }}</span>
-                </td>
-                <td>
-                  <span style="0.7rem">{{ props.item.horaSalida }}</span>
-                </td>
-                <td>
-                  <span>
-                    {{ props.item.servicioNombre }}
-                  </span>
-                </td>
-                <td class="text-center">
-                  <h3>
-                    {{
-                      props.item.piso > 0
-                        ? parseInt(props.item.asiento)
-                        : props.item.asiento
-                    }}
-                  </h3>
-                </td>
-                <td v-if="!hasVuelta" class="text-center">
-                  <h3>
-                    {{ props.item.tomadoPromo ? 'Si' : 'No' }}
-                  </h3>
-                </td>
-                <td>
-                  <h3>
-                    ${{
-                      props.item.tomadoPromo
-                        ? props.item.totalPromo
-                        : props.item.precio
-                    }}
-                  </h3>
-                </td>
-                <td>
+              </v-col>
+               <v-col cols="12" sm="12">
+                 <hr/>
+               </v-col>
+            </v-row>
+            <v-card>
+
+              <v-row class="xim-alinea-vertical"
+                      v-for="(item, index) in this.$store.getters.seats"
+                                                      v-bind:item="item"
+                                                    v-bind:index="index"
+                                                    v-bind:key="item.id">
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Tipo de Viaje</label>
+                  <span class="xim-texto-datos">{{ item.vuelta ? 'VUELTA' : 'IDA' }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Term. Origen</label>
+                  <span class="xim-texto-datos">{{ item.terminalOrigen }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Term. Destino</label>
+                  <span class="xim-texto-datos">{{ item.terminalDestino }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Fecha Inicio</label>
+                  <span class="xim-texto-datos">{{ item.fechaSubida }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Hora Inicio</label>
+                  <span class="xim-texto-datos">{{ item.horaSalida }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Servicio</label>
+                  <span class="xim-texto-datos">{{ item.servicioNombre }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Asiento</label>
+                  <span class="xim-texto-datos">{{ item.asiento }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum" v-if="!hasVuelta">
+                  <label class="xim-texto-label">¿Con Promosión?</label>
+                  <span class="xim-texto-datos">{{ item.tomadoPromo ? 'Si' : 'No' }}</span>
+                </v-col>
+                <v-col cols="6" class="xim-colum">
+                  <label class="xim-texto-label">Tarifa</label>
+                  <div class="xim-horizontal">
+                  <span class="xim-texto-porcentaje">${{ item.tarifa }}</span>
+                    <img
+                        src="../../../../static/logos/icono_por_ciento.svg"
+                        alt="percentage_logo"
+                        height="20px"
+                      />
+                  </div>
+                </v-col>
+                <v-col cols="6" class="xim-horizontal">
                   <v-btn
                     text
                     color="orange"
-                    @click="deleteSelected(props.item)"
+                    @click="clear(item)"
                     :disabled="deleting"
-                    v-if="props.item.tipo != 'pet'"
+                    v-if="item.tipo != 'pet'"
+                    class="px-0 clear-btn"
                   >
                     <v-icon>clear</v-icon>
                   </v-btn>
-                </td>
-                <td>
-                  <v-btn text @click="props.expand(!props.isExpanded)" 
-                    v-if="props.item.tipo != 'pet'">                    
-                    <v-img
+                  <v-btn
+                    text
+                    @click="props.expand(!props.isExpanded)"
+                    v-if="item.tipo != 'pet'"
+                    class="px-0"
+                  >
+                    <img
                       width="32px"
                       title="Ingresar datos pasajero"
                       src="../../../../static/images/icono_bus_flecha.png"
                     />
                   </v-btn>
                   <v-img
-                    v-if="props.item.tipo === 'pet'"
-                    width="52px"
-                    style="margin-left:8px;"
+                    v-if="item.tipo === 'pet'"
+                    class="xim-svg-icon"
                     title="Asiento Mascota"
                     src="../../../../static/logos/seats/icono_pata_verde.svg"
                   />
-                </td>
-              </tr>
-            </template>
-            <template v-slot:expanded-item="props">
-              <tr>
-                <td
-                  :colspan="props.headers.length"
-                  v-if="
-                    !props.item.tomadoPromo && props.item.hasPromo && !hasVuelta
-                  "
+                </v-col>
+                <v-col cols="12" class="xim-horizontal xim-bg-resalta"
+                  :colspan="headers.length"
+                  v-if="!item.tomadoPromo && item.hasPromo && !hasVuelta"
                 >
-                  <v-row>
-                    <v-col cols="8" md="8" sm="12">
-                      <strong class="orange--text">
-                        {{ setBannerText(props.item) }}
-                      </strong>
-                    </v-col>
-                    <v-col
-                      cols="4"
-                      md="4"
-                      sm="12"
-                      class="pt-0 d-flex justify-end"
-                    >
-                      <v-btn
-                        color="orange"
-                        small
-                        class="white--text my-3"
-                        @click="confirmationAmount(props.item)"
-                      >
-                        Agregar
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </td>
-              </tr>
-              <tr class="passenger-data" v-if="props.item.tipo != 'pet'">
-                <td :colspan="props.headers.length">
-                  <v-row>
-                    <v-col>
-                      <div class="title-passenger-data">
-                        <v-row>
-                          <v-col lg="1">
-                            <v-img
-                              class="icono_persona"
-                              title=""
-                              src="../../../../static/images/icono_persona.png"
-                            />
+
+                  <strong class="orange--text">
+                    {{ setBannerText(item) }}
+                  </strong>
+                  <v-btn
+                    color="orange"
+                    small
+                    class="white--text my-3"
+                    @click="confirmationAmount(item)"
+                  >
+                    Agregar
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" v-if="item.tipo != 'pet'">
+                  <v-card class="xim-card">
+                    <v-card-title class="xim-card-titulo">
+                      Datos Pasajero
+                    </v-card-title>
+                      <v-form v-model="item.pasajero.validForm">
+                        <v-row class="xim">
+                          <v-col cols="12" sm="12">
+                            <v-select
+                              :items="listaTipoDocumento"
+                              item-text="descripcion"
+                              item-value="valor"
+                              label="TIPO DOCUMENTO"
+                              v-model="item.pasajero.tipoDocumento"
+                              v-on:change="changeDocumentType(item.pasajero)"
+                            ></v-select>
                           </v-col>
-                          <v-col>
-                            <span
-                              ><h6 class="headline pt-1">
-                                DATOS PASAJERO
-                              </h6></span
-                            >
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              label="Numero documento"
+                              outline-1
+                              color=""
+                              v-model="item.pasajero.numeroDocumento"
+                              required
+                              maxLength="20"
+                              :rules="
+                                  item.pasajero.tipoDocumento === 'R'
+                                  ? rutRules
+                                  : [v => !!v || '']
+                                  "
+                              @keypress="
+                                item.pasajero.tipoDocumento === 'R'
+                                  ? validar($event, 'rut')
+                                  : ''
+                                "
+                              v-on:blur="searchPassengerData(item.pasajero)"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              v-model="item.pasajero.nombre"
+                              label="Nombre"
+                              outline-1
+                              color=""
+                              required
+                              :rules="[v => !!v || '']"
+                              maxLength="40"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              v-model="item.pasajero.apellido"
+                              label="Apellido"
+                              outline-1
+                              color=""
+                              required
+                              :rules="[v => !!v || '']"
+                              maxLength="60"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-autocomplete
+                              :items="listaNacionalidad"
+                              item-text="descripcion"
+                              item-value="valor"
+                              label="NACIONALIDAD"
+                              v-model="item.pasajero.nacionalidad"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              :label="$t('email')"
+                              outline-1
+                              color=""
+                              :rules="emailRules"
+                              v-model="item.pasajero.email"
+                              required
+                              maxLength="100"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              label="Contacto Telefónico"
+                              outline-1
+                              color=""
+                              v-model="item.pasajero.telefono"
+                              required
+                              maxLength="12"
+                              @keypress="validar($event, 'telefono')"
+                              :rules="[v => !!v || '']"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-text-field
+                              label="Contacto Telefónico Emergencia"
+                              outline-1
+                              color=""
+                              v-model="item.pasajero.telefonoEmergencia"
+                              required
+                              maxLength="12"
+                              @keypress="validar($event, 'telefono')"
+                              :rules="[v => !!v || '']"
+                            ></v-text-field>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-autocomplete
+                              :items="listaComuna"
+                              item-text="nombre"
+                              item-value="codigo"
+                              label="COMUNA RESIDENCIA ORIGEN"
+                              v-model="item.pasajero.comunaOrigen"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-icon color="primary" dark v-bind="attrs" v-on="on">
+                                  mdi-information-outline
+                                </v-icon>
+                              </template>
+                              <span
+                                >Este campo debe ser llenado con la comuna de su hogar, la
+                                comuna de su trabajo o la comuna que se encuentra visitando
+                                previamente al viaje.</span
+                              >
+                            </v-tooltip>
+                          </v-col>
+                          <v-col cols="12" sm="12">
+                            <v-autocomplete
+                              :items="listaComuna"
+                              item-text="nombre"
+                              item-value="codigo"
+                              label="COMUNA RESIDENCIA DESTINO"
+                              v-model="item.pasajero.comunaDestino"
+                              required
+                              :rules="[v => !!v || '']"
+                            ></v-autocomplete>
+                            <v-tooltip bottom>
+                              <template v-slot:activator="{ on, attrs }">
+                                <v-icon color="primary" dark v-bind="attrs" v-on="on">
+                                  mdi-information-outline
+                                </v-icon>
+                              </template>
+                              <span
+                                >Este campo debe ser llenado con la comuna donde residirá en
+                                destino, la comuna donde trabajará en el destino o la comuna
+                                que visitará en el destino.</span
+                              >
+                            </v-tooltip>
                           </v-col>
                         </v-row>
-                      </div>
-                    </v-col>
-                  </v-row>
-                  <v-form v-model="props.item.pasajero.validForm">
-                    <v-row>
-                      <v-col
-                        cols="6"
-                        sm="6"
-                        md="5"
-                        lg="4"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <v-select
-                          light
-                          filled
-                          outlined
-                          dense
-                          :items="listaTipoDocumento"
-                          item-text="descripcion"
-                          item-value="valor"
-                          label="TIPO DOCUMENTO"
-                          v-model="props.item.pasajero.tipoDocumento"
-                          v-on:change="changeDocumentType(props.item.pasajero)"
-                        ></v-select>
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          label="Numero documento"
-                          outline-1
-                          color=""
-                          v-model="props.item.pasajero.numeroDocumento"
-                          required
-                          maxLength="20"
-                          :rules="
-                            props.item.pasajero.tipoDocumento === 'R'
-                              ? rutRules
-                              : [v => !!v || '']
-                          "
-                          @keypress="
-                            props.item.pasajero.tipoDocumento === 'R'
-                              ? validar($event, 'rut')
-                              : ''
-                          "
-                          v-on:blur="searchPassengerData(props.item.pasajero)"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col
-                        cols="6"
-                        sm="6"
-                        md="5"
-                        lg="4"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          v-model="props.item.pasajero.nombre"
-                          label="Nombre"
-                          outline-1
-                          color=""
-                          required
-                          :rules="[v => !!v || '']"
-                          maxLength="40"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          v-model="props.item.pasajero.apellido"
-                          label="Apellido"
-                          outline-1
-                          color=""
-                          required
-                          :rules="[v => !!v || '']"
-                          maxLength="60"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col
-                        cols="6"
-                        sm="6"
-                        md="5"
-                        lg="4"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <v-autocomplete
-                          light
-                          filled
-                          outlined
-                          dense
-                          :items="listaNacionalidad"
-                          item-text="descripcion"
-                          item-value="valor"
-                          label="NACIONALIDAD"
-                          v-model="props.item.pasajero.nacionalidad"
-                          required
-                          :rules="[v => !!v || '']"
-                        ></v-autocomplete>
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          :label="$t('email')"
-                          outline-1
-                          color=""
-                          :rules="emailRules"
-                          v-model="props.item.pasajero.email"
-                          required
-                          maxLength="100"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col
-                        cols="5"
-                        sm="6"
-                        md="5"
-                        lg="4"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          label="Contacto Telefónico"
-                          outline-1
-                          color=""
-                          v-model="props.item.pasajero.telefono"
-                          required
-                          maxLength="12"
-                          @keypress="validar($event, 'telefono')"
-                          :rules="[v => !!v || '']"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
-                        <v-text-field
-                          light
-                          filled
-                          outlined
-                          dense
-                          label="Contacto Telefónico Emergencia"
-                          outline-1
-                          color=""
-                          v-model="props.item.pasajero.telefonoEmergencia"
-                          required
-                          maxLength="12"
-                          @keypress="validar($event, 'telefono')"
-                          :rules="[v => !!v || '']"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col
-                        cols="5"
-                        sm="6"
-                        md="5"
-                        lg="3"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <v-autocomplete
-                          light
-                          filled
-                          outlined
-                          dense
-                          :items="listaComuna"
-                          item-text="nombre"
-                          item-value="codigo"
-                          label="COMUNA RESIDENCIA ORIGEN"
-                          v-model="props.item.pasajero.comunaOrigen"
-                          required
-                          :rules="[v => !!v || '']"
-                        ></v-autocomplete>
-                      </v-col>
-                      <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon
-                              color="primary"
-                              dark
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              mdi-information-outline
-                            </v-icon>
-                          </template>
-                          <span>Este campo debe ser llenado con la comuna de su hogar, la comuna de su trabajo o la comuna que se encuentra visitando previamente al viaje.</span>                          
-                        </v-tooltip>
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="3" class="pt-0">
-                        <v-autocomplete
-                          light
-                          filled
-                          outlined
-                          dense
-                          :items="listaComuna"
-                          item-text="nombre"
-                          item-value="codigo"
-                          label="COMUNA RESIDENCIA DESTINO"
-                          v-model="props.item.pasajero.comunaDestino"
-                          required
-                          :rules="[v => !!v || '']"
-                        ></v-autocomplete>
-                      </v-col>
-                      <v-col cols="1" sm="1" md="1" lg="1" class="pt-0">
-                        <v-tooltip bottom>
-                          <template v-slot:activator="{ on, attrs }">
-                            <v-icon
-                              color="primary"
-                              dark
-                              v-bind="attrs"
-                              v-on="on"
-                            >
-                              mdi-information-outline
-                            </v-icon>
-                          </template>
-                          <span>Este campo debe ser llenado con la comuna donde residirá en destino, la comuna donde trabajará en el destino o la comuna que visitará en el destino.</span>
-                        </v-tooltip>
-                      </v-col>
-                      <v-col
-                        cols="6"
-                        sm="6"
-                        md="5"
-                        lg="4"
-                        offset-md="2"
-                        class="pt-0"
-                      >
-                        <!--div class="d-flex justify-start">
-                          <v-checkbox
-                            color="orange_dark"
-                            v-model="props.item.pasajero.terms"
-                            :rules="[v => !!v || '']"
-                            required
-                          ></v-checkbox>
-                          <div class="d-flex align-center">
-                            <label class="subheading"
-                              >{{ $t('read_terms1') }}
-                              <span
-                                class="termLink"
-                                @click="props.item.pasajero.dialog = true"
-                                >{{ $t('read_terms2') }}</span
-                              ></label
-                            >
-                          </div>
-                        </div-->
-                        <!--v-dialog
-                          v-model="props.item.pasajero.dialog"
-                          fullscreen
-                          transition="dialog-bottom-transition"
-                          :overlay="false"
-                          scrollable
-                        >
-                          <v-card>
-                            <v-toolbar dark class="orange">
-                              <v-btn
-                                icon
-                                @click.native="
-                                  props.item.pasajero.dialog = false
-                                "
-                                dark
-                              >
-                                <v-icon>close</v-icon>
-                              </v-btn>
-                              <v-toolbar-title>{{
-                                $t('terms')
-                              }}</v-toolbar-title>
-                              <v-spacer></v-spacer>
-                            </v-toolbar>
-                            <v-card-text>
-                              <passengerTerms />
-                            </v-card-text>
-                          </v-card>
-                        </v-dialog-->
-                      </v-col>
-                      <v-col cols="6" sm="6" md="5" lg="4" class="pt-0">
+                      </v-form>
+                    <v-card-actions>
+                      <div class="xim-horizontal">
                         <v-btn
                           outlined
                           class="grey--text mr-5 md-5"
-                          @click="
-                            clearPassengerData(props.item.pasajero, 'ALL')
-                          "
-                          >Limpiar</v-btn
-                        >
-                        <v-btn
-                          color="orange"
-                          :disabled="!props.item.pasajero.validForm"
-                          class="white--text mr-5 md-5"
-                          @click="savePassengerData(props.item.pasajero)"
-                          >Guardar</v-btn
-                        >
-                      </v-col>
-                    </v-row>
-                  </v-form>
-                </td>
-              </tr>
-            </template>
-          </v-data-table>
-        </v-card-text>
+                          @click="clearPassengerData(item.pasajero, 'ALL')"
+                          >Limpiar</v-btn>
+                          <v-btn
+                            color="orange"
+                            :disabled="!item.pasajero.validForm"
+                            class="white--text mr-5 md-5"
+                            @click="savePassengerData(item.pasajero)"
+                            >Guardar</v-btn>
+                      </div>
+                    </v-card-actions>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-card>
+
+
+          </div>
         <v-card-actions class="mt-12">
           <v-spacer></v-spacer>
           <v-btn
@@ -513,7 +714,7 @@
           >
           <v-btn
             color="orange"
-            :disabled="puedeContinuar()"
+            :disabled="selectedSeats.length <= 0"
             class="white--text mr-5"
             @click="validaData()"
             >{{ $t('continue') }}</v-btn
@@ -525,15 +726,16 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import deleteSeat from '@/helpers/deleteSeat'
 import routeWithScroll from '@/helpers/routeWithScroll'
 import confirmationAmount from '@/helpers/updateConfirmationTicket'
 import validations from '@/helpers/fieldsValidation'
+import { getMixin } from '@/helpers/seatsUtils'
 import APICities from '@/services/api/cities'
 import APIPassenger from '@/services/api/passenger'
 //import PassengerTerms from '@/views/Services/stepper/PassengerTerms'
 
 export default {
+  mixins: [getMixin()],
   components: {
     //PassengerTerms
   },
@@ -542,19 +744,16 @@ export default {
       name: '',
       deleting: false,
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       listaTipoDocumento: [],
       listaNacionalidad: [],
       listaComuna: []
     }
   },
-  mounted() {    
-    for(const seat of this.selectedSeats){
-      if(seat.tipo != 'pet'){
-        seat.isExpanded = true;
+  mounted() {
+    for (const seat of this.selectedSeats) {
+      if (seat.tipo != 'pet') {
+        seat.isExpanded = true
       }
     }
     console.log(this.selectedSeats)
@@ -597,34 +796,24 @@ export default {
       pasajero.numeroDocumento = ''
     },
     async searchPassengerData(pasajero) {
-      this.clearPassengerData(pasajero, '')
-      if(pasajero.tipoDocumento=='R'){
-        let valida = validations.rutValidation(pasajero.numeroDocumento)
-        console.log(valida);
-        if(valida!==true) return;
-      }else{
-        console.log("Validar pasaporte")
-      }
-      
       let passenger = {
         tipoDocumento: pasajero.tipoDocumento,
         documento: pasajero.numeroDocumento
       }
       console.log(passenger)
-      
+      this.clearPassengerData(pasajero, ''),
         await APIPassenger.getPassengerData(passenger).then(response => {
           if (response.data.documento != null) {
             pasajero.numeroDocumento = response.data.documento
             pasajero.nombre = response.data.nombres
-            pasajero.apellido =
-              response.data.paterno + ' ' + response.data.materno
+            pasajero.apellido = response.data.paterno + ' ' + response.data.materno
             pasajero.nacionalidad = response.data.nacionalidad
             pasajero.email = response.data.email
             pasajero.comunaOrigen = response.data.comuna
             pasajero.telefono = response.data.telefono
             pasajero.comunaDestino = undefined
             pasajero.direccion = response.data.direccion
-            pasajero.terms = false;
+            pasajero.terms = false
             pasajero.telefonoEmergencia = undefined
             console.log(pasajero)
           }
@@ -637,13 +826,15 @@ export default {
           this.$notify({
             group: 'info',
             title: response.data.mensaje,
-            type: 'info'
+            type: 'info',
+            classes: 'xim-notification'
           })
         } else {
           this.$notify({
             group: 'error',
             title: response.data.mensaje,
-            type: 'error'
+            type: 'error',
+            classes: 'xim-not-movile'
           })
         }
       })
@@ -661,49 +852,20 @@ export default {
       pasajero.telefono = ''
       pasajero.telefonoEmergencia = ''
       pasajero.comunaDestino = ''
-      pasajero.terms = false;
+      pasajero.terms = false
     },
-    validaData() {      
-      this.routeWithScroll('#paymentStepper', 'Payment')    
-    },
-    puedeContinuar(){
-      let valid = false;
-      if (this.selectedSeats.length > 0){
-        this.selectedSeats.forEach(element=>{
-          console.log(element);          
-          if(element.tipo!='pet' && !element.pasajero.validForm) valid=true;
-        })
-      }
-      return valid;
+    validaData() {
+      this.routeWithScroll('#paymentStepper', 'Payment')
     },
     routeWithScroll,
     confirmationAmount,
-    async deleteSelected(seat) {
+    async clear(seat) {
       this.deleting = true
-      const index = this.selectedSeats.findIndex(item => item.id === seat.id)
-      if (index > -1) {
-        await deleteSeat(index)
-      }
-      if(seat.tipo === 'asociado'){
-         const index = this.selectedSeats.findIndex(
-          item =>
-            item.piso === seat.piso &&
-            item.servicio === seat.servicio &&
-            item.fecha === seat.fecha &&
-            item.origen === seat.origen &&
-            item.destino === seat.destino &&
-            item.integrador === seat.integrador &&
-            item.empresa === seat.empresa &&
-            item.asiento === seat.asientoAsociado &&
-            item.tipo === 'pet' 
-        )
-        if (index > -1) {
-          await deleteSeat(index)
-        }
-      }
+      await this.deleteSelected(seat, this.selectedSeats)
       this.deleting = false
     },
     setBannerText(seat) {
+      console.log('SEAT::',this.banner[0]);
       const content = this.banner[0].contenido
       const price =
         parseInt(seat.totalPromo.split('.').join('')) -
@@ -770,15 +932,20 @@ export default {
         },
         { text: this.$t('service'), value: 'servicioNombre', sortable: false },
         { text: this.$t('seat'), value: 'asiento', sortable: false },
-        { text: this.$t('price'), value: 'precio', sortable: false },
-        { text: '', value: '', sortable: false },
+        {
+          text: this.$t('normal_price'),
+          value: 'tarifaNormal',
+          sortable: false
+        },
+        { text: this.$t('final_price'), value: 'precio', sortable: false },
         { text: '', value: '', sortable: false }
+        // { text: '', value: '', sortable: false }
       ]
       if (!this.hasVuelta) {
         result.splice(7, 0, {
           text: 'Promoción',
           value: 'tomadoPromo',
-          sortable: true
+          sortable: false
         })
       }
       return result
@@ -786,32 +953,111 @@ export default {
   }
 }
 </script>
-<style>
-.confirmation-promotion-advice {
-  width: 90px;
-  height: 10px;
-  transform: rotate(-60deg);
-}
+<style lang="scss">
+.confirmation-payment-data-container {
+  .v-data-table-header {
+    text-transform: uppercase;
+  }
+  .confirmation-promotion-advice {
+    width: 90px;
+    height: 10px;
+    transform: rotate(-60deg);
+  }
 
-.passenger-data-advice {
-  width: 300px;
-  margin-top: 10px;
-  margin-left: -100px;
-  transform: rotate(-58deg);
-  font-size: 0.7rem !important;
-}
-.passenger-data {
-  background: #e5eaf4;
-}
-.title-passenger-data {
-  margin: 10px 10px 10px 10px;
-  color: white;
-  background: #97abd2;
-  border-radius: 0px !important;
-  text-align: left;
-}
-.icono_persona {
-  width: 32px;
-  margin-left: 40px;
+  .passenger-data-advice {
+    width: 300px;
+    margin-top: 10px;
+    margin-left: -100px;
+    transform: rotate(-58deg);
+    font-size: 0.7rem !important;
+  }
+  .passenger-data {
+    background: #e5eaf4;
+  }
+  .title-passenger-data {
+    margin: 10px 10px 10px 10px;
+    color: white;
+    background: #97abd2;
+    border-radius: 0px !important;
+    text-align: left;
+  }
+  .icono_persona {
+    width: 32px;
+    margin-left: 40px;
+  }
+
+  @media (max-width: 1350px) {
+    .clear-btn {
+      min-width: 32px !important;
+    }
+  }
+
+  .xim-texto-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    line-height: 0.7rem;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+  .xim-texto-datos {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 0.9rem;
+    width: 100%;
+        padding: 5px 0 0 0;
+  }
+  .xim-colum {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    flex-direction: column;
+  }
+  .xim-horizontal {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+  }
+  .xim-texto-porcentaje {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1110ad !important;
+    caret-color: #1110ad !important;
+  }
+  .xim-alinea-vertical {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 94%;
+    margin: 0 10px 0 10px;
+  }
+  .v-application {
+    width: 143vw;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+  .xim-bg-resalta {
+    background: #bbbbbb;
+    background: linear-gradient(0deg,#bbbbbb 0%, #eef0f7 30%);
+    background: -webkit-linear-gradient(0deg,#bbbbbb 0%, #eef0f7 30%);
+    background: -moz-linear-gradient(0deg,#bbbbbb 0%, #eef0f7 30%);
+  }
+  .xim-card {
+    background: #fff;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
+  }
+  .xim-card-titulo {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.87);
+  }
+  .xim {
+    margin: 0 5px 0 5px;
+  }
 }
 </style>

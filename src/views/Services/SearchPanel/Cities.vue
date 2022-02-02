@@ -50,9 +50,7 @@ export default {
       }
     },
     languageChange() {
-      return this.direction === 'from'
-        ? this.$t('from_city2')
-        : this.$t('to_city2')
+      return this.direction === 'from' ? this.$t('from_city2') : this.$t('to_city2')
     }
   }
 }

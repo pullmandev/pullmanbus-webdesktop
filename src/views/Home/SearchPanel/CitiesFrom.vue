@@ -1,12 +1,12 @@
 <template v-if="direction">
-  <div>
+  <div :class="{ cityFrom: fromHome }">
     <v-autocomplete
       class="body-1"
       :append-icon="userCity === '' || userCity == null ? '$dropdown' : ''"
-      dark
+      :dark="!fromHome"
+      :color="fromHome ? 'blue_dark' : 'grey lighten-4'"
       :label="languageChange"
       :items="cities"
-      color="grey lighten-4"
       item-text="nombre"
       item-value="codigo"
       :menu-props="{
@@ -35,7 +35,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: ['direction', 'value', 'windowHeight'],
+  props: ['direction', 'value', 'windowHeight', 'fromHome'],
   name: 'CitiesList',
   data() {
     return {
@@ -58,10 +58,25 @@ export default {
       }
     },
     languageChange() {
-      return this.direction === 'from'
-        ? this.$t('from_city2')
-        : this.$t('to_city2')
+      return this.direction === 'from' ? this.$t('from_city2') : this.$t('to_city2')
     }
   }
 }
 </script>
+<style lang="scss">
+@import '@/sass/colors.scss';
+.cityFrom {
+  .mdi-menu-down,
+  .mdi-close,
+  .blue_dark--text .mdi-menu-down,
+  .blue_dark--text .mdi-close {
+    color: $orange_dark !important;
+  }
+  input {
+    color: $blue_dark !important;
+  }
+  label {
+    color: $blue_dark !important;
+  }
+}
+</style>

@@ -1,0 +1,34 @@
+@import '@/sass/colors.scss';
+@import '@/sass/mixins.scss';
+
+@include track('#agencyList');
+@include scrollbar('#agencyList');
+@include thumb('#agencyList');
+
+@include track('#mapList');
+@include scrollbar('#mapList');
+@include thumb('#mapList');
+
+.panel {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+li {
+  list-style: none;
+  width: 100%;
+  cursor: pointer;
+  &.selected {
+    background-color: mix($background-blue, black, 95%);
+  }
+}
+
+.no-cities-message {
+  height: 200px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: mix($blue_light2, black, 70%);;
+}

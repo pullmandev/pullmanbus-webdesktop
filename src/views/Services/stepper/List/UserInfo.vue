@@ -3,9 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-card class="pt-3 pr-3 pl-3">
         <v-card-title class="px-2">
-          <span class="headline blue_dark--text">{{
-            $t('purchase_data')
-          }}</span>
+          <span class="headline blue_dark--text">{{ $t('purchase_data') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -101,9 +99,7 @@
         <v-card-actions>
           <v-row justify="center">
             <v-col cols="6" class="d-flex justify-end">
-              <v-btn outlined @click.native="$emit('finish')">{{
-                $t('back')
-              }}</v-btn>
+              <v-btn outlined @click.native="$emit('finish')">{{ $t('back') }}</v-btn>
             </v-col>
             <v-col cols="6">
               <v-btn
@@ -118,11 +114,7 @@
               <span>ó</span>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <v-btn
-                color="blue_dark"
-                class="white--text"
-                @click="openDialog('login')"
-              >
+              <v-btn color="blue_dark" class="white--text" @click="openDialog('login')">
                 <span class="capitalize">{{ $t('login') }}</span>
               </v-btn>
             </v-col>
@@ -148,10 +140,7 @@ export default {
       movil: '',
       rut: '',
       nationality: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       emailconfirmRules: [
         v => !!v || 'E-mail es requerido',
         v => this.email === v || 'E-mails no coinciden'
@@ -177,9 +166,7 @@ export default {
       const paymentInfo = {
         name: this.name,
         lastname: this.lastname,
-        completeName: this.lastname
-          ? this.name + ' ' + this.lastname
-          : this.name,
+        completeName: this.lastname ? this.name + ' ' + this.lastname : this.name,
         rut: this.rut,
         email: this.email,
         movil: this.movil

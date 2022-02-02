@@ -38,10 +38,22 @@ export default {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  sendContact(params) {
-    return axios.post(enviarContacto, params, {
-      headers: { 'Content-Type': 'application/json' }
-    })
+
+  async sendContact(params) {
+    try {
+      const { status, data } = await axios.post(enviarContacto, params, {
+        headers: { 'Content-Type': 'application/json' }
+      })
+
+      if (status === 200) return data
+      else {
+        console.warn('WARN-SEND-CONTACT ->', data)
+        return null
+      }
+    } catch (error) {
+      console.error('ERROR-SEND-CONTACT ->', error.message)
+      return null
+    }
   },
   getUsuarioPass(params){
     return axios.post(buscarUsuario, params, {

@@ -31,8 +31,7 @@ function parse_caption(igobj, data) {
   if (
     typeof igobj.node.edge_media_to_caption.edges[0] !== 'undefined' &&
     typeof igobj.node.edge_media_to_caption.edges[0].node !== 'undefined' &&
-    typeof igobj.node.edge_media_to_caption.edges[0].node.text !==
-      'undefined' &&
+    typeof igobj.node.edge_media_to_caption.edges[0].node.text !== 'undefined' &&
     igobj.node.edge_media_to_caption.edges[0].node.text !== null
   ) {
     return igobj.node.edge_media_to_caption.edges[0].node.text
@@ -68,8 +67,7 @@ function getContent(data) {
     console.error('Este sitio es privado')
     return
   }
-  let imgs = (data.edge_owner_to_timeline_media || data.edge_hashtag_to_media)
-      .edges,
+  let imgs = (data.edge_owner_to_timeline_media || data.edge_hashtag_to_media).edges,
     max = imgs.length > 3 ? 3 : imgs.length
 
   const content = []
@@ -109,9 +107,7 @@ function getContent(data) {
 export default async function getFeedInfo() {
   try {
     const response = await API.getInstaPost()
-    const text = response.data
-      .split('window._sharedData = ')[1]
-      .split('</script>')[0]
+    const text = response.data.split('window._sharedData = ')[1].split('</script>')[0]
 
     let data = JSON.parse(text.substr(0, text.length - 1))
 

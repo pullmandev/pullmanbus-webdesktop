@@ -26,7 +26,8 @@ const store = new Vuex.Store({
         'payment_info',
         'userData',
         'cuponera',
-        'cuponeraTo'
+        'cuponeraTo',
+        'userCoupon'
       ]
     })
   ],
@@ -39,10 +40,10 @@ const store = new Vuex.Store({
     },
     cities: [],
     citiesTo: [],
-    citiesConfirmation:[],
-    citiesToConfirmation:[],
-    cuponera:[],
-    cuponeraTo:[],
+    citiesConfirmation: [],
+    citiesToConfirmation: [],
+    cuponera: [],
+    cuponeraTo: [],
     searching: {
       from_city: null,
       to_city: null,
@@ -50,8 +51,8 @@ const store = new Vuex.Store({
       to_date: null,
       petService: false
     },
-    searchingFromToConfirmation:{
-      searchingCity:{}
+    searchingFromToConfirmation: {
+      searchingCity: {}
     },
     searchingConfirmation: {
       ticket: {},
@@ -97,6 +98,15 @@ const store = new Vuex.Store({
       movil: '',
       completeName: ''
     },
+    userCoupon:{
+      documento: '',
+      email: '',
+      nacionalidad: '',
+      nombre: '',
+      apellido: '',
+      direccion: '',
+      active: false
+    },
     userData: {
       cambiaClave: false,
       payment_info: {},
@@ -114,8 +124,8 @@ const store = new Vuex.Store({
       from: ''
     },
     packageVersion: process.env.PACKAGE_VERSION || '0',
-    cupon : null,
-    ticketChange : null
+    cupon: null,
+    ticketChange: null
   },
 
   actions: {
@@ -136,7 +146,7 @@ const store = new Vuex.Store({
           console.log(err)
         })
     },
-    LOAD_CITIES_TO_LIST({ commit}, searchOrigin) {
+    LOAD_CITIES_TO_LIST({ commit }, searchOrigin) {
       const { searchingCity } = searchOrigin
       APICities.getCityByCode(searchingCity)
         .then(response => {
@@ -148,7 +158,7 @@ const store = new Vuex.Store({
           console.log(err)
         })
     },
-    LOAD_CITIES_CONFIRMATION_LIST({ commit}, payload) {
+    LOAD_CITIES_CONFIRMATION_LIST({ commit }, payload) {
       const { searchingCity } = payload
       APIConfirmation.getCities(searchingCity)
         .then(response => {
@@ -160,7 +170,7 @@ const store = new Vuex.Store({
           console.log(err)
         })
     },
-    LOAD_CITIES_TO_CONFIRMATION_LIST({ commit}, payload) {
+    LOAD_CITIES_TO_CONFIRMATION_LIST({ commit }, payload) {
       const { searchingCity } = payload
       APIConfirmation.getCitiesTo(searchingCity)
         .then(response => {
@@ -336,7 +346,8 @@ const store = new Vuex.Store({
           console.log(err)
         })
     },
-    LOAD_CUPONERA_TO_LIST({ commit}, searchOrigin) {
+    LOAD_CUPONERA_TO_LIST({ commit }, searchOrigin) {
+      console.log('ACTIONS', searchOrigin)
       const { searchingCity } = searchOrigin
       APICities.getCuponeraByCode(searchingCity)
         .then(response => {
@@ -386,8 +397,8 @@ const store = new Vuex.Store({
       }
     },
 
-    SET_NEW_USER_SEARCHING_PET({ commit }, payload) {      
-      commit('SET_USER_SEARCHING_PET', { petService: payload.petService })      
+    SET_NEW_USER_SEARCHING_PET({ commit }, payload) {
+      commit('SET_USER_SEARCHING_PET', { petService: payload.petService })
     },
 
     SET_SEARCHING_CONFIRMATION({ commit }, payload) {
@@ -399,16 +410,14 @@ const store = new Vuex.Store({
     },
 
     SET_USER_FILTER({ commit }, payload) {
-      if (payload.type === 'class')
-        commit('SET_CLASS_FILTER', { filter: payload.filter })
+      if (payload.type === 'class') commit('SET_CLASS_FILTER', { filter: payload.filter })
       if (payload.type === 'selectedClass')
         commit('SET_SELECTED_CLASS_FILTER', { filter: payload.filter })
       if (payload.type === 'prices')
         commit('SET_PRICE_FILTER', { filter: payload.filter })
-      if (payload.type === 'hours')
-        commit('SET_HOUR_FILTER', { filter: payload.filter })
-      if (payload.type === 'pet'){        
-        commit('SET_PET_FILTER', { filter : payload.filter })
+      if (payload.type === 'hours') commit('SET_HOUR_FILTER', { filter: payload.filter })
+      if (payload.type === 'pet') {
+        commit('SET_PET_FILTER', { filter: payload.filter })
       }
     },
 
@@ -467,7 +476,10 @@ const store = new Vuex.Store({
     SET_USER({ commit }, payload) {
       commit('SET_USER', { userData: payload.userData })
     },
-
+    
+    SET_USER_COUPON({ commit }, payload) {
+      commit('SET_USER_COUPON', { userCoupon: payload.userCoupon })
+    },
     DELETE_USER({ commit }) {
       commit('DELETE_USER')
     },
@@ -535,7 +547,7 @@ const store = new Vuex.Store({
       state.searching.to_city = city
     },
     SET_USER_SEARCHING_PET: (state, { petService }) => {
-      console.log("Change set pet", petService)
+      console.log('Change set pet', petService)
       state.searching.petService = petService
     },
     SET_USER_SEARCHING_FROM_DATE: (state, { date }) => {
@@ -594,22 +606,22 @@ const store = new Vuex.Store({
       state.grid = grid
     },
     SET_SEAT: (state, { seat }) => {
-      seat.pasajero = { 
-        "validForm" : false ,
-        "tipoDocumento" : "R",
-        "documento": "",
-        "comuna": "",
-        "direccion": "",
-        "email": "",
-        "materno": "",
-        "nacionalidad": "",
-        "nombres": "",
-        "paterno": "",
-        "telefono": "",
-        "telefonoEmergencia":"",
-        "terms":false,
-        "dialog":false 
-      };
+      seat.pasajero = {
+        validForm: false,
+        tipoDocumento: 'R',
+        documento: '',
+        comuna: '',
+        direccion: '',
+        email: '',
+        materno: '',
+        nacionalidad: '',
+        nombres: '',
+        paterno: '',
+        telefono: '',
+        telefonoEmergencia: '',
+        terms: false,
+        dialog: false
+      }
       state.seats.push(seat)
     },
     SET_CONFIRMATION_SEAT_AMOUNT: (state, { seat, tomado }) => {
@@ -639,6 +651,9 @@ const store = new Vuex.Store({
     SET_USER(state, { userData }) {
       state.userData = userData
     },
+    SET_USER_COUPON(state, { userCoupon }) {
+      state.userCoupon = userCoupon
+    },
     DELETE_USER(state) {
       const userData = {
         cambiaClave: false,
@@ -649,6 +664,18 @@ const store = new Vuex.Store({
         active: false
       }
       state.userData = userData
+    },
+    DELETE_USER_COUPON(state) {
+      const userCoupon = {
+        documento: '',
+        email: '',
+        nacionalidad: '',
+        nombre: '',
+        apellido: '',
+        direccion: '',
+        active: false
+      }
+      state.userCoupon = userCoupon
     },
     SET_HOME_BANNERS(state, { banners }) {
       state.homeBanners.data = banners
@@ -668,10 +695,10 @@ const store = new Vuex.Store({
     SET_HISTORY(state, history) {
       state.history = history
     },
-    SET_CUPON(state, cupon) {      
+    SET_CUPON(state, cupon) {
       state.cupon = cupon
     },
-    SET_TICKET_CHANGE_VOUCHER(state, ticket) {      
+    SET_TICKET_CHANGE_VOUCHER(state, ticket) {
       state.ticketChange = ticket
     },
     SET_CUPONERA_LIST: (state, { list }) => {
@@ -693,10 +720,14 @@ const store = new Vuex.Store({
       return state.citiesTo.filter(citiesTo => !citiesTo.completed)
     },
     getCitiesConfirmacionList: state => {
-      return state.citiesConfirmation.filter(citiesConfirmation => !citiesConfirmation.completed)
+      return state.citiesConfirmation.filter(
+        citiesConfirmation => !citiesConfirmation.completed
+      )
     },
     getCitiesToConfirmacionList: state => {
-      return state.citiesToConfirmation.filter(citiesToConfirmation => !citiesToConfirmation.completed)
+      return state.citiesToConfirmation.filter(
+        citiesToConfirmation => !citiesToConfirmation.completed
+      )
     },
     getServiceFiltered: state => {
       const serviceFilters = state.serviceFilters
@@ -716,29 +747,20 @@ const store = new Vuex.Store({
         return filter
       })
       const servicesByPrice = servicesByCompany.map(service => {
-        const tarifa1 = parseInt(
-          service.tarifaPrimerPisoInternet.split('.').join('')
-        )
+        const tarifa1 = parseInt(service.tarifaPrimerPisoInternet.split('.').join(''))
         let filter1 =
-          tarifa1 >= serviceFilters.prices.min &&
-          tarifa1 <= serviceFilters.prices.max
+          tarifa1 >= serviceFilters.prices.min && tarifa1 <= serviceFilters.prices.max
         if (serviceFilters.selectedClass !== 'Todos') {
-          filter1 =
-            service.servicioPrimerPiso === serviceFilters.selectedClass &&
-            filter1
+          filter1 = service.servicioPrimerPiso === serviceFilters.selectedClass && filter1
         }
         let newItem = { ...service, filter1 }
         if (service.busPiso2 != null) {
-          const tarifa2 = parseInt(
-            service.tarifaSegundoPisoInternet.split('.').join('')
-          )
+          const tarifa2 = parseInt(service.tarifaSegundoPisoInternet.split('.').join(''))
           let filter2 =
-            tarifa2 >= serviceFilters.prices.min &&
-            tarifa2 <= serviceFilters.prices.max
+            tarifa2 >= serviceFilters.prices.min && tarifa2 <= serviceFilters.prices.max
           if (serviceFilters.selectedClass !== 'Todos') {
             filter2 =
-              service.servicioSegundoPiso === serviceFilters.selectedClass &&
-              filter2
+              service.servicioSegundoPiso === serviceFilters.selectedClass && filter2
           }
           newItem = { ...newItem, filter2 }
         }
@@ -751,12 +773,16 @@ const store = new Vuex.Store({
       const { claseFiltro } = state.searchingConfirmation.ticket
       //console.log(claseFiltro)
       const servicesFiltered = state.confirmationServices.data.map(service => {
-        let filter1 = claseFiltro.find(item=> 
-          service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)) != undefined          
+        let filter1 =
+          claseFiltro.find(
+            item => service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)
+          ) != undefined
         let newItem = { ...service, filter1 }
         if (service.busPiso2 != null) {
-          let filter2 = claseFiltro.find(item=> 
-            service.idClaseBusPisoDos.substr(0, 3) === item.substr(0, 3))!= undefined
+          let filter2 =
+            claseFiltro.find(
+              item => service.idClaseBusPisoDos.substr(0, 3) === item.substr(0, 3)
+            ) != undefined
           newItem = { ...newItem, filter2 }
         }
         return newItem
@@ -988,7 +1014,7 @@ const store = new Vuex.Store({
     },
     seatsByTravel: state => vuelta => {
       return state.seats.filter(item => {
-        return item.vuelta === vuelta
+        return item.vuelta || false === vuelta
       })
     },
     payment_info: state => {
@@ -999,6 +1025,9 @@ const store = new Vuex.Store({
     },
     userData: state => {
       return state.userData
+    },
+    userCoupon: state => {
+      return state.userCoupon
     },
     getHistory: state => {
       return state.history

@@ -9,9 +9,9 @@
 
       <ol class="ml-4">
         <li>
-          Estas condiciones y restricciones sólo aplican para la compra de
-          pasajes por Internet. La opción de reserva de pasajes no se encuentra
-          habilitada por este medio.
+          Estas condiciones y restricciones sólo aplican para la compra de pasajes por
+          Internet. La opción de reserva de pasajes no se encuentra habilitada por este
+          medio.
         </li>
       </ol>
     </div>

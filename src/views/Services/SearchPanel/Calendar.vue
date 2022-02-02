@@ -89,8 +89,7 @@ export default {
     localeChange() {
       this.firstDayOfweek = this.$i18n.locale === 'en' ? 0 : 1
       moment.locale(this.$i18n.locale)
-      if (this.userCalendar)
-        this.formatedDate = moment(this.userCalendar).format('DD/MM')
+      if (this.userCalendar) this.formatedDate = moment(this.userCalendar).format('DD/MM')
       return this.$t('locale')
     },
     languageChange() {
@@ -106,7 +105,7 @@ export default {
       this.userCalendar = null
     },
     lessThan45(date) {
-      const limit = moment().add(45, 'days')
+      const limit = moment().add(60, 'days')
       return moment(date).diff(limit, 'days') < 0
     }
   }

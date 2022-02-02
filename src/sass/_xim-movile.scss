@@ -1,0 +1,1054 @@
+@media (max-width: 576px) {
+  .xim-desktop {
+    display: none !important;
+  }
+  .xim-movile {
+    display: block !important;
+  }
+  .v-input__slot {
+    align-items: center;
+    color: inherit;
+    display: flex;
+    margin-bottom: 8px;
+    min-height: inherit;
+    position: relative;
+    transition: 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    width: 71vw;
+  }
+  .xim-centrado-h {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 100vw;
+  }
+  .xim-caja {
+    width: 56vw !important;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+  }
+  .v-input--selection-controls {
+    margin-top: 0px;
+    padding-top: 0px;
+  }
+  .v-image__image--cover {
+    background-size: 100%;
+  }
+  .v-dialog:not(.v-dialog--fullscreen) {
+    max-height: 100%;
+  }
+  .v-btn:before {
+    border-radius: inherit;
+    bottom: 0;
+    color: inherit;
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.6, 1);
+  }
+  .v-application .black--text {
+    color: #000000 !important;
+    caret-color: #000000 !important;
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    height: 36px!important;
+    min-width: 64px!important;
+    padding: 0 16px!important;
+  }
+  .v-application .align-center {
+    align-items: center !important;
+  }
+  .v-responsive__content {
+    color: #fff;
+    margin-top: 0px !important;
+  }
+  .v-application .title {
+    font-size: 0.75rem !important;
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: 0.0125em !important;
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+  }
+  .xim-searchcontent {
+    margin-top: 5vh;
+  }
+  .xim-espacio-superior { 
+    height: 64px!important;
+  }
+  .mt-t5 { 
+    margin-top: 50px;
+  }
+  .mt-50 { 
+    margin-top: 0!important;
+    padding-top: 5vh!important;
+  }
+  .xim-container-i {
+    display: flex;
+    box-sizing: border-box;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 90vw !important;
+    max-width: 90vw !important;
+    padding: 1vw !important;
+    margin: 1vh 4vw !important;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+  .v-menu__content--fixed { 
+    min-width: 102px!important;
+    transform-origin: left top!important;
+    z-index: 57;
+    top: 46px !important;
+    left: 162px !important;
+  }
+  .CouponBackground {
+    min-width: 100vw;
+    min-height: 95vh;
+    background-image: url('../../static/images/bgCuponeraCelular.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow-x: auto;
+    margin: 0;
+  }
+  .xim-strong {
+    font-weight: 900;
+    width: 100%;
+    margin: 0;
+    text-align: right;
+  }
+  .xim-icon-pos {
+    margin: 0 0 0 0;
+    font-size: 18px !important;
+  }
+  .v-menu {
+    display: block;
+  }
+  .xim-multimedia {
+    margin: 0 7% !important;
+  }
+  .xim-alc { 
+    padding: 0px 45%;
+  }
+  .xim-search-font {
+    font-family: Poppins !important;
+    font-size: 12px !important;
+    padding: 20px 0!important;
+  }
+  .xim-menu {
+    min-width: 133px!important;
+    top: 46px!important;
+    left: 160px!important;
+    display: flex; 
+    height: 100%; 
+    align-items: center;
+  }
+  .xim-header-icons { 
+    font-size: 24px!important;
+    height: 100%!important;
+    margin: 20px 0 0 10px!important;
+  }
+  .v-btn:not(.v-btn--round).v-size--small {
+    height: 32px;
+    min-width: 50px;
+    padding: 0 12.4444444444px;
+  }
+  .xim-card-dos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 180vh;
+    margin: 0 !important;
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.3);
+  }
+  .v-application .mx-2 {
+    margin-right: -10px !important;
+    margin-left: 46px !important;
+    margin-top: 20px !important;
+  }
+  .xim-text-center-i { 
+    font-family: 'Poppins', 'Roboto', sans-serif!important;
+    color: #141414;
+    font-weight: 900!important;
+    text-align: center!important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  h4, .xim-titulo-boton {
+    font-family: 'Poppins', 'Roboto', sans-serif!important;
+    color: #FFF;
+    font-weight: 900!important;
+    text-align: center!important;
+    margin: 4vw 0 0 0!important;
+    padding: 3.3vh 0 0 0!important;
+  }
+  .xbtn { 
+    background:#2e3891;
+    width: 60vw!important;
+    height: 10vh!important;
+    border-radius: 5px!important;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+    
+    position: relative!important;
+    top: 0!important;
+    left: 50%!important;
+    padding: 0!important;
+
+    transform: translateX(-50%)!important;
+
+  }
+  .xclub {
+    background-image: url('../../static/logos/coupon/badge_white_18dp.svg');
+    background-repeat: no-repeat;
+    background-position: 13% 53%;
+  }
+  .xgen {
+    background-image: url('../../static/logos/coupon/groups_white_18dp.svg');
+    background-repeat: no-repeat;
+    background-position: 11% 52%;
+  }
+  .bgCupon {
+    align-items: center;
+    margin: 0 0 0 0!important;
+    width: 100vw !important;
+    min-height: 95vh !important;
+    
+  }
+  .xim-listado-asiento {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 10%;
+    height: auto;
+    margin: 0 45px 0 0px;
+  }
+  .xim-btn-principal {
+    display: block !important;
+    position: relative !important;
+  } 
+  .xim-btn-header { 
+    background-color: transparent!important;
+    height: 56px !important;
+    padding: 0 !important;
+    box-shadow: none!important;
+    width: 145px;
+  }
+  .xim-ico-login { 
+    max-width: 12px!important;
+    max-height: 12px!important;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0 0px 0 0px;
+
+  }
+  .grupo-uno {
+    width: auto;
+  }
+  .xim-bus-i {
+    font-size: 2.3rem !important;
+    margin: 3px 0 10px 10px !important;
+  }
+  .search_container {
+    max-width: 100% !important;
+  }
+  .promotion-advice-floor {
+    position: absolute;
+    width: 220px;
+    top: 32px;
+    left: -58px;
+    transform: rotate(308deg);
+  }
+  .v-application .body-1 {
+    font-size: 0.75rem !important;
+  }
+  .xim-movile-logo-header {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    height: 56px !important;
+    color: #fff;
+    margin: 0 !important;
+  }
+  .orange--text {
+    font-size: 0.75rem !important;
+  }
+  .xim-label2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--var-light);
+    line-height: 1.5;
+    margin: 0px;
+    height: 15px !important;
+    font-size: 0.75rem !important;
+  }
+  .xim-container-movile2 {
+    width: 94vw !important;
+    height: 60px;
+    margin: 0;
+    padding: 0 0 0px 12px;
+    background: var(--var-blue_dark);
+    border-radius: 15px;
+    box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.3);
+  }
+  .xim-movile-bton-icon {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+  }
+  .xim-movile-resposivo {
+    max-width: 35vw;
+    min-height: 0vh;
+    max-height: 3vh;
+    height: auto;
+  }
+  .xim-header-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-size: 0.64rem !important;
+    height: 56px !important;
+    padding: 0 0 0 0 !important;
+  }
+  .xim-bannerConfirmacion {
+    margin: 41px 0 0 0;
+    width: 100%;
+  }
+  
+  .v-dialog__content {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0px;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    transition: 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 1ms;
+    width: 95vw !important;
+    margin: 0 1px;
+    z-index: 6;
+    outline: none;
+  }
+  .v-app-bar--is-scrolled {
+    overflow-y: hidden;
+    overflow-x: hidden;
+    overflow: hidden;
+  }
+  .xim-estatico {
+    max-width: 3px;
+    height: 100%;
+  }
+  .main-header {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 102vw !important;
+    min-height: 56px !important;
+    height: 56px !important;
+    z-index: 100 !important;
+    a {
+      text-decoration: none;
+      height: 56px !important;
+    }
+    .header-text {
+      font-size: 0.75rem;
+    }
+    .v-toolbar__content {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 56px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .line-separator {
+      display: none !important;
+    }
+  }
+  .xim-header {
+    height: 56px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .xim-centrado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    text-align: center;
+  }
+  .xim-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 96vw!important;
+    height: auto;
+    margin: 0 !important;
+    padding: 0 0 20px 0 !important;
+    border-radius: 5px!important;
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.3);
+  }
+  .xim-card-header {
+    display: block;
+  }
+  .xim-card-body {
+    width: 100vw;
+  }
+  .xim-label3 {
+    font-weight: 900;
+    text-align: right;
+    color: #000;
+    padding: 0 0 0 5px;
+  }
+  .xim-data {
+    font-weight: 900;
+    text-align: left;
+    color: #000;
+    text-align: left;
+    padding: 0 0 0 5px;
+  }
+  .xim-svg-icon {
+    max-width: 7vw !important;
+    max-height: 7vw !important;
+    margin: 8px 0 0 0;
+  }
+  .v-dialog {
+    margin: 0 10px 0 10px!important;
+    height: auto !important;
+    font-size: 0.75rem!important;
+    font-weight: 400!important;
+    text-align: start!important;
+  }
+  
+  .xim-my-dialog {
+    width: 95vw !important;
+    height: 70vh !important;
+    overflow-y: auto !important;
+    margin: 10vw 5vw !important;
+  }
+  .xim-90 {
+    width: 90vw !important;
+  }
+  
+  .xim-responsiva {
+    max-width: 80vw;
+    height: 190px;
+    width: 85vw;
+    margin: 0;
+  }
+  .xim-t30 {
+    margin: 30px 0 0 0;
+  }
+
+  .xim-espacio-foot {
+    height: 150vh !important;
+  }
+  .xim-btnpmas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+  }
+  .xim-top-resumen {
+    margin: 25px 0 0 0 !important;
+  }
+  .ProfileBackground {
+    background: var(--var-light) !important;
+    min-height: 95vh !important;
+    padding-top: 25px !important;
+    padding-bottom: 100px !important;
+  }
+  .v-btn--icon.v-size--default {
+    height: 18px !important;
+    width: 18px !important;
+    padding: 1vh 0vw 0px 6vw !important;
+  }
+  .v-responsive__content {
+    padding: 0 !important;
+  }
+  .baja-m {
+    margin: 20px 0 0 0;
+  }
+  .xim-ver-mas {
+    display: block;
+  }
+
+  .xim-ll {
+    border-bottom: 1px solid #0078db;
+  }
+  .xim-datos-pasajeros {
+    text-align: center;
+    font-weight: 900 !important;
+    background: transparent !important;
+    margin: -6vh 0 43px 0px !important;
+  }
+  .xim-movile-icon {
+    font-size: 1em !important;
+    color: #ccc;
+  }
+  .xim-movile-icon-logeado {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .xim-card {
+    width: 0 auto;
+  }
+  .xim-movile-icon-logeado::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border-radius: 50%;
+    border: 4px solid #0078db;
+  }
+  .xim-margen {
+    padding: 3vh !important;
+  }
+  .xim-centro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .xim-ml {
+    margin: 0 0 0 30px !important;
+  }
+  .xim-tr {
+    text-align: right;
+  }
+  .xim-top-30 {
+    margin: 5vh 0 0 0 !important;
+  }
+  .xim-height-logo {
+    height: 10vh !important;
+  }
+  .xim-tl {
+    text-align: left;
+  }
+  .xim-mascota {
+    width: 30px;
+    height: 30px;
+  }
+  .xim-line {
+    display: flex;
+    align-items: center;
+  }
+  
+  .xim-horario {
+    padding: 0 !important;
+    margin: 0;
+    font-weight: 900;
+    line-height: 3;
+  }
+  .xim-promocion {
+    width: 100%;
+    height: 25px;
+    background: #ff5000;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0px;
+    margin: -30px 11px 0 0;
+    box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.15);
+  }
+  /* .container {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: auto !important;
+    overflow-y: auto;
+  } */
+  .v-expansion-panel {
+    width: 100% !important;
+  }
+  .menuContainer {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    padding: 15px 0 0 0 !important;
+    margin: 0px 0 0 7px !important;
+    justify-content: center;
+  }
+  .xim-container {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    width: 82vw!important;
+    padding: 0 !important;
+    margin: 0 3vw !important;
+  }
+  .xim-container-mv {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    width: 100vw;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .xim-botonera-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 92vw;
+    border-top: 1px solid gray;
+    padding-top: 12px;
+    margin: 0;
+  }
+  .v-application .ml-1 {
+    font-size: 0.65rem !important;
+  }
+  #xim-btn-primario {
+    width: 0 auto;
+  }
+
+  .xim-bus {
+    font-size: 1rem !important;
+    margin: 0 !important;
+  }
+  .xim-text-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    font-size: 1rem !important;
+  }
+  .xim-btn-primario {
+    background: #1976d2;
+    color: #fff;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.15);
+  }
+  .xim-btn-secundario {
+    background: #ff5000;
+    color: #fff;
+    box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.15);
+  }
+  .xim-caja-resumen {
+    min-width: 93%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: transparent;
+    margin: 5px 0 5px 0px;
+    box-shadow: 0 0 6px 0px rgb(0, 0, 0, 0.19);
+  }
+  .xim-margen-left {
+    font-size: 9px;
+    padding-left: 10px;
+  }
+  .base-price {
+    padding: 0 10% 0 0 !important;
+  }
+  .xim-alinea-caja {
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+    align-items: center;
+    width: 90%;
+    padding: 5%;
+    margin: 10px;
+    flex-direction: row;
+  }
+  .xim-colum-bano {
+    height: 35px;
+    width: 35px;
+    margin: 22px 0 0 22px;
+    background: #000;
+    color: #fff;
+    padding: 10% 0% 0% 10%;
+  }
+  .xim-alinea-pasillo {
+    height: 45px;
+    width: 45px;
+    margin: 20px;
+  }
+  .xim-alinea-asiento {
+    height: 45px;
+    width: 45px;
+    margin: 20px;
+  }
+  .xim-fila-asiento {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 45px;
+    width: 100%;
+    margin: 0 0 0 -15px;
+  }
+  .xim-espcio-celdas {
+    height: 45px;
+    width: 45px;
+  }
+  .xim-asientos {
+    height: 45px;
+    width: 45px;
+    margin: 20px;
+  }
+  .xim-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .xim-texto-alineado {
+    font-size: 0.8em !important;
+    font-weight: 500;
+    line-height: 1.2rem;
+    letter-spacing: 0.0125em !important;
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+    margin: 2px 0 2px 0;
+  }
+  .xim-centra-hijo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .w-50 {
+    width: 50%;
+  }
+  .v-expansion-panel {
+    background: rgb(198, 198, 198);
+    background: linear-gradient(0deg, #efefef 0%, rgba(255, 255, 255, 1) 100%);
+  }
+  .xim-expansion {
+    display: flex;
+    align-items: center;
+    width: 70vw;
+    margin: 5vw 0 0 0;
+    height: 10vh !important;
+  }
+  .v-expansion-panel-header {
+    align-items: stretch;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+    display: flex;
+    font-size: 0.75rem;
+    line-height: 1;
+    min-height: 48px;
+    outline: none;
+    padding: 0px 10px;
+    position: relative;
+    transition: 0.3s min-height cubic-bezier(0.25, 0.8, 0.5, 1);
+    width: 100%;
+    height: 70vh !important;
+  }
+  .xim-altura {
+    height: 15vh !important;
+    padding: 5vw !important;
+  }
+  .xim-expansion-icon {
+    top: -101vw !important;
+    left: 32vw !important;
+  }
+
+  .v-expansion-panel-header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    top: 112vw;
+    left: 43vw;
+    z-index: 9999999;
+    box-shadow: 0 0 6px 2px rgb(0 0 0 / 44%);
+    width: 44px;
+    height: 44px;
+    padding: 0 0vw 0 0px;
+    border-radius: 94%;
+  }
+
+  .v-expansion-panel-header__icon .mdi-chevron-down::before {
+    background-color: #1110ad;
+    color: white;
+    border-radius: 50%;
+    padding: 10px;
+  }
+  .mt-menos {
+    margin: -38px 0 0 2px !important;
+  }
+  .xim-none {
+    display: none;
+  }
+  .xim-fuerza-bruta {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: -6% 0 0 -18%;
+    justify-content: center;
+  }
+  .xim-esp {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 !important;
+  }
+  .btn-itinerario {
+    height: 35px !important;
+    min-width: 64px;
+    padding: 0 0 0 0 !important;
+  }
+  span.xim-strong-horizontal {
+    font-size: 1em !important;
+    font-weight: 700;
+    line-height: 1.2rem;
+    letter-spacing: 0.0125em !important;
+    font-family: "Poppins", "Roboto", sans-serif !important;
+    padding: 2% 15% 0% 0%;
+    margin: 0 11% 0 0;
+    border-bottom: 1px solid #b8b8b8;
+  }
+  .xim-columna {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 84vw !important;
+  }
+
+  .xim-texto-resaltado {
+    font-size: 1.8em !important;
+    font-weight: 700;
+    letter-spacing: 0.0125em !important;
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+    line-height: 2em;
+    color: var(--var-blue_dark);
+    padding: 5% 0 0 0;
+  }
+  .xim-obj-right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+    i {
+      padding: 0 0 0 5%;
+    }
+    p {
+      padding: 0 0 0 5%;
+    }
+  }
+  .xim-small-horizontal {
+    font-size: 0.8em !important;
+    font-weight: 500;
+    letter-spacing: 0.0125em !important;
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+    line-height: 1.5;
+    color: var(--var-blue_dark);
+    padding: 5% 30px 0 0;
+  }
+  .xim-texto-small-resaltado {
+    font-size: 1.2em !important;
+    font-weight: 700;
+    letter-spacing: 0.0125em !important;
+    font-family: 'Poppins', 'Roboto', sans-serif !important;
+    line-height: 1.2em;
+    color: var(--var-blue_dark);
+    margin: 5% 5% 0 0%;
+  }
+  .xim-form {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+  }
+  .xim-full-width {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+  }
+  .xim-webpay-payment {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    max-width: 120px !important;
+    height: auto;
+  }
+  .xim-loading-movile {
+    position: absolute;
+    top: -520px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 144vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.15);
+  }
+  .xim-not-info {
+    display: contents;
+    height: 150px;
+    width: 100%;
+  }
+  .xim-notification {
+    display: contents !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    text-transform: capitalize !important;
+    overflow: hidden !important;
+    text-align: justify !important;
+  }
+  .xim-alinea-vertical {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    width: 94%;
+    margin: 0 10px 0 10px;
+  }
+  .xim-colum {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+  }
+  .xim-texto-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: bold;
+    line-height: 0.7rem;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    color: grey;
+  }
+  .xim-texto-datos {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    line-height: 0.9rem;
+    width: 100%;
+    padding: 5px 0 0 0;
+    color: grey;
+  }
+  .xim-container-movile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 94vw !important;
+    height: auto;
+    margin: 10px 0 0 0;
+  }
+  .xim-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--var-light);
+    line-height: 0.7em;
+    margin: -23px 0;
+    height: 12px !important;
+  }
+  .h-l {
+    height: 15px !important;
+  }
+  #serviceToolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50px !important;
+    margin: 0 5px !important;
+  }
+  .v-toolbar__content,
+  .v-toolbar__extension {
+    align-items: center !important;
+  }
+  .v-toolbar__title {
+    font-size: 1em !important;
+    line-height: 0.7 !important;
+    overflow: unset !important;
+    text-overflow: unset !important;
+    white-space: normal !important;
+    margin: -5px 0 0 0;
+    padding: 0;
+  }
+  .xim-responsivo {
+    height: auto;
+    width: 100%;
+  }
+  .v-application .display-2 {
+    font-size: 1.3em !important;
+    line-height: 1.3 !important;
+    margin: 0 20px;
+  }
+  .v-application .headline {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+  .xim-cajatitulo {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 99vw !important;
+    background: var(--var-blue_dark) !important;
+    color: var(--var-light);
+    border-radius: 15px;
+    margin: 3vh 0 0 0;
+  }
+  .xim-text-titulo {
+    margin: 0;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #141414;
+  }
+  .title {
+    font-size: 0.75rem !important;
+  }
+  .xim-horizontal {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    margin: 0;
+    width: 90%;
+  }
+  .xim-header-height {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: row !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+  }
+  .xim-titulo-principal {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    font-size: 1.1em !important;
+    line-height: 1.1 !important;
+    color: var(--var-light);
+    margin: 0 10px 0 0;
+    padding: 5px 0 0 0;
+  }
+  .xim-icon {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    color: var(--var-light) !important;
+    border: 2px solid white !important;
+    padding: 0px 0 0 0 !important;
+    border-radius: 50% !important;
+  }
+  .xim-span {
+    font-size: 1em;
+    color: var(--var-light) !important;
+    padding: 0 21px 0 0;
+    line-height: 1em;
+  }
+}

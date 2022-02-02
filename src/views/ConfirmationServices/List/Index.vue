@@ -9,19 +9,26 @@
     <v-row>
       <v-col cols="12" sm="12" md="10" offset-md="1">
         <div class="mt-1 service-container-background">
-          <v-toolbar
-            class="elevation-0"
-            dark
-            color="blue_light"
-            id="serviceToolbar"
-          >
+          <v-toolbar class="elevation-0" dark color="blue_light" id="serviceToolbar">
             <v-toolbar-title>
-              <span class="title ml-3">
-                Servicio por confirmar:
-              </span>
+              <div class="xim-desktop">
+                <span class="title ml-3">
+                  Servicio por confirmar:
+                </span>
+              </div>
+              <div class="xim-movile">
+                <span class="xim-span">
+                  Servicio por confirmar:
+                </span>
+              </div>
             </v-toolbar-title>
             <v-spacer></v-spacer>
-            <ConfirmDatePicker :automatic="automatic" />
+            <div class="xim-desktop">
+              <ConfirmDatePicker :automatic="automatic" />
+            </div>
+            <div class="xim-movile">
+              <ConfirmDatePickerMov :automatic="automatic" />
+            </div>
           </v-toolbar>
           <List />
         </div>
@@ -33,6 +40,7 @@
 /* eslint-disable */
 import List from "@/views/ConfirmationServices/List/ElementList";
 import ConfirmDatePicker from "@/views/ConfirmationServices/ConfirmDatePicker";
+import ConfirmDatePickerMov from '@/views/ConfirmationServices/ConfirmacionDataPicketMov'
 import Promotions from '@/components/PromotionBanner'
 import moment from "moment";
 import _ from 'lodash'
@@ -41,15 +49,26 @@ export default {
   components: {
     List,
     Promotions,
-    ConfirmDatePicker
+    ConfirmDatePicker,
+    ConfirmDatePickerMov
   },
   data() {
     return {
       windowSize: { x: window.innerWidth, y: window.innerHeight },
-      automatic: true
+      automatic: true,
+      tipoBotones:1
     };
   },
   mounted () {
+/*     if(this.$store.getters.seats.length > 0) {
+      if(this.$store.getters.seats[0].servicioNombre == 'SALON CAMA') {
+        this.tipoBotones = 2
+      } else {
+        this.tipoBotones = 1
+      }
+      return this.tipoBotones
+    } */
+
     if (this.$store.state.confirmationServices.data.length < 1) {
       this.$store.dispatch('LOAD_CONFIRMATION_SERVICES_LIST', {date: this.$store.state.searchingConfirmation.date})
     } else {
@@ -59,8 +78,8 @@ export default {
       window.addEventListener('resize', this.onResize);
     })
   },
-  beforeDestroy () { 
-    window.removeEventListener('resize', this.onResize); 
+  beforeDestroy () {
+    window.removeEventListener('resize', this.onResize);
   },
   methods: {
     formatDate(date) {
@@ -116,8 +135,8 @@ export default {
     height: 15px;
   }
   .expansion-panel__header {
-    padding-left: 0px !important; 
-    padding-right: 0px !important; 
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 .service-item {
@@ -178,7 +197,7 @@ export default {
 .border-bus {
   border-bottom: 0px solid gray;
   border-top: 0px solid gray;
-  
+
 }
 
 .min-h-30 {

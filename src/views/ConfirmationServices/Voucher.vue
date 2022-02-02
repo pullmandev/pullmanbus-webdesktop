@@ -16,18 +16,13 @@
             <v-col cols="12" class="d-flex justify-center">
               <div style="max-width: 600px" class="text-center">
                 <p>
-                  Su compra ha sido realizada con éxito, se ha enviado un mail a
-                  su correo con el comprobante de compra
+                  Su compra ha sido realizada con éxito, se ha enviado un mail a su correo
+                  con el comprobante de compra
                 </p>
               </div>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <v-card
-                dark
-                max-width="400"
-                class="elevation-0 rounded"
-                color="orange"
-              >
+              <v-card dark max-width="400" class="elevation-0 rounded" color="orange">
                 <v-card-text class="pt-6 text-center">
                   <h3 class="white--text headline">
                     Visualizar detalle de boleto
@@ -39,9 +34,7 @@
               </v-card>
             </v-col>
             <v-col cols="12" class="d-flex justify-center">
-              <div
-                class="page-icon text-center d-flex align-center justify-center"
-              >
+              <div class="page-icon text-center d-flex align-center justify-center">
                 <v-icon size="70" class="white--text">check</v-icon>
               </div>
             </v-col>

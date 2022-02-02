@@ -20,12 +20,7 @@
           >
             <v-card max-width="300" min-width="200" max-height="350">
               <a :href="item.link" target="_blank">
-                <v-img
-                  class="white--text align-end"
-                  :src="item.img"
-                  cover
-                  height="220px"
-                >
+                <v-img class="white--text align-end" :src="item.img" cover height="220px">
                 </v-img>
               </a>
               <div class="article-text-container">

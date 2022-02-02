@@ -7,7 +7,7 @@
           style="width: 100%"
         >
           <slot name="promotion">
-            <p class="headline d-block">Aprovecha las promociones</p>
+            <p class="headline">Aprovecha las promociones</p>
             <p class="display-2">Hasta 40% de descuento</p>
             <v-btn dark color="orange_dark ma-3">
               Más info.
@@ -15,11 +15,8 @@
             <p class="body-2">Aplican terminos y condiciones</p>
           </slot>
         </div>
-        <div style="width: 500px">
-          <v-img
-            src="../../static/images/Imagen-descuento.png"
-            :height="height"
-          ></v-img>
+        <div class="xim-responsivo">
+          <v-img src="../../static/images/Imagen-descuento.png" class="xim-img-resposivo"></v-img>
         </div>
       </div>
     </v-card>

@@ -1,20 +1,26 @@
 <template>
-  <div id="idSearchConfirm">
-    <v-row>
+  <div class="search-cupon custom-form bgCupon">
+    <v-row v-if="cuponList.length <= 0">
       <v-col cols="12" sm="12" md="10" offset-md="1">
-        <v-card class="mt-12">
-          <v-toolbar dense class="elevation-0" dark color="blue_light" id="serviceToolbar">
-            <v-toolbar-title>
-              <span class="title ml-3">Cuponera</span>
-            </v-toolbar-title>
-          </v-toolbar>
+        <v-card color="elevation-24 rounded-search-box px-12 v-card v-sheet theme--light light">
           <v-card-text>
-            <v-container>
+            <p class="blue_dark--text my-5">
+              {{ $t('central_coast.content') }}
+            </p>
+            <div class="my-6 blue_dark--text" style="font-size: 0.875rem">
+              <h2>
+                <v-icon color="blue_dark" size="24" class="xim-ico"
+                  >mdi-arrow-down-thin-circle-outline</v-icon
+                >
+                {{ $t('central_coast.form') }}
+              </h2>
+            </div>
+            <v-container class="formcontainer">
               <v-form v-model="validForm">
                 <v-row>
                   <v-col cols="12" class="py-0">
                     <v-row>
-                      <v-col class="py-0">
+                      <v-col cols="12" md="4" class="py-0">
                         <cities-from-list
                           direction="from"
                           v-model="fromCity"
@@ -23,98 +29,302 @@
                           required
                         />
                       </v-col>
-                      <v-col md="1" cols="12" class="py-0 d-flex justify-center align-center">
-                        <v-btn icon color="black" @click="exchangeCities">
-                          <v-icon>sync_alt</v-icon>
+                      <v-col
+                        md="1"
+                        cols="12"
+                        class="py-0 d-flex justify-center align-center"
+                      >
+                        <v-btn
+                          icon
+                          color="black"
+                          @click="exchangeCities"
+                          style="margin-bottom: 18px"
+                        >
+                          <v-icon size="24" color="blue_dark">autorenew</v-icon>
                         </v-btn>
                       </v-col>
-                      <v-col class="py-0">
-                        <cities-to-list 
-                          direction="to" 
-                          v-model="toCity" 
+                      <v-col cols="12" md="4" class="py-0">
+                        <cities-to-list
+                          direction="to"
+                          v-model="toCity"
                           :windowHeight="windowSize.y"
                           :rules="generalRules"
                           required
                         />
                       </v-col>
+                      <v-col cols="12" md="3" class="py-0 xim-alc">
+                        <v-btn
+                          class="white--text"
+                          :disabled="!validForm"
+                          :loading="loading"
+                          color="orange_dark"
+                          @click="validateMethod"
+                        >
+                          <span>{{ $t('consult') }}</span>
+                        </v-btn>
+                      </v-col>
                     </v-row>
                   </v-col>
-                  <v-col cols="12" md="10"></v-col>
+                  <!-- <v-col cols="12" md="10"></v-col>
                   <v-col cols="12" md="2">
                     <v-btn
                       class="white--text"
                       :disabled="!validForm"
                       :loading="loading"
-                      color="blue_dark"
-                      @click="validateSearch"
+                      color="orange_dark"
+                      @click="validateMethod"
                     >
-                      <span>Consultar</span>
+                      <span>{{ $t('consult') }}</span>
                     </v-btn>
-                  </v-col>
+                       <v-col cols="12" md="10"></v-col>
+                    
+                  </v-col> -->
                 </v-row>
               </v-form>
             </v-container>
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0">
-        <v-card class="mt-3">
-          <v-card-text>
-            <v-container>
-              <table id="tblCupon">
-                <tr>
-                  <th>Empresa</th>
-                  <th>Programa</th>
-                  <th>Servicio</th>
-                  <th>Ruta</th>
-                  <th>Boletos</th>
-                  <th>Distribucion</th>
-                  <th>Valor</th>
-                  <th></th>
-                </tr>
-                <tr v-for="(cupon, i) of cuponList" :key="i">
-                  <td>
-                    <img
-                      :src="'data:image;base64,' + cupon.empresaLogo"
-                      class="service-company-image"
-                      :title="cupon.empresaDescripcion"/>
-                  </td>
-                  <td>{{ cupon.programa }}</td>
-                  <td>{{ cupon.claseDescripcion }}</td>                  
-                  <td>{{ cupon.rutaDescripcion }}</td>
-                  <td><b>{{ cupon.boletos}}</b></td>
-                  <td>{{ cupon.distribucion }}</td>
-                  <td>{{ cupon.total | currency }}</td>
-                  <td>
-                    <v-btn
-                      class="white--text"
-                      :loading="loading"
-                      color="blue_dark"
-                      @click="buyCoupon(cupon)">
-                      <span>Comprar</span>
-                    </v-btn>
-                  </td>
-                </tr>
-              </table>            
-            </v-container>
-          </v-card-text>
-        </v-card>
-      </v-col>
     </v-row>
+
+    <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0">
+      
+      <v-container >
+        <v-row no-gutters cols="12" sm="12" md="10">
+          <v-col :key="cupon.idCuponera" v-for="cupon in itemsPerPage" cols="12" sm="4">
+            <v-card
+              :loading="loading"
+              class="mx-auto my-12"
+              max-width="320"
+            >
+              <v-container>
+                <v-row dense>
+                  <v-col cols="12">
+                    <v-card color="#2069E0" style="margin: 0 5px; padding: 5px">
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/departure_board_black_18dp.svg" width="18px" class="xim-ml-10" />
+                        {{ cupon.origenNombre}}
+                      </div>
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/directions_bus_filled_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                        {{ cupon.destinoNombre}}
+                      </div>
+                        <div v-if="cupon.tipoBus === 'SEM'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          SEMI CAMA
+                        </div>
+                        <div v-if="cupon.tipoBus === 'EJE'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          EJECUTIVO
+                        </div>
+                        <div v-if="cupon.tipoBus === 'SAL'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          SALÓN CAMA
+                        </div>
+                        <div class="white--text xim-horizontal-card"> 
+                         <img src="../../../static/logos/coupon/timer_black_18dp.svg" width="18px" class="xim-ml-10" />
+                        {{
+                          cupon.cantidadIda + ' Ida ' + cupon.cantidadVuelta + ' Vuelta'
+                        }}
+                      </div>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+
+              <template slot="progress">
+                <v-progress-linear
+                  color="blue_dark"
+                  height="10"
+                  indeterminate
+                ></v-progress-linear>
+              </template>
+
+                 <v-divider class="mx-4"></v-divider>
+                  <div>
+                <v-card-title class="justify-center">
+                  <h3 class="blue_dark--text">Valor Cuponera</h3>
+                </v-card-title>
+              </div>
+
+              <v-divider class="mx-4"></v-divider>
+              <div>
+                <v-card-title class="justify-center">
+                  <h2 class="blue_dark--text">{{cupon.total | currency}}</h2>
+                </v-card-title>
+              </div>
+
+              <v-card-actions class="justify-center">
+                <v-btn
+                  class="white--text"
+                  :loading="loading"
+                  color="#E75F00"
+                  @click="buyCoupon(cupon)"
+                >
+                  <span>Seleccionar</span>
+                </v-btn>
+
+                <div class="text-center">
+                  <v-dialog v-model="dialog" width="500">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-card-actions class="justify-center">
+                        <v-btn icon v-bind="attrs" v-on="on">
+                          <div>
+                            <img src="../../../static/logos/coupon/search_black_24dp.svg" width="24px"  position="center center" />
+                          </div>
+                        </v-btn>
+                      </v-card-actions>
+                    </template>
+
+                    <v-card>
+                      <v-card-title class="text-h5">
+                        <h3 class="blue_dark--text">Detalle Cuponera</h3>
+                      </v-card-title>
+                      <v-divider></v-divider>
+                      <v-card
+                        color=""
+                        :loading="loading"
+                        class="mx-auto my-12"
+                        max-width="1200"
+                      >
+                        <v-container>
+                          <v-row dense>
+                            <v-col cols="12">
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/mode_of_travel_black_24dp.svg" class="xim-icon-pos" />
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Origen - Destino</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7" class="text-left">
+                                  <span class="xim-strong blue_dark--text">{{ cupon.origenNombre +' - '+ cupon.destinoNombre}}</span>
+                                </v-col>
+                              </v-row>
+                              <v-divider class="mx-4"></v-divider>
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/category_black_24dp.svg" class="xim-icon-pos"/>
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Tipo de bus</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7" class="text-left">
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'SEM'">
+                                    SEMI CAMA
+                                  </span>
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'EJE'">
+                                    EJECUTIVO
+                                  </span>
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'SAL'">
+                                    SALÓN CAMA
+                                  </span> 
+                                </v-col>
+                              </v-row>
+                              <v-divider class="mx-4"></v-divider>
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/attach_money_black_24dp.svg" class="xim-icon-pos"/>
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Valor</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7" class="text-left">
+                                  <span class="xim-strong blue_dark--text">
+                                    {{ cupon.total | currency }}
+                                  </span>
+                                </v-col>
+                              </v-row>
+                              <v-divider class="mx-4"></v-divider>
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/confirmation_number_black_24dp.svg" class="xim-icon-pos" />
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Boletos</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7" class="text-left">
+                                  <span class="xim-strong blue_dark--text">
+                                    {{ cupon.cantidadIda+' Boletos Ida - Boletos Vuelta '+cupon.cantidadVuelta }}
+                                  </span>
+                                </v-col>
+                              </v-row>
+                              <v-divider class="mx-4"></v-divider>
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/event_busy_black_24dp.svg" class="xim-icon-pos" />
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Expiración</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7" class="text-left">
+                                  <span class="xim-strong blue_dark--text">
+                                    {{ cupon.fechaDesde + ' / ' + cupon.fechaHasta }}
+                                  </span>
+                                </v-col>
+                              </v-row>
+                              <v-divider class="mx-4"></v-divider>
+                              <v-row>
+                                <v-col cols="1" sm="1">
+                                  <img src="../../../static/logos/coupon/fact_check_black_24dp.svg" class="xim-icon-pos" />
+                                </v-col>
+                                <v-col cols="4" sm="4" class="text-left">
+                                  <h3 class="xim-h3 blue_dark--text">Reglas</h3>
+                                </v-col>
+                                <v-col cols="7" sm="7">
+                                  <span class="xim-strong blue_dark--text">
+                                    <span>* Los boletos son en blanco o por confirmar.</span><br/>
+                                    <span>* No se pueden hacer re-ventas.</span><br/>
+                                    <span>* Las cuponeras son nominativas(al nombre del comprador).</span><br/>
+                                    <span>* No se pueden confirmar boletos si coinciden con la hora de otro viaje confirmado.</span><br/>
+                                  </span>
+                                </v-col>
+                              </v-row>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-card>
+                      <v-card-actions>
+                        <v-spacer></v-spacer>
+                        
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </div>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-pagination
+          color="blue_dark"
+          circle
+          v-model="page"
+          :length="paginationLength"
+          :total-visible="7"
+          class="mt-12"
+        ></v-pagination>
+      </v-container>
+    </v-col>
   </div>
 </template>
+
+
+
+
 
 <script>
 // Base components
 import CitiesFromList from '@/views/CouponServices/CitiesFrom'
 import CitiesToList from '@/views/CouponServices/CitiesTo'
+
 import API from '@/services/api/coupon'
+
 
 export default {
   props: ['type'],
   components: {
     CitiesFromList,
-    CitiesToList
+    CitiesToList,
   },
   data: () => ({
     loading: false,
@@ -122,23 +332,51 @@ export default {
     fromCity: null,
     toCity: null,
     windowSize: { x: window.innerWidth, y: window.innerHeight },
-    generalRules: [v => !!v || 'Este campo es requerido'],
-    cuponList:[]
+    generalRules: [(v) => !!v || 'Este campo es requerido'],
+    cuponList: [],
+    sheet: false,
+    show: false,
+    page: 1,
+    forLS:JSON.parse(localStorage.getItem("vuex"))
   }),
-  computed: {        
+  computed: {
+    paginationLength() {
+      return Math.ceil(this.cuponList.length / 6)
+    },
+    itemsPerPage() {
+      let pages = []
+      let page = []
+      for (const servicesGroup of this.cuponList) {
+        page.push(servicesGroup)
+        if (page.length === 6) {
+          pages.push(page)
+          page = []
+        }
+      }
+      if (page.length > 0) {
+        pages.push(page)
+        page = []
+      }
+      return pages[this.page - 1]
+    },
   },
   mounted() {
     this.$store.dispatch('LOAD_CUPONERA_LIST', {})
   },
   watch: {
     fromCity(value) {
-      let searchingCity = value.codigoCiudad
-      this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
-        searchingCity
-      })
-    }
+      console.log('CUPONERA ->', value)
+      if (value == null) {
+        this.toCity = null
+      } else {
+        let searchingCity = value.codigoCiudad
+        this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
+          searchingCity,
+        })
+      }
+    },
   },
-  methods: {    
+  methods: {
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     },
@@ -148,76 +386,142 @@ export default {
       this.toCity = fromCity
     },
     validateSearch() {
-      this.cuponList = [];
-      if(this.fromCity == null){
+      this.cuponList = []
+      if (this.fromCity == null) {
         this.$notify({
-        group: 'error',
-        title: this.$t('select_origin'),
-        type: 'error'
+          group: 'error',
+          title: this.$t('select_origin'),
+          type: 'error',
         })
-        return;
+        return
       }
-      if(this.toCity == null){
+      if (this.toCity == null) {
         this.$notify({
-        group: 'error',
-        title: this.$t('select_destination'),
-        type: 'error'
+          group: 'error',
+          title: this.$t('select_destination'),
+          type: 'error',
         })
-        return;
+        return
       }
       this.loading = true
       this.$notify({
         group: 'load',
         title: 'Buscando Cuponeras',
-        type: 'info'
+        type: 'info',
       })
       let cupon = {
-          "idSistema":1,
-          "origen": this.fromCity.codigoCiudad,
-          "destino": this.toCity.codigoCiudad
+        idSistema: 1,
+        origen: this.fromCity.codigoCiudad,
+        destino: this.toCity.codigoCiudad,
       }
-      //console.log(cupon)
+      console.log(cupon)
+
       API.getListCoupon(cupon)
-        .then(response => {
-          if(response.data.length > 0){
-            response.data.forEach(item => {
+        .then((response) => {
+          if (response.data.length > 0) {
+            response.data.forEach((item) => {
               this.cuponList.push(item)
-            })          
-          }else{
+            })
+          } else {
             this.$notify({
               group: 'error',
               title: 'No existen cuponeras disponibles para este tramo',
-              type: 'error'
+              type: 'error',
             })
-          }          
+          }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
         })
         .finally(() => {
           this.loading = false
-        })    
+        })
     },
-    buyCoupon(cupon){
+    buyCoupon(cupon) {
       this.$store.dispatch('SET_COUPON_BUY', {
-        cupon
+        cupon,
       })
       this.$router.push({ path: `couponDetail/` })
+    },
+     validateMethod() {
+      
+      if(this.forLS.userData.active === false && this.forLS.userCoupon.active === false){
+          this.$router.push({ path: `optionCoupon/` })
+      }else{
+        this.validateSearch()
+      }
     }
   }
 }
 </script>
-<style lang="scss" scoped>
+
+<style lang="scss">
 $padding: 100px;
-.searchContainer {
-  padding-top: $padding;
-  padding-bottom: $padding;
-  min-height: 100vh;
+.xim-icon-pos { 
+  margin: 0 0 0 50px;
 }
-#tblCupon{
+.search-cupon {
+  .searchContainer {
+    padding-top: $padding;
+    padding-bottom: $padding;
+    min-height: 100vh;
+  }
+ 
+  #tblCupon {
+    width: 100%;
+  }
+  #tblCupon td {
+    padding: 5px;
+  }
+}
+.formcontainer {
+  padding: 12px 0;
+}
+.xim-alc { 
+  padding: 0 5%;
+}
+.xim-ml-10 {
+  padding: 0 3px 2px 0;
+}
+.xim-horizontal-card { 
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: row;
+  margin: 0 0 0 5px;
+}
+.xim-strong { 
+  font-weight: 900;
+  width: 100%;
+  margin: 0 20px 0 0;
+  text-align: right;
+}
+.xim-h3 { 
   width: 100%;
 }
-#tblCupon td{
-  padding: 5px;
+.xim-al-h { 
+  display: flex;
+  margin: 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+@media (max-width: 960px) {
+  .formcontainer {
+    padding: 0;
+  }
+  .xim-alc { 
+    padding: 0 25%;
+  }
+}
+@media (max-width: 530px) {
+  .formcontainer {
+    padding: 0;
+  }
+  .xim-alc { 
+    padding: 0 25%;
+  }
+  .xim-ico { 
+    display: none;
+  }
 }
 </style>

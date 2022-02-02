@@ -1,11 +1,7 @@
 <template>
   <section class="container">
     <div v-if="loading" class="text-center pt-12">
-      <v-progress-circular
-        indeterminate
-        :size="100"
-        color="blue"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate :size="100" color="blue"></v-progress-circular>
     </div>
     <v-row v-else justify="center">
       <v-col>

@@ -1,0 +1,38 @@
+.custom-form {
+  .v-radio {
+    .mdi-radiobox-blank::before {
+      color: $blue_light;
+    }
+  }
+  .v-text-field--outlined {
+    .v-label {
+      color: $blue_light;
+    }
+    .v-input__slot {
+      background-color: white !important;
+      padding-left: 7px !important;
+    }
+    input {
+      line-height: 2px;
+      padding-bottom: 0;
+    }
+    &.v-input--dense .v-label {
+      top: 17px;
+    }
+    &.v-input--dense .v-label--active {
+      transform: translateY(-23px) translateX(5px) scale(0.75);
+    }
+    .v-text-field__prefix {
+      color: $blue_light;
+      padding-top: 8px;
+    }
+  }
+  .v-text-field--outlined:not(.error--text) {
+    fieldset {
+      border-color: $blue_light;
+    }
+    input ::placeholder {
+      color: $blue_light;
+    }
+  }
+}

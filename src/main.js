@@ -7,17 +7,14 @@ import vuetify from './plugins/vuetify'
 import i18n from './plugins/vueI18n'
 import Notifications from 'vue-notification'
 import VueCurrencyFilter from 'vue-currency-filter'
-import VueGtag from 'vue-gtag'
-import('./assets/base.css')
-import * as VueGoogleMaps from 'vue2-google-maps'   
+import * as VueGoogleMaps from 'vue2-google-maps'
+import Fragment from 'vue-fragment'
 
-Vue.use(
-  VueGtag,
-  {
-    config: { id: 'UA-168212446-1' }
-  },
-  router
-)
+// ASSETS
+import './sass/general.scss'
+import './assets/scss/main.scss'
+
+Vue.use(Fragment.Plugin)
 Vue.use(Notifications)
 Vue.use(VueCurrencyFilter, {
   symbol: '$',
@@ -25,9 +22,10 @@ Vue.use(VueCurrencyFilter, {
   fractionCount: 0,
   fractionSeparator: ',',
   symbolPosition: 'front',
-  symbolSpacing: true
+  symbolSpacing: false
 })
 Vue.prototype.$filters = Vue.options.filters
+Vue.prototype.$seatTimer = null
 Vue.config.productionTip = false
 Vue.use(VueGoogleMaps, {
   load: {

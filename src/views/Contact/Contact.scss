@@ -1,0 +1,150 @@
+.contact {
+  margin-top: 64px;
+
+  .row {
+    .col {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    &.panel {
+      .contact-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        padding: 8px 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #ff5000;
+
+        img {
+          width: 40px;
+          height: 40px;
+        }
+
+        .contact-title {
+          color: #fff;
+          margin-left: 10px;
+
+          h1 {
+            font-size: 1.2rem;
+            line-height: 1.2rem;
+          }
+
+          p {
+            font-size: 0.8rem;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .pull {
+    margin-bottom: 50px;
+
+    .pull-document {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      p {
+        margin-right: 10px;
+        margin-bottom: 0;
+      }
+
+      div[role='radiogroup'] {
+        background-color: #e4ecfe;
+      }
+    }
+
+    form {
+      .v-input__slot {
+        background-color: white !important;
+      }
+
+      .note-title {
+        text-transform: capitalize;
+        font-weight: 500;
+        padding-left: 12px;
+      }
+
+      .v-file-input {
+        .v-input__prepend-outer {
+          display: none;
+        }
+
+        .v-file-input__text {
+          justify-content: center;
+          text-transform: uppercase;
+          font-size: 0.8rem;
+        }
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        button {
+          width: 120px;
+
+          &:nth-child(1) {
+            color: #638ee0;
+            border: 1px solid #638ee0;
+          }
+
+          &:nth-child(2) {
+            color: white;
+            background-color: $color-gray-blue;
+            border: 1px solid #638ee0;
+          }
+        }
+      }
+    }
+  }
+}
+@media (min-width: 960px){
+  .pull{
+    text-align: right !important;
+  }
+}
+@media(max-width: 960px){
+  .tipodocumento{
+    max-width: 100% !important;
+  }
+  .offset-2{
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .col-5{
+    max-width: 100% !important;
+  }
+  .col-4{
+    max-width: 100% !important;
+  }
+  .col-6{
+    max-width: 100% !important;
+  }
+  .v-form{
+    display: flex;
+    flex-direction: column;
+  }
+  .row{
+    flex-direction: column;
+  }
+  .sendbtn{
+    position: initial;
+  }
+  .actions{
+    display: flex;
+    justify-content: center;
+  }
+  .actbtn{
+    max-width: 45%;
+  }
+  .pull{
+    text-align: center !important;
+  }
+}

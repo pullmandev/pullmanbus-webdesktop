@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="py-12">
     <h1 class="blue--text mb-6">{{ $t('my_profile') }}</h1>
     <v-card max-width="700">
       <v-toolbar color="orange" class="white--text elevation-0">
@@ -11,14 +11,9 @@
           />
         </div>
         <v-toolbar-title>
-          <h2
-            class="d-flex flex-column text-left title"
-            style="line-height: 20px"
-          >
+          <h2 class="d-flex flex-column text-left title" style="line-height: 20px">
             {{ formTitle }}
-            <span v-if="userData.usuario.nombre" class="body-2">{{
-              email
-            }}</span>
+            <span v-if="userData.usuario.nombre" class="body-2">{{ email }}</span>
           </h2>
         </v-toolbar-title>
       </v-toolbar>
@@ -53,13 +48,7 @@
               </v-col>
               <v-col cols="12" lg="5" class="ml-3 mr-3 py-0">
                 <h3 class="title  my-0">Genero</h3>
-                <v-radio-group
-                  class="my-0"
-                  v-model="gender"
-                  :mandatory="true"
-                  dense
-                  row
-                >
+                <v-radio-group class="my-0" v-model="gender" :mandatory="true" dense row>
                   <v-radio value="F" label="Mujer" color="blue" />
                   <v-radio value="M" label="Hombre" color="blue" />
                 </v-radio-group>
@@ -200,13 +189,8 @@ export default {
       rut: '',
       terms: '',
       info: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
-      emailconfirmRules: [
-        v => (v && this.email === v) || 'E-mails no coinciden'
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
+      emailconfirmRules: [v => (v && this.email === v) || 'E-mails no coinciden'],
       passwordRules: [
         v => !!v || 'Contraseña es requerido',
         validations.passwordValidation
@@ -253,8 +237,7 @@ export default {
           email: this.email,
           nombre: this.name,
           apellidoPaterno: this.f_lastname,
-          fechaNacimiento:
-            moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
+          fechaNacimiento: moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
           genero: this.gender
         }
         //console.log(params)
@@ -285,9 +268,7 @@ export default {
     },
     clear() {
       const { usuario } = this.userData
-      this.date = moment(usuario.fechaNacimiento, 'DD-MM-YYYY').format(
-        'YYYY-MM-DD'
-      )
+      this.date = moment(usuario.fechaNacimiento, 'DD-MM-YYYY').format('YYYY-MM-DD')
       this.name = usuario.nombre
       this.f_lastname = usuario.apellidoPaterno
       this.email = usuario.email

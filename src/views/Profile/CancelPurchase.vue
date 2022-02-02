@@ -1,12 +1,27 @@
 <template>
-  <v-container>
-    <h1 class="blue--text mb-6">{{ $t('cancellations') }}</h1>
-    <v-card max-width="800">
+  <v-container class="xim-container-i">
+    <h1 class="blue--text mb-6 mt-50">{{ $t('cancellations') }}</h1>
+    <v-card class="rounded-search-box">
+      <v-toolbar color="orange" class="white--text elevation-0">
+        <div style="width: 50px">
+          <v-img
+            src="../../../static/logos/header/Iconos-24.png"
+            height="35"
+            width="35"
+          />
+        </div>
+        <v-toolbar-title>
+          <h2 class="d-flex flex-column text-left title" style="line-height: 20px">
+            {{ formTitle }}
+            <span v-if="userData.usuario.nombre" class="body-2">{{ email }}</span>
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
       <v-card-text>
         <p class="subheading">
-          Debe seleccionar el o los boletos que desea anular para la devolución
-          de su dinero. La devolución debe ser realizada por lo menos 4 hrs.
-          antes de la salida del servicio.
+          Debe seleccionar el o los boletos que desea anular para la devolución de su
+          dinero. La devolución debe ser realizada por lo menos 4 hrs. antes de la salida
+          del servicio.
         </p>
         <form>
           <v-row>
@@ -15,7 +30,7 @@
                 filled
                 outlined
                 dense
-                label="Orden"
+                label="Código de transacción"
                 v-model="code"
                 :disabled="!search"
                 required
@@ -33,11 +48,13 @@
             </v-col>
           </v-row>
         </form>
+
         <v-data-table
+          mobile-breakpoint="0"
           :headers="headers"
           :items="tickets"
           hide-default-footer
-          class="elevation-0 purchase-table mb-3"
+          class="elevation-0 purchase-table mb-3 mt-2"
         >
           <template slot="headerCell" slot-scope="props">
             <span class="purchase-table-header">
@@ -45,20 +62,20 @@
             </span>
           </template>
           <template slot="item" slot-scope="props">
-            <tr>
-              <td class="text-left">{{ props.item.boleto }}</td>
-              <td class="text-left">{{ props.item.fechaHoraSalida }}</td>
-              <td class="text-left pa-1">
+            <tr class="columnflex">
+              <td class="altext">{{ props.item.boleto }}</td>
+              <td class="altext">{{ props.item.fechaHoraSalida }}</td>
+              <td class="altext pa-1">
                 {{ props.item.nombreTerminalOrigen }}
               </td>
-              <td class="text-left pa-1">
+              <td class="altext pa-1">
                 {{ props.item.nombreTerminalDestino }}
               </td>
-              <td class="text-center">{{ props.item.asiento }}</td>
-              <td class="text-left pa-2">
+              <td class="altext">{{ props.item.asiento }}</td>
+              <td class="altext pa-2">
                 {{ props.item.total }}
               </td>
-              <td class="text-left">
+              <td class="altext">
                 <v-checkbox
                   v-if="props.item.puedeImprimir"
                   :disabled="props.item.tipoServicio == 'pet'"
@@ -67,22 +84,22 @@
                   v-on:change="anular(props.item)"
                 ></v-checkbox>
               </td>
-              <td class="text-left">
-                 <v-img
-                    v-if="props.item.tipoServicio === 'pet'"
-                    width="42px"
-                    title="Asiento Mascota"
-                    src="../../../static/logos/seats/icono_pata_verde.svg"
-                  />
+              <td class="altext">
+                <v-img
+                  v-if="props.item.tipoServicio === 'pet'"
+                  width="42px"
+                  title="Asiento Mascota"
+                  src="../../../static/logos/seats/icono_pata_verde.svg"
+                />
               </td>
             </tr>
           </template>
         </v-data-table>
         <i class="subheading" v-if="tickets.length > 0">
-          *Si la compra se realizo con tarjeta de credito, se generara una
-          reversa en su cuenta, si se realizo con tarjeta de debito, se
-          realizara una transferencia a la cuenta que entregue para este fin. La
-          devolución o reversa se hara efectiva en un plazo maximo de 6 dias
+          *Si la compra se realizo con tarjeta de crédito, se generará una reversa en su
+          cuenta, si se realizo con tarjeta de débito, se realizará una transferencia a la
+          cuenta que entregue para este fin. La devolución o reversa se hara efectiva en
+          un plazo máximo de 5 días
         </i>
         <v-form v-model="validForm" v-if="viewForm">
           <v-row align="center" class="mt-5">
@@ -196,6 +213,7 @@ import scrollAnimation from '@/helpers/scrollAnimation'
 export default {
   data() {
     return {
+      email: '',
       loading: false,
       loadingCancel: false,
       search: true,
@@ -215,9 +233,7 @@ export default {
       generalRules: [v => !!v || 'Este campo es requerido'],
       emailRules: [
         v => !!v || 'E-mail es requerido',
-        v =>
-          v === this.userData.usuario.email ||
-          'E-mail no coincide con su usuario'
+        v => v === this.userData.usuario.email || 'E-mail no coincide con su usuario'
       ],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
       rutApplicantRules: [
@@ -283,6 +299,18 @@ export default {
     ...mapGetters({
       userData: ['userData']
     }),
+    formTitle() {
+      
+      let { nombre, apellidoPaterno } = this.userData.usuario
+      let title = null
+      if (nombre) {
+        title = nombre
+        if (apellidoPaterno) {
+          title += ' ' + apellidoPaterno
+        }
+      }
+      return title != null ? title : this.email
+    },
     viewForm() {
       if (this.tickets.length <= 0) {
         return false
@@ -310,6 +338,8 @@ export default {
   },
   methods: {
     async getParameters() {
+      const { usuario } = this.userData
+      this.email = usuario.email
       const accountCreditTypesRes = await API.tipoCuenta({ codigo: 'VC' })
       const accountDebitTypesRes = await API.tipoCuenta({ codigo: 'VD' })
       const banksRes = await API.bancos()
@@ -321,6 +351,7 @@ export default {
       try {
         if (this.search) {
           this.loading = true
+          
           const params = {
             codigo: this.code.trim()
           }
@@ -341,8 +372,7 @@ export default {
             const hour = `${hourNumber.slice(0, 2)}:${hourNumber.slice(2, 4)}`
             item.fechaHoraSalida = date + ' ' + hour
             item.nombreTerminalOrigen = item.imprimeVoucher.nombreTerminalOrigen
-            item.nombreTerminalDestino =
-              item.imprimeVoucher.nombreTerminalDestino
+            item.nombreTerminalDestino = item.imprimeVoucher.nombreTerminalDestino
             item.asiento = item.imprimeVoucher.asiento
             item.total = item.imprimeVoucher.total.includes('.')
               ? `$ ${item.imprimeVoucher.total}`
@@ -366,16 +396,18 @@ export default {
         this.loading = false
       }
     },
-    anular(item){
+    anular(item) {
       console.log(item)
-      if(item.tipoServicio === 'asociado'){
+      if (item.tipoServicio === 'asociado') {
         //console.log(item.asientoAsociado + " - " + item.imprimeVoucher.servicio + " - " + item.imprimeVoucher.fechaHoraSalida);
-        for(const ticket of this.tickets){
+        for (const ticket of this.tickets) {
           //console.log(ticket.asientoAsociado + " - " + ticket.imprimeVoucher.servicio + " - " + ticket.imprimeVoucher.fechaHoraSalida);
-          if(item.asientoAsociado == ticket.asiento 
-            && item.imprimeVoucher.servicio == ticket.imprimeVoucher.servicio
-            && item.imprimeVoucher.fechaHoraSalida == ticket.imprimeVoucher.fechaHoraSalida){
-            ticket.anular = item.anular;
+          if (
+            item.asientoAsociado == ticket.asiento &&
+            item.imprimeVoucher.servicio == ticket.imprimeVoucher.servicio &&
+            item.imprimeVoucher.fechaHoraSalida == ticket.imprimeVoucher.fechaHoraSalida
+          ) {
+            ticket.anular = item.anular
             //console.log("ok")
           }
         }
@@ -410,13 +442,13 @@ export default {
         this.puedeImprimir = false
         this.integrador = ""
         this.usuarioNombre = ""
-  
+
         for (let index = 0; index < length; index++) {
           if (!this.tickets[index].anular) {
             continue
           }else{
 
-            this.arrayBoleto.push(this.tickets[index].boleto)  
+            this.arrayBoleto.push(this.tickets[index].boleto)
             this.puedeImprimir = this.tickets[index].puedeImprimir
             this.integrador = this.tickets[index].integrador
           }
@@ -437,10 +469,11 @@ export default {
           }
           params.rutSolicitante = this.rutApplicant
           params.usuario = this.usuarioNombre
-          //if (this.tickets[index].tipoCompra === 'VD') {           
+          //if (this.tickets[index].tipoCompra === 'VD') {
             params.banco = this.selectedBank
             params.numeroCuenta = this.accountNumber
             params.rutTitular = this.rutHolder
+            params.email = this.userData.usuario.email
           //}
           console.log(params)
           const response = await API.cancel(params)
@@ -449,11 +482,10 @@ export default {
           this.dataRespuesta = response.data
 
           console.log(this.dataRespuesta)
-  
-          for (let index = 0; index < this.dataRespuesta.length; index++) {
 
-              this.boletoValidacion = this.dataRespuesta[index].boleto
-              console.log(this.boletoValidacion)
+          for (let index = 0; index < this.dataRespuesta.length; index++) {
+            this.boletoValidacion = this.dataRespuesta[index].boleto
+            console.log(this.boletoValidacion)
 
             if (this.dataRespuesta[index].exito) {
               this.$notify({
@@ -462,13 +494,14 @@ export default {
                 type: 'info'
               })
               for (let index = 0; index < length; index++) {
-                if(this.tickets[index].boleto === this.boletoValidacion){
-                    this.tickets[index].puedeImprimir = false
-                } 
+                if (this.tickets[index].boleto === this.boletoValidacion) {
+                  this.tickets[index].puedeImprimir = false
+                }
               }
-              await API.sendEmail({
-              email: this.userData.usuario.email
-              })
+
+              //await API.sendEmail({
+              //  email: this.userData.usuario.email
+              //})
             } else {
               const text =
                 this.dataRespuesta[index].mensaje != null
@@ -481,7 +514,7 @@ export default {
                 text
               })
             }
-          }          
+          }
         this.clearData()
       } catch (err) {
         console.log(err)
@@ -501,5 +534,17 @@ export default {
 .purchase-table-header {
   color: white;
   font-size: 16px;
+}
+.altext{
+  text-align: left;
+}
+@media (max-width: 700px) {
+  .altext{
+    text-align: center;
+  }
+  .columnflex{
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>

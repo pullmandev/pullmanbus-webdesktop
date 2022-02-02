@@ -19,30 +19,30 @@ export default {
     seatNumberToShow() {
       let number = this.seatNumber.toString()
       if (this.floor > 0) {
-        number = (parseInt(number)).toString()
+        number = parseInt(number).toString()
       }
       return number
     },
     imageToShow() {
       if (this.type === 'occupied') {
-        return "seat-busy"
+        return 'seat-busy'
       } else if (this.type === 'taken') {
-        return "seat-taken"
-      } else if(this.type === 'pet-free'){
-        return "seat-pet-free"
-      } else if(this.type === 'pet-taken'){
-        return "seat-pet-taken"
+        return 'seat-taken'
+      } else if (this.type === 'pet-free') {
+        return 'seat-pet-free'
+      } else if (this.type === 'pet-taken') {
+        return 'seat-pet-taken'
       } else if (this.type === 'pet-occupied') {
-        return "seat-pet-busy"
+        return 'seat-pet-busy'
       } else {
-        return "seat-free"
+        return 'seat-free'
       }
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="scss">
 button.seatBtn.btn div svg.seatSizeDesktop text.seatText {
   opacity: 1;
   -webkit-transform: rotate(-90deg);
@@ -72,7 +72,6 @@ button.seatBtn.btn div svg.seatSizeMobile text.seatText.mobileSeat {
   -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
-
 
 .seatSizeDesktop {
   width: 36px;

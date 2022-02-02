@@ -1,9 +1,8 @@
 <template>
-  <div>
-    <v-row cols="12" sm="12" md="8" lg="6">
-      <v-col>
+    <v-row >
+      <v-col cols="12" xs="12" sm="12">
         <div class="mt-1 service-container-background">
-          <v-container>
+          <v-container class="xim-desktop">
             <v-toolbar dark color="blue_light" id="serviceToolbar">
               <v-toolbar-title>
                 <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
@@ -11,10 +10,7 @@
                   {{ $t('to') }}
                   {{ searching.to_city.nombre }}
                 </span>
-                <span
-                  class="title ml-3"
-                  :class="{ 'body-1': windowSize.x <= 960 }"
-                >
+                <span class="title ml-3" :class="{ 'body-1': windowSize.x <= 960 }">
                   <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
                     Fecha de vuelta: {{ formatDate(searching.to_date) }}
                   </template>
@@ -48,29 +44,87 @@
                 </v-tabs>
               </template>
             </v-toolbar>
+
             <template v-if="hasVuelta">
               <v-tabs-items v-model="selectedTab" class="light">
                 <v-tab-item value="tab-Ida">
-                  <List />
+                  <List :back="false" />
                 </v-tab-item>
                 <v-tab-item value="tab-Vuelta">
                   <List :back="true" />
                 </v-tab-item>
               </v-tabs-items>
             </template>
+
+            <List v-else :back="false" />
+          </v-container>
+          <v-container class="xim-movile mt-menos">
+            <div class="xim-container-movile2">
+              <v-row>
+                <v-col cols="12" class="h-l">
+                  <span class="xim-label2">{{ $t('outbound_service') }}: {{ searching.from_city.nombre }} - {{ searching.to_city.nombre }}</span>
+                  <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
+                    <span class="xim-label2">Fecha de vuelta: {{ formatDate(searching.to_date) }}</span>
+                  </template>
+                  <template v-else>
+                    <span class="xim-label2">Fecha de ida: {{ formatDate(searching.from_date) }}</span>
+                  </template>
+                  </v-col>
+              </v-row>
+            </div>
+            <!-- <v-toolbar dark color="blue_light" id="serviceToolbar"> -->
+
+              <template v-if="hasVuelta" v-slot:extension>
+                <v-tabs v-model="selectedTab" centered hide-slider>
+                  <v-tab
+                    v-for="i in tabs"
+                    :key="i"
+                    :href="'#tab-' + i"
+                    class="pa-0 tab-custom"
+                    v-ripple="{ class: 'blue_dark--text' }"
+                    active-class="tab-active"
+                  >
+                    <v-btn
+                      style="width: 100%; height: 100%;"
+                      text
+                      class="ma-0"
+                      color="blue_light"
+                      tile
+                    >
+                      <span class="white--text">
+                        {{ i }}
+                      </span>
+                    </v-btn>
+                  </v-tab>
+                </v-tabs>
+              </template>
+            <!-- </v-toolbar> -->
+
+            <template v-if="hasVuelta">
+              <v-tabs-items v-model="selectedTab" class="light">
+                <v-tab-item value="tab-Ida">
+                  <List :back="false" />
+                </v-tab-item>
+                <v-tab-item value="tab-Vuelta">
+                  <List :back="true" />
+                </v-tab-item>
+              </v-tabs-items>
+            </template>
+
             <List v-else :back="false" />
           </v-container>
         </div>
       </v-col>
     </v-row>
-  </div>
+
 </template>
+
 <script>
 /* eslint-disable */
-import List from "@/views/Services/stepper/List/ElementList"
+import List from '@/views/Services/stepper/List/ElementList'
 import scrollAnimation from '@/helpers/scrollAnimation'
-import { mapGetters } from "vuex";
-import moment from "moment";
+import { mapGetters } from 'vuex'
+import moment from 'moment'
 import _ from 'lodash'
 
 export default {
@@ -82,17 +136,17 @@ export default {
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       //Button
       tabs: ['Ida', 'Vuelta']
-    };
+    }
   },
-  mounted () {
+  mounted() {
     this.$store.dispatch('SET_SERVICE_TAB', { tab: 'tab-Ida' })
     scrollAnimation('#paymentStepper')
     this.$nextTick(() => {
-      window.addEventListener('resize', this.onResize);
+      window.addEventListener('resize', this.onResize)
     })
   },
-  beforeDestroy () { 
-    window.removeEventListener('resize', this.onResize); 
+  beforeDestroy() {
+    window.removeEventListener('resize', this.onResize)
   },
   computed: {
     ...mapGetters({
@@ -101,14 +155,14 @@ export default {
       hasVuelta: ['hasVuelta']
     }),
     selectedTab: {
-      get () {
+      get() {
         return this.$store.state.services.tab
       },
-      set (tab) {
-        this.$store.dispatch('SET_SERVICE_TAB', {tab})
+      set(tab) {
+        this.$store.dispatch('SET_SERVICE_TAB', { tab })
       }
     },
-    langSearch () {
+    langSearch() {
       return this.$t('search')
     }
   },
@@ -116,11 +170,11 @@ export default {
     formatDate(date) {
       return moment(date).format('LL')
     },
-    onResize () {
-      this.windowSize = { x: window.innerWidth, y: window.innerHeight };
+    onResize() {
+      this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -169,8 +223,8 @@ export default {
     height: 15px;
   }
   .expansion-panel__header {
-    padding-left: 0px !important; 
-    padding-right: 0px !important; 
+    padding-left: 0px !important;
+    padding-right: 0px !important;
   }
 }
 .service-item {
@@ -212,8 +266,9 @@ export default {
   width: 100%;
 }
 
-
-.result h1, h2, h3 {
+.result h1,
+h2,
+h3 {
   font-weight: 300 !important;
 }
 
@@ -231,7 +286,6 @@ export default {
 .border-bus {
   border-bottom: 0px solid gray;
   border-top: 0px solid gray;
-  
 }
 
 .min-h-30 {
@@ -245,10 +299,10 @@ export default {
 }
 /* tamañp de grilla */
 .flex.xs1 {
-    -ms-flex-preferred-size: 4.333333333333332% !important;
-    flex-basis: 4.333333333333332% !important;
-    max-width: 4.333333333333332% !important;
-    }
+  -ms-flex-preferred-size: 4.333333333333332% !important;
+  flex-basis: 4.333333333333332% !important;
+  max-width: 4.333333333333332% !important;
+}
 
 /* . estilo Bus */
 </style>

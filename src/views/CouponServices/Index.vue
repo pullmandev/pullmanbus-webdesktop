@@ -1,9 +1,6 @@
 <template>
   <div class="CouponBackground">
-    <!-- Principal View -->
-    <div style="margin-top: 52px"></div>
     <router-view></router-view>
-    <div style="height: 150px; background: var(--var-light);"></div>
   </div>
 </template>
 <script>
@@ -69,8 +66,12 @@ export default {
 }
 
 .CouponBackground {
-  background: var(--var-light);
+  min-width: 100%;
   min-height: 95vh;
+  background-image: url('../../../static/images/bgCuponera.png');
+  background-size: cover;
+  background-repeat: no-repeat; 
+  
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -80,5 +81,3 @@ export default {
   opacity: 0;
 }
 </style>
-
-

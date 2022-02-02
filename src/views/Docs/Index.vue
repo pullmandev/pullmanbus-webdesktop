@@ -2,7 +2,7 @@
   <div id="docs">
     <v-img
       src="../../../static/images/Slide1.png"
-      class="d-flex justify-center align-center text-center white--text"
+      class="d-flex justify-center align-center text-center white--text xim-t30"
     >
       <h1>{{ $t(title) }}</h1>
     </v-img>

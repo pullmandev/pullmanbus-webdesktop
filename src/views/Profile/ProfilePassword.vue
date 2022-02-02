@@ -1,14 +1,28 @@
 <template>
-  <v-container>
-    <h1 class="blue--text mb-6">{{ $t('change_password') }}</h1>
-    <v-card class="rounded-search-box" max-width="700">
+  <v-container class="xim-container-i">
+    <h1 class="blue--text mb-6 mt-50">{{ $t('change_password') }}</h1>
+    <v-card class="rounded-search-box">
+      <v-toolbar color="orange" class="white--text elevation-0">
+        <div style="width: 50px">
+          <v-img
+            src="../../../static/logos/header/Iconos-24.png"
+            height="35"
+            width="35"
+          />
+        </div>
+        <v-toolbar-title>
+          <h2 class="d-flex flex-column text-left title" style="line-height: 20px">
+            {{ formTitle }}
+            <span v-if="userData.usuario.nombre" class="body-2">{{ email }}</span>
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
       <v-card-title>
         <v-container>
           <v-form v-model="validForm">
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                  outlined
                   dense
                   v-model="oldpassword"
                   :label="$t('password')"
@@ -22,7 +36,6 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  outlined
                   dense
                   v-model="password"
                   label="Nueva contraseña"
@@ -36,7 +49,6 @@
               </v-col>
               <v-col cols="12">
                 <v-text-field
-                  outlined
                   dense
                   v-model="confirmpassword"
                   :label="$t('confirm_password')"
@@ -57,12 +69,7 @@
                 >
                   <span>{{ $t('save') }}</span>
                 </v-btn>
-                <v-btn
-                  text
-                  class="white--grey ml-6"
-                  :disabled="loading"
-                  @click="clear"
-                >
+                <v-btn text class="white--grey ml-6" :disabled="loading" @click="clear">
                   <span>{{ $t('cancel') }}</span>
                 </v-btn>
               </v-col>
@@ -83,6 +90,7 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      email: '',
       loading: false,
       validForm: false,
       seePassword: true,
@@ -92,10 +100,7 @@ export default {
       password: '',
       confirmpassword: '',
       codeRules: [v => !!v || 'Codigo es requerido'],
-      passwordRules: [
-        v => !!v || 'Ingrese contraseña',
-        validations.passwordValidation
-      ],
+      passwordRules: [v => !!v || 'Ingrese contraseña', validations.passwordValidation],
       passwordconfirmRules: [
         v => (v && this.password === v) || 'Contraseñas no coinciden'
       ]
@@ -104,12 +109,33 @@ export default {
   computed: {
     ...mapGetters({
       userData: ['userData']
-    })
+    }),
+    formTitle() {
+      let { nombre, apellidoPaterno } = this.userData.usuario
+      let title = null
+      if (nombre) {
+        title = nombre
+        if (apellidoPaterno) {
+          title += ' ' + apellidoPaterno
+        }
+      }
+      return title != null ? title : this.email
+    },
   },
   methods: {
+    clear() {
+      this.password = ''
+      this.confirmpassword = ''
+      this.confirmpassword = ''
+    },
+    async getParameters() {
+      const { usuario } = this.userData
+      this.email = usuario.email
+    },
     async changePassword() {
       try {
         this.loading = true
+        this.email = this.userData.usuario.email
         const params = {
           email: this.userData.usuario.email,
           password: this.oldpassword,

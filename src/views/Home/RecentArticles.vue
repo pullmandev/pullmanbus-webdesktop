@@ -11,8 +11,8 @@
         class="headline text-center satisfyFont blue_light--text"
         style="font-family: 'Satisfy-Regular' !important; font-size: 2rem !important;"
       >
-        Conoce lugares, especies, eventos, comida y personajes de nuestro largo
-        y hermoso país.
+        Conoce lugares, especies, eventos, comida y personajes de nuestro largo y hermoso
+        país.
       </h4>
     </div>
     <v-img src="../../../static/images/home/Fondo.png">

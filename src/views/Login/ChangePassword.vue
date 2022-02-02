@@ -117,15 +117,9 @@ export default {
       oldpassword: '',
       password: '',
       confirmpassword: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       codeRules: [v => !!v || 'Codigo es requerido'],
-      passwordRules: [
-        v => !!v || 'Ingrese contraseña',
-        validations.passwordValidation
-      ],
+      passwordRules: [v => !!v || 'Ingrese contraseña', validations.passwordValidation],
       passwordconfirmRules: [
         v => (v && this.password === v) || 'Contraseñas no coinciden'
       ]

@@ -1,13 +1,13 @@
 <template>
   <Container :open="open" :width="300" @close="$emit('close')">
-    <v-container class="pt-0">
+    <v-container class="pt-0 xim-desktop">
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">
-            <h1 class="headline">Iniciar sesión</h1>
+            <h1 class="headline">{{ $t('enter_account') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
-            <p>Hola! Ingresa a tu cuenta en pocos pasos</p>
+            <p>{{ $t('login_text.description') }}</p>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -78,10 +78,90 @@
                 })
               "
             >
-              <small class="small-text">{{ $t('sign_up') }}</small>
+              <small class="small-text">{{ $t('register_here') }}</small>
             </a>
           </v-col>
         </v-row>
+      </v-form>
+    </v-container>
+    <v-container class="pt-0 xim-movile">
+      <v-form v-model="validForm">
+        <div class="xim-container">
+        <v-row>
+          <v-col cols="12" class="text-center">
+            <h1 class="headline">{{ $t('enter_account') }}</h1>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <p>{{ $t('login_text.description') }}</p>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="email"
+              :label="$t('email')"
+              outline-1
+              color="blue"
+              :rules="emailRules"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12">
+            <v-text-field
+              v-model="password"
+              :label="$t('password')"
+              :append-icon="see ? 'visibility' : 'visibility_off'"
+              @click:append="see = !see"
+              :type="see ? 'password' : 'text'"
+              outline-1
+              color="blue"
+              :rules="passwordRules"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="8" offset="2" class="pt-3">
+            <v-btn
+              small
+              :disabled="!validForm || loading"
+              block
+              class="white--text search-font rounded-search"
+              color="blue_dark"
+              @click="login"
+            >
+              <template v-if="loading">
+                <v-progress-circular
+                  indeterminate
+                  color="blue_dark"
+                ></v-progress-circular>
+              </template>
+              <template v-else>
+                <span>{{ $t('login') }}</span>
+              </template>
+            </v-btn>
+          </v-col>
+          <v-col cols="12" class="text-center pb-2">
+            <a
+              @click="
+                $store.dispatch('SET_SESSION_DIALOG', {
+                  type: 'dialogType',
+                  dialogType: 'sendPassword'
+                })
+              "
+            >
+              <small class="small-text">{{ $t('forgot') }}</small>
+            </a>
+          </v-col>
+          <v-col cols="12" class="text-center">
+            <a
+              text
+              @click="
+                $store.dispatch('SET_SESSION_DIALOG', {
+                  type: 'dialogType',
+                  dialogType: 'signup'
+                })
+              "
+            >
+              <small class="small-text">{{ $t('register_here') }}</small>
+            </a>
+          </v-col>
+        </v-row>
+        </div>
       </v-form>
     </v-container>
   </Container>
@@ -106,14 +186,8 @@ export default {
       see: true,
       email: '',
       password: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
-      passwordRules: [
-        v => !!v || 'Ingrese contraseña',
-        validations.passwordValidation
-      ]
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
+      passwordRules: [v => !!v || 'Ingrese contraseña', validations.passwordValidation]
     }
   },
   methods: {
@@ -147,12 +221,12 @@ export default {
             completeName
           }
           data.usuario.email = data.usuario.email.toLowerCase()
-          data.usuario.fechaCreacion = moment(
-            data.usuario.fechaCreacion
-          ).format('DD-MM-YYYY')
-          data.usuario.fechaNacimiento = moment(
-            data.usuario.fechaNacimiento
-          ).format('DD-MM-YYYY')
+          data.usuario.fechaCreacion = moment(data.usuario.fechaCreacion).format(
+            'DD-MM-YYYY'
+          )
+          data.usuario.fechaNacimiento = moment(data.usuario.fechaNacimiento).format(
+            'DD-MM-YYYY'
+          )
           this.$store.dispatch('SET_USER', {
             userData: {
               token: data.token,

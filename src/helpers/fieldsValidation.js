@@ -3,11 +3,18 @@ function emailValidation(v) {
 }
 
 function numberValidation(v) {
-  return v.length === 8 || 'Número debe ser de 8 dígitos'
+  if(v) {
+    return v.length === 8 || 'Número debe ser de 8 dígitos'
+  }
+  else
+  {
+    return false
+  }
 }
 
 function numericValidation(v) {
-  return !isNaN(v) || 'Sólo debe ingresar numeros'
+  return !isNaN
+  (v) || 'Sólo debe ingresar numeros'
 }
 
 function otherDocValidation(v) {
@@ -31,6 +38,13 @@ function rutValidation(v) {
   
   if (digv === 'K') digv = 'k'
   // eslint-disable-next-line eqeqeq
+  if(rut != undefined && rut != '') {
+    
+    rut = rut.replaceAll(/[a-zA-Z]/g,'');
+    console.log('Entra..',rut);
+    
+  }
+
   return dv(rut) == digv || message
 }
 
@@ -42,7 +56,6 @@ function dv(T) {
   }
   return S ? S - 1 : 'k'
 }
-
 export default {
   emailValidation,
   numberValidation,

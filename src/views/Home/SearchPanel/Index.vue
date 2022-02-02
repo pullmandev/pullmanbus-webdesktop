@@ -2,74 +2,97 @@
   <div style="position: relative;">
     <Carousel />
     <Promotions class="displayNoneSm" v-if="toCity != null" />
-    <v-container class="search_container">
-      <div :style="{ marginTop: breakPoint.margin }" />
-      <v-card
-        color="orange"
-        class="elevation-24 rounded-search-box mt-5 px-12 pt-7"
-      >
+    <v-container fluid class="search_container xim-movil-position">
+      <div class="searchcontent" :style="{ marginTop: breakPoint.margin }" />
+      <v-card color="light" class="elevation-24 rounded-search-box px-12 pb-10">
         <v-card-text class="px-0">
-          <v-row>
-            <v-col cols="9" class="py-0">
-              <h2 class="display-1 white--text" :class="breakPoint.fontClass">
+          <v-row class="searcherheader">
+            <v-col cols="6" class="py-0">
+              <h2
+                style="font-size: 1.5rem !important;"
+                class="blue_dark--text"
+                :class="breakPoint.fontClass"
+              >
                 {{ $t('travel_details') }}
               </h2>
             </v-col>
-            <v-col cols="3" class="py-0">
-              <v-row>
+            <v-col cols="6" class="py-0">
+              <div class="petshcontainer" style="display: flex; flex-direction: row; justify-content: flex-end">
                 <v-switch
                   class="switch-pet"
-                  v-model="petService"              
+                  v-model="petService"
+                  color="blue_dark"
+                  hide-details
                 ></v-switch>
-                <img src="../../../../static/logos/seats/img_filtro.png" class="img-filtro"/>
-              </v-row>
+                <div class="petshcontent">
+                  <v-icon
+                    style="border-radius: 50%; vertical-align: center;"
+                    class="orange_dark pa-1"
+                    color="white"
+                    >mdi-paw</v-icon
+                  >
+                  <span style="vertical-align: center" class="blue_dark--text ml-1">{{
+                    $t('home_text.pets')
+                  }}</span>
+                </div>
+              </div>
             </v-col>
           </v-row>
         </v-card-text>
         <v-row>
-          <v-col cols="12" class="py-0">
-            <v-row>
-              <v-col class="py-0">
-                <cities-from-list
-                  direction="from"
-                  v-model="fromCity"
-                  :windowHeight="windowSize.y"
-                />
-              </v-col>
-              <v-col
-                md="1"
-                cols="12"
-                class="py-0 d-flex justify-center align-center"
-              >
-                <v-btn icon color="white" @click="exchangeCities">
-                  <v-icon>sync_alt</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col class="py-0">
-                <cities-to-list
-                  direction="to"
-                  v-model="toCity"
-                  :windowHeight="windowSize.y"
-                />
-              </v-col>
-            </v-row>
+          <v-col class="pb-0 city" style="padding-top: 4px" cols="12" sm="5" md>
+            <cities-from-list
+              direction="from"
+              v-model="fromCity"
+              :windowHeight="windowSize.y"
+              :fromHome="true"
+            />
           </v-col>
-          <v-col md="6" cols="12" class="py-0">
+          <v-col
+            md="1"
+            sm="2"
+            cols="12"
+            class="pa-0 d-flex justify-center align-center exchange"
+          >
+            <v-btn icon color="blue" @click="exchangeCities">
+              <img
+                src="../../../../static/logos/menu/icono_ida_vuelta.svg"
+                alt="change_icon"
+                width="28"
+                height="28"
+              />
+            </v-btn>
+          </v-col>
+          <v-col class="pb-0 city" style="padding-top: 4px" cols="12" sm="5" md>
+            <cities-to-list
+              direction="to"
+              v-model="toCity"
+              :windowHeight="windowSize.y"
+              :fromHome="true"
+            />
+          </v-col>
+          <v-col class="py-0" cols="12" sm="6" md>
             <calendar direction="from" v-model="fromDate" />
           </v-col>
-          <v-col md="6" cols="12" class="py-0">
+          <v-col class="py-0" sm="6" md>
             <calendar direction="to" v-model="toDate" :fromDate="fromDate" />
           </v-col>
-          <v-col md="4" cols="12" offset-md="4">
-            <v-btn
-              block
-              class="white--text rounded-search"
-              color="blue_dark"
-              @click="validateSearch"
-              :disabled="loadingServices"
-            >
-              <span>{{ $t('search') }}</span>
-            </v-btn>
+          <v-col cols="12" md="2" style=" display: flex; justify-content: center;">
+            <div style="max-width: 150px;">
+              <v-btn
+                block
+                class="white--text rounded-search"
+                style="margin: auto"
+                color="orange_dark"
+                @click="validateSearch"
+                :disabled="loadingServices"
+              >
+                <v-icon style="font-size: 31px; opacity: 0.6;" left dark
+                  >mdi-magnify</v-icon
+                >
+                <span>{{ $t('search') }}</span>
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-card>
@@ -117,7 +140,7 @@ export default {
           }
         default:
           return {
-            margin: '50vh',
+            margin: '60vh',
             fontClass: 'display-1'
           }
       }
@@ -137,7 +160,7 @@ export default {
     },
     fromCity(value) {
       let searchingCity = value.codigo
-        this.$store.dispatch('LOAD_CITIES_TO_LIST', {
+      this.$store.dispatch('LOAD_CITIES_TO_LIST', {
         searchingCity
       })
       this.$store.dispatch('SET_HOME_BANNERS', {
@@ -164,21 +187,21 @@ export default {
       this.toCity = fromCity
     },
     validateSearch() {
-      if(this.fromCity == null){
+      if (this.fromCity == null) {
         this.$notify({
-        group: 'error',
-        title: this.$t('select_origin'),
-        type: 'error'
+          group: 'error',
+          title: this.$t('select_origin'),
+          type: 'error'
         })
-        return;
+        return
       }
-      if(this.toCity == null){
+      if (this.toCity == null) {
         this.$notify({
-        group: 'error',
-        title: this.$t('select_destination'),
-        type: 'error'
+          group: 'error',
+          title: this.$t('select_destination'),
+          type: 'error'
         })
-        return;
+        return
       }
       this.$notify({
         group: 'stuck-load',
@@ -196,7 +219,7 @@ export default {
         toDate: this.toDate,
         fromCity: this.fromCity,
         toCity: this.toCity,
-        petService : this.petService
+        petService: this.petService
       })
     },
     setUserSearchingData() {
@@ -234,7 +257,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '@/sass/colors.scss';
+
 .margin-search {
   margin-top: 50vh;
 }
@@ -245,6 +270,46 @@ export default {
   }
 }
 
+@media (min-width: 960px) {
+  .col-md-1.exchange {
+    flex: 0 0 3%;
+    max-width: 3%;
+  }
+}
+
+@media (max-width: 960px){
+  .searcherheader{
+    flex-direction: column;
+  }
+  .searchcontent{
+    margin-top: auto !important;
+  }
+  .py-0{
+    max-width: 100% !important;
+  }
+  .blue_dark--text{
+    text-align: center;
+  }
+  .petshcontainer{
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+  }
+  .petshcontent{
+    text-align: center;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 960px) {
+  .col-sm-2.exchange {
+    flex: 0 0 4%;
+    max-width: 4%;
+  }
+  .col-sm-5.city {
+    flex: 0 0 48%;
+    max-width: 48%;
+  }
+}
 .center_layout {
   z-index: 2;
 }
@@ -259,15 +324,34 @@ div.card.search_card {
   top: 0;
   left: 0;
   right: 0;
+  max-width: 1300px;
+  .v-input--switch__thumb {
+    color: $blue_dark !important;
+  }
+}
+
+@media (max-width: 960px){
+  .search_container{
+    position: inherit;
+  }
+  .xim-movil-position {
+    margin: 0% 0 0 0;
+  }
 }
 
 .search-panel-radios .v-input--radio-group__input {
   justify-content: center;
 }
-.img-filtro{
+.img-filtro {
   max-height: 32px;
 }
-.switch-pet{
+.switch-pet {
   margin-top: 0px !important;
+}
+
+@media (max-width: 576px) {
+  .xim-movil-position {
+    margin: 0% 0 0 0;
+  }
 }
 </style>

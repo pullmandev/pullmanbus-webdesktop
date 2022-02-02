@@ -1,0 +1,74 @@
+@import '@/sass/colors.scss';
+
+$color-primary: #6681c4;
+$color-secondary: #a7b8ea;
+
+.svg-container {
+  position: relative;
+  height: 90px;
+  width: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 2px solid $color-secondary;
+  border-radius: 50%;
+  background-color: transparent;
+
+  margin-right: 12px;
+  margin-bottom: 40px;
+  transition: all 0.15s ease-in-out;
+
+  svg {
+    width: 120px;
+    position: absolute;
+    top: -25px;
+    right: 0;
+    left: -15px;
+    fill: $color-primary;
+  }
+
+  span {
+    width: 100px;
+    position: absolute;
+    bottom: -32px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 14px;
+    color: $color-primary;
+    text-align: center;
+  }
+
+  &:not(.selected):hover {
+    cursor: pointer;
+    transform: scale(0.95);
+  }
+
+  &.selected {
+    background-color: $blue_light2;
+    border: none;
+
+    svg {
+      fill: white;
+    }
+  }
+
+  &.single-icon {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 0;
+    background-color: $background-blue;
+    svg {
+      width: 50px;
+      position: absolute;
+      top: -10px;
+      right: 0;
+      left: -5px;
+      fill: $color-primary;
+    }
+
+    span {
+      display: none;
+    }
+  }
+}

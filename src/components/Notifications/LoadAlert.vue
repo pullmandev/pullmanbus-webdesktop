@@ -2,7 +2,7 @@
   <notifications
     group="load"
     :duration="1000"
-    :width="windowSize.x <= 960 ? '80%' : 600"
+    :width="windowSize.x <= 960 ? '100%' : 600"
     :ignoreDuplicates="true"
     animation-name="v-fade-left"
     position="bottom right"
@@ -114,6 +114,45 @@ export default {
   }
   .custom-template .custom-template-content .custom-template-title {
     font-size: 14px;
+  }
+}
+@media (max-width: 576px) {
+  .custom-template {
+    font-size: 0.9em;
+    margin: 5px 18px 5px 5px;
+  }
+  .custom-template .custom-template-content {
+    flex: 0 1 auto;
+  }
+  .custom-template .custom-template-icon {
+    font-size: 0.9em;
+  }
+  .custom-template .custom-template-close {
+    font-size: 0.9em;
+  }
+  .custom-template .custom-template-content .custom-template-title {
+    font-size: 0.9em!important;
+    text-transform: capitalize!important;
+    text-align: center!important;
+    min-height: 35px!important;
+    height: auto!important;
+    word-wrap: break-word!important;
+    padding: 5px 0!important;
+  }
+  .custom-template-text {
+    font-size: 0.9em!important;
+    text-transform: capitalize!important;
+    min-height: 35px!important;
+    height: auto!important;
+    word-wrap: break-word!important;
+    padding: 5px 0!important;
+    overflow: hidden;
+  }
+  .text-justificado {
+    text-align: justify;
+    padding: 0 5px 0 5px;
+    word-wrap: break-word;
+    height: auto!important;
   }
 }
 </style>

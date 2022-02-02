@@ -68,8 +68,8 @@
           </v-row>
         </v-card-text>
         <v-card-text class="text-center">
-          <v-icon color="orange">mdi-help-circle</v-icon> Los horarios son
-          aproximados, pueden sufrir variaciones
+          <v-icon color="orange">mdi-help-circle</v-icon> Los horarios son aproximados,
+          pueden sufrir variaciones
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -117,10 +117,7 @@ export default {
               cityId: item.idCiudad
             })
             this.hours.push({
-              name: `${item.horaSalida.substr(0, 2)}:${item.horaSalida.substr(
-                2,
-                2
-              )}`,
+              name: `${item.horaSalida.substr(0, 2)}:${item.horaSalida.substr(2, 2)}`,
               cityId: item.idCiudad
             })
           })

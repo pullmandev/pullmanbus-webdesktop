@@ -21,6 +21,6 @@ export default {
     return axios.post(origenCuponera)
   },
   getCuponeraByCode(citiesTo) {
-    return axios.post(destinoCuponera,citiesTo)
+    return axios.post(destinoCuponera, citiesTo)
   }
 }

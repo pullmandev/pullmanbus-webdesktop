@@ -1,6 +1,96 @@
 export default {
   en: 'Ingles',
   es: 'Español',
+  business_client: 'CLIENTE EMPRESA',
+  confirmation: {
+    header: 'Confirmación de Pasajes',
+    drawer: 'Confirmación de boleto',
+    form: 'Confirmación de Pasajes',
+    content:
+      'Completa los datos para confirmar el día y hora de tu pasaje en blanco. La confirmación debe ser al menos 4 horas antes de la partida del bus. Recuerda que el pasaje en blanco tiene una duración máxima de 6 meses a partir de la fecha de compra.',
+    enter: 'INGRESA TU SERVICIO POR CONFIRMAR:'
+  },
+  changeTicket: {
+    drawer: 'Cambio de boleto',
+    form: 'Cambia tus Pasajes',
+    content:
+      'Si no puedes viajar, cambie el día y horario de tu pasaje hasta 4 horas antes de la salida del bus.',
+    enter: 'INGRESA EL NÚMERO QUE DESEAS CAMBIAR:',
+    enter_data: 'INGRESA LOS DATOS PARA CAMBIO DE BOLETO:'
+  },
+  agencies: {
+    drawer: 'Agencias',
+    form: 'Encuentra tu agencia más cercana',
+    enter: 'Haz click sobre la región para conocer sus agencias'
+  },
+  special_trips: {
+    drawer: 'Viajes especiales',
+    content:
+      'Si quieres cotizar un servicio exclusivo de transporte para particulares, empresas, fundaciones, clubes deportivos, etc. escríbenos y te contactaremos.',
+    form: 'Contáctanos para solicitar Viajes Especiales',
+    description: 'Descripción del viaje'
+  },
+  central_coast: {
+    drawer: 'Cuponera',
+    content:
+      'Si eres usuario frecuente de nuestros servicios a la Costa Central, obten una tarifa preferencial y acumula puntos con cada viaje. Ingresa tus datos para ver si eres candidato a la cuponera.',
+    form: 'INGRESA DESTINOS PARA DISPONIBILIDAD DE CUPONERA:'
+  },
+  ctaCte: {
+    drawer: 'Solicitud de Cuenta Corriente',
+    content:
+      'Ingresa tus datos para solicitar tu ',
+    form: 'SOLICITUD DE CUENTA CORRIENTE',
+    updown:'Cuenta Corriente'
+  },
+  home_text: {
+    pets: 'SELECCIONA LOS SERVICIOS MASCOTAS A BORDO',
+    news: {
+      title: 'NOTICIAS Y ACTUALIDAD',
+      sub: 'Infórmate sobre nuestros servicios, convenios y otros'
+    },
+    travels: {
+      title: 'Viajando por Chile',
+      sub:
+        'Conoce lugares, especies, eventos, comida y personajes de nuestro largo y hermoso país.'
+    }
+  },
+  footer_text: {
+    address: 'Dirección: San Borja 235, Estación Central, Santiago',
+    privacy: 'Política de privacidad',
+    terms: 'Términos y condiciones de pasajes',
+    search_us: 'Búscanos en:',
+    pay: 'Pago seguro:',
+    others: 'Otras empresas grupo Pullman'
+  },
+  login_text: {
+    description: '¡Hola! Ingresa a tu cuenta en pocos pasos'
+  },
+  sign_up_text: {
+    description: '¡Únete! Ingresa tus datos para obtener una cuenta',
+    man: 'Hombre',
+    woman: 'Mujer'
+  },
+  services_text: {
+    internet: 'Promoción internet',
+    departure: 'Salida',
+    arrival: 'Llegada',
+    add: 'Agregar',
+    total_pay: 'Total a pagar',
+    pay_resume: 'Resumen de compra',
+    normal_price: 'Precio normal',
+    discount: 'Descuento',
+    conv: 'Convenios',
+    discount_conv: 'Descuentos convenio',
+    name_conv: 'Nombre del convenio',
+    saving: 'Tu ahorro fue de',
+    methods: 'Medios de pago',
+    validation: 'Validación',
+    validate: 'Validar'
+  },
+  news: 'NOTICIAS',
+  consult: 'Consultar',
+  erase: 'Borrar',
   download: 'Descargar',
   welcome: 'Bienvenido',
   contact: 'Contacto',
@@ -28,6 +118,7 @@ export default {
   masculine: 'Masculino',
   female: 'Femenino',
   email: 'Correo',
+  email2: 'Correo electrónico',
   confirm_email: 'Confirme correo',
   password: 'Contraseña',
   confirm_password: 'Confirme contraseña',
@@ -84,7 +175,7 @@ export default {
   price_range: 'Rango de precios',
   closing_hour: 'Horario de salida',
   company: 'Empresa',
-  outbound_service: 'Servicio ida',
+  outbound_service: 'Ida',
   to: 'a',
   congratulations: 'Felicidades',
   success_buy: 'Su compra ha sido realizada con éxito',
@@ -100,6 +191,8 @@ export default {
   floor: 'Piso',
   floors: 'Pisos',
   price: 'Precio',
+  normal_price: 'Precio normal',
+  final_price: 'Precio final',
   prices: 'Precios',
   classes: 'Clases',
   selected_seats: 'Seleccionados',
@@ -147,6 +240,7 @@ export default {
   state: 'Estado',
   purchase_date: 'Fecha compra',
   ticket: 'Boleto',
+  tickets: 'Boletos',
   date: 'Fecha',
   value: 'Valor',
   update_data: 'Actualizar datos',
@@ -224,8 +318,7 @@ export default {
   faq_document3_5:
     'Realiza el pago mediante las opciones existentes, y espera la confirmación de pago, solo en ese momento estarás seguro de la compra de tu boleto. Si no te llega la confirmación deberás llamar a nuestro equipo de Postventa.',
   faq_document3_6: 'Imprime el pasaje para tenerlo contigo el día del viaje.',
-  faq_document3_7:
-    'Revisa siempre las condiciones y términos de nuestro servicio.',
+  faq_document3_7: 'Revisa siempre las condiciones y términos de nuestro servicio.',
   faq_document4:
     'Si. Debes llevar impreso el boleto, ya que en las taquillas no podrán realizarte la impresión del violeto, y deberás mostrarlo al subir al bus.',
   faq_document5:
@@ -269,10 +362,8 @@ export default {
     'En caso de que el Usuario no acepte las condiciones o no esté de total acuerdo con las Política de Privacidad, deberá dejar de usar la Plataforma y abstenerse de descargar o usar ya sea directa o indirectamente, y de utilizar cualquier servicio provisto por la misma. Constituye igualmente responsabilidad del Cliente revisar periódicamente la Política de Privacidad de la Plataforma y ver sus actualizaciones o modificaciones.',
   privacy_document5:
     'Para el funcionamiento de la Plataforma, la Empresa puede recopilar información web así como grabar las llamadas telefónicas que se estimen conveniente especialmente en caso de gestión de reclamos. También se podrá almacenar información de los Usuarios, por medio de cookies o tag, por medio de la información proporcionada por el propio Cliente. Dicha información comprende datos referentes como nombre, direcciones, correo electrónico, direcciones IP, navegador o búsquedas realizadas en nuestra Plataforma. El Cliente podrá optar a su libre elección, restringir o deshabilitar el uso de cookies configurando su navegador web de preferencia, habilitando su navegador web para que rechace cookies teniendo en cuenta que al negarse a aceptar una cookie no podrá obtener acceso a muchos servicios de viaje y herramientas de planificación ofrecidos por este Sitio Web.',
-  privacy_document6:
-    'La información y datos que se recopila se le da el siguiente uso:',
-  privacy_document6_1:
-    'Tramitar su compra de pasaje incluyendo las transacciones.',
+  privacy_document6: 'La información y datos que se recopila se le da el siguiente uso:',
+  privacy_document6_1: 'Tramitar su compra de pasaje incluyendo las transacciones.',
   privacy_document6_2:
     'Ofrecerle productos, descuentos o promociones a través de medios como correo electrónico o teléfono.',
   privacy_document6_3:
@@ -293,14 +384,104 @@ export default {
     'EL USUARIO DECLARA FORMALMENTE CONOCER Y ACEPTAR ESTA POLÍTICA DE PRIVACIDAD Y LOS DERECHOS QUE OTORGA A VIAJA EN BUS.',
   seat_title: 'Seleccione asiento',
   'Loading... Please wait': 'Cargando... Por favor espere',
-  select_origin : 'Debe seleccionar ciudad de origen',
-  select_destination : 'Debe seleccionar ciudad de destino',
+  select_origin: 'Debe seleccionar ciudad de origen',
+  select_destination: 'Debe seleccionar ciudad de destino',
   success_change: 'Su cambio ha sido realizado con éxito',
-  fail_title_change : 'Lo sentimos',
-  fail_detail_change : 'No fue posible realizar el cambio de boleto',
+  fail_title_change: 'Lo sentimos',
+  fail_detail_change: 'No fue posible realizar el cambio de boleto',
   selected_pet_seats: 'Seleccionados',
   reserved_pet_seats: 'Reservados',
   available_pet_seats: 'Disponibles',
   pet_service: 'Servicio Mascota',
-  releasing_seat: 'Liberando asiento'
+  releasing_seat: 'Liberando asiento',
+  pass: {
+    title: 'BENEFICIOS DE TARJETA PULLMAN PASS',
+    button: 'OBTENER PULLMAN PASS',
+    description: `Compruébalo tú mismo, porque cada vez que compres tus pasajes en Pullman
+    Bus y presentes tu tarjeta de cliente frecuente estarás acumulando puntos
+    para que puedas viajar completamente "GRATIS". Para acceder al selecto
+    Club pullman Pass y comenzar a disfrutar de todos nuestros beneficios,
+    sólo deberás llenar el formulario de inscripción en alguna de nuestras
+    agencias habilitadas y eres socio...........¡ASI DE SIMPLE!`,
+    li1: 'No se cobra mantención por ser socio de Pullman Pass.',
+    li2: 'Obtienes un descuento en la compra de pasajes.',
+    li3: 'Acumulas puntos por cada compra de pasajes que realices.',
+    data0: {
+      title: '¿Cómo inscribirse en el programa Pullman Pass?',
+      content:
+        '<p>Sólo debes completar el formulario de inscripción en nuestras oficinas habilitadas a lo largo del país.</p>'
+    },
+    data1: {
+      title: '¿Cómo acumular puntos?',
+      content:
+        '<p>Presentando tu tarjeta Pullman Pass y tu cédula de identidad, al comprar en nuestras agencias.</p>'
+    },
+    data2: {
+      title: '¿Cómo canjear puntos?',
+      content:
+        '<p>Sólo debes solicitar el canje en los puntos de venta habilitados, presentando tu tarjeta Pullman Pass y tu cédula de identidad.</p>'
+    },
+    data3: {
+      title: '¿Cómo consultar cuántos puntos tengo acumulados?',
+      content:
+        '<p>En las agencias habilitadas, con tu Rut o tarjeta Pullman Pass, o llamando al 600 660 0011.</p>'
+    },
+    data4: {
+      title: '¿Qué vigencia tienen los puntos?',
+      content: `
+        <p>
+          Los puntos tienen una vigencia de un año a partir de la fecha
+          de compra.
+        </p>
+        <p>
+          Se excluyen de esta condición todos los puntos acumulados
+          hasta el 28 de febrero de 2009, que estarán vigentes hasta el
+          31 de agosto de 2009.
+        </p>
+      `
+    },
+    data5: {
+      title: '¿Puede otra persona utilizar mis puntos?',
+      content: `
+        <p>
+          Los beneficios Pullman Pass son personales e intransferibles.
+          Por lo tanto, al efectuar el canje de puntos por boletos,
+          éstos podrán ser utilizados sólo por el titular de la tarjeta.
+        </p>
+        <p>
+          Todos los beneficios se aplican sólo a los pasajes del titular
+          de la tarjeta de socio.
+        </p>
+        <p>
+          No olvides mostrar tu Pullman Pass en todas tus compras en
+          Pullman Bus.
+        </p>
+      `
+    }
+  },
+  nro_phone: 'Número de teléfono',
+  contactme: 'Contáctate con Nosotros',
+  enter_account: 'Entra a tu cuenta',
+  register_here: '¿No tienes cuenta? Regístrate acá',
+  viewContact: {
+    title: 'Contacto',
+    fields: {
+      document: 'N° de documento',
+      name: 'Nombre',
+      lastname: {
+        paternal: 'Apellido Paterno',
+        maternal: 'Apellido Materno'
+      },
+      phone: 'Número telefónico',
+      email: 'Correo electrónico',
+      ticket: 'N° de Boleto',
+      select1: 'Mi solicitud es',
+      select2: 'El motivo de mi solicitud es',
+      select3: 'La opción que mejor describe mi solicitud',
+      add_file: 'Archivos Adjuntos (hasta 3)',
+      message: 'Mensaje',
+      note: 'Nota'
+    }
+  },
+  no_location: 'Ubicación no disponible'
 }

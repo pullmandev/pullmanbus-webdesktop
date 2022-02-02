@@ -1,14 +1,104 @@
 <template>
   <div class="pt-5" id="#elementList">
     <div v-if="loadingServices" style="text-align: center">
-      <v-progress-circular
-        indeterminate
-        :size="100"
-        color="blue"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate :size="100" color="blue"></v-progress-circular>
     </div>
     <div v-else-if="servicesList.length > 0">
-      <v-container class="service-item px-0">
+      <div class="xim-desktop">
+        <v-container class="service-item px-0">
+          <v-expansion-panels class="elevation-0">
+            <!-- First expasión Panel-->
+            <v-expansion-panel
+              :key="service.id"
+              v-for="service in itemsPerPage"
+              class="arrow elevation-0"
+            >
+              <v-expansion-panel-header style="overflow: hidden">
+                <v-row>
+                  <v-col cols="2">
+                    <span class="headline d-block">
+                      <img
+                        :src="'data:image;base64,' + service.logo"
+                        class="service-company-image"
+                      />
+                      <v-btn
+                        text
+                        large
+                        @click.stop="
+                          serviceForItinerary = service
+                          dialog = true
+                        "
+                      >
+                        <v-icon color="orange">mdi-plus</v-icon>
+                        <span class="capitalize body-1">itinerario</span>
+                      </v-btn>
+                    </span>
+                  </v-col>
+                  <v-col cols="2">
+                    <span class="body-2 d-block">{{
+                      formatDate(service.fechaSubida)
+                    }}</span>
+                    <span class="headline d-block" style="font-size: 1rem !important;">
+                      {{ service.horaSalida }}
+                    </span>
+                    <span class="body-2 d-block"><b>Salida:</b></span>
+                    <span class="body-2 d-block">{{ service.terminalSalida }}</span>
+                  </v-col>
+                  <v-col cols="2" class="pr-12 text-center">
+                    <div style="position: relative">
+                      <v-icon class="display-2 white" style="z-index: 2" color="orange">
+                        mdi-bus-side
+                      </v-icon>
+                      <hr class="hr-bus-style" />
+                    </div>
+                    <small>{{ hoursDifference(service) }}</small>
+                  </v-col>
+                  <v-col cols="2">
+                    <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
+                    <span class="headline d-block" style="font-size: 1rem !important;">
+                      {{ service.horaLlegada }}
+                    </span>
+                    <span class="body-2 d-block"><b>Llegada:</b></span>
+                    <span class="body-2 d-block">{{ service.terminaLlegada }}</span>
+                  </v-col>
+                  <v-col cols="2" v-for="(piso, index) in service.pisos" :key="index">
+                    <span class="caption d-block"
+                      ><b>Piso {{ piso.piso + 1 }}</b></span
+                    >
+                    <span class="caption d-block">{{ piso.servicio }}</span>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <floor
+                    v-if="service"
+                    :item="service"
+                    :expanded="true"
+                    :isXs="windowSize.x <= 600"
+                    @confirm="goToPayment"
+                  />
+                  <v-alert v-else color="warning" value="true" class="noServices mt-0">
+                    <v-row class="align-center justify-center">
+                      <h2>{{ $t('no_services') }}</h2>
+                    </v-row>
+                  </v-alert>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-pagination
+            color="blue_dark"
+            circle
+            v-model="page"
+            :length="paginationLength"
+            :total-visible="7"
+            class="mt-12"
+          ></v-pagination>
+        </v-container>
+      </div>
+      <div class="xim-container-mv xim-movile">
+        <v-container class="service-item px-0">
         <v-expansion-panels class="elevation-0">
           <!-- First expasión Panel-->
           <v-expansion-panel
@@ -17,71 +107,59 @@
             class="arrow elevation-0"
           >
             <v-expansion-panel-header style="overflow: hidden">
-              <v-row>
-                <v-col cols="2">
-                  <span class="headline d-block">
-                    <img
-                      :src="'data:image;base64,' + service.logo"
-                      class="service-company-image"
-                    />
-                    <v-btn
-                      text
-                      large
-                      @click.stop="
-                        serviceForItinerary = service
-                        dialog = true
-                      "
-                    >
-                      <v-icon color="orange">mdi-plus</v-icon>
-                      <span class="capitalize body-1">itinerario</span>
-                    </v-btn>
-                  </span>
+              <v-row class="xim-raro xim-top-30">
+                <v-col cols="6 xim-tr">
+                  <v-row>
+                    <v-col cols="12 xim-colum xim-height-logo" v-if="service.logo != ''">
+                        <img
+                          :src="'data:image;base64,' + service.logo"
+                          class="service-company-image"
+                        />
+                        <v-btn
+                          text
+                          large
+                          @click.stop="
+                            serviceForItinerary = service
+                            dialog = true
+                          "
+                        >
+                          <v-icon color="orange">mdi-plus</v-icon>
+                          <span class="capitalize body-1">itinerario</span>
+                        </v-btn>
+                    </v-col>
+                    <v-col v-else class="xim-none"></v-col>
+                  </v-row>
                 </v-col>
-                <v-col cols="2">
-                  <span class="body-2 d-block">{{
-                    formatDate(service.fechaSubida)
-                  }}</span>
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
-                  >
-                    {{ service.horaSalida }}
-                  </span>
-                  <span class="body-2 d-block"><b>Salida:</b></span>
-                  <span class="body-2 d-block">{{service.terminalSalida}}</span>
-                </v-col>
-                <v-col cols="2" class="pr-12 text-center">
+                <v-col cols="6" class="pr-12 text-center xim-tl">
                   <div style="position: relative">
-                    <v-icon
-                      class="display-2 white"
-                      style="z-index: 2"
-                      color="orange"
-                    >
+                    <v-icon class="display-2 white" style="z-index: 2" color="orange">
                       mdi-bus-side
                     </v-icon>
                     <hr class="hr-bus-style" />
                   </div>
                   <small>{{ hoursDifference(service) }}</small>
                 </v-col>
-                <v-col cols="2">
+                <v-col cols="6 xim-tr xim-top-30">
+                  <span class="body-2 d-block">{{
+                    formatDate(service.fechaSubida)
+                  }}</span>
+                  <span class="headline d-block" style="font-size: 1rem !important;">
+                    {{ service.horaSalida }}
+                  </span>
+                  <span class="body-2 d-block"><b>Salida:</b></span>
+                  <span class="body-2 d-block">{{ service.terminalSalida }}</span>
+                </v-col>
+
+                <v-col cols="6 xim-tl xim-top-30">
                   <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
-                  <span
-                    class="headline d-block"
-                    style="font-size: 1rem !important;"
-                  >
+                  <span class="headline d-block" style="font-size: 1rem !important;">
                     {{ service.horaLlegada }}
                   </span>
                   <span class="body-2 d-block"><b>Llegada:</b></span>
-                  <span class="body-2 d-block">{{service.terminaLlegada}}</span>
+                  <span class="body-2 d-block">{{ service.terminaLlegada }}</span>
                 </v-col>
-                <v-col
-                  cols="2"
-                  v-for="(piso, index) in service.pisos"
-                  :key="index"
-                >
-                  <span class="caption d-block"
-                    ><b>Piso {{ piso.piso + 1 }}</b></span
-                  >
+                <v-col cols="6" v-for="(piso, index) in service.pisos" :key="index" :class="index==0?'xim-tr':'xim-tl'">
+                  <span class="caption d-block"><b>Piso {{ piso.piso + 1 }}</b></span>
                   <span class="caption d-block">{{ piso.servicio }}</span>
                 </v-col>
               </v-row>
@@ -95,12 +173,7 @@
                   :isXs="windowSize.x <= 600"
                   @confirm="goToPayment"
                 />
-                <v-alert
-                  v-else
-                  color="warning"
-                  value="true"
-                  class="noServices mt-0"
-                >
+                <v-alert v-else color="warning" value="true" class="noServices mt-0">
                   <v-row class="align-center justify-center">
                     <h2>{{ $t('no_services') }}</h2>
                   </v-row>
@@ -118,6 +191,7 @@
           class="mt-12"
         ></v-pagination>
       </v-container>
+      </div>
     </div>
     <v-card v-else class="elevation-0">
       <span>{{ $t('no_elements') }}</span>
@@ -135,13 +209,16 @@ import moment from 'moment'
 export default {
   data() {
     return {
+      existePrimero:false,
+      existeSegundo:false,
       fechaSubida: '',
       serviceForItinerary: '',
       page: 1,
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       dialog: false,
       expand: false,
-      rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }]
+      rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }],
+      tipoBotones:1
     }
   },
   components: {
@@ -149,6 +226,15 @@ export default {
     Dialog
   },
   mounted() {
+ /*   if(this.$store.getters.seats.length > 0) {
+      if(this.$store.getters.seats[0].servicioNombre == 'SALON CAMA') {
+        this.tipoBotones = 2
+      } else {
+        this.tipoBotones = 1
+      }
+      return this.tipoBotones
+    }*/
+
     this.$nextTick(() => {
       window.addEventListener('resize', this.onResize)
     })
@@ -195,8 +281,7 @@ export default {
       return `${dateItems[2]}/${dateItems[1]}/${dateItems[0]}`
     },
     hoursDifference(service) {
-      const from =
-        this.formatDate(service.fechaSubida) + 'T' + service.horaSalida
+      const from = this.formatDate(service.fechaSubida) + 'T' + service.horaSalida
       const to = service.fechaLlegada + 'T' + service.horaLlegada
       const format = 'DD/MM/YYYYTHH:mm'
       const fromDate = moment(from, format)
@@ -345,11 +430,7 @@ h3 {
   max-width: 4.333333333333332% !important;
 }
 
-.v-expansion-panel-header__icon .mdi-chevron-down::before {
-  background-color: #1110ad;
-  color: white;
-  border-radius: 50%;
-  padding: 10px;
-}
+
+
 /* . estilo Bus */
 </style>

@@ -9,6 +9,9 @@ module.exports = {
     config.resolve.alias
       .set('@SERVICES', resolve(__dirname, 'src', 'services'))
       .set('@COMPONENTS', resolve(__dirname, 'src', 'components'))
+      .set('@data', resolve(__dirname, 'src', 'data'))
+      .set('@VIEWS', resolve('src', 'views'))
+      .set('@HELPERS', resolve('src', 'helpers'))
   },
   configureWebpack: {
     plugins: [
@@ -21,21 +24,21 @@ module.exports = {
   },
   transpileDependencies: ['vuetify'],
   devServer: {
-    proxy : {
-      "^/integrador-web": {
-      target: 'http://127.0.0.1:8080',
-      ws: true,
-      changeOrigin: true
+    proxy: {
+      '^/integrador-web': {
+        target: 'http://127.0.0.1:8080',
+        ws: true,
+        changeOrigin: true
       },
-      "^/administracion-web": {
-      target: 'http://127.0.0.1:8080',
-      ws: true,
-      changeOrigin: true
+      '^/administracion-web': {
+        target: 'http://128.1.0.137:8080',
+        ws: true,
+        changeOrigin: true
       },
-      "^/srv-privado-web": {
-      target: 'http://127.0.0.1:8080',
-      ws: true,
-      changeOrigin: true
+      '^/srv-privado-web': {
+        target: 'http://128.1.0.137:8080',
+        ws: true,
+        changeOrigin: true
       }
     }
   }

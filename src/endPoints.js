@@ -1,6 +1,6 @@
 //const base = 'https://pullman.cl' // prod
-//const base = 'https://pullmanapi.viajaenbus.cl/' // dev
-const base = ''
+const base = 'https://pullmanapi.viajaenbus.cl/' // dev
+//const base = ''
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
@@ -20,7 +20,7 @@ export default {
   map: `${baseVenta}/planilla`,
   availability: `${baseVenta}/disponibilidad`,
   validateSeat: `${baseVenta}/validarAsiento`,
-  takeSeat: `${baseVenta}/tomarAsiento`,
+  takeSeat: `${baseVenta}/tomarAsientoV2`,
   freeSeat: `${baseVenta}/liberarAsiento`,
   transaction: `${basePago}/guardarTransaccion`,
   searchHeader: `${baseVenta}/buscarEncabezado`,
@@ -38,8 +38,8 @@ export default {
   buscarBoleto: `${compra}/buscarBoleto`,
   buscarBoletoConfirmacion: `${operacion}/buscarBoleto`,
   confirmarBoleto: `${operacion}/confirmarBoleto`,
-  buscarCityConfirmacion:`${operacion}/buscarOrigen`,
-  buscarCityToConfirmacion:`${operacion}/buscarDestino`,  
+  buscarCityConfirmacion: `${operacion}/buscarOrigen`,
+  buscarCityToConfirmacion: `${operacion}/buscarDestino`,
   validarBoletoCanje: `${operacion}/validarBoletoCambio`,
   canjearBoletoCanje: `${operacion}/cambiarBoleto`,
   cancel: `${baseVenta}/anularVenta`,
@@ -67,8 +67,8 @@ export default {
   buscarListaTipoDocumento: `${pasajero}/buscarListaTipoDocumento`,
   buscarListaNacionalidad: `${pasajero}/buscarListaNacionalidad`,
   buscarPorNumeroDocumento: `${pasajero}/buscarPorNumeroDocumento`,
-  guardarRelacionPasajero: `${pasajero}/guardarRelacionPasajero`, 
-  
+  guardarRelacionPasajero: `${pasajero}/guardarRelacionPasajero`,
+
   buscarRegistroPorBoleto: `${operacion}/buscarRegistro`,
   editarRegistroBoleto: `${operacion}/modificarRegistro`,
 
@@ -79,5 +79,8 @@ export default {
   buscarListaCarrusel: `${administracion}/private/contenido/obtenerSeccion`,
   buscarUsuario: `${sesion}/obtenerUsuarioPass`,
   cambiarClave: `${sesion}/modificarClaveUsuario`,
-  enviarClave: `${sesion}/enviarCorreoClave`
+  enviarClave: `${sesion}/enviarCorreoClave`,
+
+  guardarDatosCliente: `${baseCuponera}/guardarDatosClienteCuponera`
+
 }

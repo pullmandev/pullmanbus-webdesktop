@@ -2,11 +2,12 @@
   <div class="ServicesBackground font">
     <!-- Principal View -->
     <div style="margin-top: 52px"></div>
-    <Promotions height="400" :banner="true" id="paymentStepper" />
+    <!-- <Promotions height="400" :banner="true" id="paymentStepper" /> -->
+    <div id="paymentStepper"></div>
     <transition>
       <router-view></router-view>
     </transition>
-    <v-btn
+    <!-- <v-btn
       color="primary"
       class="white--text floating-filters-btn displayNoneMd"
       @click="$router.push({ path: '/filters' })"
@@ -23,7 +24,7 @@
       class="floating-search-btn displayNoneMd"
     >
       <v-icon dark>directions_bus</v-icon>
-    </v-btn>
+    </v-btn> -->
     <div style="height: 150px; background: var(--var-light);"></div>
   </div>
 </template>
