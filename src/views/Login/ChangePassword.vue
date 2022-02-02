@@ -1,6 +1,6 @@
 <template>
-  <Container :width="600" :open="open">
-    <v-container class="pt-0">
+  <Container :open="open" class="xim-container">
+    <v-container >
       <v-form v-model="validForm">
         <v-row>
           <v-col cols="12" class="text-center">

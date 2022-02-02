@@ -1,18 +1,16 @@
 <template>
-  <Container :open="open" :width="300" @close="$emit('close')">
+  <Container :open="open" :width="350" @close="$emit('close')">
     <v-container class="pt-0 xim-desktop">
-      <v-form v-model="validForm">
+      <v-form v-model="validForm" class="xim-mlr">
         <v-row>
           <v-col cols="12" class="text-center">
-            <h1 class="headline">{{ $t('enter_account') }}</h1>
+            <h1 class="blue_dark--text headline">{{ $t('enter_account') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
             <p>{{ $t('login_text.description') }}</p>
           </v-col>
           <v-col cols="12">
             <v-text-field
-              filled
-              outlined
               dense
               v-model="email"
               :label="$t('email')"
@@ -23,8 +21,6 @@
           </v-col>
           <v-col cols="12">
             <v-text-field
-              filled
-              outlined
               dense
               v-model="password"
               :label="$t('password')"
@@ -41,7 +37,7 @@
               small
               :disabled="!validForm || loading"
               block
-              class="white--text search-font rounded-search"
+              class="white--text xim-search-font rounded-search"
               color="blue_dark"
               @click="login"
             >
@@ -65,7 +61,7 @@
                 })
               "
             >
-              <small class="small-text">{{ $t('forgot') }}</small>
+              <small class="xim-small-text">{{ $t('forgot') }}</small>
             </a>
           </v-col>
           <v-col cols="12" class="text-center">
@@ -78,18 +74,18 @@
                 })
               "
             >
-              <small class="small-text">{{ $t('register_here') }}</small>
+              <small class="xim-small-text">{{ $t('register_here') }}</small>
             </a>
           </v-col>
         </v-row>
       </v-form>
     </v-container>
     <v-container class="pt-0 xim-movile">
-      <v-form v-model="validForm">
+      <v-form v-model="validForm" class="xim-mlr">
         <div class="xim-container">
         <v-row>
           <v-col cols="12" class="text-center">
-            <h1 class="headline">{{ $t('enter_account') }}</h1>
+            <h1 class="blue_dark--text headline">{{ $t('enter_account') }}</h1>
           </v-col>
           <v-col cols="12" class="text-center">
             <p>{{ $t('login_text.description') }}</p>
@@ -120,7 +116,7 @@
               small
               :disabled="!validForm || loading"
               block
-              class="white--text search-font rounded-search"
+              class="white--text xim-search-font rounded-search"
               color="blue_dark"
               @click="login"
             >

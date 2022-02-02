@@ -1,5 +1,6 @@
 <template>
-  <v-dialog v-model="open" overlay-color="blue_dark"  :max-width="width" persistent>
+  <v-dialog v-model="open" overlay-color="blue_dark"  
+            :max-width="width" persistent>
     <v-card class="rounded-search-box">
       <div class="d-flex justify-end">
         <v-btn
