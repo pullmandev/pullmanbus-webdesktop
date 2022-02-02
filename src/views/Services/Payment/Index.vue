@@ -79,6 +79,18 @@
                 maxLength="10"
               ></v-text-field>
               <v-text-field
+                v-if="item.Tipo ==='USERNAME'"
+                filled
+                outlined
+                dense
+                v-model="username"
+                label="Username"
+                outline-1
+                color="blue"
+                required
+                maxLength="10"
+              ></v-text-field>
+              <v-text-field
                 v-if="item.Tipo ==='PASSWORD'"
                 filled
                 outlined
@@ -93,7 +105,8 @@
                 :rules="passwordRules"
                 required
                 maxLength="10"
-              ></v-text-field>
+              >
+              </v-text-field>
             </v-col>
 
             <v-col cols="12" xs="12" sm="12">
@@ -813,7 +826,9 @@ export default {
           totalApagar: '0'
         }
         if(this.rut != ''){ params.listaAtributo.push({ idCampo: 'RUT', valor: this.rut })}
+        if(this.username != ''){ params.listaAtributo.push({ idCampo: 'USERNAME', valor: this.username })}
         if(this.password != ''){ params.listaAtributo.push({ idCampo: 'PASSWORD', valor: this.password })}
+        
         //console.log(this.selectedConvenio)
         this.selectedSeats.forEach(seat => {
           //console.log(seat)
