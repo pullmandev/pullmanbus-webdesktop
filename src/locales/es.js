@@ -483,5 +483,12 @@ export default {
       note: 'Nota'
     }
   },
-  no_location: 'Ubicación no disponible'
+  no_location: 'Ubicación no disponible',
+
+  club_login_error: 'RUT no registrado',
+  club_login: 'Club de Beneficios',
+  club_login_text: {
+    description: '¡Hola! Ingresa tu RUT para continuar'
+  },
+  club_btn: 'Ingresar'
 }

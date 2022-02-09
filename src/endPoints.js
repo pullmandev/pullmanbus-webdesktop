@@ -1,6 +1,6 @@
 //const base = 'https://pullman.cl' // prod
 const base = 'https://pullmanapi.viajaenbus.cl/' // dev
-//const base = ''
+//const base = 'http://qa.pullman.cl'
 
 const baseVenta = `${base}/integrador-web/rest/private/venta`
 const basePago = `${base}/integrador-web/rest/pago`
@@ -59,9 +59,9 @@ export default {
   mapVertical: `${baseVenta}/buscarPlantillaVertical`,
   buscarCuponera: `${baseCuponera}/buscarCuponera`,
   validarUsuario: `${baseCuponera}/validarUsuario`,
-  transactionCoupon: `${basePago}/guardarTransaccionCuponera`,
-  searchHeaderCoupon: `${baseVenta}/buscarEncabezadoCuponera`,
-  generateCoupon: `${baseVenta}/generarComprobanteCuponera`,
+  transactionCoupon: `${baseCuponera}/guardarTransaccionCuponera`,
+  searchHeaderCoupon: `${baseCuponera}/buscarEncabezadoCuponera`,
+  generateCoupon: `${baseCuponera}/generarComprobanteCuponera`,
   obtenerListaCiudad: `${parametros}/obtenerListaCiudad`,
 
   buscarListaTipoDocumento: `${pasajero}/buscarListaTipoDocumento`,
@@ -72,8 +72,8 @@ export default {
   buscarRegistroPorBoleto: `${operacion}/buscarRegistro`,
   editarRegistroBoleto: `${operacion}/modificarRegistro`,
 
-  origenCuponera: `${parametros}/buscaOrigenCuponera`,
-  destinoCuponera: `${parametros}/buscaDestinoCuponera`,
+  origenCuponera: `${baseCuponera}/buscaOrigenCuponera`,
+  destinoCuponera: `${baseCuponera}/buscarDestinoCuponera`,
 
   detalleConvenioAtributo:  `${administracion}/private/convenio/getDetalleConvenioAtributo`,
   buscarListaCarrusel: `${administracion}/private/contenido/obtenerSeccion`,

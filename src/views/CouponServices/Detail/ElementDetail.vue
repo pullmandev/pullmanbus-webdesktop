@@ -411,14 +411,15 @@ export default {
       }else{
          rutUser = this.forLS.userData.rut;
       }
+      rutUser = "10809653-5"
 
       let transactionParams = {
-        integrador: 1000,
+        integrador: this.cupon.integrador,
         idSistema: 7,
-        clase: this.cupon.tipoBus,
+        clase: this.cupon.clase,
         boletos: this.cupon.cantidad,
         programa: this.cupon.programa,
-        valor: this.cupon.total,
+        valor: this.cupon.total,  
         origen: this.cupon.origen,
         origenDescripcion: this.cupon.origenNombre,
         destino: this.cupon.destino,
@@ -430,8 +431,7 @@ export default {
         empresaDescripcion: this.cupon.empresaDescripcion,
         rut: rutUser,
         email: this.email,
-        medioDePago: 'WBPAY',
-        idCuponera: this.cupon.idCuponera
+        medioDePago: 'WBPAY'
       }
       //console.log(transactionParams)
       const response = await APITransaction.postCoupon(transactionParams)

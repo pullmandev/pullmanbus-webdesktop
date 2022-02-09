@@ -27,7 +27,8 @@ const store = new Vuex.Store({
         'userData',
         'cuponera',
         'cuponeraTo',
-        'userCoupon'
+        'userCoupon',
+        'userClubBeneficios'
       ]
     })
   ],
@@ -106,6 +107,14 @@ const store = new Vuex.Store({
       apellido: '',
       direccion: '',
       active: false
+    },
+    userClubBeneficios: {
+      programa: '',
+      nombre: '',
+      apellidoPaterno: '',
+      apellidoMaterno: '',
+      mailVenta: '',
+      valido: false
     },
     userData: {
       cambiaClave: false,
@@ -480,6 +489,10 @@ const store = new Vuex.Store({
     SET_USER_COUPON({ commit }, payload) {
       commit('SET_USER_COUPON', { userCoupon: payload.userCoupon })
     },
+    SET_USER_CLUB_BENEFICIOS({ commit }, payload) {
+      console.log(payload);
+      commit('SET_USER_CLUB_BENEFICIOS', { userClubBeneficios: payload.userClubBeneficios })
+    },
     DELETE_USER({ commit }) {
       commit('DELETE_USER')
     },
@@ -653,6 +666,9 @@ const store = new Vuex.Store({
     },
     SET_USER_COUPON(state, { userCoupon }) {
       state.userCoupon = userCoupon
+    },
+    SET_USER_CLUB_BENEFICIOS(state, { userClubBeneficios }) {
+      state.userClubBeneficios = userClubBeneficios
     },
     DELETE_USER(state) {
       const userData = {
@@ -1028,6 +1044,9 @@ const store = new Vuex.Store({
     },
     userCoupon: state => {
       return state.userCoupon
+    },
+    userClubBeneficios: state => {
+      return state.userClubBeneficios
     },
     getHistory: state => {
       return state.history

@@ -11,6 +11,9 @@
     <ChangePassword
       :open="sessionDialog.dialogType === 'changePassword' && sessionDialog.open"
     />
+    <LoginClubBeneficios
+      :open="sessionDialog.dialogType === 'loginClubBeneficios' && sessionDialog.open"
+    />
   </div>
 </template>
 <script>
@@ -19,6 +22,7 @@ import SignUp from '@/views/Login/SignUp'
 import SendPassword from '@/views/Login/SendPassword'
 import Confirmation from '@/views/Login/Confirmation'
 import ChangePassword from '@/views/Login/ChangePassword'
+import LoginClubBeneficios from '@/views/Login/LoginClubBeneficios'
 import { mapState } from 'vuex'
 
 export default {
@@ -27,7 +31,8 @@ export default {
     SignUp,
     SendPassword,
     Confirmation,
-    ChangePassword
+    ChangePassword,
+    LoginClubBeneficios
   },
   computed: mapState(['sessionDialog'])
 }

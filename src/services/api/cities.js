@@ -18,9 +18,16 @@ export default {
     return axios.post(obtenerListaCiudad)
   },
   getCuponera() {
-    return axios.post(origenCuponera)
+    const props = {
+      idSistema: "7"
+    }
+    return axios.post(origenCuponera, props)
   },
   getCuponeraByCode(citiesTo) {
-    return axios.post(destinoCuponera, citiesTo)
+    const props = {
+      idSistema: "7",
+      origen: citiesTo
+    }
+    return axios.post(destinoCuponera, props)
   }
 }

@@ -3,6 +3,37 @@
     <v-row dense>
       <v-col xs12 style="position: center">
         <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+          color="blue_dark"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="formatedDate"
+              :label="languageChange"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+              color="blue_dark"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="userCalendar"
+            @input="menu = false"
+            :locale="localeChange"
+            :first-day-of-week="firstDayOfweek"
+            color="blue_dark"
+          ></v-date-picker>
+          <v-btn icon @click="clearDate" style="margin-top: 17px" class="pl-1 btn-picker">
+            <v-icon color="orange_dark">clear</v-icon>
+          </v-btn>
+        </v-menu>
+        <!-- 
+        <v-menu
           :close-on-content-click="false"
           transition="scale-transition"
           color="blue_dark"
@@ -25,7 +56,6 @@
             color="blue_dark"
             :locale="localeChange"
             :first-day-of-week="firstDayOfweek"
-            @change="save"
           >
           <v-btn icon @click="clearDate" style="margin-top: 17px" class="pl-1 btn-picker">
             <v-icon color="orange_dark">clear</v-icon>
@@ -41,12 +71,13 @@
             <v-btn
               text
               color="primary"
-              @click="$refs.dialog.save(date)"
+              @click="$refs.dialog.save(userCalendar)"
             >
               OK
             </v-btn>
           </v-date-picker>
         </v-menu>
+        -->
       </v-col>
     </v-row>
   </div>
