@@ -3,7 +3,7 @@
     <img
       src="../../../static/images/form_banners/confirmacion_pasajes.png"
       alt="banner-confirmacion"
-      style="width: 100%"
+      class="xim-bannerConfirmacion"
     />
     <v-container>
       <v-toolbar dense class="toolbar-radius" dark color="blue_light" id="serviceToolbar">

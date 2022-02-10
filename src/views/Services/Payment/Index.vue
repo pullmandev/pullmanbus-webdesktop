@@ -825,9 +825,9 @@ export default {
           montoTotal: '0',
           totalApagar: '0'
         }
-        if(this.rut != ''){ params.listaAtributo.push({ idCampo: 'RUT', valor: this.rut })}
-        if(this.username != ''){ params.listaAtributo.push({ idCampo: 'USERNAME', valor: this.username })}
-        if(this.password != ''){ params.listaAtributo.push({ idCampo: 'PASSWORD', valor: this.password })}
+        if(this.rut && this.rut != ''){ params.listaAtributo.push({ idCampo: 'RUT', valor: this.rut })}
+        if(this.username && this.username != ''){ params.listaAtributo.push({ idCampo: 'USERNAME', valor: this.username })}
+        if(this.password && this.password != ''){ params.listaAtributo.push({ idCampo: 'PASSWORD', valor: this.password })}
         
         //console.log(this.selectedConvenio)
         this.selectedSeats.forEach(seat => {
