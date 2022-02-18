@@ -429,6 +429,7 @@ export default {
         idSistema: 7,
         origen: this.fromCity.codigo,
         destino: this.toCity.codigo,
+        programa : this.$store.state.userClubBeneficios.programa != undefined ? this.$store.state.userClubBeneficios.programa : 'PZG'
       }
       console.log(cupon)
 

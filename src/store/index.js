@@ -786,23 +786,16 @@ const store = new Vuex.Store({
     },
     getConfirmationServiceFiltered: state => {
       //const { clase } = state.searchingConfirmation.ticket
-      const { claseFiltro } = state.searchingConfirmation.ticket
-      //console.log(claseFiltro)
+      //const  claseFiltro   = state.searchingConfirmation.ticket.clase            
       const servicesFiltered = state.confirmationServices.data.map(service => {
-        let filter1 =
-          claseFiltro.find(
-            item => service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)
-          ) != undefined
+        let filter1 = true
         let newItem = { ...service, filter1 }
         if (service.busPiso2 != null) {
-          let filter2 =
-            claseFiltro.find(
-              item => service.idClaseBusPisoDos.substr(0, 3) === item.substr(0, 3)
-            ) != undefined
+          let filter2 = true
           newItem = { ...newItem, filter2 }
         }
         return newItem
-      })
+      })      
       return servicesFiltered
     },
     getServiceList: (state, getters) => vuelta => {
