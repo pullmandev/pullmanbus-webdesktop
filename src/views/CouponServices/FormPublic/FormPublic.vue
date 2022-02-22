@@ -241,7 +241,7 @@ export default {
     openDialog,
     saveCouponData() {
       console.log('EMAIL::::..',validations.emailValidation(this.pasajeroCuponera.email));
-      if(validations.emailValidation(this.pasajeroCuponera.email)) {
+      if(validations.emailValidation(this.pasajeroCuponera.email) === 'E-mail debe ser valido') {
         this.pasajeroCuponera.email = '';
         return validations.emailValidation(this.pasajeroCuponera.email);
       }

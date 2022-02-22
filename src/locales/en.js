@@ -481,5 +481,12 @@ export default {
       note: 'Note',
       message: 'Message'
     }
-  }
+  },
+
+  club_login_error: 'RUT not registered',
+  club_login: 'Club de Beneficios',
+  club_login_text: {
+    description: '¡Hello! Enter your RUT to continue'
+  },
+  club_btn: 'Enter'
 }

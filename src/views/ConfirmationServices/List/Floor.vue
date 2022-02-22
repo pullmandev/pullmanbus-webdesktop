@@ -528,7 +528,8 @@ export default {
           idDestino: seat.destino,
           piso: seat.piso + 1,
           email: ticket.email,
-          idIntegrador: ticket.idIntegrador
+          idIntegrador: ticket.idIntegrador,
+          codigoReserva : seat.codigoReserva
         }
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data
@@ -630,7 +631,7 @@ export default {
       })
       const requestParams = this.createRequestParams(params)
       const response = await API.takeSeat(requestParams)
-      if (!response.data > 0) {
+      if (!response.data.estadoReserva) {
         this.$notify({
           group: 'error',
           title: this.$t('seats'),
@@ -641,6 +642,7 @@ export default {
         this.$forceUpdate()
       } else {
         const seat = Object.assign({ vuelta: this.back }, params)
+        seat.codigoReserva = response.data.codigoReserva
         this.$store.dispatch('SET_CONFIRMATION_SEAT', { seat })
       }
     },
@@ -652,13 +654,15 @@ export default {
       this.$store.dispatch('DELETE_CONFIRMATION_SEAT', { seat: index })
     },
     createRequestParams(params) {
+      console.log(params)
       const requestParams = _.pick(params, [
         'servicio',
         'fecha',
         'origen',
         'destino',
         'integrador',
-        'asiento'
+        'asiento',
+        'tarifa'
       ])
       requestParams.asiento =
         params.piso > 0 ? parseInt(params.asiento).toString() : params.asiento

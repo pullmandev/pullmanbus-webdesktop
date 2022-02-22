@@ -27,7 +27,8 @@ const store = new Vuex.Store({
         'userData',
         'cuponera',
         'cuponeraTo',
-        'userCoupon'
+        'userCoupon',
+        'userClubBeneficios'
       ]
     })
   ],
@@ -106,6 +107,14 @@ const store = new Vuex.Store({
       apellido: '',
       direccion: '',
       active: false
+    },
+    userClubBeneficios: {
+      programa: '',
+      nombre: '',
+      apellidoPaterno: '',
+      apellidoMaterno: '',
+      mailVenta: '',
+      valido: false
     },
     userData: {
       cambiaClave: false,
@@ -480,6 +489,10 @@ const store = new Vuex.Store({
     SET_USER_COUPON({ commit }, payload) {
       commit('SET_USER_COUPON', { userCoupon: payload.userCoupon })
     },
+    SET_USER_CLUB_BENEFICIOS({ commit }, payload) {
+      console.log(payload);
+      commit('SET_USER_CLUB_BENEFICIOS', { userClubBeneficios: payload.userClubBeneficios })
+    },
     DELETE_USER({ commit }) {
       commit('DELETE_USER')
     },
@@ -654,6 +667,9 @@ const store = new Vuex.Store({
     SET_USER_COUPON(state, { userCoupon }) {
       state.userCoupon = userCoupon
     },
+    SET_USER_CLUB_BENEFICIOS(state, { userClubBeneficios }) {
+      state.userClubBeneficios = userClubBeneficios
+    },
     DELETE_USER(state) {
       const userData = {
         cambiaClave: false,
@@ -770,23 +786,16 @@ const store = new Vuex.Store({
     },
     getConfirmationServiceFiltered: state => {
       //const { clase } = state.searchingConfirmation.ticket
-      const { claseFiltro } = state.searchingConfirmation.ticket
-      //console.log(claseFiltro)
+      //const  claseFiltro   = state.searchingConfirmation.ticket.clase            
       const servicesFiltered = state.confirmationServices.data.map(service => {
-        let filter1 =
-          claseFiltro.find(
-            item => service.idClaseBusPisoUno.substr(0, 3) === item.substr(0, 3)
-          ) != undefined
+        let filter1 = true
         let newItem = { ...service, filter1 }
         if (service.busPiso2 != null) {
-          let filter2 =
-            claseFiltro.find(
-              item => service.idClaseBusPisoDos.substr(0, 3) === item.substr(0, 3)
-            ) != undefined
+          let filter2 = true
           newItem = { ...newItem, filter2 }
         }
         return newItem
-      })
+      })      
       return servicesFiltered
     },
     getServiceList: (state, getters) => vuelta => {
@@ -1028,6 +1037,9 @@ const store = new Vuex.Store({
     },
     userCoupon: state => {
       return state.userCoupon
+    },
+    userClubBeneficios: state => {
+      return state.userClubBeneficios
     },
     getHistory: state => {
       return state.history

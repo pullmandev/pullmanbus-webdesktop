@@ -50,7 +50,7 @@ export default {
     validateUserLogin() {
       this.forLS = JSON.parse(localStorage.getItem('vuex'));
       if(this.forLS.userData.active === false){
-        openDialog('login') 
+        openDialog('loginClubBeneficios') 
       }else{
          this.$router.push({ path: `/couponServices/` })
       }

@@ -2,7 +2,7 @@
   <div class="search-cupon custom-form bgCupon">
     <v-row v-if="cuponList.length <= 0">
       <v-col cols="12" sm="12" md="10" offset-md="1">
-        <v-card color="elevation-24 rounded-search-box px-12 v-card v-sheet theme--light light">
+        <v-card color="elevation-24 rounded-search-box px-12 v-card v-sheet theme--light light" class="search-card">
           <v-card-text>
             <p class="blue_dark--text my-5">
               {{ $t('central_coast.content') }}
@@ -87,9 +87,9 @@
       </v-col>
     </v-row>
 
-    <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0">
+    <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0" >
       
-      <v-container >
+      <v-container class="cupon-list">
         <v-row no-gutters cols="12" sm="12" md="10">
           <v-col :key="cupon.idCuponera" v-for="cupon in itemsPerPage" cols="12" sm="4">
             <v-card
@@ -109,15 +109,19 @@
                         <img src="../../../static/logos/coupon/directions_bus_filled_black_18dp.svg" width="18px"  class="xim-ml-10"/>
                         {{ cupon.destinoNombre}}
                       </div>
-                        <div v-if="cupon.tipoBus === 'SEM'" class="white--text xim-horizontal-card"> 
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/badge_white_18dp.svg" width="18px"  class="xim-ml-10"/>
+                        {{ cupon.programa}}
+                      </div>
+                        <div v-if="cupon.clase === 'SEM'" class="white--text xim-horizontal-card"> 
                         <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
                           SEMI CAMA
                         </div>
-                        <div v-if="cupon.tipoBus === 'EJE'" class="white--text xim-horizontal-card"> 
+                        <div v-if="cupon.clase === 'EJE'" class="white--text xim-horizontal-card"> 
                         <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
                           EJECUTIVO
                         </div>
-                        <div v-if="cupon.tipoBus === 'SAL'" class="white--text xim-horizontal-card"> 
+                        <div v-if="cupon.clase === 'SAL'" class="white--text xim-horizontal-card"> 
                         <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
                           SALÓN CAMA
                         </div>
@@ -210,18 +214,29 @@
                                   <h3 class="xim-h3 blue_dark--text">Tipo de bus</h3>
                                 </v-col>
                                 <v-col cols="7" sm="7" class="text-left">
-                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'SEM'">
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'SEM'">
                                     SEMI CAMA
                                   </span>
-                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'EJE'">
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'EJE'">
                                     EJECUTIVO
                                   </span>
-                                  <span class="xim-strong blue_dark--text" v-if="cupon.tipoBus === 'SAL'">
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'SAL'">
                                     SALÓN CAMA
                                   </span> 
                                 </v-col>
                               </v-row>
                               <v-divider class="mx-4"></v-divider>
+                                <v-row>
+                                  <v-col cols="1" sm="1">
+                                    <img src="../../../static/logos/coupon/fact_check_black_24dp.svg" class="xim-icon-pos"/>
+                                  </v-col>
+                                  <v-col cols="4" sm="4" class="text-left">
+                                    <h3 class="xim-h3 blue_dark--text">Programa</h3>
+                                  </v-col>
+                                  <v-col cols="7" sm="7" class="text-left">
+                                    <span class="xim-strong blue_dark--text">{{ cupon.programa }}</span>
+                                  </v-col>
+                                </v-row>
                               <v-row>
                                 <v-col cols="1" sm="1">
                                   <img src="../../../static/logos/coupon/attach_money_black_24dp.svg" class="xim-icon-pos"/>
@@ -369,7 +384,7 @@ export default {
       if (value == null) {
         this.toCity = null
       } else {
-        let searchingCity = value.codigoCiudad
+        let searchingCity = value.codigo
         this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
           searchingCity,
         })
@@ -387,6 +402,7 @@ export default {
     },
     validateSearch() {
       this.cuponList = []
+      window.scroll(0, 0)
       if (this.fromCity == null) {
         this.$notify({
           group: 'error',
@@ -410,9 +426,10 @@ export default {
         type: 'info',
       })
       let cupon = {
-        idSistema: 1,
-        origen: this.fromCity.codigoCiudad,
-        destino: this.toCity.codigoCiudad,
+        idSistema: 7,
+        origen: this.fromCity.codigo,
+        destino: this.toCity.codigo,
+        programa : this.$store.state.userClubBeneficios.programa != undefined ? this.$store.state.userClubBeneficios.programa : 'PZG'
       }
       console.log(cupon)
 
@@ -444,12 +461,12 @@ export default {
       this.$router.push({ path: `couponDetail/` })
     },
      validateMethod() {
-      
-      if(this.forLS.userData.active === false && this.forLS.userCoupon.active === false){
+      this.validateSearch()
+/*       if(this.forLS.userData.active === false && this.forLS.userCoupon.active === false){
           this.$router.push({ path: `optionCoupon/` })
       }else{
         this.validateSearch()
-      }
+      } */
     }
   }
 }
@@ -505,7 +522,22 @@ $padding: 100px;
   align-items: center;
   justify-content: flex-start;
 }
+
+.search-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+
+}
+.cupon-list{
+  padding-top: 200px;
+}
 @media (max-width: 960px) {
+  .cupon-list{
+    padding-top: 10px;
+  }
   .formcontainer {
     padding: 0;
   }
