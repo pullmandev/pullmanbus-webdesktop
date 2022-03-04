@@ -128,6 +128,53 @@
       </v-card-text>
     </v-card>
 
+    
+    <v-card class="elevation-2 my-12 rounded-search-box" >
+      <v-toolbar dense color="orange" class="white--text elevation-0">
+        <v-toolbar-title>
+          <h2
+            class="body-1 d-flex flex-column text-left headline"
+            style="line-height: 20px"
+          >
+            {{ $t('services_text.cupon_desc') }}
+          </h2>
+        </v-toolbar-title>
+      </v-toolbar>
+
+      <v-card-text>
+        <v-form >
+          <v-row>
+            <v-col cols="12" xs="12" sm="12">
+              <v-text-field
+                filled
+                outlined
+                dense
+                v-model="codDescto"
+                label="Código cupón"
+                outline-1
+                color="blue"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" xs="12" sm="12">
+              <v-btn
+                color="orange"
+                :loading="loadingCuponDesc"
+                class="white--text"
+                @click="validaCuponDescuento"
+              >
+                {{ $t('services_text.validate') }}
+              </v-btn>
+
+              <v-btn text @click="cancelaCuponDescuento" >
+                {{ $t('cancel') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+    </v-card>
+
     <v-card class="elevation-2 my-12 rounded-search-box">
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
@@ -189,6 +236,15 @@
                       <span>({{ item.discountPercentageAgreement }}%)</span>
                       <template v-if="discountApplied">
                         "{{ selectedConvenioName }}"
+                      </template>
+                    </div>
+
+                    <div
+                      v-if="aplicoDescto"
+                      class="muted-resume-text"
+                    >
+                      <template v-if="aplicoDescto">
+                        Cupón de descuento por {{ valorDescto | currency }}
                       </template>
                     </div>
                   </v-col>
@@ -441,6 +497,7 @@
         </v-form>
       </v-container>
     </div>
+
     <div class="xim-movile">
       <v-container class="mt-5 px-8">
         <v-row>
@@ -643,6 +700,7 @@ import InvalidConvenio from '@/views/Services/stepper/InvalidConvenioDiscount'
 import Terms from '@/views/Services/Payment/Terms'
 import { mapGetters } from 'vuex'
 import APITransaction from '@/services/api/transaction'
+import APICuponDescuento from '@/services/api/cuponDescuento'
 import APIConvenio from '@/services/api/convenios'
 import validations from '@/helpers/fieldsValidation'
 import { getFinalPrice, getTarifaNormal, getTravelType } from '@/helpers/seatsUtils'
@@ -660,6 +718,7 @@ export default {
     return {
       convDialog: false,
       loadingRutValidation: false,
+      loadingCuponDesc: false,
       loadingPayAction: false,
       selectedConvenio: '',
       selectedConvenioName: '',
@@ -667,6 +726,9 @@ export default {
       listaDetalleConvenio: [],
       selectedSeats: this.$store.state.seats,
       rut: '',
+      codDescto:'',
+      valorDescto:'',
+      aplicoDescto: false,
       personalRut: this.$store.getters.payment_info.rut,
       payMethod: 'WBPAY',
       payments: [],
@@ -785,6 +847,46 @@ export default {
   },
 
   methods: {
+    async validaCuponDescuento(){
+      const params = {'boleto':'','valor':0}
+      params.boleto = this.codDescto
+      params.valor = this.paymentResumeData.totalPromo
+      console.log(params.valor);
+      try {
+        this.loadingCuponDesc = true
+        const response = await APICuponDescuento.validaCupon(params)
+        console.log(response.data)
+        if (response.data.status) {
+          this.paymentResumeData.totalPromo = response.data.totalDescuento
+          this.paymentResumeData.totalDiscount = this.paymentResumeData.totalDiscount + response.data.descuento
+          this.valorDescto = response.data.descuento
+          this.aplicoDescto = true
+          this.$notify({
+            group: 'info',
+            title: response.data.message,
+            type: 'info'
+          })
+        } else {
+          this.$notify({
+            group: 'error',
+            title: 'Cupon Descuento',
+            type: 'error',
+            text: `${response.data.message}`
+          })
+        }
+      } catch (err){
+        console.error(err)
+      } finally {
+        this.loadingCuponDesc = false;
+      }
+    },
+    cancelaCuponDescuento(){
+      console.log("WATAFAC");
+      console.log("CANCELA CUPON DESCUENTO: "+this.codDescto);
+      this.aplicoDescto = false;
+      this.codDescto = '';
+      this.loadingCuponDesc = false;
+    },
     getDetalleConvenio(){
       this.getDatalleConvenioAtributo()
     },
@@ -940,6 +1042,7 @@ export default {
 
     async makeTransaccion() {
       let listaCarrito = []
+      let listaCuponDesc = []
       this.selectedSeats.forEach(seat => {
         const params = _.pick(seat, [
           'servicio',
@@ -988,6 +1091,15 @@ export default {
         params.asientoAsociado = seat.asientoAsociado
         listaCarrito.push(params)
       })
+      if (this.codDescto != null && this.codDescto != '') {
+        const cupParams = {'boleto':'','estado':'','usuario':'','valor':'','saldo':'','fechaCambio':''}
+        cupParams.boleto = this.codDescto
+        cupParams.usuario = this.email
+        cupParams.valor = this.paymentResumeData.totalPromo
+        cupParams.saldo = this.valorDescto
+        listaCuponDesc.push(cupParams);
+      }
+      console.log('TOTAL PAGAR: '+this.paymentResumeData.totalPromo);
       const paymentInfo = {
         email: this.email,
         rut: this.personalRut,
@@ -998,7 +1110,7 @@ export default {
         codigoPais: '+569',
         numeroTelefono: '+569'
       }
-      const transactionParams = { ...paymentInfo, listaCarrito }
+      const transactionParams = { ...paymentInfo, listaCarrito,listaCuponDesc }
       //console.log('transactionParams', transactionParams)
       const response = await APITransaction.post(transactionParams)
       return response.data
@@ -1043,6 +1155,7 @@ export default {
       }
     },
     selectedConvenio: function(newConvenio) {
+      console.log("ESTO PASA AL CANCELAR CONVENIO");
       this.rut = ''
       this.password = ''
       this.selectedConvenioName = ''

@@ -177,6 +177,12 @@
                 {{ $t('changeTicket.enter_data') }}
               </h2>
             </div>
+
+            <v-radio-group style="display: flex; align-content:center;" row v-model="tCambio" class="radio-center">
+              <v-radio value="BLN" label="Boleto en blanco"></v-radio>
+              <v-radio value="CUP" label="Cupón descuento"></v-radio>
+            </v-radio-group>
+
             <v-container class="form2">
               <v-form v-model="validForm">
                 <div class="xim-desktop">
@@ -442,6 +448,7 @@ export default {
   //props: ['params'],
   data() {
     return {
+      tCambio:null,
       dialog: false,
       loading: false,
       loadingExchange: false,
@@ -571,7 +578,8 @@ export default {
           email: this.email,
           usuario: this.email,
           rut: this.rut,
-          idIntegrador: this.ticket.idIntegrador
+          idIntegrador: this.ticket.idIntegrador,
+          tipoCambio: this.tCambio
         }
         //console.log("params",params)
         this.loadingExchange = true
@@ -591,7 +599,11 @@ export default {
           this.$store.dispatch('SET_TICKET_CHANGE', {
             ticketChange
           })
-          this.$router.push({ path: 'voucherChangeTicket' })
+          if (this.tCambio == 'BLN'){
+            this.$router.push({ path: 'voucherChangeTicket' })
+          } else {
+            this.$router.push({ path: 'voucherCupon' });
+          }
         } else {
           this.$router.push({ path: 'failChangeTicket' })
         }
@@ -712,5 +724,9 @@ export default {
     border-bottom: thin solid rgba(0, 0, 0, 0);
   }
 
+}
+.v-input--radio-group__input{
+  display: flex;
+  justify-content: center;
 }
 </style>

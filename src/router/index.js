@@ -31,6 +31,7 @@ import FailChangeTicket from '@/views/Menu/ChangeTicket/Fail.vue'
 import SearchTicket from '@/views/Menu/ChangeTicket/SearchTicket'
 import VoucherChangeTicket from '@/views/Menu/ChangeTicket/Voucher.vue'
 import CostaPass from '@/views/Menu/CostaPass'
+import VoucherCuponDescuento from '@/views/Menu/ChangeTicket/VoucherCuponDescuento.vue'
 //Menu
 import MenuForm from '@/views/Menu/Form'
 import MenuContainer from '@/views/Menu/Index'
@@ -117,7 +118,13 @@ const routes = [
         path: 'searchTicket',
         name: 'SearchTicket',
         component: SearchTicket
-      }
+      },
+      {
+        path: 'voucherCupon',
+        name: 'VoucherCuponDescuento',
+        component: VoucherCuponDescuento,
+        props: route => ({ params: route.query })
+      },
     ]
   },
   {

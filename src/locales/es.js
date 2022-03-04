@@ -86,6 +86,7 @@ export default {
     saving: 'Tu ahorro fue de',
     methods: 'Medios de pago',
     validation: 'Validación',
+    cupon_desc: 'Cupón descuento',
     validate: 'Validar'
   },
   news: 'NOTICIAS',
@@ -387,6 +388,7 @@ export default {
   select_origin: 'Debe seleccionar ciudad de origen',
   select_destination: 'Debe seleccionar ciudad de destino',
   success_change: 'Su cambio ha sido realizado con éxito',
+  success_coupon_change: 'Su cupón ha sido generado con éxito',
   fail_title_change: 'Lo sentimos',
   fail_detail_change: 'No fue posible realizar el cambio de boleto',
   selected_pet_seats: 'Seleccionados',

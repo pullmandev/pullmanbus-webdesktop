@@ -86,6 +86,7 @@ export default {
     saving: 'Your savings',
     methods: 'Methods',
     validation: 'Validation',
+    cupon_desc: 'Discount coupon',
     validate: 'Validate'
   },
   news: 'NEWS',
@@ -387,6 +388,7 @@ export default {
   select_origin: 'You must select depart city',
   select_destination: 'You must select arrive city',
   success_change: 'Your change has been made successfully',
+  success_coupon_change: 'Your coupon has been made successfully',
   fail_title_change: 'We are sorry',
   fail_detail_change: 'It was not possible to change the ticket',
   selected_pet_seats: 'Selected',
