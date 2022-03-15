@@ -25,6 +25,7 @@ export default {
   freeSeat: `${baseVenta}/liberarAsiento`,
   transaction: `${basePago}/guardarTransaccion`,
   validaCupon: `${operacion}/validarCupon`,
+  validaCuponNuevo: `${operacion}/validaCuponNuevo`,
   searchHeader: `${baseVenta}/buscarEncabezado`,
   generateVoucher: `${baseVenta}/generarComprobante`,
   auth: `${sesion}/autenticar`,

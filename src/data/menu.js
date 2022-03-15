@@ -43,6 +43,12 @@ export default [
     route: 'contact',
     type2: true
   },
+  {
+    title: 'Canjear Cupón',
+    icon: 'icono_contacto.png',
+    route: 'couponTrade',
+    type2: true
+  },
   // {
   //   title: 'Solicitud cta. cte',
   //   icon: 'icono_agencias.svg',

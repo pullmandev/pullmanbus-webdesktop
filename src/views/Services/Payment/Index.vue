@@ -129,7 +129,8 @@
     </v-card>
 
     
-    <v-card class="elevation-2 my-12 rounded-search-box" >
+    <v-card class="elevation-2 my-12 rounded-search-box" style="visibility: hidden;
+    position: absolute;">
       <v-toolbar dense color="orange" class="white--text elevation-0">
         <v-toolbar-title>
           <h2
@@ -728,6 +729,8 @@ export default {
       rut: '',
       codDescto:'',
       valorDescto:'',
+      saldoCupon: '',
+      cuponDescuento:[],
       aplicoDescto: false,
       personalRut: this.$store.getters.payment_info.rut,
       payMethod: 'WBPAY',
@@ -858,6 +861,7 @@ export default {
         console.log(response.data)
         if (response.data.status) {
           this.paymentResumeData.totalPromo = response.data.totalDescuento
+          console.log('????????????: '+response.data.totalDescuento)
           this.paymentResumeData.totalDiscount = this.paymentResumeData.totalDiscount + response.data.descuento
           this.valorDescto = response.data.descuento
           this.aplicoDescto = true
@@ -866,6 +870,7 @@ export default {
             title: response.data.message,
             type: 'info'
           })
+          console.log('KEWAAAAA DEBERIA FUNCIONA: '+response.data.totalDescuento)
         } else {
           this.$notify({
             group: 'error',
@@ -993,6 +998,8 @@ export default {
             text: `${response.data.mensaje}`
           })
         }
+        
+        this.obtenerDatosCupon()
       } catch (err) {
         console.error(err)
       } finally {
@@ -1114,6 +1121,23 @@ export default {
       //console.log('transactionParams', transactionParams)
       const response = await APITransaction.post(transactionParams)
       return response.data
+    },
+    
+    async obtenerDatosCupon(){
+      var respuesta = JSON.parse(localStorage.getItem('cuponDescuento'));
+      this.codDescto = respuesta.response.boleto;
+      this.validaCuponDescuento()
+      //console.log('TOTAL?????: '+this.paymentResumeData.totalPromo+' | '+respuesta.response.saldo);
+      //this.paymentResumeData.totalPromo = this.paymentResumeData.totalPromo - respuesta.response.saldo
+      //this.paymentResumeData.totalDiscount = this.paymentResumeData.totalDiscount + respuesta.response.saldo
+      //this.valorDescto = respuesta.response.saldo
+      //this.aplicoDescto = true;
+      ////localStorage.removeItem('cuponDescuento');
+      //if (this.saldoCupon >= this.paymentResumeData.totalPromo){
+      //  console.log('SALDO MAYOR???????')
+      //} else {
+      //  console.log('SALDO MENOR???????')
+      //}
     }
   },
 
@@ -1141,6 +1165,8 @@ export default {
         })
       })
     })
+
+    this.obtenerDatosCupon()
   },
 
   watch: {
@@ -1180,6 +1206,7 @@ export default {
       if (newConvenio != 'BCNSD') {
         this.payMethod = 'WBPAY'
       }
+      //this.validaCuponDescuento()
     }
   }
 }

@@ -45,6 +45,7 @@ export default {
       userCoupon: {active: false}
     })
     scrollAnimation('#idHome')
+    localStorage.removeItem('cuponDescuento');
   }
 }
 </script>

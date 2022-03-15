@@ -31,7 +31,7 @@ module.exports = {
         changeOrigin: true
       },
       '^/administracion-web': {
-        target: 'http://128.1.0.137:8080',
+        target: 'http://127.0.0.1:8080',
         ws: true,
         changeOrigin: true
       },

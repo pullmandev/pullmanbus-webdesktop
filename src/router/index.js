@@ -60,6 +60,8 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home/Index.vue'
 // News
 import News from '../views/News/Index.vue'
+//CuponDescuento
+import CouponTrade from '../views/Home/CouponTrade/Index.vue'
 
 const Contact = () => import('@VIEWS/Contact')
 Vue.use(VueRouter)
@@ -124,6 +126,11 @@ const routes = [
         name: 'VoucherCuponDescuento',
         component: VoucherCuponDescuento,
         props: route => ({ params: route.query })
+      },
+      {
+        path: 'couponTrade',
+        name: 'couponTrade',
+        component: CouponTrade
       },
     ]
   },
