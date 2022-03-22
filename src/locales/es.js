@@ -100,6 +100,8 @@ export default {
   sign_up_error: 'Ocurrió un error al registrarse',
   forgot: 'Olvide mi contraseña',
   name: 'Nombre',
+  nationality: 'Nacionalidad',
+  phone: 'Teléfono',
   cancel: 'Cancelar',
   send: 'Enviar',
   send_password: 'Envío de contraseña',

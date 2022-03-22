@@ -154,6 +154,88 @@
               color="blue"
             ></v-text-field>
           </v-col>
+          <v-col xs12 lg="5" class="ml-3 mr-3">
+            <v-autocomplete
+              filled
+              outlined
+              dense
+              v-model="nationality"
+              :label="$t('nationality')"
+              outline-1
+              :color="blue"
+              required
+              :append-icon="nationality === '' || nationality == null ? '$dropdown' : ''"
+              :items="cities"
+              item-text="descripcion"
+              item-value="valor"
+              :menu-props="{
+                bottom: true,
+                overflowY: true,
+                maxHeight: this.windowHeight > 650 ? 300 : 200
+              }"
+              return-object
+              clearable
+            >
+              <template slot="item" slot-scope="data">
+                <v-list-item-content>
+                  <v-list-item-title v-html="data.item.descripcion"></v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col xs12 lg="5" class="ml-3 mr-3">
+            <v-text-field
+              filled
+              outlined
+              dense
+              v-model="phone"
+              :label="$t('phone')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col xs12 lg="5" class="ml-3 mr-3">
+            <v-text-field
+              type="password"
+              filled
+              outlined
+              dense
+              v-model="password"
+              @input="
+                v => {
+                  this.confirmpasswordError = this.confirmpassword !== v
+                }
+              "
+              :label="$t('password')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col xs12 lg="5" class="ml-3 mr-3">
+            <v-text-field
+              type="password"
+              filled
+              outlined
+              dense
+              v-model="confirmpassword"
+              :hint="confirmpasswordError ? 'Contraseñas no coinciden' : ''"
+              :error="confirmpasswordError"
+              @input="
+                v => {
+                  this.confirmpasswordError = this.password !== v
+                }
+              "
+              :label="$t('confirm_password')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
           <v-col md="4" cols="12" offset-md="4" class="pt-3">
             <v-btn
               block
@@ -315,6 +397,7 @@
 // Base components
 import Container from '@/views/Login/Container'
 import API from '@/services/api/session'
+import passenger from '@/services/api/passenger'
 import validations from '@/helpers/fieldsValidation'
 import moment from 'moment'
 
@@ -322,7 +405,7 @@ export default {
   components: {
     Container
   },
-  props: ['open'],
+  props: ['open', 'windowHeight', 'blue'],
   data() {
     return {
       pickerMenu: false,
@@ -353,7 +436,11 @@ export default {
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
       otherRules: [v => !!v || 'Este campo es requerido', validations.otherDocValidation],
       generalRules: [v => !!v || 'Este campo es requerido'],
-      dateRules: [v => !!v || '']
+      dateRules: [v => !!v || ''],
+      nationality: '',
+      confirmpasswordError: false,
+      cities: [],
+      phone: '',
     }
   },
   computed: {
@@ -375,9 +462,12 @@ export default {
           nombre: this.name,
           apellidoPaterno: this.f_lastname,
           fechaNacimiento: `${this.year}-${this.month}-${this.day}T00:00:00.000+0000`,
-          genero: this.gender
+          genero: this.gender,
+          pais: this.nationality?.valor,
+          telefono: this.phone,
+          password: this.password,
         }
-        //console.log('params', params)
+        // console.log('params', params)
         const response = await API.signup(params)
         //console.log(response.data)
         if (response.data.exito) {
@@ -423,7 +513,17 @@ export default {
           }, 0)
         }
       })
+    },
+    getNationality() {
+      passenger.getNationalityList().then(
+        v => {
+          this.cities = v.data;
+        }
+      );
     }
+  },
+  beforeMount(){
+    this.getNationality()
   }
 }
 </script>
