@@ -376,6 +376,75 @@
               color="blue"
             ></v-text-field>
           </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-autocomplete
+              v-model="nationality"
+              :label="$t('nationality')"
+              outline-1
+              :color="blue"
+              required
+              :append-icon="nationality === '' || nationality == null ? '$dropdown' : ''"
+              :items="cities"
+              item-text="descripcion"
+              item-value="valor"
+              :menu-props="{
+                overflowY: true,
+                maxHeight: this.windowHeight > 650 ? 300 : 200,
+              }"
+              return-object
+              clearable
+            >
+              <template slot="item" slot-scope="data">
+                <v-list-item-content>
+                  <v-list-item-title v-html="data.item.descripcion"></v-list-item-title>
+                </v-list-item-content>
+              </template>
+            </v-autocomplete>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              v-model="phone"
+              :label="$t('phone')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              type="password"
+              v-model="password"
+              @input="
+                v => {
+                  this.confirmpasswordError = this.confirmpassword !== v
+                }
+              "
+              :label="$t('password')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" lg="5" class="ml-3 mr-3">
+            <v-text-field
+              type="password"
+              v-model="confirmpassword"
+              :hint="confirmpasswordError ? 'Contraseñas no coinciden' : ''"
+              :error="confirmpasswordError"
+              @input="
+                v => {
+                  this.confirmpasswordError = this.password !== v
+                }
+              "
+              :label="$t('confirm_password')"
+              outline-1
+              color="blue"
+              :rules="generalRules"
+              required
+            ></v-text-field>
+          </v-col>
           <v-col md="4" cols="12" offset-md="4" class="pt-3">
             <v-btn
               block
