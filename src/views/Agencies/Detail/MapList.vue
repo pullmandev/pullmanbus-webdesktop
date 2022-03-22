@@ -3,7 +3,6 @@
     <div v-for="(item, i) in data" :key="i" style="width: 100%">
       <v-row ref="row">
         <v-col cols="8">
-
           <h3 class="capitalize blue--text mt-4 orange_dark--text">
             <v-icon color="orange_dark">mdi-map-marker</v-icon>
             {{ item.Descripcion }}

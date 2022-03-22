@@ -18,18 +18,17 @@ export default {
   }),
   async mounted() {
     let params
-    if(this.$vuetify.breakpoint.name == 'xs' || this.$vuetify.breakpoint.name == 'sm'){
-      params = { "portal": { "id": 5 }, "portalSeccion": { "id": "2" } }
+    if (this.$vuetify.breakpoint.name == 'xs' || this.$vuetify.breakpoint.name == 'sm') {
+      params = { portal: { id: 5 }, portalSeccion: { id: '2' } }
     } else {
-      params = { "portal": { "id": 7 }, "portalSeccion": { "id": "2" } }
+      params = { portal: { id: 7 }, portalSeccion: { id: '2' } }
     }
     const response = await API.getContenidoSeccion(params)
     const data = response.data
     console.log(data)
     data.forEach(item => {
-      this.items.push({"src": item.imagen})
-    });
-
+      this.items.push({ src: item.imagen })
+    })
   }
 }
 </script>
@@ -50,18 +49,18 @@ export default {
     opacity: 0 !important;
   }
 }
-.bannercont{
+.bannercont {
   min-height: 630px;
   height: 100vh;
 }
-@media (max-width: 960px  ){
-  .bannercont{
+@media (max-width: 960px) {
+  .bannercont {
     min-height: auto;
     height: auto;
   }
 }
 @media (max-width: 576px) {
-.bannercont{
+  .bannercont {
     margin-top: 14%;
     min-height: auto;
     height: auto;

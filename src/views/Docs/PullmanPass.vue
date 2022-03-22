@@ -3,9 +3,9 @@
     <h1 class="orange--text mb-3 mt-5">CLUB DE BENEFICIOS PULLMAN MÁS</h1>
     <p>
       Pullman más es el programa de fidelización de Pullman Bus creado como un complemento
-      de Pullman Pass, premiamos tu lealtad y preferencia por lo que te invitamos a conocer los
-      mejores beneficios que ofrece el club. ¡Tan solo con inscribirte! Viaja en esta nueva
-      aventura y se miembro de nuestra gran familia.
+      de Pullman Pass, premiamos tu lealtad y preferencia por lo que te invitamos a
+      conocer los mejores beneficios que ofrece el club. ¡Tan solo con inscribirte! Viaja
+      en esta nueva aventura y se miembro de nuestra gran familia.
     </p>
     <v-row>
       <v-col sm="6" xs="12" class="xim-btnpmas">
@@ -31,39 +31,34 @@
               class="white--text xim-altura"
             >
               <h3>{{ info.title }}</h3>
-              <template v-slot:actions >
+              <template v-slot:actions>
                 <v-icon class="xim-expansion-icon" color="white">mdi-plus</v-icon>
               </template>
             </v-expansion-panel-header>
             <v-expansion-panel-content class="pa-6 content">
-              <p v-if="info.has_content" v-html="info.content">
-
-              </p>
+              <p v-if="info.has_content" v-html="info.content"></p>
               <a v-if="i === 0" @click="openDialog('signup')">Haz Click Aqui!</a>
               <template v-if="info.id === 0">
                 <p>
-                  Los puntos tienen una vigencia de un año a partir de la fecha
-                  de compra.
+                  Los puntos tienen una vigencia de un año a partir de la fecha de compra.
                 </p>
                 <p>
-                  Se excluyen de esta condición todos los puntos acumulados
-                  hasta el 28 de febrero de 2009, que estarán vigentes hasta el
-                  31 de agosto de 2009.
+                  Se excluyen de esta condición todos los puntos acumulados hasta el 28 de
+                  febrero de 2009, que estarán vigentes hasta el 31 de agosto de 2009.
                 </p>
               </template>
               <template v-else-if="info.id === 1">
                 <p>
-                  Los beneficios Pullman Pass son personales e intransferibles.
-                  Por lo tanto, al efectuar el canje de puntos por boletos,
-                  éstos podrán ser utilizados sólo por el titular de la tarjeta.
+                  Los beneficios Pullman Pass son personales e intransferibles. Por lo
+                  tanto, al efectuar el canje de puntos por boletos, éstos podrán ser
+                  utilizados sólo por el titular de la tarjeta.
                 </p>
                 <p>
-                  Todos los beneficios se aplican sólo a los pasajes del titular
-                  de la tarjeta de socio.
+                  Todos los beneficios se aplican sólo a los pasajes del titular de la
+                  tarjeta de socio.
                 </p>
                 <p>
-                  No olvides mostrar tu Pullman Pass en todas tus compras en
-                  Pullman Bus.
+                  No olvides mostrar tu Pullman Pass en todas tus compras en Pullman Bus.
                 </p>
               </template>
             </v-expansion-panel-content>
@@ -126,11 +121,8 @@ export default {
     changeColor(index) {
       return this.panel.findIndex(item => item === index) > -1
     },
-    beneficios(){
-      window.open(
-        'http://www.pullmanmas.cl/',
-        '_blank'
-      );
+    beneficios() {
+      window.open('http://www.pullmanmas.cl/', '_blank')
     }
   },
   mounted() {
@@ -148,7 +140,7 @@ export default {
   margin-top: 0.5rem;
 }
 @media (max-width: 550px) {
-  .btnpmas{
+  .btnpmas {
     max-width: 100%;
   }
 }

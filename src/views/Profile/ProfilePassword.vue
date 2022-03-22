@@ -120,7 +120,7 @@ export default {
         }
       }
       return title != null ? title : this.email
-    },
+    }
   },
   methods: {
     clear() {

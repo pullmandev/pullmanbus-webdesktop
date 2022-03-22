@@ -10,17 +10,17 @@
             <p>{{ $t('club_login_text.description') }}</p>
           </v-col>
           <v-col cols="12">
-                <v-text-field
-                  light
-                  dense
-                  label="RUT"
-                  color="blue_dark"
-                  v-model="rut"
-                  required
-                  maxLength="10"
-                  @keyup="validaRut"
-                  :rules="rutRules"
-                ></v-text-field>
+            <v-text-field
+              light
+              dense
+              label="RUT"
+              color="blue_dark"
+              v-model="rut"
+              required
+              maxLength="10"
+              @keyup="validaRut"
+              :rules="rutRules"
+            ></v-text-field>
           </v-col>
           <!--
           <v-col cols="12">
@@ -81,20 +81,20 @@ export default {
       see: true,
       rut: '',
       password: '',
-      rutRules: [(v) => !!v || 'Rut es requerido', validations.rutValidation],
+      rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
       passwordRules: [v => !!v || 'Ingrese contraseña', validations.passwordValidation]
     }
   },
   methods: {
-    validaRut() { 
-      this.rut = this.rut.replace(/[\s]|[a-yA-Y][^kK]/g,'');
+    validaRut() {
+      this.rut = this.rut.replace(/[\s]|[a-yA-Y][^kK]/g, '')
     },
     login() {
       this.loading = true
-      API.validaUsuario({ idSistema: "7", rut: this.rut })
+      API.validaUsuario({ idSistema: process.env.ID_SISTEMA, rut: this.rut })
         .then(response => {
           const data = JSON.parse(JSON.stringify(response.data))
-          if (!data.valido){
+          if (!data.valido) {
             this.$notify({
               group: 'error',
               title: this.$t('club_login'),
@@ -102,9 +102,9 @@ export default {
               text: this.$t('club_login_error')
             })
             return
-          }else{
+          } else {
             this.$router.push({ path: `/couponServices/` })
-             this.$store.dispatch('SET_USER_CLUB_BENEFICIOS', {
+            this.$store.dispatch('SET_USER_CLUB_BENEFICIOS', {
               userClubBeneficios: {
                 programa: data.programa,
                 nombre: data.nombre,
@@ -118,9 +118,9 @@ export default {
               type: 'open',
               open: false
             })
-          }     
+          }
           //console.log(response.data)
-/*           if (!data.exito) {
+          /*           if (!data.exito) {
             this.$notify({
               group: 'error',
               title: this.$t('login'),

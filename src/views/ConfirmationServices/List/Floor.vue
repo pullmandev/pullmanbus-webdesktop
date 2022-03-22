@@ -207,207 +207,216 @@
         <div class="xim-movile mt-menos">
           <v-card flat class="hideAsientos mt-3">
             <div v-if="loadingSeats" style="text-align: center;margin-top:-250px">
-              <v-progress-circular indeterminate :size="50" color="blue"></v-progress-circular>
+              <v-progress-circular
+                indeterminate
+                :size="50"
+                color="blue"
+              ></v-progress-circular>
             </div>
             <v-container
               fluid
               v-else-if="bus.grilla.length > 0"
               class="px-0"
-              :class="{ 'pa-0': isXs }">
-                <div class="xim-botonera-principal">
-                  <v-row>
-                    <v-col cols="6" class="xim-centra-hijo">
-                      <v-btn
-                        
-                        :class="[ classBtn ? 'classBtnAzul' : 'classBtnNormal' ]"
-                        @click="muestraPisoMovile(0)"
-                      >
-                        Piso 1
-                      </v-btn>
-                    </v-col>
-                    <v-col cols="6" class="xim-centra-hijo">
-                      <v-btn
-                        
-                        :class="[ classBtn ? 'classBtnNormal' : 'classBtnAzul' ]"
-                        id="xim-btn-secundario_a"
-                        @click="muestraPisoMovile(1)"
-                      >
-                        Piso 2
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </div>
-                <v-row class="xim-bus" dense :justify="floorArray.length === 1 ? 'center' : undefined">
-                  <v-col style="overflow: hidden; position: relative" cols="12">
-                      <h2 class="xim-text-center mb-1">
-                        {{ data.pisos[pisoMuestra].piso === 0 ? 'Primer piso' : 'Segundo piso' }}
-                      </h2>
-                      <h4 class="xim-text-center mb-3 subheading">
-                        {{ data.pisos[pisoMuestra].servicio }}
-                      </h4>
-                      <v-divider></v-divider>
-                      <v-row>
-                        <v-col cols="12">
-                          <div
-                            v-for="(col, i) in bus.grilla[data.pisos[pisoMuestra].piso].grid"
-                            :key="i"
-                            class="xim-fila-asiento"
-                          >
-                            <div class="xim-espcio-celdas" v-for="(seat, j) in col" :key="j">
-                              <template v-if="seat !== null">
-                                <template v-if="seat.asiento.includes('B')">
-                                  <div class="xim-colum-bano">
-                                    <span>WC</span>
-                                  </div>
-                                </template>
-                                <div
-                                  v-else-if="seat.asiento === '' || seat.asiento === '%'"
-                                  class="xim-alinea-pasillo"
-                                />
-                                <v-btn
-                                  :disabled="loadingPdf"
-                                  v-else-if="
-                                    seatIsInshoppingCart(
-                                      seat.asiento,
-                                      data.pisos[pisoMuestra].piso
-                                    ) > -1
-                                  "
-                                  fab
-                                  text
-                                  small
-                                  class="xim-asientos"
-                                  @click="
-                                    selectSeat(seat.asiento, data.pisos[pisoMuestra].piso, [
-                                      i,
-                                      j
-                                    ])
-                                  "
-                                >
-                                  <seat
-                                    :seatNumber="seat.asiento"
-                                    :floor="data.pisos[pisoMuestra].piso"
-                                    type="taken"
-                                  />
-                                </v-btn>
-                                <v-btn
-                                  v-else-if="seat.estado === 'ocupado'"
-                                  fab
-                                  text
-                                  small
-                                  class="xim-asientos"
-                                  disabled
-                                >
-                                  <seat
-                                    :seatNumber="seat.asiento"
-                                    :floor="data.pisos[pisoMuestra].piso"
-                                    type="occupied"
-                                  />
-                                </v-btn>
-                                <v-btn
-                                  v-else-if="seat.tipo === 'asociado'"
-                                  fab
-                                  text
-                                  small
-                                  class="xim-asientos"
-                                  disabled
-                                >
-                                  <seat
-                                    :seatNumber="seat.asiento"
-                                    :floor="data.pisos[pisoMuestra].piso"
-                                    type="occupied"
-                                  />
-                                </v-btn>
-                                <v-btn
-                                  v-else-if="seat.tipo === 'pet'"
-                                  fab
-                                  text
-                                  small
-                                  class="xim-asientos"
-                                  disabled
-                                >
-                                  <seat
-                                    :seatNumber="seat.asiento"
-                                    :floor="data.pisos[pisoMuestra].piso"
-                                    type="pet-occupied"
-                                  />
-                                </v-btn>
-                                <v-btn
-                                  v-else
-                                  :disabled="loadingPdf"
-                                  fab
-                                  text
-                                  small
-                                  class="xim-asientos"
-                                  @click="
-                                    selectSeat(seat.asiento, data.pisos[pisoMuestra].piso, [
-                                      i,
-                                      j
-                                    ])
-                                  "
-                                >
-                                  <seat
-                                    :seatNumber="seat.asiento"
-                                    type="free"
-                                    :floor="data.pisos[pisoMuestra].piso"
-                                  />
-                                </v-btn>
-                              </template>
-                            </div>
-                          </div>
-                        </v-col>
-                      </v-row>
+              :class="{ 'pa-0': isXs }"
+            >
+              <div class="xim-botonera-principal">
+                <v-row>
+                  <v-col cols="6" class="xim-centra-hijo">
+                    <v-btn
+                      :class="[classBtn ? 'classBtnAzul' : 'classBtnNormal']"
+                      @click="muestraPisoMovile(0)"
+                    >
+                      Piso 1
+                    </v-btn>
                   </v-col>
-                  <v-col cols="12" md="12" class="left-border">
-                    <div class="d-flex flex-column" style="height: 100%">
-                      <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
-                      <v-row justify="center">
-                        <v-col md="9">
-                          <div>
-                            <div
-                              class="d-flex justify-start ma-4"
-                              v-for="(item, index) in seatsImg"
-                              :key="index"
-                            >
-                              <div style="width: 35px">
-                                <v-img
-                                  height="20"
-                                  :src="
-                                    require(`../../../../static/logos/seats/${item.number}.png`)
-                                  "
-                                  contain
-                                />
-                              </div>
-                              <h3 class="ml-1">
-                                {{ $t(item.text) }}
-                              </h3>
-                            </div>
-                          </div>
-                        </v-col>
-                      </v-row>
-                      <div class="align-self-end justify-self-end mr-4">
-                        <v-row class="align-end">
-                          <v-col class="d-flex align-end justify-end">
-                            <v-btn
-                              outlined
-                              :disabled="!selectedSeats.length > 0 || loadingPdf"
-                              @click="deleteSeats"
-                              >{{ $t('cancel') }}</v-btn
-                            >
-                          </v-col>
-                          <v-col class="d-flex align-end justify-end">
-                            <v-btn
-                              @click="gettingTickets"
-                              class="white--text"
-                              color="orange"
-                              :disabled="!selectedSeats.length > 0 || loadingPdf"
-                              >{{ $t('continue') }}</v-btn
-                            >
-                          </v-col>
-                        </v-row>
-                      </div>
-                    </div>
+                  <v-col cols="6" class="xim-centra-hijo">
+                    <v-btn
+                      :class="[classBtn ? 'classBtnNormal' : 'classBtnAzul']"
+                      id="xim-btn-secundario_a"
+                      @click="muestraPisoMovile(1)"
+                    >
+                      Piso 2
+                    </v-btn>
                   </v-col>
                 </v-row>
+              </div>
+              <v-row
+                class="xim-bus"
+                dense
+                :justify="floorArray.length === 1 ? 'center' : undefined"
+              >
+                <v-col style="overflow: hidden; position: relative" cols="12">
+                  <h2 class="xim-text-center mb-1">
+                    {{
+                      data.pisos[pisoMuestra].piso === 0 ? 'Primer piso' : 'Segundo piso'
+                    }}
+                  </h2>
+                  <h4 class="xim-text-center mb-3 subheading">
+                    {{ data.pisos[pisoMuestra].servicio }}
+                  </h4>
+                  <v-divider></v-divider>
+                  <v-row>
+                    <v-col cols="12">
+                      <div
+                        v-for="(col, i) in bus.grilla[data.pisos[pisoMuestra].piso].grid"
+                        :key="i"
+                        class="xim-fila-asiento"
+                      >
+                        <div class="xim-espcio-celdas" v-for="(seat, j) in col" :key="j">
+                          <template v-if="seat !== null">
+                            <template v-if="seat.asiento.includes('B')">
+                              <div class="xim-colum-bano">
+                                <span>WC</span>
+                              </div>
+                            </template>
+                            <div
+                              v-else-if="seat.asiento === '' || seat.asiento === '%'"
+                              class="xim-alinea-pasillo"
+                            />
+                            <v-btn
+                              :disabled="loadingPdf"
+                              v-else-if="
+                                seatIsInshoppingCart(
+                                  seat.asiento,
+                                  data.pisos[pisoMuestra].piso
+                                ) > -1
+                              "
+                              fab
+                              text
+                              small
+                              class="xim-asientos"
+                              @click="
+                                selectSeat(seat.asiento, data.pisos[pisoMuestra].piso, [
+                                  i,
+                                  j
+                                ])
+                              "
+                            >
+                              <seat
+                                :seatNumber="seat.asiento"
+                                :floor="data.pisos[pisoMuestra].piso"
+                                type="taken"
+                              />
+                            </v-btn>
+                            <v-btn
+                              v-else-if="seat.estado === 'ocupado'"
+                              fab
+                              text
+                              small
+                              class="xim-asientos"
+                              disabled
+                            >
+                              <seat
+                                :seatNumber="seat.asiento"
+                                :floor="data.pisos[pisoMuestra].piso"
+                                type="occupied"
+                              />
+                            </v-btn>
+                            <v-btn
+                              v-else-if="seat.tipo === 'asociado'"
+                              fab
+                              text
+                              small
+                              class="xim-asientos"
+                              disabled
+                            >
+                              <seat
+                                :seatNumber="seat.asiento"
+                                :floor="data.pisos[pisoMuestra].piso"
+                                type="occupied"
+                              />
+                            </v-btn>
+                            <v-btn
+                              v-else-if="seat.tipo === 'pet'"
+                              fab
+                              text
+                              small
+                              class="xim-asientos"
+                              disabled
+                            >
+                              <seat
+                                :seatNumber="seat.asiento"
+                                :floor="data.pisos[pisoMuestra].piso"
+                                type="pet-occupied"
+                              />
+                            </v-btn>
+                            <v-btn
+                              v-else
+                              :disabled="loadingPdf"
+                              fab
+                              text
+                              small
+                              class="xim-asientos"
+                              @click="
+                                selectSeat(seat.asiento, data.pisos[pisoMuestra].piso, [
+                                  i,
+                                  j
+                                ])
+                              "
+                            >
+                              <seat
+                                :seatNumber="seat.asiento"
+                                type="free"
+                                :floor="data.pisos[pisoMuestra].piso"
+                              />
+                            </v-btn>
+                          </template>
+                        </div>
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="12" md="12" class="left-border">
+                  <div class="d-flex flex-column" style="height: 100%">
+                    <h2 class="text-center mb-5">{{ $t('seat_title') }}</h2>
+                    <v-row justify="center">
+                      <v-col md="9">
+                        <div>
+                          <div
+                            class="d-flex justify-start ma-4"
+                            v-for="(item, index) in seatsImg"
+                            :key="index"
+                          >
+                            <div style="width: 35px">
+                              <v-img
+                                height="20"
+                                :src="
+                                  require(`../../../../static/logos/seats/${item.number}.png`)
+                                "
+                                contain
+                              />
+                            </div>
+                            <h3 class="ml-1">
+                              {{ $t(item.text) }}
+                            </h3>
+                          </div>
+                        </div>
+                      </v-col>
+                    </v-row>
+                    <div class="align-self-end justify-self-end mr-4">
+                      <v-row class="align-end">
+                        <v-col class="d-flex align-end justify-end">
+                          <v-btn
+                            outlined
+                            :disabled="!selectedSeats.length > 0 || loadingPdf"
+                            @click="deleteSeats"
+                            >{{ $t('cancel') }}</v-btn
+                          >
+                        </v-col>
+                        <v-col class="d-flex align-end justify-end">
+                          <v-btn
+                            @click="gettingTickets"
+                            class="white--text"
+                            color="orange"
+                            :disabled="!selectedSeats.length > 0 || loadingPdf"
+                            >{{ $t('continue') }}</v-btn
+                          >
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
             </v-container>
           </v-card>
         </div>
@@ -427,7 +436,7 @@ export default {
   props: ['item', 'isXs', 'back'],
   data() {
     return {
-      classBtn: true,            
+      classBtn: true,
       pisoMuestra: 0,
       btnPrimerPiso: false,
       btnPrimerSegundo: false,
@@ -461,8 +470,8 @@ export default {
   },
   mounted() {
     this.getSeats(this.item)
-    console.log(this.$store.getters.seats);
-/*
+    console.log(this.$store.getters.seats)
+    /*
     if (this.$store.getters.seats.length > 0) {
       console.log(this.$store.getters.seats[0].servicioNombre)
       if (this.$store.getters.seats[0].servicioNombre == 'SALON CAMA') {
@@ -499,8 +508,8 @@ export default {
   methods: {
     muestraPisoMovile(p) {
       this.pisoMuestra = p
-      if(p >= 0) {
-        this.classBtn =! this.classBtn
+      if (p >= 0) {
+        this.classBtn = !this.classBtn
       }
     },
     async gettingTickets() {
@@ -529,7 +538,7 @@ export default {
           piso: seat.piso + 1,
           email: ticket.email,
           idIntegrador: ticket.idIntegrador,
-          codigoReserva : seat.codigoReserva
+          codigoReserva: seat.codigoReserva
         }
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data
@@ -670,7 +679,7 @@ export default {
     },
     async getSeats(item) {
       //console.log('ITEM::',item);
-/*
+      /*
       const nomServ = this.$store.getters.seats[0].servicioNombre
       let clase = 0
       clase = nomServ == 'SALON CAMA' ? 2 : 1
@@ -738,15 +747,15 @@ export default {
   height: 36px;
   min-width: 64px;
   padding: 0 16px;
-  background:#1110ad !important;
-  color:#ffffff !important;
+  background: #1110ad !important;
+  color: #ffffff !important;
 }
 .classBtnNormal {
   height: 36px;
   min-width: 64px;
   padding: 0 16px;
-  background: #ffffff!important;
-  color:#1110ad !important;
+  background: #ffffff !important;
+  color: #1110ad !important;
 }
 .promotion-advice-floor {
   width: 80%;

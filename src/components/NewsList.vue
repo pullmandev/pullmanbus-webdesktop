@@ -108,14 +108,13 @@ export default {
       const length = this.items.length
       let name = this.$vuetify.breakpoint.name
       let num
-      if (name == 'xs'){
+      if (name == 'xs') {
         num = 1
-      } else if(name == 'sm'){
+      } else if (name == 'sm') {
         num = 2
-      }
-      else if (name == 'md'){
+      } else if (name == 'md') {
         num = 3
-      } else{
+      } else {
         num = 4
       }
       const md = length < num ? length : num
@@ -158,14 +157,14 @@ export default {
     }
   }
 }
-@media (max-width: 960px){
-  .news-container{
+@media (max-width: 960px) {
+  .news-container {
     margin-top: 80px !important;
   }
-  .VueCarousel-wrapper{
+  .VueCarousel-wrapper {
     overflow: hidden !important;
   }
-  .mb-5{
+  .mb-5 {
     margin-top: 34px;
   }
 }

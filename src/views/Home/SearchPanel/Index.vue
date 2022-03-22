@@ -17,7 +17,10 @@
               </h2>
             </v-col>
             <v-col cols="6" class="py-0">
-              <div class="petshcontainer" style="display: flex; flex-direction: row; justify-content: flex-end">
+              <div
+                class="petshcontainer"
+                style="display: flex; flex-direction: row; justify-content: flex-end"
+              >
                 <v-switch
                   class="switch-pet"
                   v-model="petService"
@@ -277,25 +280,25 @@ export default {
   }
 }
 
-@media (max-width: 960px){
-  .searcherheader{
+@media (max-width: 960px) {
+  .searcherheader {
     flex-direction: column;
   }
-  .searchcontent{
+  .searchcontent {
     margin-top: auto !important;
   }
-  .py-0{
+  .py-0 {
     max-width: 100% !important;
   }
-  .blue_dark--text{
+  .blue_dark--text {
     text-align: center;
   }
-  .petshcontainer{
+  .petshcontainer {
     display: flex;
     flex-direction: column !important;
     align-items: center;
   }
-  .petshcontent{
+  .petshcontent {
     text-align: center;
   }
 }
@@ -330,8 +333,8 @@ div.card.search_card {
   }
 }
 
-@media (max-width: 960px){
-  .search_container{
+@media (max-width: 960px) {
+  .search_container {
     position: inherit;
   }
   .xim-movil-position {

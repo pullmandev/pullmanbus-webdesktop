@@ -1,122 +1,128 @@
 <template>
-    <v-row >
-      <v-col cols="12" xs="12" sm="12">
-        <div class="mt-1 service-container-background">
-          <v-container class="xim-desktop">
-            <v-toolbar dark color="blue_light" id="serviceToolbar">
-              <v-toolbar-title>
-                <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
-                  {{ $t('outbound_service') }}: {{ searching.from_city.nombre }}
-                  {{ $t('to') }}
-                  {{ searching.to_city.nombre }}
-                </span>
-                <span class="title ml-3" :class="{ 'body-1': windowSize.x <= 960 }">
-                  <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
-                    Fecha de vuelta: {{ formatDate(searching.to_date) }}
-                  </template>
-                  <template v-else>
-                    Fecha de ida: {{ formatDate(searching.from_date) }}
-                  </template>
-                </span>
-              </v-toolbar-title>
-              <template v-if="hasVuelta" v-slot:extension>
-                <v-tabs v-model="selectedTab" centered hide-slider>
-                  <v-tab
-                    v-for="i in tabs"
-                    :key="i"
-                    :href="'#tab-' + i"
-                    class="pa-0 tab-custom"
-                    v-ripple="{ class: 'blue_dark--text' }"
-                    active-class="tab-active"
+  <v-row>
+    <v-col cols="12" xs="12" sm="12">
+      <div class="mt-1 service-container-background">
+        <v-container class="xim-desktop">
+          <v-toolbar dark color="blue_light" id="serviceToolbar">
+            <v-toolbar-title>
+              <span class="title" :class="{ 'body-1': windowSize.x <= 960 }">
+                {{ $t('outbound_service') }}: {{ searching.from_city.nombre }}
+                {{ $t('to') }}
+                {{ searching.to_city.nombre }}
+              </span>
+              <span class="title ml-3" :class="{ 'body-1': windowSize.x <= 960 }">
+                <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
+                  Fecha de vuelta: {{ formatDate(searching.to_date) }}
+                </template>
+                <template v-else>
+                  Fecha de ida: {{ formatDate(searching.from_date) }}
+                </template>
+              </span>
+            </v-toolbar-title>
+            <template v-if="hasVuelta" v-slot:extension>
+              <v-tabs v-model="selectedTab" centered hide-slider>
+                <v-tab
+                  v-for="i in tabs"
+                  :key="i"
+                  :href="'#tab-' + i"
+                  class="pa-0 tab-custom"
+                  v-ripple="{ class: 'blue_dark--text' }"
+                  active-class="tab-active"
+                >
+                  <v-btn
+                    style="width: 100%; height: 100%;"
+                    text
+                    class="ma-0"
+                    color="blue_light"
+                    tile
                   >
-                    <v-btn
-                      style="width: 100%; height: 100%;"
-                      text
-                      class="ma-0"
-                      color="blue_light"
-                      tile
-                    >
-                      <span class="white--text">
-                        {{ i }}
-                      </span>
-                    </v-btn>
-                  </v-tab>
-                </v-tabs>
-              </template>
-            </v-toolbar>
-
-            <template v-if="hasVuelta">
-              <v-tabs-items v-model="selectedTab" class="light">
-                <v-tab-item value="tab-Ida">
-                  <List :back="false" />
-                </v-tab-item>
-                <v-tab-item value="tab-Vuelta">
-                  <List :back="true" />
-                </v-tab-item>
-              </v-tabs-items>
+                    <span class="white--text">
+                      {{ i }}
+                    </span>
+                  </v-btn>
+                </v-tab>
+              </v-tabs>
             </template>
+          </v-toolbar>
 
-            <List v-else :back="false" />
-          </v-container>
-          <v-container class="xim-movile mt-menos">
-            <div class="xim-container-movile2">
-              <v-row>
-                <v-col cols="12" class="h-l">
-                  <span class="xim-label2">{{ $t('outbound_service') }}: {{ searching.from_city.nombre }} - {{ searching.to_city.nombre }}</span>
-                  <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
-                    <span class="xim-label2">Fecha de vuelta: {{ formatDate(searching.to_date) }}</span>
-                  </template>
-                  <template v-else>
-                    <span class="xim-label2">Fecha de ida: {{ formatDate(searching.from_date) }}</span>
-                  </template>
-                  </v-col>
-              </v-row>
-            </div>
-            <!-- <v-toolbar dark color="blue_light" id="serviceToolbar"> -->
+          <template v-if="hasVuelta">
+            <v-tabs-items v-model="selectedTab" class="light">
+              <v-tab-item value="tab-Ida">
+                <List :back="false" />
+              </v-tab-item>
+              <v-tab-item value="tab-Vuelta">
+                <List :back="true" />
+              </v-tab-item>
+            </v-tabs-items>
+          </template>
 
-              <template v-if="hasVuelta" v-slot:extension>
-                <v-tabs v-model="selectedTab" centered hide-slider>
-                  <v-tab
-                    v-for="i in tabs"
-                    :key="i"
-                    :href="'#tab-' + i"
-                    class="pa-0 tab-custom"
-                    v-ripple="{ class: 'blue_dark--text' }"
-                    active-class="tab-active"
+          <List v-else :back="false" />
+        </v-container>
+        <v-container class="xim-movile mt-menos">
+          <div class="xim-container-movile2">
+            <v-row>
+              <v-col cols="12" class="h-l">
+                <span class="xim-label2"
+                  >{{ $t('outbound_service') }}: {{ searching.from_city.nombre }} -
+                  {{ searching.to_city.nombre }}</span
+                >
+                <template v-if="selectedTab === 'tab-Vuelta' && hasVuelta">
+                  <span class="xim-label2"
+                    >Fecha de vuelta: {{ formatDate(searching.to_date) }}</span
                   >
-                    <v-btn
-                      style="width: 100%; height: 100%;"
-                      text
-                      class="ma-0"
-                      color="blue_light"
-                      tile
-                    >
-                      <span class="white--text">
-                        {{ i }}
-                      </span>
-                    </v-btn>
-                  </v-tab>
-                </v-tabs>
-              </template>
-            <!-- </v-toolbar> -->
+                </template>
+                <template v-else>
+                  <span class="xim-label2"
+                    >Fecha de ida: {{ formatDate(searching.from_date) }}</span
+                  >
+                </template>
+              </v-col>
+            </v-row>
+          </div>
+          <!-- <v-toolbar dark color="blue_light" id="serviceToolbar"> -->
 
-            <template v-if="hasVuelta">
-              <v-tabs-items v-model="selectedTab" class="light">
-                <v-tab-item value="tab-Ida">
-                  <List :back="false" />
-                </v-tab-item>
-                <v-tab-item value="tab-Vuelta">
-                  <List :back="true" />
-                </v-tab-item>
-              </v-tabs-items>
-            </template>
+          <template v-if="hasVuelta" v-slot:extension>
+            <v-tabs v-model="selectedTab" centered hide-slider>
+              <v-tab
+                v-for="i in tabs"
+                :key="i"
+                :href="'#tab-' + i"
+                class="pa-0 tab-custom"
+                v-ripple="{ class: 'blue_dark--text' }"
+                active-class="tab-active"
+              >
+                <v-btn
+                  style="width: 100%; height: 100%;"
+                  text
+                  class="ma-0"
+                  color="blue_light"
+                  tile
+                >
+                  <span class="white--text">
+                    {{ i }}
+                  </span>
+                </v-btn>
+              </v-tab>
+            </v-tabs>
+          </template>
+          <!-- </v-toolbar> -->
 
-            <List v-else :back="false" />
-          </v-container>
-        </div>
-      </v-col>
-    </v-row>
+          <template v-if="hasVuelta">
+            <v-tabs-items v-model="selectedTab" class="light">
+              <v-tab-item value="tab-Ida">
+                <List :back="false" />
+              </v-tab-item>
+              <v-tab-item value="tab-Vuelta">
+                <List :back="true" />
+              </v-tab-item>
+            </v-tabs-items>
+          </template>
 
+          <List v-else :back="false" />
+        </v-container>
+      </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

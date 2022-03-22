@@ -1,0 +1,17 @@
+[[redirects]]
+  from = "/integrador-web/*"
+  to = "https://pullman.cl/integrador-web/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/administracion-web/*"
+  to = "https://pullman.cl/administracion-web/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/srv-privado-web/*"
+  to = "https://pullman.cl/srv-privado-web/:splat"
+  status = 200
+  force = true

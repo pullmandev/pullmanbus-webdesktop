@@ -209,7 +209,7 @@ const store = new Vuex.Store({
         destino: toCity.codigo,
         fecha: fromDate.replace(/-/g, ''),
         hora: '0000',
-        idSistema: 7
+        idSistema: process.env.ID_SISTEMA
       })
       let requestReturn
       if (toDate != null) {
@@ -218,7 +218,7 @@ const store = new Vuex.Store({
           destino: fromCity.codigo,
           fecha: toDate.replace(/-/g, ''),
           hora: '0000',
-          idSistema: 7
+          idSistema: process.env.ID_SISTEMA
         })
       }
       dispatch('SET_LOADING_SERVICE', { loading: true })
@@ -315,7 +315,7 @@ const store = new Vuex.Store({
         destino: state.searchingConfirmation.ticket.ciudadDestino,
         fecha: payload.date.replace(/-/g, ''),
         hora: '0000',
-        idSistema: 7
+        idSistema: process.env.ID_SISTEMA
       })
         .then(response => {
           const resultData = response.data.map(item => {

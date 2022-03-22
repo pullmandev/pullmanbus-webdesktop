@@ -129,28 +129,28 @@ export default {
     font-size: 0.9em;
   }
   .custom-template .custom-template-content .custom-template-title {
-    font-size: 0.9em!important;
-    text-transform: capitalize!important;
-    text-align: center!important;
-    min-height: 35px!important;
-    height: auto!important;
-    word-wrap: break-word!important;
-    padding: 5px 0!important;
+    font-size: 0.9em !important;
+    text-transform: capitalize !important;
+    text-align: center !important;
+    min-height: 35px !important;
+    height: auto !important;
+    word-wrap: break-word !important;
+    padding: 5px 0 !important;
   }
   .custom-template-text {
-    font-size: 0.9em!important;
-    text-transform: capitalize!important;
-    min-height: 35px!important;
-    height: auto!important;
-    word-wrap: break-word!important;
-    padding: 5px 0!important;
+    font-size: 0.9em !important;
+    text-transform: capitalize !important;
+    min-height: 35px !important;
+    height: auto !important;
+    word-wrap: break-word !important;
+    padding: 5px 0 !important;
     overflow: hidden;
   }
   .text-justificado {
     text-align: justify;
     padding: 0 5px 0 5px;
     word-wrap: break-word;
-    height: auto!important;
+    height: auto !important;
   }
 }
 </style>

@@ -16,7 +16,10 @@
           </slot>
         </div>
         <div class="xim-responsivo">
-          <v-img src="../../static/images/Imagen-descuento.png" class="xim-img-resposivo"></v-img>
+          <v-img
+            src="../../static/images/Imagen-descuento.png"
+            class="xim-img-resposivo"
+          ></v-img>
         </div>
       </div>
     </v-card>

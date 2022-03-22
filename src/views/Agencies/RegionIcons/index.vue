@@ -50,8 +50,8 @@ export default {
       this.selectedId = i
 
       const region = this.regions[this.selectedId]
-      console.log("clickedRegion  : " + i);
-      console.log(region);
+      console.log('clickedRegion  : ' + i)
+      console.log(region)
       const { name, code } = region
 
       this.$emit('click-region', { name, code })

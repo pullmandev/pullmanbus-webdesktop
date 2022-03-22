@@ -1,7 +1,7 @@
 <template>
-  <v-container class="py-12">
+  <v-container class="xim-container-i">
     <h1 class="blue--text mb-6">{{ $t('my_profile') }}</h1>
-    <v-card max-width="700">
+    <v-card class="rounded-search-box">
       <v-toolbar color="orange" class="white--text elevation-0">
         <div style="width: 50px">
           <v-img

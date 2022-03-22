@@ -39,7 +39,7 @@
                   maxLength="10"
                   @keyup="validaRut"
                   :rules="
-                    pasajeroCuponera.tipoDocumento === 'R' ? rutRules : [(v) => !!v || '']
+                    pasajeroCuponera.tipoDocumento === 'R' ? rutRules : [v => !!v || '']
                   "
                 ></v-text-field>
               </v-col>
@@ -53,7 +53,7 @@
                   required
                   maxLength="40"
                   @keyup="validaNombre"
-                  :rules="[(v) => !!v || '']"
+                  :rules="[v => !!v || '']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6" lg="6" class="pt-0">
@@ -79,7 +79,7 @@
                   label="NACIONALIDAD"
                   v-model="pasajeroCuponera.nacionalidad"
                   required
-                  :rules="[(v) => !!v || '']"
+                  :rules="[v => !!v || '']"
                 ></v-autocomplete>
               </v-col>
               <v-col cols="12" sm="6" md="6" lg="6" class="pt-0">
@@ -92,7 +92,7 @@
                   required
                   maxLength="100"
                   @keyup="validaEmail"
-                  :rules="[(v) => !!v || '']"
+                  :rules="[v => !!v || '']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6" lg="6" class="xim-mt30">
@@ -103,7 +103,7 @@
                   label="DIRECCION"
                   v-model="pasajeroCuponera.direccion"
                   required
-                  :rules="[(v) => !!v || '']"
+                  :rules="[v => !!v || '']"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6" lg="6" class="pt-0">
@@ -148,14 +148,14 @@ import Calendar from '@/views/CouponServices/FormPublic/Calendar'
 
 export default {
   components: {
-    Calendar,
+    Calendar
   },
   data: () => ({
     fromDate: null,
     loading: false,
     validForm: false,
     windowSize: { x: window.innerWidth, y: window.innerHeight },
-    generalRules: [(v) => !!v || 'Este campo es requerido'],
+    generalRules: [v => !!v || 'Este campo es requerido'],
     forLS: JSON.parse(localStorage.getItem('vuex')),
     loginDialog: false,
     formSearch: false,
@@ -175,35 +175,35 @@ export default {
       fechaNacimiento: '',
       fromDate: null
     },
-    rutRules: [(v) => !!v || 'Rut es requerido', validations.rutValidation],
-    emailRules: [(v) => !!v || 'E-mail es requerido', validations.emailValidation],
+    rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
+    emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
     listaTipoDocumento: [],
-    listaNacionalidad: [],
+    listaNacionalidad: []
   }),
   computed: {
-    ...mapGetters({}),
+    ...mapGetters({})
   },
   mounted() {
     APIPassenger.getDocumentTypeList()
-      .then((response) => {
+      .then(response => {
         if (response.data) {
-          response.data.forEach((item) => {
+          response.data.forEach(item => {
             this.listaTipoDocumento.push(item)
           })
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err)
       })
     APIPassenger.getNationalityList()
-      .then((response) => {
+      .then(response => {
         if (response.data) {
-          response.data.forEach((item) => {
+          response.data.forEach(item => {
             this.listaNacionalidad.push(item)
           })
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err)
       })
   },
@@ -226,24 +226,30 @@ export default {
       this.pasajeroCuponera.direccion = ''
       this.pasajeroCuponera.validForm = false
     },
-    validaRut() { 
-      this.pasajeroCuponera.numeroDocumento = this.pasajeroCuponera.numeroDocumento.replace(/[\s]|[a-yA-Y][^kK]/g,'');
+    validaRut() {
+      this.pasajeroCuponera.numeroDocumento = this.pasajeroCuponera.numeroDocumento.replace(
+        /[\s]|[a-yA-Y][^kK]/g,
+        ''
+      )
     },
-    validaNombre() { 
-      this.pasajeroCuponera.nombre = this.pasajeroCuponera.nombre.replace(/\d/g,'');
+    validaNombre() {
+      this.pasajeroCuponera.nombre = this.pasajeroCuponera.nombre.replace(/\d/g, '')
     },
-    validaApellido() { 
-      this.pasajeroCuponera.apellido = this.pasajeroCuponera.apellido.replace(/\d/g,'');
+    validaApellido() {
+      this.pasajeroCuponera.apellido = this.pasajeroCuponera.apellido.replace(/\d/g, '')
     },
-    validaEmail() { 
-      this.pasajeroCuponera.email = this.pasajeroCuponera.email.replace(/[\d]|[\s]/g,'');
+    validaEmail() {
+      this.pasajeroCuponera.email = this.pasajeroCuponera.email.replace(/[\d]|[\s]/g, '')
     },
     openDialog,
     saveCouponData() {
-      console.log('EMAIL::::..',validations.emailValidation(this.pasajeroCuponera.email));
-      if(validations.emailValidation(this.pasajeroCuponera.email) === 'E-mail debe ser valido') {
-        this.pasajeroCuponera.email = '';
-        return validations.emailValidation(this.pasajeroCuponera.email);
+      console.log('EMAIL::::..', validations.emailValidation(this.pasajeroCuponera.email))
+      if (
+        validations.emailValidation(this.pasajeroCuponera.email) ===
+        'E-mail debe ser valido'
+      ) {
+        this.pasajeroCuponera.email = ''
+        return validations.emailValidation(this.pasajeroCuponera.email)
       }
       this.$store.dispatch('SET_USER_COUPON', {
         userCoupon: {
@@ -254,9 +260,9 @@ export default {
           apellido: this.pasajeroCuponera.apellido,
           direccion: this.pasajeroCuponera.direccion,
           fechaNacimiento: this.fromDate,
-          active: true,
-        },
-      });
+          active: true
+        }
+      })
 
       let datosCliente = {
         numeroDocumento: this.pasajeroCuponera.numeroDocumento,
@@ -266,7 +272,7 @@ export default {
         nacionalidad: this.pasajeroCuponera.nacionalidad,
         email: this.pasajeroCuponera.email,
         direccion: this.pasajeroCuponera.direccion,
-        fechaNacimiento: this.pasajeroCuponera.fromDate 
+        fechaNacimiento: this.pasajeroCuponera.fromDate
       }
       console.log(datosCliente)
       APITransaction.postClientData(datosCliente)
@@ -295,16 +301,16 @@ export default {
       } else {
         return true
       }
-    },
-  },
+    }
+  }
 }
 </script>
 <style>
-.xim-mt30 { 
+.xim-mt30 {
   margin: 10px 0 0 0;
 }
-.xim-multimedia { 
-  margin: 0 5%!important;
+.xim-multimedia {
+  margin: 0 5% !important;
 }
 .checkbox {
   display: inline-block !important;

@@ -42,7 +42,7 @@ export default {
       date: null
     })
     this.$store.dispatch('SET_USER_COUPON', {
-      userCoupon: {active: false}
+      userCoupon: { active: false }
     })
     scrollAnimation('#idHome')
   }

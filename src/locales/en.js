@@ -38,10 +38,9 @@ export default {
   },
   ctaCte: {
     drawer: 'Checking Account Request',
-    content:
-      'Enter your information to request your Checking Account.',
+    content: 'Enter your information to request your Checking Account.',
     form: 'CURRENT ACCOUNT APPLICATION',
-    updown:'Current Account'
+    updown: 'Current Account'
   },
   home_text: {
     pets: 'SELECT ONBOARD PET SERVICES',

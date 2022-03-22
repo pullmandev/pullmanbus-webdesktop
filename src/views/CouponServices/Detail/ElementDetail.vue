@@ -74,19 +74,20 @@
                   <th>Valor</th>
                 </tr>
                 <tr>
-                  <td>{{ cupon.origenNombre + " - " + cupon.destinoNombre }}</td>
+                  <td>{{ cupon.origenNombre + ' - ' + cupon.destinoNombre }}</td>
                   <td>{{ cupon.programa }}</td>
-                  <td>{{ cupon.cantidadIda }} </td>
+                  <td>{{ cupon.cantidadIda }}</td>
                   <td>{{ cupon.cantidadVuelta }}</td>
                   <td>{{ cupon.total | currency }}</td>
                 </tr>
               </table>
+
               <table class="xim-tabla-cuponera xm">
                 <tr>
                   <th>Empresa</th>
                 </tr>
                 <tr>
-                  <td>{{ cupon.origenNombre + " - " + cupon.destinoNombre }}</td>
+                  <td>{{ cupon.origenNombre + ' - ' + cupon.destinoNombre }}</td>
                 </tr>
                 <tr>
                   <th>Programa</th>
@@ -284,7 +285,7 @@ export default {
       emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       requiereAutenticacion: false,
       condiciones: '',
-       forLS:JSON.parse(localStorage.getItem("vuex"))
+      forLS: JSON.parse(localStorage.getItem('vuex'))
     }
   },
   computed: {
@@ -369,7 +370,7 @@ export default {
         })
     },
     async pay() {
-      console.log('PAGAR.........');
+      console.log('PAGAR.........')
       this.loadingPayAction = true
       this.makeTransaccion()
         .then(data => {
@@ -401,25 +402,24 @@ export default {
         .finally(() => (this.loadingPayAction = false))
     },
     async makeTransaccion() {
-      
       let rutUser = ''
 
-      console.log('USER::',this.forLS.userCoupon);
+      console.log('USER::', this.forLS.userCoupon)
 
-      if(this.forLS.userCoupon.active === true){
-         rutUser = this.forLS.userCoupon.documento;
-      }else{
-         rutUser = this.forLS.userData.rut;
+      if (this.forLS.userCoupon.active === true) {
+        rutUser = this.forLS.userCoupon.documento
+      } else {
+        rutUser = this.forLS.userData.rut
       }
-      rutUser = "10809653-5"
+      //rutUser = "10809653-5"
 
       let transactionParams = {
         integrador: this.cupon.integrador,
-        idSistema: 7,
+        idSistema: process.env.ID_SISTEMA,
         clase: this.cupon.clase,
         boletos: this.cupon.cantidad,
         programa: this.cupon.programa,
-        valor: this.cupon.total,  
+        valor: this.cupon.total,
         origen: this.cupon.origen,
         origenDescripcion: this.cupon.origenNombre,
         destino: this.cupon.destino,
@@ -481,7 +481,7 @@ export default {
 .xd {
   display: table;
 }
-.xm { 
+.xm {
   display: none;
   width: 100%;
 }
@@ -495,10 +495,10 @@ export default {
 .xim-tabla-cuponera {
   width: 100%;
 }
-.xim-tabla-cuponera th { 
+.xim-tabla-cuponera th {
   text-align: left;
   padding: 10px 0;
-  color:#0078DB;
+  color: #0078db;
   font-weight: 900;
 }
 .xim-tabla-cuponera td {
@@ -526,11 +526,11 @@ input {
     display: none;
     width: 100%;
   }
-  .xm { 
+  .xm {
     display: table;
   }
-  .xim-tabla-cuponera td { 
-    padding: 0!important;
+  .xim-tabla-cuponera td {
+    padding: 0 !important;
   }
 }
 </style>

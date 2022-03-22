@@ -143,8 +143,8 @@ export default {
 .font {
   font-family: Poppins regular;
 }
-@media (max-width: 960px){
-  .col-10{
+@media (max-width: 960px) {
+  .col-10 {
     max-width: 100%;
   }
 }

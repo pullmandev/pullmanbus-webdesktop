@@ -1,18 +1,20 @@
 <template>
   <div class="main-header">
     <v-app-bar color="orange_dark" dark fixed class="xim-header">
-
       <div class="xim-desktop xim-horizontal">
         <div class="grupo-uno">
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-btn text @click="$router.push({ path: '/' })">
-          <div>
-            <v-img src="../../../static/logos/pullmanbus_blanco.png" class="xim-logo-resposivo" />
-          </div>
-        </v-btn>
+          <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+          <v-btn text @click="$router.push({ path: '/' })">
+            <div>
+              <v-img
+                src="../../../static/logos/pullmanbus_blanco.png"
+                class="xim-logo-resposivo"
+              />
+            </div>
+          </v-btn>
         </div>
 
-        <div style="margin-top: -8px;" >
+        <div style="margin-top: -8px;">
           <div class="d-flex justify-end">
             <div class="blue px-1" style="border-bottom-left-radius: 5px;">
               <a
@@ -151,25 +153,20 @@
       <div class="xim-movile xim-horizontal">
         <v-row>
           <v-col cols="2" sm="2" md="2">
-            <v-app-bar-nav-icon @click.stop="drawer =! drawer"></v-app-bar-nav-icon>
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
           </v-col>
           <v-col cols="6" sm="6" md="6">
-                <v-btn 
-                  class="xim-btn-header"
-                  @click="$router.push({ path: '/' })">
-                  <v-img 
-                    src="../../../static/logos/pullmanbus_blanco.png" 
-                    class="xim-movile-logo-header" 
-                />
-                </v-btn>
+            <v-btn class="xim-btn-header" @click="$router.push({ path: '/' })">
+              <v-img
+                src="../../../static/logos/pullmanbus_blanco.png"
+                class="xim-movile-logo-header"
+              />
+            </v-btn>
           </v-col>
           <v-col cols="4" sm="4" md="4">
             <template v-if="!user.usuario || !user.usuario.nombre">
-              <v-btn
-                text
-                @click="openDialog('login')"
-                class="xim-header-text"
-              >{{ $t('login') }}
+              <v-btn text @click="openDialog('login')" class="xim-header-text"
+                >{{ $t('login') }}
                 <v-img
                   src="../../../static/logos/header/Iconos-24.png"
                   class="xim-ico-login"
@@ -177,45 +174,40 @@
               </v-btn>
             </template>
             <template v-else>
-            <v-menu
-              bottom
-              offset-y
-              class="xim-menu"
-            >
-            <template v-slot:activator="{ on }">
-              <v-btn class="white--text header-text pl-0 pr-2" text v-on="on">
-                <v-img
-                  class="mx-2 xim-usuario-logeado"
-                  src="../../../static/logos/header/Iconos-24.png"
-                  height="24"
-                  width="24"
-                />
-                <span class="hidden-sm-and-down header-text capitalize">{{ $t('my_account') }}</span>
-                <v-icon class="xim-header-icons">arrow_drop_down</v-icon>
-              </v-btn>
+              <v-menu bottom offset-y class="xim-menu">
+                <template v-slot:activator="{ on }">
+                  <v-btn class="white--text header-text pl-0 pr-2" text v-on="on">
+                    <v-img
+                      class="mx-2 xim-usuario-logeado"
+                      src="../../../static/logos/header/Iconos-24.png"
+                      height="24"
+                      width="24"
+                    />
+                    <span class="hidden-sm-and-down header-text capitalize">{{
+                      $t('my_account')
+                    }}</span>
+                    <v-icon class="xim-header-icons">arrow_drop_down</v-icon>
+                  </v-btn>
+                </template>
+
+                <v-list>
+                  <v-list-item
+                    v-for="(route, i) in profileMenu"
+                    :key="i"
+                    @click="$router.push({ name: route.name })"
+                  >
+                    <v-list-item-title>{{ $t(route.title) }}</v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item @click="signOut">
+                    <v-list-item-title>{{ $t('sign_out') }}</v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
             </template>
-
-            <v-list>
-              <v-list-item
-                v-for="(route, i) in profileMenu"
-                :key="i"
-                @click="$router.push({ name: route.name })"
-              >
-                <v-list-item-title>{{ $t(route.title) }}</v-list-item-title>
-              </v-list-item>
-
-              <v-list-item @click="signOut">
-                <v-list-item-title>{{ $t('sign_out') }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </template>
           </v-col>
         </v-row>
-        
-       
-        
-        
+
         <!-- <template>
           <v-img
             class="xim-estatico"
@@ -223,7 +215,6 @@
           />
         </template> -->
       </div>
-
     </v-app-bar>
     <Drawer :open.sync="drawer" :links="links" />
     <SeatCart :open.sync="seatCart" />

@@ -11,9 +11,9 @@
           lastIcon: 'mdi-chevron-double-right'
         }"
         :loading="loading"
-        :loading-text="$t('Loading... Please wait')">
-
-        <template slot="item" slot-scope="props" >
+        :loading-text="$t('Loading... Please wait')"
+      >
+        <template slot="item" slot-scope="props">
           <tr>
             <td class="text-center">{{ props.item.boleto }}</td>
             <td class="text-center">{{ props.item.fechaHoraSalida }}</td>
@@ -51,11 +51,13 @@
       </v-data-table>
     </v-col>
     <v-col cols="12" class="xim-movile">
-      <v-row class="xim-alinea-vertical"
-      v-for="(item, index) in this.tickets"
-                             v-bind:item="item"
-                           v-bind:index="index"
-                           v-bind:key="item.id">
+      <v-row
+        class="xim-alinea-vertical"
+        v-for="(item, index) in this.tickets"
+        v-bind:item="item"
+        v-bind:index="index"
+        v-bind:key="item.id"
+      >
         <v-col cols="12" class="xim-colum">
           <h3>Datos de la Transacción</h3>
           <v-divider></v-divider>
@@ -88,19 +90,19 @@
           <label class="xim-texto-label">Descargar el Voucher de su Compra</label>
           <span class="xim-texto-datos xim-alinea-horizontal">
             <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    text
-                    icon
-                    dark
-                    color="blue_dark"
-                    v-bind="attrs"
-                    v-on="on"
-                    @click="downloaderTicket(item)"
-                  >
-                    <i class="material-icons">get_app</i>
-                  </v-btn>
-                </template>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  text
+                  icon
+                  dark
+                  color="blue_dark"
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="downloaderTicket(item)"
+                >
+                  <i class="material-icons">get_app</i>
+                </v-btn>
+              </template>
               <span>{{ $t('download') }}</span>
             </v-tooltip>
             <img

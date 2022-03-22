@@ -12,7 +12,11 @@
               <span class="body-1 d-block">Escríbenos</span>
               <div class="d-flex align-center">
                 <div>
-                  <v-img src="../../static/logos/Iconos-33.png" height="20px" width="20px" />
+                  <v-img
+                    src="../../static/logos/Iconos-33.png"
+                    height="20px"
+                    width="20px"
+                  />
                 </div>
                 <span id="infopullman" class="body-2">Contacto@pullmanbus.cl</span>
               </div>
@@ -161,7 +165,7 @@ export default {
   color: white;
   margin-bottom: 0.5rem;
 }
-#infopullman{
+#infopullman {
   margin-left: 4px;
 }
 </style>

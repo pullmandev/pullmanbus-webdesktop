@@ -18,7 +18,11 @@
       <v-card flat class="hideAsientos mt-3">
         <!-- Grilla de asientos -->
         <div v-if="loadingSeats" style="text-align: center">
-          <v-progress-circular indeterminate :size="50" color="blue"></v-progress-circular>
+          <v-progress-circular
+            indeterminate
+            :size="50"
+            color="blue"
+          ></v-progress-circular>
         </div>
         <v-container
           fluid
@@ -44,7 +48,9 @@
               </div>
               <div style="max-width: 100% !important">
                 <h2 class="xim-text-center mb-1">
-                  {{ data.pisos[selectedFloor].piso > 0 ? 'Segundo piso' : 'Primer piso' }}
+                  {{
+                    data.pisos[selectedFloor].piso > 0 ? 'Segundo piso' : 'Primer piso'
+                  }}
                 </h2>
                 <h4 class="xim-text-center mb-3 subheading">
                   {{ data.pisos[selectedFloor].servicio }} - ${{
@@ -256,8 +262,10 @@
                               <span style="font-size: 0.85rem;">{{ item.count }} x </span>
                               <span>{{ $t('tickets') }} {{ $t('seats') }} </span>
                               <div>
-                                <span style="text-transform: capitalize; font-size: 0.75rem !important;">
-                                  {{ item.servicioNombre}}
+                                <span
+                                  style="text-transform: capitalize; font-size: 0.75rem !important;"
+                                >
+                                  {{ item.servicioNombre }}
                                   {{ item.type }}
                                 </span>
                               </div>
@@ -354,9 +362,11 @@
           </v-row>
         </v-container>
 
-        <v-dialog v-model="dialogPet" 
-                  transition="dialog-bottom-transition" 
-                  max-width="400">
+        <v-dialog
+          v-model="dialogPet"
+          transition="dialog-bottom-transition"
+          max-width="400"
+        >
           <v-card class="modalPet">
             <v-card-text>
               <v-row justify="end">
@@ -365,10 +375,14 @@
                 </v-btn>
               </v-row>
               <v-row justify="center">
-                <img src="../../../../../static/logos/seats/pet-alert.png" width="120px" />
+                <img
+                  src="../../../../../static/logos/seats/pet-alert.png"
+                  width="120px"
+                />
               </v-row>
               <p style="padding-top:20px;color:white;">
-                Estas eligiendo un asiento dentro del espacio destinado a mascotas a bordo.
+                Estas eligiendo un asiento dentro del espacio destinado a mascotas a
+                bordo.
               </p>
               <p style="color:white;">¿Quieres continuar y reservarlo?</p>
               <v-container>
@@ -386,62 +400,70 @@
     <div class="xim-movile mt-menos">
       <v-card flat class="hideAsientos mt-3">
         <div v-if="loadingSeats" style="text-align: center;margin-top:-250px">
-          <v-progress-circular indeterminate :size="50" color="blue"></v-progress-circular>
+          <v-progress-circular
+            indeterminate
+            :size="50"
+            color="blue"
+          ></v-progress-circular>
         </div>
         <v-container
           fluid
           v-else-if="bus.grilla.length > 0"
           class="px-0"
-          :class="{ 'pa-0': isXs }">
+          :class="{ 'pa-0': isXs }"
+        >
           <div class="xim-botonera-principal">
             <v-row>
-
               <v-col cols="6" class="xim-centra-hijo">
                 <v-btn
-                  v-if="pisoMuestra==0"
+                  v-if="pisoMuestra == 0"
                   color="primary"
                   elevation="17"
                   id="xim-btn-primario_a"
-                  @click="muestraPisoMovile(0)">Piso 1</v-btn>
+                  @click="muestraPisoMovile(0)"
+                  >Piso 1</v-btn
+                >
 
                 <v-btn
-                  v-else-if="pisoMuestra==1"
+                  v-else-if="pisoMuestra == 1"
                   elevation="17"
                   plain
                   id="xim-btn-primario_b"
-                  @click="muestraPisoMovile(0)">Piso 1</v-btn>
-
-
+                  @click="muestraPisoMovile(0)"
+                  >Piso 1</v-btn
+                >
               </v-col>
               <v-col cols="6" class="xim-centra-hijo">
-
                 <v-btn
-                  v-if="bus.grilla.length >= 2 &&
-                        pisoMuestra==1"
-                    color="primary"
-                    elevation="17"
-                    dark
-                    id="xim-btn-secundario_a"
-                    @click="muestraPisoMovile(1)">Piso 2</v-btn>
-                    <i v-else ></i>
+                  v-if="bus.grilla.length >= 2 && pisoMuestra == 1"
+                  color="primary"
+                  elevation="17"
+                  dark
+                  id="xim-btn-secundario_a"
+                  @click="muestraPisoMovile(1)"
+                  >Piso 2</v-btn
+                >
+                <i v-else></i>
                 <v-btn
-                  v-if="bus.grilla.length >= 2 &&
-                        pisoMuestra==0"
+                  v-if="bus.grilla.length >= 2 && pisoMuestra == 0"
                   elevation="17"
                   color="white"
                   plain
                   id="xim-btn-secundario_b"
-                  @click="muestraPisoMovile(1)">Piso 2</v-btn>
-                  <i v-else ></i>
+                  @click="muestraPisoMovile(1)"
+                  >Piso 2</v-btn
+                >
+                <i v-else></i>
               </v-col>
             </v-row>
           </div>
 
-          <v-row class="xim-bus" dense :justify="floorArray.length === 1 ? 'center' : undefined">
-            <v-col
-              style="overflow: hidden; position: relative"
-              cols="12"
-            >
+          <v-row
+            class="xim-bus"
+            dense
+            :justify="floorArray.length === 1 ? 'center' : undefined"
+          >
+            <v-col style="overflow: hidden; position: relative" cols="12">
               <div
                 v-if="data.pisos[pisoMuestra].confirmation.idaVuelta && !hasVuelta"
                 class="white--text text-left orange promotion-advice-floor"
@@ -453,7 +475,9 @@
                   {{ data.pisos[pisoMuestra].piso > 0 ? 'Segundo piso' : 'Primer piso' }}
                 </h2>
                 <h4 class="xim-text-center-i mb-3 subheading">
-                  {{ data.pisos[pisoMuestra].servicio }} - ${{data.pisos[pisoMuestra].tarifaInternet}}
+                  {{ data.pisos[pisoMuestra].servicio }} - ${{
+                    data.pisos[pisoMuestra].tarifaInternet
+                  }}
                 </h4>
                 <v-divider></v-divider>
                 <v-row>
@@ -461,7 +485,8 @@
                     <div
                       v-for="(col, i) in bus.grilla[data.pisos[pisoMuestra].piso].grid"
                       :key="i"
-                      class="xim-fila-asiento">
+                      class="xim-fila-asiento"
+                    >
                       <div class="xim-espcio-celdas" v-for="(seat, j) in col" :key="j">
                         <template v-if="seat !== null">
                           <template v-if="seat.asiento.includes('B')">
@@ -469,7 +494,10 @@
                               <span>WC</span>
                             </div>
                           </template>
-                          <div v-else-if="seat.asiento === '' || seat.asiento === '%'" class="xim-alinea-pasillo"/>
+                          <div
+                            v-else-if="seat.asiento === '' || seat.asiento === '%'"
+                            class="xim-alinea-pasillo"
+                          />
                           <v-btn
                             v-else-if="
                               petSeatIsInshoppingCart(
@@ -580,15 +608,16 @@
                   <div
                     class="xim-listado-asiento"
                     v-for="(item, i) in seatsImg"
-                    :key="'A' + i">
-                    
-                      <v-img
-                        width="60"
-                        :src="
-                          require(`../../../../../static/logos/seats/${item.number}.png`)
-                        "
-                        contain/>
-                    
+                    :key="'A' + i"
+                  >
+                    <v-img
+                      width="60"
+                      :src="
+                        require(`../../../../../static/logos/seats/${item.number}.png`)
+                      "
+                      contain
+                    />
+
                     <h3 class="ml-1">
                       {{ $t(item.text) }}
                     </h3>
@@ -600,14 +629,13 @@
                       v-for="(item, i) in seatsPetImg"
                       :key="i"
                     >
-                      
-                        <v-img
-                          :src="
-                            require(`../../../../../static/logos/seats/${item.number}.png`)
-                          "
-                          contain
-                        />
-                      
+                      <v-img
+                        :src="
+                          require(`../../../../../static/logos/seats/${item.number}.png`)
+                        "
+                        contain
+                      />
+
                       <h3 class="ml-1">
                         {{ $t(item.text) }}
                       </h3>
@@ -616,7 +644,10 @@
 
                   <template>
                     <div class="xim-caja-resumen">
-                      <div style="border-bottom: 1px solid #b8b8b8" class="mb-2 xim-margen-left">
+                      <div
+                        style="border-bottom: 1px solid #b8b8b8"
+                        class="mb-2 xim-margen-left"
+                      >
                         {{ $t('services_text.pay_resume') }}
                       </div>
 
@@ -637,8 +668,10 @@
                               <span style="font-size: 0.85rem;">{{ item.count }} x </span>
                               <span>{{ $t('tickets') }} {{ $t('seats') }} </span>
                               <div>
-                                <span style="text-transform: capitalize; font-size: 0.75rem !important;">
-                                  {{ item.servicioNombre}}
+                                <span
+                                  style="text-transform: capitalize; font-size: 0.75rem !important;"
+                                >
+                                  {{ item.servicioNombre }}
                                   {{ item.type }}
                                 </span>
                               </div>
@@ -649,7 +682,8 @@
                           <v-col class="d-flex" cols="5">
                             <div
                               class="prices promotion-price blue_dark--text"
-                              style="font-weight: 600;">
+                              style="font-weight: 600;"
+                            >
                               <span style="font-size: 1rem;">
                                 {{ item.promo | currency }}
                               </span>
@@ -667,7 +701,8 @@
                           Total:
                           <span
                             class="green--text ml-2"
-                            style="font-size: 1.5rem; font-weight: 600">
+                            style="font-size: 1.5rem; font-weight: 600"
+                          >
                             {{ totalAmount | currency }}
                           </span>
 
@@ -683,7 +718,8 @@
                     <div
                       class="text-right ml-2 mr-3"
                       v-for="(seat, i) in confirmationSeats"
-                      :key="i">
+                      :key="i"
+                    >
                       <strong class="d-block orange--text">
                         {{ setBannerText(seat) }}
                       </strong>
@@ -696,7 +732,8 @@
                         color="orange"
                         small
                         class="white--text my-3"
-                        @click="confirmationAmount(seat)">
+                        @click="confirmationAmount(seat)"
+                      >
                         {{ $t('services_text.add') }}
                       </v-btn>
                       <hr />
@@ -705,30 +742,31 @@
                 </div>
 
                 <div class="xim-botonera-principal">
-                    <div class="xim-centra-hijo w-50">
-                      <v-btn
-                        outlined
-                        :disabled="totalAmount <= 0"
-                        @click="deleteSeats"
-                        >{{ $t('cancel') }}</v-btn>
-                    </div>
-                    <div class="xim-centra-hijo w-50">
-                      <v-btn
-                        @click="showModal"
-                        class="white--text"
-                        color="orange"
-                        :disabled="totalAmount <= 0"
-                        >{{ $t('continue') }}</v-btn>
-                    </div>
+                  <div class="xim-centra-hijo w-50">
+                    <v-btn outlined :disabled="totalAmount <= 0" @click="deleteSeats">{{
+                      $t('cancel')
+                    }}</v-btn>
+                  </div>
+                  <div class="xim-centra-hijo w-50">
+                    <v-btn
+                      @click="showModal"
+                      class="white--text"
+                      color="orange"
+                      :disabled="totalAmount <= 0"
+                      >{{ $t('continue') }}</v-btn
+                    >
+                  </div>
                 </div>
               </div>
             </v-col>
           </v-row>
         </v-container>
 
-        <v-dialog v-model="dialogPet" 
-                  transition="dialog-bottom-transition" 
-                  max-width="400">
+        <v-dialog
+          v-model="dialogPet"
+          transition="dialog-bottom-transition"
+          max-width="400"
+        >
           <v-card class="modalPet">
             <v-card-text>
               <v-row justify="end">
@@ -737,10 +775,14 @@
                 </v-btn>
               </v-row>
               <v-row justify="center">
-                <img src="../../../../../static/logos/seats/pet-alert.png" width="120px" />
+                <img
+                  src="../../../../../static/logos/seats/pet-alert.png"
+                  width="120px"
+                />
               </v-row>
               <p style="padding-top:20px;color:white;">
-                Estas eligiendo un asiento dentro del espacio destinado a mascotas a bordo.
+                Estas eligiendo un asiento dentro del espacio destinado a mascotas a
+                bordo.
               </p>
               <p style="color:white;">¿Quieres continuar y reservarlo?</p>
               <v-container>
@@ -895,7 +937,7 @@ export default {
   methods: {
     confirmationAmount,
     muestraPisoMovile(piso) {
-      this.pisoMuestra = piso;
+      this.pisoMuestra = piso
     },
     confirmationAmountFromDialog() {
       confirmationAmount(this.addedSeat)
@@ -1119,13 +1161,13 @@ export default {
         descuento: 0
       }
       //console.log("index", index);
-      console.log("seatIndex", seatIndex);
-      console.log("floorData", floorData);
-      console.log("piso", piso);
-      console.log("seat", seat);
+      console.log('seatIndex', seatIndex)
+      console.log('floorData', floorData)
+      console.log('piso', piso)
+      console.log('seat', seat)
       if (seatIndex > -1) {
-        let codigoReserva = this.selectedSeats[seatIndex].codigoReserva;
-        this.leverageSeat({ ...floorData, asiento: seat, piso,codigoReserva }, seatIndex)
+        let codigoReserva = this.selectedSeats[seatIndex].codigoReserva
+        this.leverageSeat({ ...floorData, asiento: seat, piso, codigoReserva }, seatIndex)
         console.log('Fin libera asiento')
         this.$store.dispatch('DELETE_SEAT', { seat: seatIndex })
       } else {
@@ -1144,9 +1186,9 @@ export default {
           piso
         )
         if (seatIndexAsociado > -1) {
-          let codigoReserva = this.selectedSeats[seatIndexAsociado].codigoReserva;
+          let codigoReserva = this.selectedSeats[seatIndexAsociado].codigoReserva
           this.leverageSeat(
-            { ...floorData, asiento: seatData.asientoAsociado, piso ,codigoReserva},
+            { ...floorData, asiento: seatData.asientoAsociado, piso, codigoReserva },
             seatIndexAsociado
           )
           console.log('Fin libera asiento pet')
@@ -1182,7 +1224,7 @@ export default {
       const requestParams = this.createRequestParams(params)
       console.log(requestParams)
       const response = await API.takeSeat(requestParams)
-      console.log(response);
+      console.log(response)
       this.loadingSeats = false
       if (!response.data.estadoReserva) {
         this.$notify({
@@ -1196,7 +1238,7 @@ export default {
         this.getSeats(this.item)
         params.codigoReserva = response.data.codigoReserva
         const seat = Object.assign({ vuelta: this.back }, params)
-        console.log(seat);
+        console.log(seat)
         seat.id = seat.elementId + seat.piso + seat.asiento
         this.$store.dispatch('SET_SEAT', {
           seat: {
@@ -1213,7 +1255,7 @@ export default {
 
     async leverageSeat(params) {
       this.loadingSeats = true
-      console.log("leverageSeat",params);
+      console.log('leverageSeat', params)
       const requestParams = this.createRequestParams(params)
       console.log(requestParams)
       this.$notify({
@@ -1278,25 +1320,24 @@ export default {
       this.loadingSeats = false
     },
     cargaLoading() {
-      const loading = document.getElementById('loading');
-      const ap = document.getElementById('app');
+      const loading = document.getElementById('loading')
+      const ap = document.getElementById('app')
 
-      let valorX = ap.x;
-      let valorY = ap.y;
-      let ancho = ap.width;
-      let alto = ap.height;
+      let valorX = ap.x
+      let valorY = ap.y
+      let ancho = ap.width
+      let alto = ap.height
       console.log(valorX, valorY, ancho, alto)
-      if(this.loadingSeats) {
-        loading.style.position = "absolute";
-        loading.style.top = valorX;
-        loading.style.left = valorY;
-        loading.style.width = ancho;
-        loading.style.height = alto;
-
+      if (this.loadingSeats) {
+        loading.style.position = 'absolute'
+        loading.style.top = valorX
+        loading.style.left = valorY
+        loading.style.width = ancho
+        loading.style.height = alto
       } else {
-        loading.style.display = "none";
+        loading.style.display = 'none'
       }
-      return loading;
+      return loading
     }
   }
 }

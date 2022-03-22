@@ -38,10 +38,9 @@ export default {
   },
   ctaCte: {
     drawer: 'Solicitud de Cuenta Corriente',
-    content:
-      'Ingresa tus datos para solicitar tu ',
+    content: 'Ingresa tus datos para solicitar tu ',
     form: 'SOLICITUD DE CUENTA CORRIENTE',
-    updown:'Cuenta Corriente'
+    updown: 'Cuenta Corriente'
   },
   home_text: {
     pets: 'SELECCIONA LOS SERVICIOS MASCOTAS A BORDO',

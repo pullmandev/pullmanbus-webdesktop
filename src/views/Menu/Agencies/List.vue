@@ -1,21 +1,14 @@
 <template>
   <section class="container">
     <div v-if="loading" class="text-center pt-12">
-      <v-progress-circular
-        indeterminate
-        :size="100"
-        color="blue"
-      ></v-progress-circular>
+      <v-progress-circular indeterminate :size="100" color="blue"></v-progress-circular>
     </div>
     <v-row v-else justify="center">
       <v-col>
         <v-expansion-panels multiple>
           <v-row>
             <v-col cols="6">
-              <v-expansion-panel
-                v-for="(info, i) in regionsByColumn.one"
-                :key="i"
-              >
+              <v-expansion-panel v-for="(info, i) in regionsByColumn.one" :key="i">
                 <v-expansion-panel-header color="blue_dark" class="white--text">
                   <h3>{{ info.region.descripcion }}</h3>
                   <template v-slot:actions>
@@ -34,10 +27,7 @@
               </v-expansion-panel>
             </v-col>
             <v-col cols="6">
-              <v-expansion-panel
-                v-for="(info, i) in regionsByColumn.two"
-                :key="i"
-              >
+              <v-expansion-panel v-for="(info, i) in regionsByColumn.two" :key="i">
                 <v-expansion-panel-header color="blue_dark" class="white--text">
                   <h3>{{ info.region.descripcion }}</h3>
                   <template v-slot:actions>
@@ -111,9 +101,7 @@ export default {
           }
           const unorderedList = this.regions
           unorderedList.push(dataItem)
-          this.regions = unorderedList.sort(
-            (a, b) => a.region.codigo - b.region.codigo
-          )
+          this.regions = unorderedList.sort((a, b) => a.region.codigo - b.region.codigo)
         })
         .catch(err => console.error(err))
     }

@@ -99,18 +99,21 @@
       </div>
       <div class="xim-container-mv xim-movile">
         <v-container class="service-item px-0">
-        <v-expansion-panels class="elevation-0">
-          <!-- First expasión Panel-->
-          <v-expansion-panel
-            :key="service.id"
-            v-for="service in itemsPerPage"
-            class="arrow elevation-0"
-          >
-            <v-expansion-panel-header style="overflow: hidden">
-              <v-row class="xim-raro xim-top-30">
-                <v-col cols="6 xim-tr">
-                  <v-row>
-                    <v-col cols="12 xim-colum xim-height-logo" v-if="service.logo != ''">
+          <v-expansion-panels class="elevation-0">
+            <!-- First expasión Panel-->
+            <v-expansion-panel
+              :key="service.id"
+              v-for="service in itemsPerPage"
+              class="arrow elevation-0"
+            >
+              <v-expansion-panel-header style="overflow: hidden">
+                <v-row class="xim-raro xim-top-30">
+                  <v-col cols="6 xim-tr">
+                    <v-row>
+                      <v-col
+                        cols="12 xim-colum xim-height-logo"
+                        v-if="service.logo != ''"
+                      >
                         <img
                           :src="'data:image;base64,' + service.logo"
                           class="service-company-image"
@@ -126,71 +129,78 @@
                           <v-icon color="orange">mdi-plus</v-icon>
                           <span class="capitalize body-1">itinerario</span>
                         </v-btn>
-                    </v-col>
-                    <v-col v-else class="xim-none"></v-col>
-                  </v-row>
-                </v-col>
-                <v-col cols="6" class="pr-12 text-center xim-tl">
-                  <div style="position: relative">
-                    <v-icon class="display-2 white" style="z-index: 2" color="orange">
-                      mdi-bus-side
-                    </v-icon>
-                    <hr class="hr-bus-style" />
-                  </div>
-                  <small>{{ hoursDifference(service) }}</small>
-                </v-col>
-                <v-col cols="6 xim-tr xim-top-30">
-                  <span class="body-2 d-block">{{
-                    formatDate(service.fechaSubida)
-                  }}</span>
-                  <span class="headline d-block" style="font-size: 1rem !important;">
-                    {{ service.horaSalida }}
-                  </span>
-                  <span class="body-2 d-block"><b>Salida:</b></span>
-                  <span class="body-2 d-block">{{ service.terminalSalida }}</span>
-                </v-col>
+                      </v-col>
+                      <v-col v-else class="xim-none"></v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col cols="6" class="pr-12 text-center xim-tl">
+                    <div style="position: relative">
+                      <v-icon class="display-2 white" style="z-index: 2" color="orange">
+                        mdi-bus-side
+                      </v-icon>
+                      <hr class="hr-bus-style" />
+                    </div>
+                    <small>{{ hoursDifference(service) }}</small>
+                  </v-col>
+                  <v-col cols="6 xim-tr xim-top-30">
+                    <span class="body-2 d-block">{{
+                      formatDate(service.fechaSubida)
+                    }}</span>
+                    <span class="headline d-block" style="font-size: 1rem !important;">
+                      {{ service.horaSalida }}
+                    </span>
+                    <span class="body-2 d-block"><b>Salida:</b></span>
+                    <span class="body-2 d-block">{{ service.terminalSalida }}</span>
+                  </v-col>
 
-                <v-col cols="6 xim-tl xim-top-30">
-                  <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
-                  <span class="headline d-block" style="font-size: 1rem !important;">
-                    {{ service.horaLlegada }}
-                  </span>
-                  <span class="body-2 d-block"><b>Llegada:</b></span>
-                  <span class="body-2 d-block">{{ service.terminaLlegada }}</span>
-                </v-col>
-                <v-col cols="6" v-for="(piso, index) in service.pisos" :key="index" :class="index==0?'xim-tr':'xim-tl'">
-                  <span class="caption d-block"><b>Piso {{ piso.piso + 1 }}</b></span>
-                  <span class="caption d-block">{{ piso.servicio }}</span>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div>
-                <floor
-                  v-if="service"
-                  :item="service"
-                  :expanded="true"
-                  :isXs="windowSize.x <= 600"
-                  @confirm="goToPayment"
-                />
-                <v-alert v-else color="warning" value="true" class="noServices mt-0">
-                  <v-row class="align-center justify-center">
-                    <h2>{{ $t('no_services') }}</h2>
-                  </v-row>
-                </v-alert>
-              </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-        <v-pagination
-          color="blue_dark"
-          circle
-          v-model="page"
-          :length="paginationLength"
-          :total-visible="7"
-          class="mt-12"
-        ></v-pagination>
-      </v-container>
+                  <v-col cols="6 xim-tl xim-top-30">
+                    <span class="body-2 d-block">{{ service.fechaLlegada }}</span>
+                    <span class="headline d-block" style="font-size: 1rem !important;">
+                      {{ service.horaLlegada }}
+                    </span>
+                    <span class="body-2 d-block"><b>Llegada:</b></span>
+                    <span class="body-2 d-block">{{ service.terminaLlegada }}</span>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    v-for="(piso, index) in service.pisos"
+                    :key="index"
+                    :class="index == 0 ? 'xim-tr' : 'xim-tl'"
+                  >
+                    <span class="caption d-block"
+                      ><b>Piso {{ piso.piso + 1 }}</b></span
+                    >
+                    <span class="caption d-block">{{ piso.servicio }}</span>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <div>
+                  <floor
+                    v-if="service"
+                    :item="service"
+                    :expanded="true"
+                    :isXs="windowSize.x <= 600"
+                    @confirm="goToPayment"
+                  />
+                  <v-alert v-else color="warning" value="true" class="noServices mt-0">
+                    <v-row class="align-center justify-center">
+                      <h2>{{ $t('no_services') }}</h2>
+                    </v-row>
+                  </v-alert>
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+          <v-pagination
+            color="blue_dark"
+            circle
+            v-model="page"
+            :length="paginationLength"
+            :total-visible="7"
+            class="mt-12"
+          ></v-pagination>
+        </v-container>
       </div>
     </div>
     <v-card v-else class="elevation-0">
@@ -209,8 +219,8 @@ import moment from 'moment'
 export default {
   data() {
     return {
-      existePrimero:false,
-      existeSegundo:false,
+      existePrimero: false,
+      existeSegundo: false,
       fechaSubida: '',
       serviceForItinerary: '',
       page: 1,
@@ -218,7 +228,7 @@ export default {
       dialog: false,
       expand: false,
       rowsPerPage: [10, 20, 30, { text: 'Todos', value: -1 }],
-      tipoBotones:1
+      tipoBotones: 1
     }
   },
   components: {
@@ -226,7 +236,7 @@ export default {
     Dialog
   },
   mounted() {
- /*   if(this.$store.getters.seats.length > 0) {
+    /*   if(this.$store.getters.seats.length > 0) {
       if(this.$store.getters.seats[0].servicioNombre == 'SALON CAMA') {
         this.tipoBotones = 2
       } else {
@@ -429,8 +439,6 @@ h3 {
   flex-basis: 4.333333333333332% !important;
   max-width: 4.333333333333332% !important;
 }
-
-
 
 /* . estilo Bus */
 </style>

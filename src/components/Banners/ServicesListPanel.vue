@@ -6,7 +6,13 @@
     content-class="rounded-dialog-banner"
     persistent
   >
-    <v-carousel cycle hide-delimiters :show-arrows="false" height="auto" class="xim-desktop">
+    <v-carousel
+      cycle
+      hide-delimiters
+      :show-arrows="false"
+      height="auto"
+      class="xim-desktop"
+    >
       <v-carousel-item v-for="(item, i) in getServiceBanners" :key="i">
         <v-card color="white">
           <div class="d-flex flex-no-wrap justify-space-between">
@@ -47,7 +53,13 @@
         </v-card>
       </v-carousel-item>
     </v-carousel>
-    <v-carousel cycle hide-delimiters :show-arrows="false" height="auto" class="xim-movile">
+    <v-carousel
+      cycle
+      hide-delimiters
+      :show-arrows="false"
+      height="auto"
+      class="xim-movile"
+    >
       <v-carousel-item v-for="(item, i) in getServiceBanners" :key="i">
         <v-card color="white">
           <div class="d-flex flex-no-wrap justify-space-between">

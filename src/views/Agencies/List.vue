@@ -82,7 +82,6 @@ export default {
   methods: {
     async getInfo() {
       try {
-
         this.loading = true
 
         const regionsResp = await API.getRegions()

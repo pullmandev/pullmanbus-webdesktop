@@ -111,10 +111,7 @@
                   </v-row>
                   <v-row class="xim-movile">
                     <v-col cols="12">
-                      <ConfirmDatePickerMov
-                        v-model="date"
-                        :rules="generalRules"
-                      />
+                      <ConfirmDatePickerMov v-model="date" :rules="generalRules" />
                       <v-text-field
                         v-model="ticket"
                         :label="$t('ticket')"
@@ -272,9 +269,9 @@ export default {
         destino: this.boletoConfirmacion.idDestino,
         seleccion: value.codigo,
         idIntegrador: this.boletoConfirmacion.idIntegrador,
-        boleto : this.boletoConfirmacion.boleto
+        boleto: this.boletoConfirmacion.boleto
       }
-      console.log(searchingCity);
+      console.log(searchingCity)
       this.$store.dispatch('LOAD_CITIES_TO_CONFIRMATION_LIST', {
         searchingCity
       })
@@ -352,7 +349,7 @@ export default {
               origen: ticket.idOrigen,
               destino: ticket.idDestino,
               idIntegrador: ticket.idIntegrador,
-              boleto:ticket.boleto
+              boleto: ticket.boleto
             }
             this.$store.dispatch('LOAD_CITIES_CONFIRMATION_LIST', {
               searchingCity
@@ -378,13 +375,12 @@ export default {
     min-height: 100vh;
   }
 }
-.resp{
+.resp {
   padding: 12px 200px;
 }
-@media (max-width: 1267px){
-  .resp{
+@media (max-width: 1267px) {
+  .resp {
     padding: 10px !important;
   }
 }
-
 </style>

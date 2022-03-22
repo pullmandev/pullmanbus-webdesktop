@@ -19,13 +19,13 @@ export default {
   },
   getCuponera() {
     const props = {
-      idSistema: "7"
+      idSistema: process.env.ID_SISTEMA
     }
     return axios.post(origenCuponera, props)
   },
   getCuponeraByCode(citiesTo) {
     const props = {
-      idSistema: "7",
+      idSistema: process.env.ID_SISTEMA,
       origen: citiesTo
     }
     return axios.post(destinoCuponera, props)

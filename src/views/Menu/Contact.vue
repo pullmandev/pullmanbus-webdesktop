@@ -10,14 +10,10 @@
             contain
             class="d-inline-flex mr-2"
           />
-          <h2
-            class="d-inline-flex flex-column text-left title"
-            style="line-height: 20px"
-          >
+          <h2 class="d-inline-flex flex-column text-left title" style="line-height: 20px">
             Contacto
             <span class="body-2">
-              Estamos a tu disposición para cualquier consulta que quieras
-              hacernos.
+              Estamos a tu disposición para cualquier consulta que quieras hacernos.
             </span>
           </h2>
         </v-toolbar-title>
@@ -220,19 +216,10 @@ export default {
       rut: '',
       note: '',
       doc_type: 'RUT',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
-      otherRules: [
-        v => !!v || 'Este campo es requerido',
-        validations.otherDocValidation
-      ],
-      phoneRules: [
-        v => !!v || 'Este campo es requerido',
-        validations.numberValidation
-      ],
+      otherRules: [v => !!v || 'Este campo es requerido', validations.otherDocValidation],
+      phoneRules: [v => !!v || 'Este campo es requerido', validations.numberValidation],
       generalRules: [v => !!v || 'Este campo es requerido']
     }
   },

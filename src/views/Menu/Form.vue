@@ -117,22 +117,22 @@
                     required
                   ></v-text-field>
                 </v-col>
-				<v-col cols="12" lg="5" class="mx-3">
-				  <v-text-field
-					filled
-					outlined
-					dense
-					type="number"
-					v-model="cantidadPasajeros"
-					:rules="numberRules"
-					:label="$t('cantidadPasajeros')"
-					outline-1
-					color="blue"
-					required
-				  ></v-text-field>
-				</v-col>
-				<v-col cols="12" lg="5" class="mx-3">
-				  <!-- <v-text-field
+                <v-col cols="12" lg="5" class="mx-3">
+                  <v-text-field
+                    filled
+                    outlined
+                    dense
+                    type="number"
+                    v-model="cantidadPasajeros"
+                    :rules="numberRules"
+                    :label="$t('cantidadPasajeros')"
+                    outline-1
+                    color="blue"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" lg="5" class="mx-3">
+                  <!-- <v-text-field
 					filled
 					outlined
 					dense
@@ -144,22 +144,22 @@
 					required
 				  ></v-text-field> -->
 
-				  <v-autocomplete
-					light
-					filled
-					outlined
-					dense
-					:items="listaComuna"
-					item-text="nombre"
-					item-value="nombre"
-					label="COMUNA RESIDENCIA ORIGEN"
-					v-model="comunaOrigen"
-					required
-					:rules="[v => !!v || '']"
-				  ></v-autocomplete>
-				</v-col>
-				<v-col cols="12" lg="5" class="mx-3">
-				  <!-- <v-text-field
+                  <v-autocomplete
+                    light
+                    filled
+                    outlined
+                    dense
+                    :items="listaComuna"
+                    item-text="nombre"
+                    item-value="nombre"
+                    label="COMUNA RESIDENCIA ORIGEN"
+                    v-model="comunaOrigen"
+                    required
+                    :rules="[v => !!v || '']"
+                  ></v-autocomplete>
+                </v-col>
+                <v-col cols="12" lg="5" class="mx-3">
+                  <!-- <v-text-field
 					filled
 					outlined
 					dense
@@ -171,20 +171,20 @@
 					required
 				  ></v-text-field> -->
 
-				  <v-autocomplete
-					light
-					filled
-					outlined
-					dense
-					:items="listaComuna"
-					item-text="nombre"
-					item-value="nombre"
-					label="COMUNA RESIDENCIA DESTINO"
-					v-model="comunaDestino"
-					required
-					:rules="[v => !!v || '']"
-				  ></v-autocomplete>
-				</v-col>
+                  <v-autocomplete
+                    light
+                    filled
+                    outlined
+                    dense
+                    :items="listaComuna"
+                    item-text="nombre"
+                    item-value="nombre"
+                    label="COMUNA RESIDENCIA DESTINO"
+                    v-model="comunaDestino"
+                    required
+                    :rules="[v => !!v || '']"
+                  ></v-autocomplete>
+                </v-col>
                 <v-col cols="12" lg="11" class="ml-3 pr-12">
                   <v-textarea
                     v-model="description"
@@ -227,11 +227,11 @@
 </template>
 
 <style lang="scss" scoped>
-.resp{
+.resp {
   padding: 12px 150px;
 }
-@media (max-width: 790px){
-  .resp{
+@media (max-width: 790px) {
+  .resp {
     padding: 10px !important;
   }
 }
@@ -259,23 +259,14 @@ export default {
       cantidadPasajeros: 0,
       comunaOrigen: '',
       comunaDestino: '',
-      emailRules: [
-        v => !!v || 'E-mail es requerido',
-        validations.emailValidation
-      ],
+      emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
       rutRules: [v => !!v || 'Rut es requerido', validations.rutValidation],
-      otherRules: [
-        v => !!v || 'Este campo es requerido',
-        validations.otherDocValidation
-      ],
-      phoneRules: [
-        v => !!v || 'Este campo es requerido',
-        validations.numberValidation
-      ],
+      otherRules: [v => !!v || 'Este campo es requerido', validations.otherDocValidation],
+      phoneRules: [v => !!v || 'Este campo es requerido', validations.numberValidation],
       numberRules: [
         v => !!v || 'Este campo es requerido',
-        v => ( v && v >= 0 ) || 'El valor debe ser mayor que 0',
-        v => ( v && v <= 5000 ) || 'El valor debe ser menor que 5000',
+        v => (v && v >= 0) || 'El valor debe ser mayor que 0',
+        v => (v && v <= 5000) || 'El valor debe ser menor que 5000',
         validations.numericValidation
       ],
       generalRules: [v => !!v || 'Este campo es requerido'],
@@ -372,14 +363,14 @@ export default {
       this.doc_type = 'RUT'
       this.rut = ''
       this.email = ''
-      this.description = '',
-      this.cantidadPasajeros = 0,
-      this.comunaOrigen = '',
-      this.comunaDestino = ''
+      ;(this.description = ''),
+        (this.cantidadPasajeros = 0),
+        (this.comunaOrigen = ''),
+        (this.comunaDestino = '')
     },
     reset() {
       this.$refs.form.reset()
-    },
+    }
   }
 }
 </script>

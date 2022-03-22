@@ -168,7 +168,7 @@
             class="xim-btn-principal"
           >
             <v-expansion-panel-header class="xim-expansion">
-              <v-row >
+              <v-row>
                 <v-col cols="12">
                   <v-row class="xim-raro">
                     <v-col cols="12" v-if="!hasVuelta">
@@ -210,15 +210,14 @@
                           />
                         </v-col>
                         <v-col cols="5">
-                          <v-icon
-                            class="xim-bus-i"
-                            color="orange"
-                          >
+                          <v-icon class="xim-bus-i" color="orange">
                             mdi-bus-side
                           </v-icon>
                         </v-col>
                         <v-col cols="5">
-                          <small class="xim-horario">{{hoursDifference(service)}}</small>
+                          <small class="xim-horario">{{
+                            hoursDifference(service)
+                          }}</small>
                         </v-col>
                       </v-row>
                     </v-col>

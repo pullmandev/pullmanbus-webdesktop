@@ -1,30 +1,40 @@
 <template>
-<div style="position: relative;">
-  <Carousel />
-  <v-container fluid class="search_container xim-movil-position">
-    <div class="searchcontent" :style="{ marginTop: breakPoint.margin }" />
-    <v-card style="background: transparent;" class="rounded-search-box card-frame-recorrido">
-      <iframe id="recorrido-widget" frameborder="0" 
-      src="https://viaje.pullmanbus.cl/es/widgets/search_white_label/pullman-bus?utm_campaign=whitelabel&amp;bgcolor=FF000000&amp;hide_headlines=true" 
-      width="100%" height="400" scrolling="no"></iframe>
-      <script src="https://white-label-scripts.s3.sa-east-1.amazonaws.com/pullmanbus.js" type="application/javascript"></script>
-
-    </v-card>
-  </v-container>
-</div>
+  <div style="position: relative;">
+    <Carousel />
+    <v-container fluid class="search_container xim-movil-position">
+      <div class="searchcontent" :style="{ marginTop: breakPoint.margin }" />
+      <v-card
+        style="background: transparent;"
+        class="rounded-search-box card-frame-recorrido"
+      >
+        <iframe
+          id="recorrido-widget"
+          frameborder="0"
+          src="https://viaje.pullmanbus.cl/es/widgets/search_white_label/pullman-bus?utm_campaign=whitelabel&amp;bgcolor=FF000000&amp;hide_headlines=true"
+          width="100%"
+          height="400"
+          scrolling="no"
+        ></iframe>
+        <script
+          src="https://white-label-scripts.s3.sa-east-1.amazonaws.com/pullmanbus.js"
+          type="application/javascript"
+        ></script>
+      </v-card>
+    </v-container>
+  </div>
 </template>
 <script>
 import Carousel from '@/components/Carousel'
 
-export default ({
-   components: {
-    Carousel,
-   },
-    data: () => ({
+export default {
+  components: {
+    Carousel
+  },
+  data: () => ({
     windowSize: { x: window.innerWidth, y: window.innerHeight }
   }),
-   computed: {
-      breakPoint() {
+  computed: {
+    breakPoint() {
       switch (this.$vuetify.breakpoint.name) {
         case 'sm':
         case 'xs':
@@ -39,24 +49,24 @@ export default ({
           }
       }
     }
-   },
+  },
   methods: {
     onResize() {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     }
   }
-})
+}
 </script>
 <style lang="scss">
 @import '@/sass/colors.scss';
-.card-frame-recorrido{
-  box-shadow:none !important;
+.card-frame-recorrido {
+  box-shadow: none !important;
 }
 .margin-search {
   margin-top: 50vh;
 }
-#frameRecorrido{
-  padding-top:10px;
+#frameRecorrido {
+  padding-top: 10px;
   height: 320px;
 }
 @media (max-width: 960px) {
@@ -72,25 +82,25 @@ export default ({
   }
 }
 
-@media (max-width: 960px){
-  .searcherheader{
+@media (max-width: 960px) {
+  .searcherheader {
     flex-direction: column;
   }
-  .searchcontent{
+  .searchcontent {
     margin-top: auto !important;
   }
-  .py-0{
+  .py-0 {
     max-width: 100% !important;
   }
-  .blue_dark--text{
+  .blue_dark--text {
     text-align: center;
   }
-  .petshcontainer{
+  .petshcontainer {
     display: flex;
     flex-direction: column !important;
     align-items: center;
   }
-  .petshcontent{
+  .petshcontent {
     text-align: center;
   }
 }
@@ -125,8 +135,8 @@ div.card.search_card {
   }
 }
 
-@media (max-width: 960px){
-  .search_container{
+@media (max-width: 960px) {
+  .search_container {
     position: inherit;
   }
   .xim-movil-position {
@@ -148,9 +158,9 @@ div.card.search_card {
   .xim-movil-position {
     margin: 0% 0 0 0;
   }
-  #frameRecorrido{
-  padding-top:10px;
-  height: 400px;
-}
+  #frameRecorrido {
+    padding-top: 10px;
+    height: 400px;
+  }
 }
 </style>

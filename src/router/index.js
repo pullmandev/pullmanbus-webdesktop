@@ -360,7 +360,7 @@ Vue.use(VueAnalytics, {
   id: 'G-1YHQCCNF5D',
   router,
   autoTracking: {
-    pageviewTemplate (route) {
+    pageviewTemplate(route) {
       return {
         page: route.path,
         title: route.path,

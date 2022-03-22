@@ -42,7 +42,7 @@ export default [
     icon: 'icono_contacto.png',
     route: 'contact',
     type2: true
-  },
+  }
   // {
   //   title: 'Solicitud cta. cte',
   //   icon: 'icono_agencias.svg',
@@ -53,11 +53,11 @@ export default [
   //   icon: 'icono_agencias.svg',
   //   route: 'Convenios'
   // },
-//{
-//  title: 'Preguntas frecuentes',
-//  icon: 'icono_agencias.svg',
-//  route: 'FAQs'
-//},
+  //{
+  //  title: 'Preguntas frecuentes',
+  //  icon: 'icono_agencias.svg',
+  //  route: 'FAQs'
+  //},
   // {
   //   title: 'Datos Pasajero',
   //   icon: 'icono_agencias.svg',

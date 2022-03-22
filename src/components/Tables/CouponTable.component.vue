@@ -11,7 +11,6 @@
     :loading="loading"
     :loading-text="$t('Loading... Please wait')"
   >
-
     <template slot="item" slot-scope="props">
       <tr>
         <td class="text-center">{{ props.item.boleto }}</td>
@@ -40,7 +39,6 @@
         </td>
       </tr>
     </template>
-
   </v-data-table>
 </template>
 

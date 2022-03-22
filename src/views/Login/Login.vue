@@ -83,80 +83,80 @@
     <v-container class="pt-0 xim-movile">
       <v-form v-model="validForm" class="xim-mlr">
         <div class="xim-container">
-        <v-row>
-          <v-col cols="12" class="text-center">
-            <h1 class="blue_dark--text headline">{{ $t('enter_account') }}</h1>
-          </v-col>
-          <v-col cols="12" class="text-center">
-            <p>{{ $t('login_text.description') }}</p>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="email"
-              :label="$t('email')"
-              outline-1
-              color="blue"
-              :rules="emailRules"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="password"
-              :label="$t('password')"
-              :append-icon="see ? 'visibility' : 'visibility_off'"
-              @click:append="see = !see"
-              :type="see ? 'password' : 'text'"
-              outline-1
-              color="blue"
-              :rules="passwordRules"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="8" offset="2" class="pt-3">
-            <v-btn
-              small
-              :disabled="!validForm || loading"
-              block
-              class="white--text xim-search-font rounded-search"
-              color="blue_dark"
-              @click="login"
-            >
-              <template v-if="loading">
-                <v-progress-circular
-                  indeterminate
-                  color="blue_dark"
-                ></v-progress-circular>
-              </template>
-              <template v-else>
-                <span>{{ $t('login') }}</span>
-              </template>
-            </v-btn>
-          </v-col>
-          <v-col cols="12" class="text-center pb-2">
-            <a
-              @click="
-                $store.dispatch('SET_SESSION_DIALOG', {
-                  type: 'dialogType',
-                  dialogType: 'sendPassword'
-                })
-              "
-            >
-              <small class="small-text">{{ $t('forgot') }}</small>
-            </a>
-          </v-col>
-          <v-col cols="12" class="text-center">
-            <a
-              text
-              @click="
-                $store.dispatch('SET_SESSION_DIALOG', {
-                  type: 'dialogType',
-                  dialogType: 'signup'
-                })
-              "
-            >
-              <small class="small-text">{{ $t('register_here') }}</small>
-            </a>
-          </v-col>
-        </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center">
+              <h1 class="blue_dark--text headline">{{ $t('enter_account') }}</h1>
+            </v-col>
+            <v-col cols="12" class="text-center">
+              <p>{{ $t('login_text.description') }}</p>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="email"
+                :label="$t('email')"
+                outline-1
+                color="blue"
+                :rules="emailRules"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12">
+              <v-text-field
+                v-model="password"
+                :label="$t('password')"
+                :append-icon="see ? 'visibility' : 'visibility_off'"
+                @click:append="see = !see"
+                :type="see ? 'password' : 'text'"
+                outline-1
+                color="blue"
+                :rules="passwordRules"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="8" offset="2" class="pt-3">
+              <v-btn
+                small
+                :disabled="!validForm || loading"
+                block
+                class="white--text xim-search-font rounded-search"
+                color="blue_dark"
+                @click="login"
+              >
+                <template v-if="loading">
+                  <v-progress-circular
+                    indeterminate
+                    color="blue_dark"
+                  ></v-progress-circular>
+                </template>
+                <template v-else>
+                  <span>{{ $t('login') }}</span>
+                </template>
+              </v-btn>
+            </v-col>
+            <v-col cols="12" class="text-center pb-2">
+              <a
+                @click="
+                  $store.dispatch('SET_SESSION_DIALOG', {
+                    type: 'dialogType',
+                    dialogType: 'sendPassword'
+                  })
+                "
+              >
+                <small class="small-text">{{ $t('forgot') }}</small>
+              </a>
+            </v-col>
+            <v-col cols="12" class="text-center">
+              <a
+                text
+                @click="
+                  $store.dispatch('SET_SESSION_DIALOG', {
+                    type: 'dialogType',
+                    dialogType: 'signup'
+                  })
+                "
+              >
+                <small class="small-text">{{ $t('register_here') }}</small>
+              </a>
+            </v-col>
+          </v-row>
         </div>
       </v-form>
     </v-container>
