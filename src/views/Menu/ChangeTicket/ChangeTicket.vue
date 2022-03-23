@@ -541,7 +541,8 @@ export default {
         this.loading = true
         this.code = this.code.toUpperCase()
         const response = await API.validateTicket({
-          boleto: this.code
+          boleto: this.code,
+          idSistema: process.env.ID_SISTEMA,
         })
         //console.log('Apto?', response.data)
         //console.log(response.data);
