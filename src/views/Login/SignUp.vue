@@ -164,6 +164,7 @@
               outline-1
               :color="blue"
               required
+              :rules="generalRules"
               :append-icon="nationality === '' || nationality == null ? '$dropdown' : ''"
               :items="cities"
               item-text="descripcion"
@@ -211,7 +212,7 @@
               :label="$t('password')"
               outline-1
               color="blue"
-              :rules="generalRules"
+              :rules="passwordRules"
               required
             ></v-text-field>
           </v-col>
@@ -383,6 +384,7 @@
               outline-1
               :color="blue"
               required
+              :rules="generalRules"
               :append-icon="nationality === '' || nationality == null ? '$dropdown' : ''"
               :items="cities"
               item-text="descripcion"
@@ -423,7 +425,7 @@
               :label="$t('password')"
               outline-1
               color="blue"
-              :rules="generalRules"
+              :rules="passwordRules"
               required
             ></v-text-field>
           </v-col>
@@ -510,6 +512,7 @@ export default {
       confirmpasswordError: false,
       cities: [],
       phone: '',
+      passwordRules: [v => !!v || 'Contraseña es requerida', validations.passwordValidation]
     }
   },
   computed: {

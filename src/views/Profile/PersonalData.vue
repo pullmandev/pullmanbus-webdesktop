@@ -96,11 +96,11 @@
                   filled
                   outlined
                   dense
-                  v-model="rut"
-                  :label="'Nº ' + $t('document')"
+                  v-model="telefono"
+                  :label="$t('phone')"
                   outline-1
                   color="primary"
-                  :rules="rutRules"
+                  :rules="generalRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" lg="5" class="ml-3 mr-3">
@@ -186,7 +186,7 @@ export default {
       password: '',
       confirmpassword: '',
       movil: '',
-      rut: '',
+      telefono: '',
       terms: '',
       info: '',
       emailRules: [v => !!v || 'E-mail es requerido', validations.emailValidation],
@@ -238,7 +238,8 @@ export default {
           nombre: this.name,
           apellidoPaterno: this.f_lastname,
           fechaNacimiento: moment(this.date).format('YYYY-MM-DD') + 'T00:00:00.000+0000',
-          genero: this.gender
+          genero: this.gender,
+          telefono: this.telefono
         }
         //console.log(params)
         const response = await API.updateUser(params)
@@ -273,7 +274,7 @@ export default {
       this.f_lastname = usuario.apellidoPaterno
       this.email = usuario.email
       this.confirmemail = usuario.email
-      this.rut = usuario.rut
+      this.telefono = usuario.telefono
       this.gender = usuario.gender
     },
     enableDate() {
