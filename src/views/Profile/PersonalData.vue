@@ -205,6 +205,7 @@ export default {
   mounted() {
     this.enableDate()
     this.clear()
+    console.log(this.userData)
   },
   computed: {
     ...mapGetters({

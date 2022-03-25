@@ -89,16 +89,16 @@
               </span>
               <span class="d-block mt-5 text-center px-6">
                 <a
-                  href="https://www.facebook.com/Pullman.cl"
-                  target="_blank"
-                  style="text-decoration: none"
-                  ><v-icon size="40" dark>mdi-facebook</v-icon></a
-                >
-                <a
-                  href="https://www.instagram.com/pullman.cl/"
+                  href="https://www.instagram.com/pullmanbus/"
                   target="_blank"
                   style="text-decoration: none"
                   ><v-icon size="40" dark>mdi-instagram</v-icon></a
+                >
+                <a
+                  href="https://www.linkedin.com/company/pullman-bus/?viewAsMember=true"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-linkedin</v-icon></a
                 >
               </span>
             </v-col>
