@@ -26,7 +26,7 @@ module.exports = {
   devServer: {
     proxy: {
       '^/integrador-web': {
-        target: 'http://127.0.0.1:8080',
+        target: 'https://staging.pullman.cl',
         ws: true,
         changeOrigin: true
       },
@@ -36,7 +36,7 @@ module.exports = {
         changeOrigin: true
       },
       '^/srv-privado-web': {
-        target: 'http://128.1.0.137:8080',
+        target: 'https://staging.pullman.cl',
         ws: true,
         changeOrigin: true
       }

@@ -489,5 +489,6 @@ export default {
   club_login_text: {
     description: '¡Hola! Ingresa tu RUT para continuar'
   },
-  club_btn: 'Ingresar'
+  club_btn: 'Ingresar',
+  transactionDetail: 'Detalle de transacción'
 }
