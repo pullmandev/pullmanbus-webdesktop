@@ -4,16 +4,16 @@
       <div class="xim-searchcontent"></div>
       <v-form>
         <v-row>
-          <v-col cols="12" sm="12" md="6" lg="6" class="pt-0">
+          <v-col cols="12" sm="12" md="6" lg="12" class="pt-0">
             <div class="xbtn xclub" @click="validateUserLogin">
               <h4 class="xim-titulo-boton">Club Beneficio</h4>
             </div>
           </v-col>
-          <v-col cols="12" sm="12" md="6" lg="6" class="pt-0">
+          <!--v-col cols="12" sm="12" md="6" lg="6" class="pt-0" >
             <div class="xbtn xgen" @click="openFormGeneral">
-              <h4 class="xim-titulo-boton">Público General</h4>
+              <h4 class="xim-titulo-boton">Público General</h4>               
             </div>
-          </v-col>
+          </v-col-->
         </v-row>
       </v-form>
     </v-container>
@@ -34,26 +34,32 @@ export default {
     fromCity: null,
     toCity: null,
     windowSize: { x: window.innerWidth, y: window.innerHeight },
-    generalRules: [v => !!v || 'Este campo es requerido'],
+    generalRules: [(v) => !!v || 'Este campo es requerido'],
     cuponList: [],
     sheet: false,
     show: false,
     page: 1,
     forLS: JSON.parse(localStorage.getItem('vuex')),
-    loginDialog: false
+    loginDialog: false,
   }),
   computed: {
     ...mapGetters({})
+  },  
+  mounted(){
+    this.validateUserLogin()
   },
   methods: {
     openDialog,
-    validateUserLogin() {
-      this.forLS = JSON.parse(localStorage.getItem('vuex'))
-      if (this.forLS.userData.active === false) {
-        openDialog('loginClubBeneficios')
-      } else {
-        this.$router.push({ path: `/couponServices/` })
+    async validateUserLogin() {
+      this.forLS = JSON.parse(localStorage.getItem('vuex'));
+      openDialog('loginClubBeneficios') 
+      /*
+      if(this.forLS.userData.active === false){
+        openDialog('loginClubBeneficios') 
+      }else{
+         this.$router.push({ path: `/couponServices/` })
       }
+      */
     },
     openFormGeneral() {
       this.$router.push({ path: `formPublic` })
@@ -61,6 +67,7 @@ export default {
   }
 }
 </script>
+
 
 <style>
 #tblCupon {
@@ -85,4 +92,5 @@ export default {
 input {
   text-transform: uppercase;
 }
+
 </style>

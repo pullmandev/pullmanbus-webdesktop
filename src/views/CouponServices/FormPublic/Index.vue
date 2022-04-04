@@ -1,9 +1,9 @@
 <template>
   <!-- <div class="CouponBackground"> -->
-  <!-- Principal View -->
-  <!-- <div style="margin-top: 52px"></div> -->
-  <FormPublic />
-  <!-- <div style="height: 150px; background: var(--var-light);"></div> -->
+    <!-- Principal View -->
+    <!-- <div style="margin-top: 52px"></div> -->
+    <FormPublic />
+    <!-- <div style="height: 150px; background: var(--var-light);"></div> -->
   <!-- </div> -->
 </template>
 <script>

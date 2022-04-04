@@ -1,8 +1,9 @@
 <template>
-  <OptionCoupon />
+    <OptionCoupon />
 </template>
 <script>
-import OptionCoupon from '@/views/CouponServices/Validate/OptionCoupon'
+
+import OptionCoupon from "@/views/CouponServices/Validate/OptionCoupon";
 
 export default {
   components: {
@@ -12,14 +13,18 @@ export default {
     return {
       windowSize: { x: window.innerWidth, y: window.innerHeight },
       automatic: true
-    }
+    };
   },
-  mounted() {},
-  beforeDestroy() {
-    window.removeEventListener('resize', this.onResize)
+  mounted () {
   },
-  methods: {}
-}
+  beforeDestroy () { 
+    window.removeEventListener('resize', this.onResize); 
+  },
+  methods: {
+  }
+};
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+
+</style>

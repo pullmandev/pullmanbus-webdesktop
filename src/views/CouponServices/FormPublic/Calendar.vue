@@ -100,10 +100,10 @@ export default {
     }
   },
   watch: {
-    menu(val) {
-      val && setTimeout(() => (this.activePicker = 'YEAR'))
-    }
-  },
+      menu (val) {
+        val && setTimeout(() => (this.activePicker = 'YEAR'))
+      },
+  },    
   mounted() {
     let i = -1
     this.allowedFromDates = [...Array(90)].map(() => {
@@ -157,7 +157,7 @@ export default {
       const limit = moment().add(45, 'days')
       return moment(date).diff(limit, 'days') < 0
     },
-    save(date) {
+    save (date) {
       this.$refs.menu.save(date)
     }
   }

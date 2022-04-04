@@ -2,10 +2,7 @@
   <div class="search-cupon custom-form bgCupon">
     <v-row v-if="cuponList.length <= 0">
       <v-col cols="12" sm="12" md="10" offset-md="1">
-        <v-card
-          color="elevation-24 rounded-search-box px-12 v-card v-sheet theme--light light"
-          class="search-card"
-        >
+        <v-card color="elevation-24 rounded-search-box px-12 v-card v-sheet theme--light light" class="search-card">
           <v-card-text>
             <p class="blue_dark--text my-5">
               {{ $t('central_coast.content') }}
@@ -21,25 +18,6 @@
             <v-container class="formcontainer">
               <v-form v-model="validForm">
                 <v-row>
-                  <v-col cols="12" class="py-0">
-                    <v-row>
-                      <v-col cols="12" md="4" >
-                        <v-text-field
-                          filled
-                          outlined
-                          dense
-                          v-model="rut"
-                          label="Rut"
-                          outline-0
-                          color="blue"
-                          :rules="rutRules"
-                          required
-                          maxLength="10"
-                          @keypress="validar($event, 'rut')"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
-                  </v-col>
                   <v-col cols="12" class="py-0">
                     <v-row>
                       <v-col cols="12" md="4" class="py-0">
@@ -109,78 +87,46 @@
       </v-col>
     </v-row>
 
-    <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0">
+    <v-col cols="12" sm="12" md="10" offset-md="1" v-if="cuponList.length > 0" >
+      
       <v-container class="cupon-list">
         <v-row no-gutters cols="12" sm="12" md="10">
           <v-col :key="cupon.idCuponera" v-for="cupon in itemsPerPage" cols="12" sm="4">
-            <v-card :loading="loading" class="mx-auto my-12" max-width="320">
+            <v-card
+              :loading="loading"
+              class="mx-auto my-12"
+              max-width="320"
+            >
               <v-container>
                 <v-row dense>
                   <v-col cols="12">
                     <v-card color="#2069E0" style="margin: 0 5px; padding: 5px">
-                      <div class="white--text xim-horizontal-card">
-                        <img
-                          src="../../../static/logos/coupon/departure_board_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        {{ cupon.origenNombre }}
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/departure_board_black_18dp.svg" width="18px" class="xim-ml-10" />
+                        {{ cupon.origenNombre}}
                       </div>
-                      <div class="white--text xim-horizontal-card">
-                        <img
-                          src="../../../static/logos/coupon/directions_bus_filled_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        {{ cupon.destinoNombre }}
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/directions_bus_filled_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                        {{ cupon.destinoNombre}}
                       </div>
-                      <div class="white--text xim-horizontal-card">
-                        <img
-                          src="../../../static/logos/coupon/badge_white_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        {{ cupon.programa }}
+                      <div class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/badge_white_18dp.svg" width="18px"  class="xim-ml-10"/>
+                        {{ cupon.programa}}
                       </div>
-                      <div
-                        v-if="cupon.clase === 'SEM'"
-                        class="white--text xim-horizontal-card"
-                      >
-                        <img
-                          src="../../../static/logos/coupon/category_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        SEMI CAMA
-                      </div>
-                      <div
-                        v-if="cupon.clase === 'EJE'"
-                        class="white--text xim-horizontal-card"
-                      >
-                        <img
-                          src="../../../static/logos/coupon/category_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        EJECUTIVO
-                      </div>
-                      <div
-                        v-if="cupon.clase === 'SAL'"
-                        class="white--text xim-horizontal-card"
-                      >
-                        <img
-                          src="../../../static/logos/coupon/category_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
-                        SALÓN CAMA
-                      </div>
-                      <div class="white--text xim-horizontal-card">
-                        <img
-                          src="../../../static/logos/coupon/timer_black_18dp.svg"
-                          width="18px"
-                          class="xim-ml-10"
-                        />
+                        <div v-if="cupon.clase === 'SEM'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          SEMI CAMA
+                        </div>
+                        <div v-if="cupon.clase === 'EJE'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          EJECUTIVO
+                        </div>
+                        <div v-if="cupon.clase === 'SAL'" class="white--text xim-horizontal-card"> 
+                        <img src="../../../static/logos/coupon/category_black_18dp.svg" width="18px"  class="xim-ml-10"/>
+                          SALÓN CAMA
+                        </div>
+                        <div class="white--text xim-horizontal-card"> 
+                         <img src="../../../static/logos/coupon/timer_black_18dp.svg" width="18px" class="xim-ml-10" />
                         {{
                           cupon.cantidadIda + ' Ida ' + cupon.cantidadVuelta + ' Vuelta'
                         }}
@@ -198,8 +144,8 @@
                 ></v-progress-linear>
               </template>
 
-              <v-divider class="mx-4"></v-divider>
-              <div>
+                 <v-divider class="mx-4"></v-divider>
+                  <div>
                 <v-card-title class="justify-center">
                   <h3 class="blue_dark--text">Valor Cuponera</h3>
                 </v-card-title>
@@ -208,7 +154,7 @@
               <v-divider class="mx-4"></v-divider>
               <div>
                 <v-card-title class="justify-center">
-                  <h2 class="blue_dark--text">{{ cupon.total | currency }}</h2>
+                  <h2 class="blue_dark--text">{{cupon.total | currency}}</h2>
                 </v-card-title>
               </div>
 
@@ -228,11 +174,7 @@
                       <v-card-actions class="justify-center">
                         <v-btn icon v-bind="attrs" v-on="on">
                           <div>
-                            <img
-                              src="../../../static/logos/coupon/search_black_24dp.svg"
-                              width="24px"
-                              position="center center"
-                            />
+                            <img src="../../../static/logos/coupon/search_black_24dp.svg" width="24px"  position="center center" />
                           </div>
                         </v-btn>
                       </v-card-actions>
@@ -254,75 +196,50 @@
                             <v-col cols="12">
                               <v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/mode_of_travel_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/mode_of_travel_black_24dp.svg" class="xim-icon-pos" />
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Origen - Destino</h3>
                                 </v-col>
                                 <v-col cols="7" sm="7" class="text-left">
-                                  <span class="xim-strong blue_dark--text">{{
-                                    cupon.origenNombre + ' - ' + cupon.destinoNombre
-                                  }}</span>
+                                  <span class="xim-strong blue_dark--text">{{ cupon.origenNombre +' - '+ cupon.destinoNombre}}</span>
                                 </v-col>
                               </v-row>
                               <v-divider class="mx-4"></v-divider>
                               <v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/category_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/category_black_24dp.svg" class="xim-icon-pos"/>
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Tipo de bus</h3>
                                 </v-col>
                                 <v-col cols="7" sm="7" class="text-left">
-                                  <span
-                                    class="xim-strong blue_dark--text"
-                                    v-if="cupon.clase === 'SEM'"
-                                  >
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'SEM'">
                                     SEMI CAMA
                                   </span>
-                                  <span
-                                    class="xim-strong blue_dark--text"
-                                    v-if="cupon.clase === 'EJE'"
-                                  >
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'EJE'">
                                     EJECUTIVO
                                   </span>
-                                  <span
-                                    class="xim-strong blue_dark--text"
-                                    v-if="cupon.clase === 'SAL'"
-                                  >
+                                  <span class="xim-strong blue_dark--text" v-if="cupon.clase === 'SAL'">
                                     SALÓN CAMA
-                                  </span>
+                                  </span> 
                                 </v-col>
                               </v-row>
                               <v-divider class="mx-4"></v-divider>
+                                <v-row>
+                                  <v-col cols="1" sm="1">
+                                    <img src="../../../static/logos/coupon/fact_check_black_24dp.svg" class="xim-icon-pos"/>
+                                  </v-col>
+                                  <v-col cols="4" sm="4" class="text-left">
+                                    <h3 class="xim-h3 blue_dark--text">Programa</h3>
+                                  </v-col>
+                                  <v-col cols="7" sm="7" class="text-left">
+                                    <span class="xim-strong blue_dark--text">{{ cupon.programa }}</span>
+                                  </v-col>
+                                </v-row>
                               <v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/fact_check_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
-                                </v-col>
-                                <v-col cols="4" sm="4" class="text-left">
-                                  <h3 class="xim-h3 blue_dark--text">Programa</h3>
-                                </v-col>
-                                <v-col cols="7" sm="7" class="text-left">
-                                  <span class="xim-strong blue_dark--text">{{
-                                    cupon.programa
-                                  }}</span>
-                                </v-col>
-                              </v-row>
-                              <v-row>
-                                <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/attach_money_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/attach_money_black_24dp.svg" class="xim-icon-pos"/>
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Valor</h3>
@@ -336,31 +253,21 @@
                               <v-divider class="mx-4"></v-divider>
                               <v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/confirmation_number_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/confirmation_number_black_24dp.svg" class="xim-icon-pos" />
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Boletos</h3>
                                 </v-col>
                                 <v-col cols="7" sm="7" class="text-left">
                                   <span class="xim-strong blue_dark--text">
-                                    {{
-                                      cupon.cantidadIda +
-                                        ' Boletos Ida - Boletos Vuelta ' +
-                                        cupon.cantidadVuelta
-                                    }}
+                                    {{ cupon.cantidadIda+' Boletos Ida - Boletos Vuelta '+cupon.cantidadVuelta }}
                                   </span>
                                 </v-col>
                               </v-row>
                               <v-divider class="mx-4"></v-divider>
-                              <v-row>
+                              <!--v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/event_busy_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/event_busy_black_24dp.svg" class="xim-icon-pos" />
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Expiración</h3>
@@ -370,32 +277,21 @@
                                     {{ cupon.fechaDesde + ' / ' + cupon.fechaHasta }}
                                   </span>
                                 </v-col>
-                              </v-row>
+                              </v-row-->
                               <v-divider class="mx-4"></v-divider>
                               <v-row>
                                 <v-col cols="1" sm="1">
-                                  <img
-                                    src="../../../static/logos/coupon/fact_check_black_24dp.svg"
-                                    class="xim-icon-pos"
-                                  />
+                                  <img src="../../../static/logos/coupon/fact_check_black_24dp.svg" class="xim-icon-pos" />
                                 </v-col>
                                 <v-col cols="4" sm="4" class="text-left">
                                   <h3 class="xim-h3 blue_dark--text">Reglas</h3>
                                 </v-col>
                                 <v-col cols="7" sm="7">
                                   <span class="xim-strong blue_dark--text">
-                                    <span
-                                      >* Los boletos son en blanco o por confirmar.</span
-                                    ><br />
-                                    <span>* No se pueden hacer re-ventas.</span><br />
-                                    <span
-                                      >* Las cuponeras son nominativas(al nombre del
-                                      comprador).</span
-                                    ><br />
-                                    <span
-                                      >* No se pueden confirmar boletos si coinciden con
-                                      la hora de otro viaje confirmado.</span
-                                    ><br />
+                                    <span>* Los boletos son en blanco o por confirmar.</span><br/>
+                                    <span>* No se pueden hacer re-ventas.</span><br/>
+                                    <span>* Las cuponeras son nominativas(al nombre del comprador).</span><br/>
+                                    <span>* No se pueden confirmar boletos si coinciden con la hora de otro viaje confirmado.</span><br/>
                                   </span>
                                 </v-col>
                               </v-row>
@@ -405,6 +301,7 @@
                       </v-card>
                       <v-card-actions>
                         <v-spacer></v-spacer>
+                        
                       </v-card-actions>
                     </v-card>
                   </v-dialog>
@@ -426,6 +323,10 @@
   </div>
 </template>
 
+
+
+
+
 <script>
 // Base components
 import CitiesFromList from '@/views/CouponServices/CitiesFrom'
@@ -433,11 +334,12 @@ import CitiesToList from '@/views/CouponServices/CitiesTo'
 
 import API from '@/services/api/coupon'
 
+
 export default {
   props: ['type'],
   components: {
     CitiesFromList,
-    CitiesToList
+    CitiesToList,
   },
   data: () => ({
     loading: false,
@@ -445,13 +347,12 @@ export default {
     fromCity: null,
     toCity: null,
     windowSize: { x: window.innerWidth, y: window.innerHeight },
-    generalRules: [v => !!v || 'Este campo es requerido'],
+    generalRules: [(v) => !!v || 'Este campo es requerido'],
     cuponList: [],
     sheet: false,
     show: false,
     page: 1,
-    rut:null,
-    forLS: JSON.parse(localStorage.getItem('vuex'))
+    forLS:JSON.parse(localStorage.getItem("vuex"))
   }),
   computed: {
     paginationLength() {
@@ -472,9 +373,13 @@ export default {
         page = []
       }
       return pages[this.page - 1]
-    }
+    },
   },
   mounted() {
+    console.log(this.$store.state.userClubBeneficios.valido)
+    if(!this.$store.state.userClubBeneficios.valido){      
+      this.$router.push({ path: `optionCoupon/` })
+    }
     this.$store.dispatch('LOAD_CUPONERA_LIST', {})
   },
   watch: {
@@ -485,10 +390,10 @@ export default {
       } else {
         let searchingCity = value.codigo
         this.$store.dispatch('LOAD_CUPONERA_TO_LIST', {
-          searchingCity
+          searchingCity,
         })
       }
-    }
+    },
   },
   methods: {
     onResize() {
@@ -506,7 +411,7 @@ export default {
         this.$notify({
           group: 'error',
           title: this.$t('select_origin'),
-          type: 'error'
+          type: 'error',
         })
         return
       }
@@ -514,7 +419,7 @@ export default {
         this.$notify({
           group: 'error',
           title: this.$t('select_destination'),
-          type: 'error'
+          type: 'error',
         })
         return
       }
@@ -522,35 +427,31 @@ export default {
       this.$notify({
         group: 'load',
         title: 'Buscando Cuponeras',
-        type: 'info'
+        type: 'info',
       })
       let cupon = {
-        idSistema: process.env.ID_SISTEMA,
+        idSistema: 7,
         origen: this.fromCity.codigo,
         destino: this.toCity.codigo,
-        programa:this.rut,
-        //programa:
-        //  this.$store.state.userClubBeneficios.programa 
-        //    ? this.$store.state.userClubBeneficios.programa
-        //    : 'PREMIUM'
+        programa : this.$store.state.userClubBeneficios.programa != undefined ? this.$store.state.userClubBeneficios.programa : 'PZG'
       }
       console.log(cupon)
 
       API.getListCoupon(cupon)
-        .then(response => {
+        .then((response) => {
           if (response.data.length > 0) {
-            response.data.forEach(item => {
+            response.data.forEach((item) => {
               this.cuponList.push(item)
             })
           } else {
             this.$notify({
               group: 'error',
               title: 'No existen cuponeras disponibles para este tramo',
-              type: 'error'
+              type: 'error',
             })
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(err)
         })
         .finally(() => {
@@ -558,14 +459,15 @@ export default {
         })
     },
     buyCoupon(cupon) {
+      window.scroll(0, 0)
       this.$store.dispatch('SET_COUPON_BUY', {
-        cupon
+        cupon,
       })
       this.$router.push({ path: `couponDetail/` })
     },
-    validateMethod() {
+     validateMethod() {
       this.validateSearch()
-      /*       if(this.forLS.userData.active === false && this.forLS.userCoupon.active === false){
+/*       if(this.forLS.userData.active === false && this.forLS.userCoupon.active === false){
           this.$router.push({ path: `optionCoupon/` })
       }else{
         this.validateSearch()
@@ -577,7 +479,7 @@ export default {
 
 <style lang="scss">
 $padding: 100px;
-.xim-icon-pos {
+.xim-icon-pos { 
   margin: 0 0 0 50px;
 }
 .search-cupon {
@@ -586,7 +488,7 @@ $padding: 100px;
     padding-bottom: $padding;
     min-height: 100vh;
   }
-
+ 
   #tblCupon {
     width: 100%;
   }
@@ -597,29 +499,29 @@ $padding: 100px;
 .formcontainer {
   padding: 12px 0;
 }
-.xim-alc {
+.xim-alc { 
   padding: 0 5%;
 }
 .xim-ml-10 {
   padding: 0 3px 2px 0;
 }
-.xim-horizontal-card {
+.xim-horizontal-card { 
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
   margin: 0 0 0 5px;
 }
-.xim-strong {
+.xim-strong { 
   font-weight: 900;
   width: 100%;
   margin: 0 20px 0 0;
   text-align: right;
 }
-.xim-h3 {
+.xim-h3 { 
   width: 100%;
 }
-.xim-al-h {
+.xim-al-h { 
   display: flex;
   margin: 0;
   align-items: center;
@@ -632,18 +534,19 @@ $padding: 100px;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
+
 }
-.cupon-list {
+.cupon-list{
   padding-top: 200px;
 }
 @media (max-width: 960px) {
-  .cupon-list {
+  .cupon-list{
     padding-top: 10px;
   }
   .formcontainer {
     padding: 0;
   }
-  .xim-alc {
+  .xim-alc { 
     padding: 0 25%;
   }
 }
@@ -651,10 +554,10 @@ $padding: 100px;
   .formcontainer {
     padding: 0;
   }
-  .xim-alc {
+  .xim-alc { 
     padding: 0 25%;
   }
-  .xim-ico {
+  .xim-ico { 
     display: none;
   }
 }
