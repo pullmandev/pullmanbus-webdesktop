@@ -430,7 +430,7 @@ export default {
         type: 'info',
       })
       let cupon = {
-        idSistema: 7,
+        idSistema: process.env.ID_SISTEMA,
         origen: this.fromCity.codigo,
         destino: this.toCity.codigo,
         programa : this.$store.state.userClubBeneficios.programa != undefined ? this.$store.state.userClubBeneficios.programa : 'PZG'
