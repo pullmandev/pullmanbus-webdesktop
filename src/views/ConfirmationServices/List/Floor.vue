@@ -538,7 +538,8 @@ export default {
           piso: seat.piso + 1,
           email: ticket.email,
           idIntegrador: ticket.idIntegrador,
-          codigoReserva: seat.codigoReserva
+          codigoReserva: seat.codigoReserva,
+          rut: ticket.rut
         }
         const response = await APIConfirmation.confirmTicket(params)
         const { resultado } = response.data

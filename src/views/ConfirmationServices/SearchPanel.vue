@@ -280,8 +280,9 @@ export default {
   methods: {
     search() {
       let ticket = this.boletoConfirmacion
-      ticket.ciudadOrigen = this.fromCity.codigo
-      ticket.ciudadDestino = this.toCity.codigo
+      ticket.ciudadOrigen = this.fromCity.ciudad
+      ticket.ciudadDestino = this.toCity.ciudad
+      console.log(ticket)
       this.$store.dispatch('SET_SEARCHING_CONFIRMATION', {
         ticket,
         type: 'ticket'
@@ -302,7 +303,7 @@ export default {
         title: 'Validando boleto',
         type: 'info'
       })
-      API.validateTicket({ boleto: this.ticket })
+      API.validateTicket({ boleto: this.ticket, idSistema : process.env.ID_SISTEMA })
         .then(response => {
           const data = response.data
           //console.log('ticket', data)
@@ -324,7 +325,8 @@ export default {
             'empresa',
             'idIntegrador',
             'pideOrigenDestino',
-            'claseFiltro'
+            'claseFiltro',
+            'rut'
           ])
           ticket.confirmation = false
           ticket.email = this.email.toUpperCase()
@@ -345,6 +347,7 @@ export default {
             })
           } else {
             this.boletoConfirmacion = ticket
+            console.log(this.boletoConfirmacion)
             let searchingCity = {
               origen: ticket.idOrigen,
               destino: ticket.idDestino,
