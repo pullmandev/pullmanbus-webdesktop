@@ -111,7 +111,8 @@ export default {
                 apellidoPaterno: data.apellidoPaterno,
                 apellidoMaterno: data.apellidoMaterno,
                 mailVenta: data.mailVenta,
-                valido: data.valido
+                valido: data.valido,
+                rut : data.rut
               }
             })
             this.$store.dispatch('SET_SESSION_DIALOG', {
