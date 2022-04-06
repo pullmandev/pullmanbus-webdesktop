@@ -114,7 +114,8 @@ const store = new Vuex.Store({
       apellidoPaterno: '',
       apellidoMaterno: '',
       mailVenta: '',
-      valido: false
+      valido: false,
+      rut : ''
     },
     userData: {
       cambiaClave: false,
