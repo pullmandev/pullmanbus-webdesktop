@@ -237,8 +237,8 @@
                   <v-container>
                     <div class="justifyText">
                       <p class="title text-center my-4"><b>Términos y condiciones</b></p>
-                      <div contenteditable="true" v-html="condiciones"></div>
-                      <!--{{ cupon.condiciones }}-->
+                      <div contenteditable="false" v-html="condiciones"></div>
+                        <!--{{ cupon.condiciones }}-->
                     </div>
                   </v-container>
                 </v-card-text>
