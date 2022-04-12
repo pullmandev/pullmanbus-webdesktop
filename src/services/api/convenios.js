@@ -16,7 +16,7 @@ export default {
   getValidateConvenio(param) {
     return axios.post(validar, param)
   },
-  getDetalleConvenioAtributo(convenio) {
-    return axios.post(detalleConvenioAtributo, { convenio: convenio })
+  getDetalleConvenioAtributo(convenio){
+    return axios.post(detalleConvenioAtributo, {"convenio":convenio})
   }
 }

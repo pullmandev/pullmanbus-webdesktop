@@ -42,6 +42,11 @@ export default [
     icon: 'icono_contacto.png',
     route: 'contact',
     type2: true
+  },
+  {
+    title: 'Devolución',
+    icon: 'icono_agencias.svg',
+    route: 'cancelRecorrido'
   }
   // {
   //   title: 'Solicitud cta. cte',
@@ -53,11 +58,11 @@ export default [
   //   icon: 'icono_agencias.svg',
   //   route: 'Convenios'
   // },
-  //{
-  //  title: 'Preguntas frecuentes',
-  //  icon: 'icono_agencias.svg',
-  //  route: 'FAQs'
-  //},
+//{
+//  title: 'Preguntas frecuentes',
+//  icon: 'icono_agencias.svg',
+//  route: 'FAQs'
+//},
   // {
   //   title: 'Datos Pasajero',
   //   icon: 'icono_agencias.svg',

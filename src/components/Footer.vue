@@ -18,7 +18,7 @@
                     width="20px"
                   />
                 </div>
-                <span id="infopullman" class="body-2">Contacto@pullmanbus.cl</span>
+                <span id="infopullman" class="body-2">clientes@pullmanbus.cl</span>
               </div>
             </v-col>
             <v-col cols="12">

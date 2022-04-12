@@ -21,10 +21,7 @@ async function deleteSeat(index, confirmation) {
   const params = confirmation
     ? store.getters.confirmationSeats[index]
     : store.getters.seats[index]
-  console.log(params)
   const requestParams = createRequestParams(params)
-  console.log(requestParams)
-
   await API.freeSeat(requestParams)
   const param = confirmation ? 'DELETE_CONFIRMATION_SEAT' : 'DELETE_SEAT'
   store.dispatch(param, { seat: index })

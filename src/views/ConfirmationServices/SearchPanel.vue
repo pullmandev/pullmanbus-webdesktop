@@ -271,7 +271,6 @@ export default {
         idIntegrador: this.boletoConfirmacion.idIntegrador,
         boleto: this.boletoConfirmacion.boleto
       }
-      console.log(searchingCity)
       this.$store.dispatch('LOAD_CITIES_TO_CONFIRMATION_LIST', {
         searchingCity
       })
@@ -347,7 +346,6 @@ export default {
             })
           } else {
             this.boletoConfirmacion = ticket
-            console.log(this.boletoConfirmacion)
             let searchingCity = {
               origen: ticket.idOrigen,
               destino: ticket.idDestino,

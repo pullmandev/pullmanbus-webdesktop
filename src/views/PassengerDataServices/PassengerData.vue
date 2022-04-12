@@ -517,26 +517,26 @@ export default {
   text-align: center;
 }
 @media (max-width: 750px) {
-  .imgresp {
+  .imgresp{
     align-items: center;
     flex-direction: column;
   }
-  .columnxs {
+  .columnxs{
     flex-direction: column;
   }
-  .contimgperson {
+  .contimgperson{
     max-width: 50%;
   }
 
-  .pt-0 {
+  .pt-0{
     max-width: 100% !important;
   }
-  .maxed {
+  .maxed{
     max-width: 100% !important;
   }
 }
 @media (max-width: 960px) {
-  .contimgperson {
+  .contimgperson{
     max-width: 20%;
   }
 }

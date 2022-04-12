@@ -24,8 +24,7 @@
         <v-card-text>
           <div class="my-6 text-center blue_light--text" style="font-size: 0.875rem;">
             <h2>
-              <v-icon color="blue_light" size="35"
-                >mdi-arrow-down-thin-circle-outline</v-icon
+              <v-icon color="blue_light" size="35">mdi-arrow-down-thin-circle-outline</v-icon
               >
               {{ $t('changeTicket.enter') }}
             </h2>
@@ -79,6 +78,7 @@
                       color="blue_light"
                       outlined
                     >
+
                       <!--span>{{ search ? 'Buscar' : 'Borrar' }}</span-->
                       <span> {{ $t('erase') }}</span>
                     </v-btn>
@@ -99,11 +99,11 @@
                       color="blue"
                       :loading="loading"
                       :disabled="!validCodeForm"
-                      class="white--text"
-                    >
+                      class="white--text">
                       <span>{{ $t('consult') }}</span>
                     </v-btn>
                   </div>
+
                 </v-col>
               </v-row>
             </v-form>
@@ -142,40 +142,30 @@
               </v-data-table>
             </div>
             <div class="xim-movile" v-if="this.ticket.boleto != undefined">
-              <v-row class="xim-alinea-vertical">
+              <v-row class="xim-alinea-vertical" >
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Term. Origen</label>
-                  <span class="xim-texto-datos">{{
-                    this.ticket.boleto.origenNombre
-                  }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.origenNombre}}</span>
                 </v-col>
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Term. Destino</label>
-                  <span class="xim-texto-datos">{{
-                    this.ticket.boleto.destinoNombre
-                  }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.destinoNombre}}</span>
                 </v-col>
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Fecha de Embarque</label>
-                  <span class="xim-texto-datos">{{
-                    this.ticket.boleto.fechaEmbarcacion
-                  }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.fechaEmbarcacion}}</span>
                 </v-col>
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Hora de Embarque</label>
-                  <span class="xim-texto-datos">{{
-                    this.ticket.boleto.horaEmbarcacion
-                  }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.horaEmbarcacion}}</span>
                 </v-col>
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Asiento</label>
-                  <span class="xim-texto-datos">{{ this.ticket.boleto.asiento }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.asiento}}</span>
                 </v-col>
                 <v-col cols="6" class="xim-colum">
                   <label class="xim-texto-label">Valor</label>
-                  <span class="xim-texto-datos">{{
-                    this.ticket.boleto.valor | currency
-                  }}</span>
+                  <span class="xim-texto-datos">{{this.ticket.boleto.valor | currency}}</span>
                 </v-col>
               </v-row>
             </div>
@@ -190,105 +180,105 @@
             <v-container class="form2">
               <v-form v-model="validForm">
                 <div class="xim-desktop">
-                  <v-row align="center" class="mt-5">
-                    <v-col cols="12" md="6" class="pl-3 pr-3">
-                      <v-text-field
-                        filled
-                        outlined
-                        dense
-                        v-model="email"
-                        :label="$t('email')"
-                        outline-1
-                        color="blue"
-                        :rules="generalRules"
-                        required
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6" class="pl-3 pr-3">
-                      <v-menu
-                        v-if="ticket.boleto.tipoCompra === 'CAJA'"
-                        v-model="pickerDate"
-                        :close-on-content-click="false"
-                        transition="scale-transition"
-                        color="blue-dark"
-                        max-width="290px"
-                        min-width="290px"
-                      >
-                        <template v-slot:activator="{ on }">
-                          <v-text-field
-                            filled
-                            outlined
-                            dense
-                            label="Fecha de viaje"
-                            v-on="on"
-                            color="grey lighten-4"
-                            v-model="formatedDate"
-                            readonly
-                          >
-                          </v-text-field>
-                        </template>
-                        <v-date-picker
-                          min="1920-01-01"
-                          v-model="date"
-                          color="blue_dark"
-                          @input="pickerDate = false"
-                          :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
-                          :locale="$t('locale')"
+                <v-row align="center" class="mt-5">
+                  <v-col cols="12" md="6" class="pl-3 pr-3">
+                    <v-text-field
+                      filled
+                      outlined
+                      dense
+                      v-model="email"
+                      :label="$t('email')"
+                      outline-1
+                      color="blue"
+                      :rules="generalRules"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pl-3 pr-3">
+                    <v-menu
+                      v-if="ticket.boleto.tipoCompra === 'CAJA'"
+                      v-model="pickerDate"
+                      :close-on-content-click="false"
+                      transition="scale-transition"
+                      color="blue-dark"
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          filled
+                          outlined
+                          dense
+                          label="Fecha de viaje"
+                          v-on="on"
+                          color="grey lighten-4"
+                          v-model="formatedDate"
+                          readonly
                         >
-                        </v-date-picker>
-                      </v-menu>
-                    </v-col>
-                    <v-col cols="12" md="6" class="pl-3 pr-3">
-                      <v-text-field
-                        filled
-                        outlined
-                        dense
-                        v-model="rut"
-                        label="Rut"
-                        outline-1
-                        color="blue"
-                        :rules="rutRules"
-                        required
-                        maxLength="10"
-                        @keypress="validar($event, 'rut')"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6" class="pl-3 pr-3">
-                      <v-menu
-                        v-if="ticket.boleto.tipoCompra === 'CAJA'"
-                        ref="menu"
-                        v-model="pickerHour"
-                        :close-on-content-click="false"
-                        :return-value.sync="hour"
-                        transition="scale-transition"
-                        color="blue-dark"
-                        max-width="290px"
-                        min-width="290px"
+                        </v-text-field>
+                      </template>
+                      <v-date-picker
+                        min="1920-01-01"
+                        v-model="date"
+                        color="blue_dark"
+                        @input="pickerDate = false"
+                        :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
+                        :locale="$t('locale')"
                       >
-                        <template v-slot:activator="{ on }">
-                          <v-text-field
-                            filled
-                            outlined
-                            dense
-                            label="Hora de viaje"
-                            v-on="on"
-                            color="grey lighten-4"
-                            v-model="hour"
-                            readonly
-                          >
-                          </v-text-field>
-                        </template>
-                        <v-time-picker
+                      </v-date-picker>
+                    </v-menu>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pl-3 pr-3">
+                    <v-text-field
+                      filled
+                      outlined
+                      dense
+                      v-model="rut"
+                      label="Rut"
+                      outline-1
+                      color="blue"
+                      :rules="rutRules"
+                      required
+                      maxLength="10"
+                      @keypress="validar($event, 'rut')"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="pl-3 pr-3">
+                    <v-menu
+                      v-if="ticket.boleto.tipoCompra === 'CAJA'"
+                      ref="menu"
+                      v-model="pickerHour"
+                      :close-on-content-click="false"
+                      :return-value.sync="hour"
+                      transition="scale-transition"
+                      color="blue-dark"
+                      max-width="290px"
+                      min-width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          filled
+                          outlined
+                          dense
+                          label="Hora de viaje"
+                          v-on="on"
+                          color="grey lighten-4"
                           v-model="hour"
-                          format="24hr"
-                          color="blue_dark"
-                          @click:minute="$refs.menu.save(hour)"
-                          :locale="$t('locale')"
+                          readonly
                         >
-                        </v-time-picker>
-                      </v-menu>
-                    </v-col>
-                  </v-row>
+                        </v-text-field>
+                      </template>
+                      <v-time-picker
+                        v-model="hour"
+                        format="24hr"
+                        color="blue_dark"
+                        @click:minute="$refs.menu.save(hour)"
+                        :locale="$t('locale')"
+                      >
+                      </v-time-picker>
+                    </v-menu>
+                  </v-col>
+                </v-row>
                 </div>
                 <div class="xim-movile">
                   <v-row>
@@ -312,26 +302,26 @@
                         max-width="290px"
                         min-width="290px"
                       >
-                        <template v-slot:activator="{ on }">
-                          <v-text-field
-                            label="Fecha de viaje"
-                            v-on="on"
-                            color="grey lighten-4"
-                            v-model="formatedDate"
-                            readonly
-                          >
-                          </v-text-field>
-                        </template>
-                        <v-date-picker
-                          min="1920-01-01"
-                          v-model="date"
-                          color="blue_dark"
-                          @input="pickerDate = false"
-                          :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
-                          :locale="$t('locale')"
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          label="Fecha de viaje"
+                          v-on="on"
+                          color="grey lighten-4"
+                          v-model="formatedDate"
+                          readonly
                         >
-                        </v-date-picker>
-                      </v-menu>
+                        </v-text-field>
+                      </template>
+                      <v-date-picker
+                        min="1920-01-01"
+                        v-model="date"
+                        color="blue_dark"
+                        @input="pickerDate = false"
+                        :first-day-of-week="$i18n.locale === 'en' ? 0 : 1"
+                        :locale="$t('locale')"
+                      >
+                      </v-date-picker>
+                    </v-menu>
                     </v-col>
                     <v-col cols="12">
                       <v-text-field
@@ -674,37 +664,38 @@ export default {
   color: white;
   font-size: 16px;
 }
-.resp {
+.resp{
   padding: 12px 200px;
 }
-.form2 {
+.form2{
   padding: 12px 200px;
 }
-@media (max-width: 1267px) {
-  .resp {
+@media (max-width: 1267px){
+  .resp{
     padding: 10px !important;
   }
-  .inp {
+  .inp{
     flex: none;
     max-width: 100%;
   }
-  .respbtn {
+  .respbtn
+  {
     flex: none;
     max-width: 100%;
   }
 }
-@media (max-width: 700px) {
-  .form2 {
+@media (max-width: 700px){
+  .form2{
     padding: 0%;
   }
-  .v-data-table-header tr {
+  .v-data-table-header tr{
     display: flex;
     flex-direction: column;
   }
-  .v-data-table-header {
+  .v-data-table-header{
     min-width: 50%;
   }
-  .tablerows {
+  .tablerows{
     display: flex;
     flex-direction: column;
   }
@@ -712,14 +703,15 @@ export default {
     display: flex;
     flex-direction: row;
   }
-  .tbody {
+  .tbody{
     min-width: 50%;
   }
-  .v-data-table__wrapper tbody {
+  .v-data-table__wrapper tbody{
     min-width: 50%;
   }
-  .theme--light.v-data-table thead tr:last-child th {
+  .theme--light.v-data-table thead tr:last-child th{
     border-bottom: thin solid rgba(0, 0, 0, 0);
   }
+
 }
 </style>

@@ -55,18 +55,18 @@ export default {
       return null
     }
   },
-  getUsuarioPass(params) {
+  getUsuarioPass(params){
     return axios.post(buscarUsuario, params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  sendPass(params) {
-    return axios.post(enviarClave, params, {
+  sendPass(params){
+    return axios.post(enviarClave,  params, {
       headers: { 'Content-Type': 'application/json' }
     })
   },
-  updatePass(params) {
-    return axios.post(cambiarClave, params, {
+  updatePass(params){
+    return axios.post(cambiarClave,  params, {
       headers: { 'Content-Type': 'application/json' }
     })
   }

@@ -6,7 +6,7 @@ import axios from 'axios'
 const post =
   'https://cors-anywhere.herokuapp.com/https://pullman-blog.witservices.io/?rest_route=/wp/v2/posts'
 
-const instaPost = 'https://www.instagram.com/pullman.cl/'
+const instaPost = 'https://www.instagram.com/pullmanbus/'
 
 export default {
   getPosts() {

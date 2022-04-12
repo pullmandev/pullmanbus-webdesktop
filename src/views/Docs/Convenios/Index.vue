@@ -75,19 +75,20 @@ export default {
     }
   },
   computed: {
-    corrouselItemsPerPage() {
+      corrouselItemsPerPage() {
       const length = this.convenios.length
       let name = this.$vuetify.breakpoint.name
       let num
-      if (name == 'xs') {
+      if (name == 'xs'){
         num = 1
-      } else if (name == 'sm') {
+      } else if(name == 'sm'){
         num = 2
-      } else if (name == 'md') {
+      }
+      else if (name == 'md'){
         num = 3
-      } else if (name == 'lg') {
+      } else if (name == 'lg'){
         num = 3
-      } else {
+      } else{
         num = 4
       }
       const md = length < num ? length : num

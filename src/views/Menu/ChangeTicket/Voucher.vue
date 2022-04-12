@@ -39,22 +39,18 @@
                 </table>
               </div>
               <div class="xim-movile">
-                <v-row class="xim-alinea-vertical">
+                <v-row class="xim-alinea-vertical" >
                   <v-col cols="6" class="xim-colum">
                     <label class="xim-texto-label">Boleto</label>
                     <span class="xim-texto-datos">{{ ticketChange.voucher.boleto }}</span>
                   </v-col>
                   <v-col cols="6" class="xim-colum">
                     <label class="xim-texto-label">Origen</label>
-                    <span class="xim-texto-datos">{{
-                      ticketChange.voucher.nombreTerminalOrigen
-                    }}</span>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreTerminalOrigen }}</span>
                   </v-col>
                   <v-col cols="6" class="xim-colum">
                     <label class="xim-texto-label">Destino</label>
-                    <span class="xim-texto-datos">{{
-                      ticketChange.voucher.nombreTerminalDestino
-                    }}</span>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreTerminalDestino }}</span>
                   </v-col>
                   <v-col cols="6" class="xim-colum">
                     <label class="xim-texto-label">Valor</label>
@@ -62,9 +58,7 @@
                   </v-col>
                   <v-col cols="6" class="xim-colum">
                     <label class="xim-texto-label">Clase</label>
-                    <span class="xim-texto-datos">{{
-                      ticketChange.voucher.nombreClase
-                    }}</span>
+                    <span class="xim-texto-datos">{{ ticketChange.voucher.nombreClase }}</span>
                   </v-col>
                 </v-row>
               </div>
@@ -88,16 +82,16 @@
           <div class="xim-movile xim-horizontal" style="width:100vw">
             <v-col clos="12">
               <v-btn class="mt-5" outlined @click="toServices">
-                {{ $t('back') }}
-              </v-btn>
+                  {{ $t('back') }}
+                </v-btn>
 
-              <v-btn
-                class="download white--text mt-5 ml-3"
-                color="blue_dark"
-                @click="download"
-              >
-                {{ $t('download') }}
-              </v-btn>
+                <v-btn
+                  class="download white--text mt-5 ml-3"
+                  color="blue_dark"
+                  @click="download"
+                >
+                  {{ $t('download') }}
+                </v-btn>
             </v-col>
           </div>
         </v-row>
@@ -192,12 +186,12 @@ export default {
   color: grey;
   text-align: center;
 }
-@media (max-width: 960px) {
+@media (max-width: 960px){
   #tblTicket {
     width: 100%;
     display: flex;
   }
-  .content {
+  .content{
     display: flex;
     min-width: 50%;
     flex-direction: column;

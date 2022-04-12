@@ -103,18 +103,6 @@
                 maxLength="10"
               ></v-text-field>
               <v-text-field
-                v-if="item.Tipo === 'USERNAME'"
-                filled
-                outlined
-                dense
-                v-model="username"
-                label="Username"
-                outline-1
-                color="blue"
-                required
-                maxLength="10"
-              ></v-text-field>
-              <v-text-field
                 v-if="item.Tipo === 'PASSWORD'"
                 filled
                 outlined
@@ -129,8 +117,7 @@
                 :rules="passwordRules"
                 required
                 maxLength="10"
-              >
-              </v-text-field>
+              ></v-text-field>
             </v-col>
 
             <v-col cols="12" xs="12" sm="12">

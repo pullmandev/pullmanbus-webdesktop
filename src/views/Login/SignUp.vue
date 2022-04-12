@@ -1,5 +1,5 @@
 <template>
-  <Container :open="open" :width="600" @close="$emit('close')">
+  <Container :open="open"  :width="600" @close="$emit('close')">
     <v-container class="pt-0 xim-desktop">
       <v-form v-model="validForm">
         <v-row>
