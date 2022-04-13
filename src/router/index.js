@@ -53,7 +53,6 @@ import List from '@/views/Services/stepper/List/Index'
 //Payment response
 import Voucher from '@/views/Services/Voucher'
 import Vue from 'vue'
-import VueAnalytics from 'vue-analytics'
 import VueRouter from 'vue-router'
 //Home
 import Home from '../views/Home/Index.vue'
@@ -356,18 +355,5 @@ router.afterEach((to, from) => {
   store.dispatch('SET_HISTORY', { from, to })
 })
 
-Vue.use(VueAnalytics, {
-  id: 'G-1YHQCCNF5D',
-  router,
-  autoTracking: {
-    pageviewTemplate(route) {
-      return {
-        page: route.path,
-        title: route.path,
-        location: window.location.href
-      }
-    }
-  }
-})
 
 export default router

@@ -12,11 +12,7 @@
               <span class="body-1 d-block">Escríbenos</span>
               <div class="d-flex align-center">
                 <div>
-                  <v-img
-                    src="../../static/logos/Iconos-33.png"
-                    height="20px"
-                    width="20px"
-                  />
+                  <v-img src="../../static/logos/Iconos-33.png" height="20px" width="20px" />
                 </div>
                 <span id="infopullman" class="body-2">clientes@pullmanbus.cl</span>
               </div>
@@ -89,13 +85,19 @@
               </span>
               <span class="d-block mt-5 text-center px-6">
                 <a
+                  href="https://www.facebook.com/Pullman.cl"
+                  target="_blank"
+                  style="text-decoration: none"
+                  ><v-icon size="40" dark>mdi-facebook</v-icon></a
+                >
+                <a
                   href="https://www.instagram.com/pullmanbus/"
                   target="_blank"
                   style="text-decoration: none"
                   ><v-icon size="40" dark>mdi-instagram</v-icon></a
                 >
                 <a
-                  href="https://www.linkedin.com/company/pullman-bus/?viewAsMember=true"
+                  href="https://www.linkedin.com/company/22594345/admin/"
                   target="_blank"
                   style="text-decoration: none"
                   ><v-icon size="40" dark>mdi-linkedin</v-icon></a
@@ -165,7 +167,7 @@ export default {
   color: white;
   margin-bottom: 0.5rem;
 }
-#infopullman {
+#infopullman{
   margin-left: 4px;
 }
 </style>
